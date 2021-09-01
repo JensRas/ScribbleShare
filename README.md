@@ -1,5 +1,5 @@
 # ScribbleShare
 
-** CS309 **
+**CS309**
 
 Blake Fisher, Jens Rasmussen, Cole Langer, Corbin Kems
