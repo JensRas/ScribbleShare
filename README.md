@@ -2,6 +2,6 @@
 
 **CS309**
 
-Blake Fisher, Jens Rasmussen, Cole Langer, Corbin Kems
+Blake Fisher, Jens Rasmussen, Cole Langner, Corbin Kems
 
 . 
