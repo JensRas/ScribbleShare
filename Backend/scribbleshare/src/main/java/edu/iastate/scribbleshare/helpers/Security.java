@@ -27,7 +27,8 @@ public class Security {
         try{
             SecretKeyFactory skf = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA512");
             byte[] hash = skf.generateSecret(pbeKeySpec).getEncoded();
-            return Base64.getMimeEncoder().encodeToString(hash);
+            return Base64.getMimeEncoder().encodeToString(salt) + " " +
+                Base64.getMimeEncoder().encodeToString(hash);
         }
         catch(NoSuchAlgorithmException e){
             //TODO handle
