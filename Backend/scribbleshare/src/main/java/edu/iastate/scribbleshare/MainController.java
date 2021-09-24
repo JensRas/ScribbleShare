@@ -50,4 +50,9 @@ public class MainController {
       return userRepository.findById(username);
     }
 
+    @GetMapping(path="test")
+    public Iterable<User> testEndpoint(){
+      return userRepository.findBob();
+    }
+
 }

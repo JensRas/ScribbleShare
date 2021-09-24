@@ -41,4 +41,8 @@ public class Security {
         return null;
     } 
 
+    public static boolean checkHash(String saltHash, String password){
+        return generateHash(password).equals(saltHash);
+    }
+
 }
