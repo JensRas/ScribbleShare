@@ -12,7 +12,7 @@ public class Security {
     
 
     /**
-     * Hashes a given password and returns the hashed string. 
+     * Hashes a given password and returns the salt and the hashed string (with a space between). 
      * Can be used in two situations. 
      * 1. Storing a user's password on account creation
      * 2. Hashing a user's password when they try to login to compare to the 
