@@ -65,9 +65,6 @@ public class Security {
         String storedSalt = saltHash[0];
         String storedHash = saltHash[1];
         String newHash = getHash(storedSalt, givenPassword);
-        logger.info("storedSalt: " + storedSalt);
-        logger.info("storedHash: " + storedHash);
-        logger.info("newHash: " + newHash);
         return newHash.equals(storedHash);
     }
 
