@@ -8,8 +8,12 @@ import java.util.Base64;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class Security {
     
+    public static final Logger logger = LoggerFactory.getLogger(Security.class);
 
     /**
      * Hashes a given password and returns the salt and the hashed string (with a space between). 
@@ -22,27 +26,49 @@ public class Security {
      */
     public static String generateHash(String password){
         SecureRandom secureRandom = new SecureRandom();
-        byte[] salt = secureRandom.generateSeed(12);
-        PBEKeySpec pbeKeySpec = new PBEKeySpec(password.toCharArray(), salt, 10, 512);
+        String salt = secureRandom.generateSeed(12).toString();
+        return salt + " " + getHash(salt.toString(), password);
+    } 
+
+    /**
+     * Generates a hash with the given salt and password. Can be used to generate a new password hash or check login.
+     * @param salt
+     * @param password
+     * @return The hash using the given salt and password
+     */
+    private static String getHash(String salt, String password){
+        PBEKeySpec pbeKeySpec = new PBEKeySpec(password.toCharArray(), salt.getBytes(), 10, 512);
         try{
             SecretKeyFactory skf = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA512");
             byte[] hash = skf.generateSecret(pbeKeySpec).getEncoded();
-            return Base64.getMimeEncoder().encodeToString(salt) + " " +
-                Base64.getMimeEncoder().encodeToString(hash);
+            return Base64.getMimeEncoder().encodeToString(hash);
         }
         catch(NoSuchAlgorithmException e){
-            //TODO handle
+            logger.error("Unknown hashing algorithm");
             e.printStackTrace();
         }
         catch(InvalidKeySpecException ee){
-            //TODO handle
+            logger.error("Invalid key spec");
             ee.printStackTrace();
         }
         return null;
-    } 
+    }
 
-    public static boolean checkHash(String saltHash, String password){
-        return generateHash(password).equals(saltHash);
+    /**
+     * Return if the given password's hash matches the stored password (stored passwords are already hashed)
+     * @param storedPassword Salt + hash stored in the database
+     * @param givenPassword Attempted login password
+     * @return
+     */
+    public static boolean checkHash(String storedPassword, String givenPassword){
+        String[] saltHash = storedPassword.split(" ");
+        String storedSalt = saltHash[0];
+        String storedHash = saltHash[1];
+        String newHash = getHash(storedSalt, givenPassword);
+        logger.info("storedSalt: " + storedSalt);
+        logger.info("storedHash: " + storedHash);
+        logger.info("newHash: " + newHash);
+        return newHash.equals(storedHash);
     }
 
 }

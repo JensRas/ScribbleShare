@@ -3,8 +3,9 @@ package edu.iastate.scribbleshare;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-
+import org.springframework.web.server.ResponseStatusException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -39,15 +40,27 @@ public class MainController {
         return "new user created";
     }
 
-    @GetMapping(path="/getAllUsers")
+    @GetMapping(path="users")
     public @ResponseBody Iterable<User> getAllUsers() {
       return userRepository.findAll();
     }
 
-    @GetMapping(path="getUser/{username}")
+    @GetMapping(path="users/{username}")
     public Optional<User> getUserByUsername(@PathVariable("username") String username){
-      //TODO add handling if username doesn't exist
-      return userRepository.findById(username);
+      Optional<User> user = userRepository.findById(username);
+      if(!user.isPresent()){
+        throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Username doesn't exist");
+      }
+      return user;
+    }
+
+    @GetMapping(path="login")
+    public String login(@RequestParam("username") String username, @RequestParam("password") String password){
+      if(!userRepository.findById(username).isPresent()){
+        throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Unauthorized");
+      }
+      //TODO add a better return here
+      return "" + Security.checkHash(userRepository.findById(username).get().getPassword(), password); 
     }
 
     @GetMapping(path="test")
