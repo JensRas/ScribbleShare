@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 public class Create_Account extends AppCompatActivity {
 
@@ -20,5 +21,20 @@ public class Create_Account extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_account);
 
+        TextView sign_in_text = (TextView) findViewById(R.id.sign_in_link_text);
+        sign_in_text.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(view.getContext(), sign_in.class));
+            }
+        });
+
+        ImageButton back_button = (ImageButton) findViewById(R.id.back_button_create_account);
+        back_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(view.getContext(), MainActivity.class));
+            }
+        });
     }
 }

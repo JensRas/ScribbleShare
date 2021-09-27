@@ -52,13 +52,16 @@
         android:textSize="20sp" />
 
     <TextView
-        android:id="@+id/signin"
+        android:id="@+id/sign_in_home"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="249dp"
         android:text="Sign In"
+        android:clickable="true"
+        android:focusable="true"
         android:textColor="@color/white"
         android:textSize="16sp" />
+
 </RelativeLayout>

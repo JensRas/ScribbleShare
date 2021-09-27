@@ -11,7 +11,20 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="Create_Account">
+    tools:context="Sign_In">
+
+    <ImageButton
+        android:id="@+id/back_button_sign_in"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:background="@null"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="2dp"
+        android:layout_marginTop="2dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_outline_arrow_back_24" />
 
     <EditText
         android:id="@+id/password"
@@ -54,8 +67,8 @@
         android:autofillHints="Email" />
 
     <Button
-        android:id="@+id/login"
-        android:layout_width="wrap_content"
+        android:id="@+id/sign_in_button"
+        android:layout_width="216dp"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="16dp"
@@ -63,7 +76,7 @@
         android:background="@drawable/rounded_corner"
         android:enabled="true"
         android:fontFamily="@font/poppins"
-        android:text="Create Account"
+        android:text="Sign In"
         android:textAlignment="center"
         android:textAllCaps="false"
         android:textSize="20sp"
@@ -87,36 +100,22 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.3" />
 
+    <!--    TODO    -->
     <TextView
-        android:id="@+id/create_account"
+        android:id="@+id/sign_in_header"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="46dp"
+        android:layout_marginTop="60dp"
         android:fontFamily="@font/poppins"
-        android:text="Create Account"
+        android:text="Sign In"
+        android:textAlignment="center"
         android:textColor="@color/white"
         android:textSize="30sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/sign_in_question"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
-        android:fontFamily="@font/poppins"
-        android:text="Already have an account?"
-        android:textAlignment="center"
-        android:textColor="@color/white"
-        android:textSize="12sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.352"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/login" />
-
-    <!--    TODO    -->
     <ImageButton
         android:id="@+id/showPassword"
         android:layout_width="wrap_content"
@@ -129,19 +128,5 @@
         app:layout_constraintEnd_toEndOf="@+id/password"
         app:layout_constraintTop_toTopOf="@+id/password"
         />
-
-    <TextView
-        android:id="@+id/sign_in"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="38dp"
-        android:fontFamily="@font/poppins_bold"
-        android:text="Sign In"
-        android:textColor="@color/white"
-        android:textColorLink="@color/white"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.04"
-        app:layout_constraintStart_toEndOf="@+id/sign_in_question"
-        app:layout_constraintTop_toBottomOf="@+id/login" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
