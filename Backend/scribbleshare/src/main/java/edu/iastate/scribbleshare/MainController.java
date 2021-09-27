@@ -52,7 +52,7 @@ public class MainController {
 
     @GetMapping(path="test")
     public Iterable<User> testEndpoint(){
-      return userRepository.findBob();
+      return userRepository.queryExample("AbrahamHowell");
     }
 
 }
