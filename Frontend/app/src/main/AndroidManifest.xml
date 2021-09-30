@@ -10,6 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ScribbleShare">
         <activity
+            android:name=".test_homescreen"
+            android:exported="true" />
+        <activity
             android:name=".sign_in"
             android:exported="true" />
         <activity

@@ -36,5 +36,13 @@ public class Create_Account extends AppCompatActivity {
                 startActivity(new Intent(view.getContext(), MainActivity.class));
             }
         });
+
+        Button create_account=(Button) findViewById(R.id.create_account_button);
+        create_account.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(view.getContext(), test_homescreen.class));
+            }
+        });
     }
 }
