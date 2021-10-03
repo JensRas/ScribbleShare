@@ -1,28 +1,27 @@
 package com.example.scribbleshare;
 
-import static android.content.ContentValues.TAG;
-
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.method.HideReturnsTransformationMethod;
-import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+import org.json.JSONStringer;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -31,7 +30,7 @@ public class Create_Account extends AppCompatActivity {
 
     private RequestQueue mRequestQueue;
     private StringRequest mStringRequest;
-    private String url = "http://www.mocky.io/v2/597c41390f0000d002f4dbd1";
+//    private String url = "http://www.mocky.io/v2/597c41390f0000d002f4dbd1";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -59,71 +58,29 @@ public class Create_Account extends AppCompatActivity {
         sign_in_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                testRequest();
-//                RequestQueue queue = Volley.newRequestQueue(view.getContext());
-//                Log.d("clicked", "CLICKED BUTTON");
-//                String url = "http://localhost:8080/users/new";
-//                StringRequest putRequest = new StringRequest(Request.Method.PUT, url,
-//                        new Response.Listener<String>()
-//                        {
-//                            @Override
-//                            public void onResponse(String response) {
-//                                // response
-//                                Log.d("Response", response);
-//                            }
-//                        },
-//                        new Response.ErrorListener()
-//                        {
-//                            @Override
-//                            public void onErrorResponse(VolleyError error) {
-//                                // error
-//                                Log.d("Error.Response", error.toString());
-//                            }
-//                        }
-//                ) {
-//
-//                    @Override
-//                    protected Map<String, String> getParams()
-//                    {
-//                        Map<String, String>  params = new HashMap<String, String>();
-//                        params.put("username", "ANDROIDUSER");
-//                        params.put("password", "password");
-//
-//                        return params;
-//                    }
-//
-//                };
-//
-//                queue.add(putRequest);
-//                queue.start();
+                userLoginRequest("ArthurJones", "passwordd");
             }
         });
     }
 
-    private void testRequest(){
-        Log.d("test", "started test request");
-        //RequestQueue initialized
-        mRequestQueue = Volley.newRequestQueue(this);
+    private void userLoginRequest(String username, String password) {
+        String url = "http://10.0.2.2:8080/users/login?username=" + username + "&password=" + password;
 
-        //String Request initialized
-        mStringRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
+        StringRequest request = new StringRequest(
+                url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        Log.d("response", response.toString());
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
 
-                Toast.makeText(getApplicationContext(),"Response :" + response.toString(), Toast.LENGTH_LONG).show();//display the response on screen
-                Log.d("response", response.toString());
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
+                    }
+                });
 
-                Log.i(TAG,"Error :" + error.toString());
-            }
-        });
-
-        mRequestQueue.add(mStringRequest);
-
-        Log.d("test", "finished test request");
-
+        MySingleton.getInstance(this).addToRequestQueue(request);
     }
 }
