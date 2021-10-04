@@ -15,5 +15,7 @@ public interface FollowingRepository extends CrudRepository<Follower, String>{
    @Query(value="select * from follower u where u.following=:following", nativeQuery = true)
    public Iterable<Follower> queryFollowers(@Param("following") String following);
 
-
+   @Query(value="select * from follower u where u.username=:username and u.following=:following", nativeQuery = true)
+   public Follower queryFindByUsernameAndFollowing(@Param("username") String username, @Param("following") String following);
+    
 }

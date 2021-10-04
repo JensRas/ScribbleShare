@@ -32,4 +32,5 @@ public String getUsername(){
 public String getFollowing(){
     return this.following;
 }
+
 }
