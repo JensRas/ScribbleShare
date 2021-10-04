@@ -21,7 +21,7 @@ public class MainController {
 
     private static final Logger logger = LoggerFactory.getLogger(ScribbleshareApplication.class);
 
-    @PostMapping(path="/createNewUser")
+    @PutMapping(path="/users/new")
     public @ResponseBody String addNewUser(@RequestParam String username, @RequestParam String password){
         //TODO add checking if username is allowed
 
@@ -42,13 +42,13 @@ public class MainController {
         return "new user created";
     }
 
-    @GetMapping(path="users")
+    @GetMapping(path="/users")
     public @ResponseBody Iterable<User> getAllUsers() {
       return userRepository.findAll();
     }
 
-    @GetMapping(path="users/{username}")
-    public Optional<User> getUserByUsername(@PathVariable("username") String username){
+    @GetMapping(path="/users/{username}")
+    public @ResponseBody Optional<User> getUserByUsername(@PathVariable String username){
       Optional<User> user = userRepository.findById(username);
       if(!user.isPresent()){
         throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Username doesn't exist");
@@ -56,16 +56,16 @@ public class MainController {
       return user;
     }
 
-    @GetMapping(path="login")
-    public String login(@RequestParam("username") String username, @RequestParam("password") String password){
+    @GetMapping(path="/users/login")
+    public @ResponseBody String login(@RequestParam String username, @RequestParam String password){
       if(!userRepository.findById(username).isPresent()){
-        throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Unauthorized");
+        return "false";
       }
-      //TODO add a better return here
+      //TODO add a better return here. Now just returns "true" or "false"
       return "" + Security.checkHash(userRepository.findById(username).get().getPassword(), password); 
     }
 
-    @GetMapping(path="test")
+    @GetMapping(path="/test")
     public Iterable<User> testEndpoint(){
       return userRepository.queryExample("AbrahamHowell");
     }
