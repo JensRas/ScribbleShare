@@ -16,6 +16,8 @@ import edu.iastate.scribbleshare.exceptions.BadHashException;
 public class MainController {
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private FollowingRepository followingRepository;
 
     private static final Logger logger = LoggerFactory.getLogger(ScribbleshareApplication.class);
 
@@ -68,4 +70,32 @@ public class MainController {
       return userRepository.queryExample("AbrahamHowell");
     }
 
+    @PostMapping(path="/addfollower")
+    public @ResponseBody String addNewFollowing(@RequestParam String user, @RequestParam String following){
+      
+      //TODO check if user is already following 
+
+      Follower f = new Follower();
+      f.setUsername(user);
+      f.setFollowing(following);
+      followingRepository.save(f);
+
+      return "followed ";
+    }
+
+    @GetMapping(path="follower")
+    public @ResponseBody Iterable<Follower> getAllFollowers() {
+      return followingRepository.findAll();
+    }
+
+
+    @GetMapping(path="follower/{username}")
+    public @ResponseBody Iterable<Follower> getFollowersByUser(@PathVariable("username") String username){
+      return followingRepository.queryUsers(username);
+    }
+
+    @GetMapping(path="following/{follower}")
+    public @ResponseBody Iterable<Follower> getUsersByFollowing(@PathVariable("follower") String follower){
+      return followingRepository.queryFollowers(follower);
+    }
 }
