@@ -64,8 +64,8 @@ public class Create_Account extends AppCompatActivity {
     }
 
     private void userCreateAccountRequest(View view, String username, String password) {
-        String url = "http://10.0.2.2:8080/users/new?username=" + username + "&password=" + password;
-        //String url = "http://coms-309-010.cs.iastate.edu:8080/users/new?username=" + username + "&password=" + password;
+//        String url = "http://10.0.2.2:8080/users/new?username=" + username + "&password=" + password;
+        String url = "http://coms-309-010.cs.iastate.edu:8080/users/new?username=" + username + "&password=" + password;
 
         StringRequest request = new StringRequest(
                 Request.Method.PUT,

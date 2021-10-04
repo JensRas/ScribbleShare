@@ -48,8 +48,8 @@ public class sign_in extends AppCompatActivity {
     }
 
     private void userLoginRequest(View view, String username, String password) {
-        String url = "http://10.0.2.2:8080/users/login?username=" + username + "&password=" + password;
-        // String url = "http://coms-309-010.cs.iastate.edu:8080/users/login?username=" + username + "&password=" + password;
+//        String url = "http://10.0.2.2:8080/users/login?username=" + username + "&password=" + password;
+         String url = "http://coms-309-010.cs.iastate.edu:8080/users/login?username=" + username + "&password=" + password;
 
         StringRequest request = new StringRequest(
                 url,
