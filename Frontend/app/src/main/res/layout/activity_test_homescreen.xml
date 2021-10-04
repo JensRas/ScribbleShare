@@ -9,17 +9,17 @@
     <TextView
         android:id="@+id/hello_world"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="75dp"
         android:layout_alignParentTop="true"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="280dp"
-        android:layout_marginBottom="385dp"
-        android:fontFamily="@font/reenie_beanie"
+        android:layout_marginBottom="373dp"
+        android:fontFamily="@font/poppins"
         android:text="Hello World!"
         android:textAlignment="center"
         android:textColor="@color/red_orange"
-        android:textSize="70sp" />
+        android:textSize="55sp" />
 
     <Button
         android:id="@+id/sign_out_button"
