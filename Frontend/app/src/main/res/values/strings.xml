@@ -12,4 +12,5 @@
     <string name="username">Username</string>
     <string name="sign_in">Sign In</string>
     <string name="go_back_to_homescreen">Go back to homescreen</string>
+    <string name="scribbleshare">ScribbleShare</string>
 </resources>
