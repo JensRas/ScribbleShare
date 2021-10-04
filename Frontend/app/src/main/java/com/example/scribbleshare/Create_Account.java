@@ -81,6 +81,8 @@ public class Create_Account extends AppCompatActivity {
                             int duration = Toast.LENGTH_SHORT;
                             Toast toast = Toast.makeText(context, text, duration);
                             toast.show();
+                        } else if(response.equals("username already exists")) {
+                            Toast.makeText(getApplicationContext(), "Username Already Exists", Toast.LENGTH_SHORT).show();
                         }
                     }
                 },
