@@ -2,6 +2,7 @@ package com.example.scribbleshare;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -10,6 +11,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -46,6 +48,9 @@ public class Create_Account extends AppCompatActivity {
         });
 
         Button create_account_button = (Button) findViewById(R.id.create_account_button);
+        Context context = getApplicationContext();
+        CharSequence text = "Account Created";
+        int duration = Toast.LENGTH_SHORT;
         create_account_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -56,6 +61,8 @@ public class Create_Account extends AppCompatActivity {
                     return;
                 }
                 userCreateAccountRequest(view, usernameText, passwordText);
+                Toast toast = Toast.makeText(context, text, duration);
+                toast.show();
                 Log.d("userCreated", "Attempting to create user with: " + usernameText + " and password: " + passwordText);
             }
         });
