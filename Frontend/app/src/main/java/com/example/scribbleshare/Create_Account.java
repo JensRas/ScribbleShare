@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
@@ -14,17 +15,7 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonArrayRequest;
-import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
-
-import org.json.JSONArray;
-import org.json.JSONObject;
-import org.json.JSONStringer;
-
-import java.util.HashMap;
-import java.util.Map;
 
 public class Create_Account extends AppCompatActivity {
 
@@ -54,64 +45,45 @@ public class Create_Account extends AppCompatActivity {
             }
         });
 
-        Button sign_in_button = (Button) findViewById(R.id.sign_in_button);
-        sign_in_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                userLoginRequest("ArthurJones", "passwordd");
-            }
-        });
-
         Button create_account_button = (Button) findViewById(R.id.create_account_button);
         create_account_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                userCreateAccountRequest("BaxterJones", "passwordd");
+                String usernameText = ((EditText) findViewById(R.id.ca_username)).getText().toString();
+                String passwordText = ((EditText)findViewById(R.id.ca_password_text)).getText().toString();
+                if(usernameText.equals("") || passwordText.equals("")){
+                    //TODO add better login checking and error messages to the user (eg. "this username already exists")
+                    return;
+                }
+                userCreateAccountRequest(view, usernameText, passwordText);
+                Log.d("userCreated", "Attempting to create user with: " + usernameText + " and password: " + passwordText);
             }
         });
     }
 
-    private void userCreateAccountRequest(String username, String password) {
+    private void userCreateAccountRequest(View view, String username, String password) {
         String url = "http://10.0.2.2:8080/users/new?username=" + username + "&password=" + password;
         //String url = "http://coms-309-010.cs.iastate.edu:8080/users/new?username=" + username + "&password=" + password;
 
         StringRequest request = new StringRequest(
-            url,
-            new Response.Listener<String>() {
-                @Override
-                public void onResponse(String response) {
-                    Log.d("response", response.toString());
-                }
-            },
-            new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-
-                }
-            }
-        );
-
-        MySingleton.getInstance(this).addToRequestQueue(request);
-    }
-
-    private void userLoginRequest(String username, String password) {
-        String url = "http://10.0.2.2:8080/users/login?username=" + username + "&password=" + password;
-        // String url = "http://coms-309-010.cs.iastate.edu:8080/users/login?username=" + username + "&password=" + password;
-
-        StringRequest request = new StringRequest(
+                Request.Method.PUT,
                 url,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
                         Log.d("response", response.toString());
+                        if(response.equals("new user created")){
+                            startActivity(new Intent(view.getContext(), MainActivity.class));
+                        }
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-
+                        Log.e("error", error.toString());
                     }
-                });
+                }
+        );
 
         MySingleton.getInstance(this).addToRequestQueue(request);
     }
