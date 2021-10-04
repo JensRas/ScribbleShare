@@ -8,10 +8,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-<<<<<<< Frontend/app/src/main/java/com/example/scribbleshare/sign_in.java
 import android.widget.EditText;
-=======
->>>>>>> Frontend/app/src/main/java/com/example/scribbleshare/sign_in.java
 import android.widget.ImageButton;
 import android.widget.Toast;
 
@@ -35,9 +32,6 @@ public class sign_in extends AppCompatActivity {
         });
 
         Button sign_in_button = (Button) findViewById(R.id.create_account_button);
-        Context context = getApplicationContext();
-        CharSequence text = "Signed In";
-        int duration = Toast.LENGTH_SHORT;
         sign_in_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -48,8 +42,6 @@ public class sign_in extends AppCompatActivity {
                     return;
                 }
                 userLoginRequest(view, usernameText, passwordText);
-                Toast toast = Toast.makeText(context, text, duration);
-                toast.show();
                 Log.d("userCreated", "Attempting to login user with: " + usernameText + " and password: " + passwordText);
             }
         });
@@ -65,9 +57,18 @@ public class sign_in extends AppCompatActivity {
                     @Override
                     public void onResponse(String response) {
                         Log.d("response", response.toString());
+                        Context context = getApplicationContext();
+                        int duration = Toast.LENGTH_SHORT;
                         if(response.equals("true")){
                             Log.d("signInSuccess", "Sign in successful");
-                            startActivity(new Intent(view.getContext(), Create_Account.class));
+                            startActivity(new Intent(view.getContext(), test_homescreen.class));
+                            CharSequence text = "Signed In";
+                            Toast toast = Toast.makeText(context, text, duration);
+                            toast.show();
+                        }else{
+                            CharSequence text = "Invalid Login";
+                            Toast toast = Toast.makeText(context, text, duration);
+                            toast.show();
                         }
                     }
                 },

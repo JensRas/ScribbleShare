@@ -48,9 +48,6 @@ public class Create_Account extends AppCompatActivity {
         });
 
         Button create_account_button = (Button) findViewById(R.id.create_account_button);
-        Context context = getApplicationContext();
-        CharSequence text = "Account Created";
-        int duration = Toast.LENGTH_SHORT;
         create_account_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -61,8 +58,6 @@ public class Create_Account extends AppCompatActivity {
                     return;
                 }
                 userCreateAccountRequest(view, usernameText, passwordText);
-                Toast toast = Toast.makeText(context, text, duration);
-                toast.show();
                 Log.d("userCreated", "Attempting to create user with: " + usernameText + " and password: " + passwordText);
             }
         });
@@ -81,6 +76,11 @@ public class Create_Account extends AppCompatActivity {
                         Log.d("response", response.toString());
                         if(response.equals("new user created")){
                             startActivity(new Intent(view.getContext(), MainActivity.class));
+                            Context context = getApplicationContext();
+                            CharSequence text = "Account Created";
+                            int duration = Toast.LENGTH_SHORT;
+                            Toast toast = Toast.makeText(context, text, duration);
+                            toast.show();
                         }
                     }
                 },
