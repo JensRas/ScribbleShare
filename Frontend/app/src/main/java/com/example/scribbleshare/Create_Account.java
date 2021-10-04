@@ -61,10 +61,42 @@ public class Create_Account extends AppCompatActivity {
                 userLoginRequest("ArthurJones", "passwordd");
             }
         });
+
+        Button create_account_button = (Button) findViewById(R.id.create_account_button);
+        create_account_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                userCreateAccountRequest("BaxterJones", "passwordd");
+            }
+        });
+    }
+
+    private void userCreateAccountRequest(String username, String password) {
+        String url = "http://10.0.2.2:8080/users/new?username=" + username + "&password=" + password;
+        //String url = "http://coms-309-010.cs.iastate.edu:8080/users/new?username=" + username + "&password=" + password;
+
+        StringRequest request = new StringRequest(
+            url,
+            new Response.Listener<String>() {
+                @Override
+                public void onResponse(String response) {
+                    Log.d("response", response.toString());
+                }
+            },
+            new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+
+                }
+            }
+        );
+
+        MySingleton.getInstance(this).addToRequestQueue(request);
     }
 
     private void userLoginRequest(String username, String password) {
         String url = "http://10.0.2.2:8080/users/login?username=" + username + "&password=" + password;
+        // String url = "http://coms-309-010.cs.iastate.edu:8080/users/login?username=" + username + "&password=" + password;
 
         StringRequest request = new StringRequest(
                 url,

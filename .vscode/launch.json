@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-ScribbleshareApplication<scribbleshare>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "console": "internalConsole",
+            "mainClass": "edu.iastate.scribbleshare.ScribbleshareApplication",
+            "projectName": "scribbleshare",
+            "args": ""
+        }
+    ]
+}
