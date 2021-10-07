@@ -10,6 +10,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import edu.iastate.scribbleshare.helpers.Security;
+import edu.iastate.scribbleshare.Objects.Follower;
+import edu.iastate.scribbleshare.Objects.User;
+import edu.iastate.scribbleshare.Repository.FollowingRepository;
+import edu.iastate.scribbleshare.Repository.UserRepository;
 import edu.iastate.scribbleshare.exceptions.BadHashException;
 
 @RestController

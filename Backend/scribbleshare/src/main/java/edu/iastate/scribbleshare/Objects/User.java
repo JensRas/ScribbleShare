@@ -1,4 +1,4 @@
-package edu.iastate.scribbleshare;
+package edu.iastate.scribbleshare.Objects;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
