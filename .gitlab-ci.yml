@@ -1,7 +1,17 @@
 stages:
+  - gradletry
   - androidtry
 
-android-build:
+maven-build:   #this is a JOB
+  stage: gradletry
+  tags:
+    - springboot_tag  # this is LINK to the shell runner on the remote-server 
+  script:
+    - cd Backend/scribbleshare
+    - chmod +x .gradlew
+    - ./gradlew build
+
+android-build: #this is another job
   image: javiersantos/android-ci:latest      # this is a directive to DOCKER
   stage: androidtry
   tags:
