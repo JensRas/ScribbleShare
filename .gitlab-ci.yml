@@ -21,6 +21,7 @@ android-build: #this is another job
     - chmod +x ./Frontend/gradlew
   script:
     - cd Frontend
+    - ./gradlew --version
     - ./gradlew build
   artifacts: 
     paths:
