@@ -21,4 +21,4 @@ android-build: #this is another job
     - chmod +x ./Frontend/gradlew
   script:
     - cd Frontend
-    - ./gradlew build -Dorg.gradle.java.home=/usr/bin/java
+    - ./gradlew build -Dorg.gradle.java.home=/etc/alternatives/java
