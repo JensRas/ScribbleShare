@@ -14,6 +14,9 @@ private int id;
 
 private String username;
 
+@OneToMany(targetEntity = User.class)
+private User user;
+
 private String following;
 
 
