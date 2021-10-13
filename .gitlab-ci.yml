@@ -18,7 +18,7 @@ android-build: #this is another job
    - android_tag         #this is LINK to the docker runner on the remote-server        
   before_script:
     - export GRADLE_USER_HOME=`pwd`/.gradle
-    - export JAVA_HOME="/usr/lib/jvm/jre-11-openjdk"
+    - export JAVA_HOME=/usr/lib/jvm/java-11-openjdk
     - chmod +x ./Frontend/gradlew
   script:
     - cd Frontend
