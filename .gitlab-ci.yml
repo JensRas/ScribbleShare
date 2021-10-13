@@ -9,7 +9,7 @@ maven-build:   #this is a JOB
   script:
     - cd Backend/scribbleshare
     - chmod +x gradlew
-    - ./gradlew -Dorg.gradle.java.home=/usr/bin/java build
+    - ./gradlew build
 
 android-build: #this is another job
   image: javiersantos/android-ci:latest      # this is a directive to DOCKER
@@ -21,4 +21,4 @@ android-build: #this is another job
     - chmod +x ./Frontend/gradlew
   script:
     - cd Frontend
-    - ./gradlew assemble
+    - ./gradlew build
