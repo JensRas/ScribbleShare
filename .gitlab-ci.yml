@@ -18,6 +18,7 @@ android-build: #this is another job
    - android_tag         #this is LINK to the docker runner on the remote-server        
   before_script:
     - export GRADLE_USER_HOME=`pwd`/.gradle
+    - echo $JAVA_HOME
     - $JAVA_HOME -version
     - chmod +x ./Frontend/gradlew
   script:
