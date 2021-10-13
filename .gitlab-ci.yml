@@ -22,3 +22,6 @@ android-build: #this is another job
   script:
     - cd Frontend
     - ./gradlew build
+  artifacts: 
+    paths:
+      - Android_test/app/build/outputs
