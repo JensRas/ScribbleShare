@@ -1,8 +1,10 @@
-package edu.iastate.scribbleshare;
+package edu.iastate.scribbleshare.Repository;
 
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
+
+import edu.iastate.scribbleshare.Objects.Follower;
 
 public interface FollowingRepository extends CrudRepository<Follower, String>{
     
@@ -15,5 +17,7 @@ public interface FollowingRepository extends CrudRepository<Follower, String>{
    @Query(value="select * from follower u where u.following=:following", nativeQuery = true)
    public Iterable<Follower> queryFollowers(@Param("following") String following);
 
-
+   @Query(value="select * from follower u where u.username=:username and u.following=:following", nativeQuery = true)
+   public Follower queryFindByUsernameAndFollowing(@Param("username") String username, @Param("following") String following);
+    
 }

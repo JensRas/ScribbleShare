@@ -1,4 +1,4 @@
-package edu.iastate.scribbleshare;
+package edu.iastate.scribbleshare.Objects;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -32,4 +32,5 @@ public String getUsername(){
 public String getFollowing(){
     return this.following;
 }
+
 }

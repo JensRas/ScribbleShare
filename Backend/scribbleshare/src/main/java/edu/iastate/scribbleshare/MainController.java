@@ -10,6 +10,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import edu.iastate.scribbleshare.helpers.Security;
+import edu.iastate.scribbleshare.Objects.Follower;
+import edu.iastate.scribbleshare.Objects.User;
+import edu.iastate.scribbleshare.Repository.FollowingRepository;
+import edu.iastate.scribbleshare.Repository.UserRepository;
 import edu.iastate.scribbleshare.exceptions.BadHashException;
 
 @RestController
@@ -74,7 +78,10 @@ public class MainController {
     public @ResponseBody String addNewFollowing(@RequestParam String user, @RequestParam String following){
       
       //TODO check if user is already following 
-
+      if(followingRepository.queryFindByUsernameAndFollowing(user, following) == null){
+        //handle invalid username
+        return "already follows";
+      }
       Follower f = new Follower();
       f.setUsername(user);
       f.setFollowing(following);
@@ -83,11 +90,10 @@ public class MainController {
       return "followed ";
     }
 
-    @GetMapping(path="follower")
+    @GetMapping(path="allfollow")
     public @ResponseBody Iterable<Follower> getAllFollowers() {
       return followingRepository.findAll();
     }
-
 
     @GetMapping(path="follower/{username}")
     public @ResponseBody Iterable<Follower> getFollowersByUser(@PathVariable("username") String username){
@@ -97,5 +103,16 @@ public class MainController {
     @GetMapping(path="following/{follower}")
     public @ResponseBody Iterable<Follower> getUsersByFollowing(@PathVariable("follower") String follower){
       return followingRepository.queryFollowers(follower);
+    }
+
+    @GetMapping(path="unfollow/{username}/{following}")
+    public @ResponseBody void unfollowUser(@PathVariable("username") String username, @PathVariable("following") String following){
+      //TODO error handling
+
+      Follower followerToRemove = followingRepository.queryFindByUsernameAndFollowing(username, following);
+      followerToRemove.setUsername(username);
+      followerToRemove.setFollowing(following);
+
+      followingRepository.delete(followerToRemove);
     }
 }
