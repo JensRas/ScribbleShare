@@ -1,6 +1,5 @@
 stages:
   - gradletry
-  - androidtry
 
 maven-build:   #this is a JOB
   stage: gradletry
@@ -19,7 +18,6 @@ android-build: #this is another job
   before_script:
     - export GRADLE_USER_HOME=`pwd`/.gradle
     - chmod +x ./Frontend/gradlew
-    - whereis java
   script:
     - cd Frontend
     - ./gradlew --version
