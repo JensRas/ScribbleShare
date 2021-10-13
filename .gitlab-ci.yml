@@ -19,6 +19,7 @@ android-build: #this is another job
   before_script:
     - export GRADLE_USER_HOME=`pwd`/.gradle
     - export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-11.0.12.0.7-0.el8_4.x86_64
+    - pwd
     - $JAVA_HOME -version
     - chmod +x ./Frontend/gradlew
   script:
