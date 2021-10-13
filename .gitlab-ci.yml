@@ -1,11 +1,21 @@
 stages:
-  - gradletry
+  - springbuild
+  - springtest
 
-maven-build:   #this is a JOB
-  stage: gradletry
+spring-build:   #this is a JOB
+  stage: springbuild
   tags:
     - springboot_tag  # this is LINK to the shell runner on the remote-server 
   script:
     - cd Backend/scribbleshare
     - chmod +x gradlew
     - ./gradlew build
+
+spring-test:
+  stage: springtest
+  tags:
+    - springboot_tag
+  script:
+    - cd Backend/scribbleshare
+    - chmod +x gradlew
+    - ./gradlew test
