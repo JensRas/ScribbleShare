@@ -78,7 +78,7 @@ public class MainController {
     public @ResponseBody String addNewFollowing(@RequestParam String user, @RequestParam String following){
       
       //TODO check if user is already following 
-      if(followingRepository.queryFindByUsernameAndFollowing(user, following) == null){
+      if(followingRepository.queryFindByUsernameAndFollowing(user, following) != null){
         //handle invalid username
         return "already follows";
       }
@@ -108,6 +108,7 @@ public class MainController {
     @GetMapping(path="unfollow/{username}/{following}")
     public @ResponseBody void unfollowUser(@PathVariable("username") String username, @PathVariable("following") String following){
       //TODO error handling
+
 
       Follower followerToRemove = followingRepository.queryFindByUsernameAndFollowing(username, following);
       followerToRemove.setUsername(username);
