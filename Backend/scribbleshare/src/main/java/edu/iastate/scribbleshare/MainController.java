@@ -1,5 +1,7 @@
 package edu.iastate.scribbleshare;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +27,25 @@ public class MainController {
 
     private static final Logger logger = LoggerFactory.getLogger(ScribbleshareApplication.class);
 
+    @GetMapping(path="test1")
+    public @ResponseBody List<User> getFollowers(@RequestParam String username){
+      return userRepository.findById(username).get().getFollowing();
+    }
+
+    @PutMapping(path="test2")
+    public @ResponseBody String addFollower(@RequestParam String followerUsername, @RequestParam String followingUsername){
+      if(!userRepository.findById(followerUsername).isPresent() || !userRepository.findById(followingUsername).isPresent()){
+        return "One of the users is not found!";
+      }
+      
+      if(getFollowers(followerUsername).contains(userRepository.findById(followingUsername).get())){
+        return "user already is followed"; //TODO change response
+      }
+
+      userRepository.findById(followerUsername).get().addFollower(userRepository.findById(followingUsername).get());
+      return "success";
+    }
+
     @PutMapping(path="/users/new")
     public @ResponseBody String addNewUser(@RequestParam String username, @RequestParam String password){
         //TODO add checking if username is allowed
@@ -33,16 +54,7 @@ public class MainController {
           //handle invalid username
           return "username already exists";
         }
-
-        User n = new User();
-        n.setUsername(username);
-        String hash = Security.generateHash(password);
-        if(hash == null){
-            throw new BadHashException();
-        }
-        n.setPassword(hash);
-
-        userRepository.save(n);
+        userRepository.save(new User(username, password));
         return "new user created";
     }
 
