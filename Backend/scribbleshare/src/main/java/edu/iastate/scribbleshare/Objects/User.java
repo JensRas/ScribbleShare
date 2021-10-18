@@ -1,13 +1,20 @@
 package edu.iastate.scribbleshare.Objects;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,6 +33,7 @@ public class User {
 
     private String email;
 
+    @JsonIgnore
     private String password; //hashed
 
     private String permissionLevel;
@@ -41,22 +49,18 @@ public class User {
             throw new BadHashException();
         }
         this.password = hash;
-        this.following = new ArrayList<User>();
     }
 
     //need a default constructor or springboot will throw a tantrum
     public User(){
-        this.following = new ArrayList<User>();
     }
 
-    //users the current user is following
-    @OneToMany
-    private List<User> following;
-
-    //users that are following this user
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User follow;
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JsonIgnore
+    @JoinTable(name = "following",
+        joinColumns = @JoinColumn(name = "follower_username", referencedColumnName = "username"),
+        inverseJoinColumns = @JoinColumn(name = "followee_username", referencedColumnName = "username"))
+    private Set<User> following;
 
     public String getUsername() {
         return username;
@@ -106,17 +110,12 @@ public class User {
         this.isBanned = isBanned;
     }
 
-    public void setFollowing(List<User> following){
+    public void setFollowing(Set<User> following){
         this.following = following;
     }
 
-    public List<User> getFollowing(){
+    public Set<User> getFollowing(){
         return this.following;
     }
 
-    public void addFollower(User user){
-        logger.info("following before: " + following.toString());
-        this.following.add(user);
-        logger.info("following after: " + following.toString());
-    }
 }

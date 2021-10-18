@@ -1,8 +1,10 @@
 package edu.iastate.scribbleshare;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -28,22 +30,20 @@ public class MainController {
     private static final Logger logger = LoggerFactory.getLogger(ScribbleshareApplication.class);
 
     @GetMapping(path="test1")
-    public @ResponseBody List<User> getFollowers(@RequestParam String username){
+    public @ResponseBody Set<User> getFollowers(@RequestParam String username){
       return userRepository.findById(username).get().getFollowing();
     }
 
     @PutMapping(path="test2")
     public @ResponseBody String addFollower(@RequestParam String followerUsername, @RequestParam String followingUsername){
-      if(!userRepository.findById(followerUsername).isPresent() || !userRepository.findById(followingUsername).isPresent()){
-        return "One of the users is not found!";
-      }
-      
-      if(getFollowers(followerUsername).contains(userRepository.findById(followingUsername).get())){
-        return "user already is followed"; //TODO change response
-      }
+      User follower = userRepository.findById(followerUsername).get();
+      User following = userRepository.findById(followingUsername).get();
 
-      userRepository.findById(followerUsername).get().addFollower(userRepository.findById(followingUsername).get());
-      return "success";
+      //TODO add error handling if user(s) dont exist or duplicate follow requests (maybe not the lastone)
+
+      follower.getFollowing().add(following);
+      userRepository.save(follower);
+      return "";
     }
 
     @PutMapping(path="/users/new")
