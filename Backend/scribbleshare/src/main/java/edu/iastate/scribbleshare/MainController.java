@@ -92,7 +92,8 @@ public class MainController {
     }
 
     @GetMapping(path="followers")
-    public @ResponseBody Set<User> getFollowers(@RequestParam String username){
+    public @ResponseBody Set<User> getFollowers(HttpServletResponse response, @RequestParam String username){
+      if(!userRepository.findById(username).isPresent()){Status.formResponse(response, HttpStatus.NOT_FOUND, username + " doesn't exist"); return null;}
       return userRepository.getUserFollowers(username);
     }
 
