@@ -14,9 +14,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import edu.iastate.scribbleshare.helpers.Security;
-import edu.iastate.scribbleshare.Objects.Follower;
 import edu.iastate.scribbleshare.Objects.User;
-import edu.iastate.scribbleshare.Repository.FollowingRepository;
 import edu.iastate.scribbleshare.Repository.UserRepository;
 import edu.iastate.scribbleshare.exceptions.BadHashException;
 
@@ -24,27 +22,8 @@ import edu.iastate.scribbleshare.exceptions.BadHashException;
 public class MainController {
     @Autowired
     private UserRepository userRepository;
-    @Autowired
-    private FollowingRepository followingRepository;
 
     private static final Logger logger = LoggerFactory.getLogger(ScribbleshareApplication.class);
-
-    @GetMapping(path="test1")
-    public @ResponseBody Set<User> getFollowers(@RequestParam String username){
-      return userRepository.findById(username).get().getFollowing();
-    }
-
-    @PutMapping(path="test2")
-    public @ResponseBody String addFollower(@RequestParam String followerUsername, @RequestParam String followingUsername){
-      User follower = userRepository.findById(followerUsername).get();
-      User following = userRepository.findById(followingUsername).get();
-
-      //TODO add error handling if user(s) dont exist or duplicate follow requests (maybe not the lastone)
-
-      follower.getFollowing().add(following);
-      userRepository.save(follower);
-      return "";
-    }
 
     @PutMapping(path="/users/new")
     public @ResponseBody String addNewUser(@RequestParam String username, @RequestParam String password){
@@ -81,51 +60,53 @@ public class MainController {
       return "" + Security.checkHash(userRepository.findById(username).get().getPassword(), password); 
     }
 
-    @GetMapping(path="/test")
-    public Iterable<User> testEndpoint(){
-      return userRepository.queryExample("AbrahamHowell");
+    /*
+    following vs followers
+
+    If I follow somebody, I'm FOLLOWING them
+    If somebody follows me, they are a FOLLOWER
+    */
+    @PutMapping(path="following")
+    public @ResponseBody String addFollower(@RequestParam String followerUsername, @RequestParam String followingUsername){
+      User follower = userRepository.findById(followerUsername).get();
+      User following = userRepository.findById(followingUsername).get();
+
+      //TODO add error handling if user(s) dont exist or duplicate follow requests (maybe not the lastone)
+      //TODO remove the ability to follow yourself (lol)
+
+      follower.getFollowing().add(following);
+      userRepository.save(follower);
+      return "";
     }
 
-    @PostMapping(path="/addfollower")
-    public @ResponseBody String addNewFollowing(@RequestParam String user, @RequestParam String following){
-      
-      //TODO check if user is already following 
-      if(followingRepository.queryFindByUsernameAndFollowing(user, following) != null){
-        //handle invalid username
-        return "already follows";
+    @GetMapping(path="following")
+    public @ResponseBody Set<User> getFollowing(@RequestParam String username){
+      return userRepository.findById(username).get().getFollowing();
+    }
+
+    //TODO get followers (everybody following one specific user)
+    @GetMapping(path="followers")
+    public @ResponseBody Set<User> getFollowers(@RequestParam String username){
+      return null;
+    }
+
+    @DeleteMapping(path="unfollow")
+    public @ResponseBody void unfollowUser(@RequestParam String followerUsername, @RequestParam String followingUsername){
+      //TODO 
+      Optional<User> followerOptional = userRepository.findById(followerUsername);
+      Optional<User> followingOptional = userRepository.findById(followingUsername);
+      if(!followerOptional.isPresent() || !followingOptional.isPresent()){
+        //TODO throw error where usernames aren't present
       }
-      Follower f = new Follower();
-      f.setUsername(user);
-      f.setFollowing(following);
-      followingRepository.save(f);
 
-      return "followed ";
+      User follower = followerOptional.get();
+      User following = followingOptional.get();
+
+      //TODO check if usernames are in the following table
+
+      follower.getFollowing().remove(following);
+      userRepository.save(follower);
+
     }
 
-    @GetMapping(path="allfollow")
-    public @ResponseBody Iterable<Follower> getAllFollowers() {
-      return followingRepository.findAll();
-    }
-
-    @GetMapping(path="follower/{username}")
-    public @ResponseBody Iterable<Follower> getFollowersByUser(@PathVariable("username") String username){
-      return followingRepository.queryUsers(username);
-    }
-
-    @GetMapping(path="following/{follower}")
-    public @ResponseBody Iterable<Follower> getUsersByFollowing(@PathVariable("follower") String follower){
-      return followingRepository.queryFollowers(follower);
-    }
-
-    @GetMapping(path="unfollow/{username}/{following}")
-    public @ResponseBody void unfollowUser(@PathVariable("username") String username, @PathVariable("following") String following){
-      //TODO error handling
-
-
-      Follower followerToRemove = followingRepository.queryFindByUsernameAndFollowing(username, following);
-      followerToRemove.setUsername(username);
-      followerToRemove.setFollowing(following);
-
-      followingRepository.delete(followerToRemove);
-    }
 }
