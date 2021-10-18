@@ -1,19 +1,26 @@
 package edu.iastate.scribbleshare;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
+import org.springframework.web.server.handler.ResponseStatusExceptionHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import edu.iastate.scribbleshare.helpers.Security;
+import edu.iastate.scribbleshare.helpers.Status;
+
 import edu.iastate.scribbleshare.Objects.User;
 import edu.iastate.scribbleshare.Repository.UserRepository;
 import edu.iastate.scribbleshare.exceptions.BadHashException;
@@ -67,20 +74,27 @@ public class MainController {
     If somebody follows me, they are a FOLLOWER
     */
     @PutMapping(path="following")
-    public @ResponseBody String addFollower(@RequestParam String followerUsername, @RequestParam String followingUsername){
-      User follower = userRepository.findById(followerUsername).get();
-      User following = userRepository.findById(followingUsername).get();
+    public @ResponseBody void addFollower(HttpServletResponse response, @RequestParam String followerUsername, @RequestParam String followingUsername){
+      Optional<User> followerOptional = userRepository.findById(followerUsername);
+      Optional<User> followingOptional = userRepository.findById(followingUsername);
+      if(!followerOptional.isPresent()){Status.formResponse(response, HttpStatus.NOT_FOUND, followerUsername + " doesn't exist"); return;}
+      if(!followingOptional.isPresent()){Status.formResponse(response, HttpStatus.NOT_FOUND, followingUsername + " doesn't exist"); return;}
+      if(followerUsername.equals(followingUsername)){Status.formResponse(response, HttpStatus.BAD_REQUEST, "you can't follow yourself lol"); return;}
 
-      //TODO add error handling if user(s) dont exist or duplicate follow requests (maybe not the lastone)
-      //TODO remove the ability to follow yourself (lol)
-
+      User follower = followerOptional.get();
+      User following = followingOptional.get();
       follower.getFollowing().add(following);
       userRepository.save(follower);
-      return "";
+      Status.formResponse(response, HttpStatus.CREATED, follower.getUsername() + " sucessfully followed " + following.getUsername());
     }
 
     @GetMapping(path="following")
-    public @ResponseBody Set<User> getFollowing(@RequestParam String username){
+    public @ResponseBody Set<User> getFollowing(HttpServletResponse response, @RequestParam String username){
+      Optional<User> userOptional = userRepository.findById(username);
+      if(!userOptional.isPresent()){
+        Status.formResponse(response, HttpStatus.NOT_FOUND, username + " doesn't exist");
+        return null;
+      }
       return userRepository.findById(username).get().getFollowing();
     }
 
@@ -91,22 +105,22 @@ public class MainController {
     }
 
     @DeleteMapping(path="unfollow")
-    public @ResponseBody void unfollowUser(@RequestParam String followerUsername, @RequestParam String followingUsername){
-      //TODO 
+    public @ResponseBody void unfollowUser(HttpServletResponse response, @RequestParam String followerUsername, @RequestParam String followingUsername){
       Optional<User> followerOptional = userRepository.findById(followerUsername);
       Optional<User> followingOptional = userRepository.findById(followingUsername);
-      if(!followerOptional.isPresent() || !followingOptional.isPresent()){
-        //TODO throw error where usernames aren't present
-      }
+      if(!followerOptional.isPresent()){Status.formResponse(response, HttpStatus.NOT_FOUND, followerUsername + " doesn't exist"); return;}
+      if(!followingOptional.isPresent()){Status.formResponse(response, HttpStatus.NOT_FOUND, followingUsername + " doesn't exist"); return;}
 
       User follower = followerOptional.get();
       User following = followingOptional.get();
-
-      //TODO check if usernames are in the following table
+      if(!follower.getFollowing().contains(following)){
+        Status.formResponse(response, HttpStatus.NOT_FOUND, follower.getUsername() + " isn't following " + following.getUsername());
+        return;
+      }
 
       follower.getFollowing().remove(following);
       userRepository.save(follower);
-
+      Status.formResponse(response, HttpStatus.CREATED, follower.getUsername() + " sucessfully unfollowed " + following.getUsername());
     }
 
 }
