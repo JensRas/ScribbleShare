@@ -91,10 +91,9 @@ public class MainController {
       return userRepository.findById(username).get().getFollowing();
     }
 
-    //TODO get followers (everybody following one specific user)
     @GetMapping(path="followers")
     public @ResponseBody Set<User> getFollowers(@RequestParam String username){
-      return null;
+      return userRepository.getUserFollowers(username);
     }
 
     @DeleteMapping(path="unfollow")
