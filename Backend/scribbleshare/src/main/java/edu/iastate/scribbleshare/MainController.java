@@ -1,9 +1,5 @@
 package edu.iastate.scribbleshare;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -11,10 +7,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
-import org.springframework.web.server.handler.ResponseStatusExceptionHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -23,7 +17,6 @@ import edu.iastate.scribbleshare.helpers.Status;
 
 import edu.iastate.scribbleshare.Objects.User;
 import edu.iastate.scribbleshare.Repository.UserRepository;
-import edu.iastate.scribbleshare.exceptions.BadHashException;
 
 @RestController
 public class MainController {
