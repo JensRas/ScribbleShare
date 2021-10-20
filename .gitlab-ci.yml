@@ -13,6 +13,9 @@ spring-build:   #this is a JOB
     - cd Backend/scribbleshare
     - chmod +x gradlew
     - ./gradlew build
+  artifacts:
+    paths:
+    - Backend/scribbleshare/build/libs/*.jar
 
 spring-test:
   stage: springtest
@@ -22,19 +25,16 @@ spring-test:
     - cd Backend/scribbleshare
     - chmod +x gradlew
     - ./gradlew test
-  artifacts:
-    paths:
-      - Backend/target/*.jar
 
 spring-deploy:
   stage: springdeploy  #do make a stage with same name!
   tags:
    - springboot_tag
   script:
-    - cd Backend/scribbleshare
+    - cd Backend/scribbleshare/build/libs
     - chmod +x gradlew
     - ./gradlew build
-    - sudo mv target/*.jar /target/web-demo.jar 
+    - sudo mv *.jar /target/web-demo.jar 
     - sudo systemctl stop system-web-demo
     - sudo systemctl start system-web-demo
 
