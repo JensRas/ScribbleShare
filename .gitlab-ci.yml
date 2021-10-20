@@ -43,9 +43,6 @@ spring-deploy:
     - sudo mv build/libs/*-SNAPSHOT.jar /target/web-demo.jar 
     - sudo systemctl stop system-web-demo
     - sudo systemctl start system-web-demo
-  rules:
-    - changes:
-      - Backend
   only:
     - master  #only deploy when on master branch
 
