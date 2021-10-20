@@ -34,7 +34,7 @@ spring-deploy:
     - cd Backend/scribbleshare
     - chmod +x gradlew
     - ./gradlew build
-    - ls /build/libs
+    - ls build/libs
     - sudo mv build/libs/*.jar /target/web-demo.jar 
     - sudo systemctl stop system-web-demo
     - sudo systemctl start system-web-demo
