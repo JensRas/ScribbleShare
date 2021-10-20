@@ -34,10 +34,11 @@ spring-deploy:
     - cd Backend/scribbleshare
     - chmod +x gradlew
     - ./gradlew build
-    - ls build/libs
     - sudo mv build/libs/*-SNAPSHOT.jar /target/web-demo.jar 
     - sudo systemctl stop system-web-demo
     - sudo systemctl start system-web-demo
+  only:
+    - master
 
 
 android-build: #this is another job
