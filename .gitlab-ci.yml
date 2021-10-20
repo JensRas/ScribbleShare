@@ -1,6 +1,7 @@
 stages:
   - springbuild
   - springtest
+  - androidbuild
 
 spring-build:   #this is a JOB
   stage: springbuild
@@ -19,3 +20,15 @@ spring-test:
     - cd Backend/scribbleshare
     - chmod +x gradlew
     - ./gradlew test
+
+android-build: #this is another job
+  image: javiersantos/android-ci:latest      # this is a directive to DOCKER
+  stage: androidbuild
+  tags:
+   - android_tag         #this is LINK to the docker runner on the remote-server        
+  before_script:
+    - export GRADLE_USER_HOME=`pwd`/.gradle
+    - chmod +x ./Frontend/gradlew
+  script:
+    - cd Frontend
+    - ./gradlew assemble
