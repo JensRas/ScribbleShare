@@ -38,7 +38,7 @@ spring-deploy:
     - sudo systemctl stop system-web-demo
     - sudo systemctl start system-web-demo
   only:
-    - master
+    - master  #only deploy when on master branch
 
 
 android-build: #this is another job
