@@ -21,6 +21,10 @@ spring-test:
     - cd Backend/scribbleshare
     - chmod +x gradlew
     - ./gradlew test
+  artifacts:
+    paths:
+      - Backend/target/*.jar
+
 
 android-build: #this is another job
   image: javiersantos/android-ci:latest      # this is a directive to DOCKER
