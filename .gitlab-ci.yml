@@ -3,6 +3,7 @@ stages:
   - springtest
   - androidbuild
   - androidtest
+  - springdeploy
 
 spring-build:   #this is a JOB
   stage: springbuild
@@ -24,6 +25,18 @@ spring-test:
   artifacts:
     paths:
       - Backend/target/*.jar
+
+spring-deploy:
+  stage: springdeploy  #do make a stage with same name!
+  tags:
+   - springboot_tag
+  script:
+    - cd Backend/scribbleshare
+    - chmod +x gradlew
+    - ./gradlew build
+    - sudo mv target/*.jar /target/web-demo.jar 
+    - sudo systemctl stop system-web-demo
+    - sudo systemctl start system-web-demo
 
 
 android-build: #this is another job
