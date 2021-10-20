@@ -1,9 +1,9 @@
 stages:
   - springbuild
   - springtest
+  - springdeploy
   - androidbuild
   - androidtest
-  - springdeploy
 
 spring-build:   #this is a JOB
   stage: springbuild
@@ -35,7 +35,7 @@ spring-deploy:
     - chmod +x gradlew
     - ./gradlew build
     - ls build/libs
-    - sudo mv build/libs/*.jar /target/web-demo.jar 
+    - sudo mv build/libs/*-SNAPSHOT.jar /target/web-demo.jar 
     - sudo systemctl stop system-web-demo
     - sudo systemctl start system-web-demo
 
