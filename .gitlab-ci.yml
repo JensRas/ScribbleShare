@@ -16,6 +16,9 @@ spring-build:   #this is a JOB
   artifacts:
     paths:
     - Backend/scribbleshare/build/libs/*.jar
+  rules:
+    - changes:
+      - Backend
 
 spring-test:
   stage: springtest
@@ -25,6 +28,9 @@ spring-test:
     - cd Backend/scribbleshare
     - chmod +x gradlew
     - ./gradlew test
+  rules:
+    - changes:
+      - Backend
 
 spring-deploy:
   stage: springdeploy  #do make a stage with same name!
@@ -37,6 +43,9 @@ spring-deploy:
     - sudo mv build/libs/*-SNAPSHOT.jar /target/web-demo.jar 
     - sudo systemctl stop system-web-demo
     - sudo systemctl start system-web-demo
+  rules:
+    - changes:
+      - Backend
   only:
     - master  #only deploy when on master branch
 
@@ -55,6 +64,9 @@ android-build: #this is another job
   artifacts:
     paths:
     - Android_test/app/build/outputs/
+  rules:
+    - changes:
+      - Frontend
 
 android-test:
   image: javiersantos/android-ci:latest
@@ -67,3 +79,6 @@ android-test:
   script:
     - cd Frontend
     - ./gradlew test
+  rules:
+    - changes:
+      - Frontend
