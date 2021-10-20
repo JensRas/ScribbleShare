@@ -2,6 +2,7 @@ stages:
   - springbuild
   - springtest
   - androidbuild
+  - androidtest
 
 spring-build:   #this is a JOB
   stage: springbuild
@@ -32,3 +33,18 @@ android-build: #this is another job
   script:
     - cd Frontend
     - ./gradlew assemble
+  artifacts:
+    paths:
+    - Android_test/app/build/outputs/
+
+android-test:
+  image: javiersantos/android-ci:latest
+  stage: androidtest
+  before_script:
+    - export GRADLE_USER_HOME=`pwd`/.gradle
+    - chmod +x ./Frontend/gradlew
+  tags:
+   - android_tag
+  script:
+    - cd Frontend
+    - ./gradlew test
