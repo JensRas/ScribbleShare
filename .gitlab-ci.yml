@@ -19,6 +19,7 @@ spring-build:   #this is a JOB
   rules:
     - changes:
       - Backend
+      - .gitlab-ci.yml
 
 spring-test:
   stage: springtest
@@ -31,6 +32,7 @@ spring-test:
   rules:
     - changes:
       - Backend
+      - .gitlab-ci.yml
 
 spring-deploy:
   stage: springdeploy  #do make a stage with same name!
@@ -64,6 +66,7 @@ android-build: #this is another job
   rules:
     - changes:
       - Frontend
+      - .gitlab-ci.yml
 
 android-test:
   image: javiersantos/android-ci:latest
@@ -79,3 +82,4 @@ android-test:
   rules:
     - changes:
       - Frontend
+      - .gitlab-ci.yml
