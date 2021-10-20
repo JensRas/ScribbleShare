@@ -62,6 +62,11 @@ public class User {
         inverseJoinColumns = @JoinColumn(name = "followee_username", referencedColumnName = "username"))
     private Set<User> following;
 
+    @ManyToMany(mappedBy="following")
+	@JsonIgnore
+	private Set<User> followers = new HashSet<User>();
+
+
     public String getUsername() {
         return username;
     }
@@ -116,6 +121,14 @@ public class User {
 
     public Set<User> getFollowing(){
         return this.following;
+    }
+
+    public void setFollowers(Set<User> followers){
+        this.followers = followers;
+    }
+
+    public Set<User> getFollowers(){
+        return followers;
     }
 
 }
