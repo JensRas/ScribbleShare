@@ -31,10 +31,10 @@ spring-deploy:
   tags:
    - springboot_tag
   script:
-    - cd Backend/scribbleshare/build/libs
+    - cd Backend/scribbleshare
     - chmod +x gradlew
     - ./gradlew build
-    - sudo mv *.jar /target/web-demo.jar 
+    - sudo mv build/libs/*.jar /target/web-demo.jar 
     - sudo systemctl stop system-web-demo
     - sudo systemctl start system-web-demo
 
