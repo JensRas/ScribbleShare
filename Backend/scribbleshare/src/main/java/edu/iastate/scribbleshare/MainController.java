@@ -1,6 +1,9 @@
 package edu.iastate.scribbleshare;
 
 import java.util.Optional;
+import java.util.Set;
+
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -10,14 +13,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import edu.iastate.scribbleshare.helpers.Security;
-import edu.iastate.scribbleshare.exceptions.BadHashException;
+import edu.iastate.scribbleshare.helpers.Status;
+
+import edu.iastate.scribbleshare.Objects.User;
+import edu.iastate.scribbleshare.Repository.UserRepository;
 
 @RestController
 public class MainController {
     @Autowired
     private UserRepository userRepository;
-    @Autowired
-    private FollowingRepository followingRepository;
 
     private static final Logger logger = LoggerFactory.getLogger(ScribbleshareApplication.class);
 
@@ -29,16 +33,7 @@ public class MainController {
           //handle invalid username
           return "username already exists";
         }
-
-        User n = new User();
-        n.setUsername(username);
-        String hash = Security.generateHash(password);
-        if(hash == null){
-            throw new BadHashException();
-        }
-        n.setPassword(hash);
-
-        userRepository.save(n);
+        userRepository.save(new User(username, password));
         return "new user created";
     }
 
@@ -65,37 +60,61 @@ public class MainController {
       return "" + Security.checkHash(userRepository.findById(username).get().getPassword(), password); 
     }
 
-    @GetMapping(path="/test")
-    public Iterable<User> testEndpoint(){
-      return userRepository.queryExample("AbrahamHowell");
+    /*
+    following vs followers
+
+    If I follow somebody, I'm FOLLOWING them
+    If somebody follows me, they are a FOLLOWER
+    */
+    @PutMapping(path="following")
+    public @ResponseBody void addFollower(HttpServletResponse response, @RequestParam String followerUsername, @RequestParam String followingUsername){
+      Optional<User> followerOptional = userRepository.findById(followerUsername);
+      Optional<User> followingOptional = userRepository.findById(followingUsername);
+      if(!followerOptional.isPresent()){Status.formResponse(response, HttpStatus.NOT_FOUND, followerUsername + " doesn't exist"); return;}
+      if(!followingOptional.isPresent()){Status.formResponse(response, HttpStatus.NOT_FOUND, followingUsername + " doesn't exist"); return;}
+      if(followerUsername.equals(followingUsername)){Status.formResponse(response, HttpStatus.BAD_REQUEST, "you can't follow yourself lol"); return;}
+
+      User follower = followerOptional.get();
+      User following = followingOptional.get();
+      follower.getFollowing().add(following);
+      userRepository.save(follower);
+      Status.formResponse(response, HttpStatus.CREATED, follower.getUsername() + " sucessfully followed " + following.getUsername());
     }
 
-    @PostMapping(path="/addfollower")
-    public @ResponseBody String addNewFollowing(@RequestParam String user, @RequestParam String following){
-      
-      //TODO check if user is already following 
-
-      Follower f = new Follower();
-      f.setUsername(user);
-      f.setFollowing(following);
-      followingRepository.save(f);
-
-      return "followed ";
+    @GetMapping(path="following")
+    public @ResponseBody Set<User> getFollowing(HttpServletResponse response, @RequestParam String username){
+      Optional<User> userOptional = userRepository.findById(username);
+      if(!userOptional.isPresent()){
+        Status.formResponse(response, HttpStatus.NOT_FOUND, username + " doesn't exist");
+        return null;
+      }
+      return userRepository.findById(username).get().getFollowing();
     }
 
-    @GetMapping(path="follower")
-    public @ResponseBody Iterable<Follower> getAllFollowers() {
-      return followingRepository.findAll();
+    @GetMapping(path="followers")
+    public @ResponseBody Set<User> getFollowers(HttpServletResponse response, @RequestParam String username){
+      Optional<User> user = userRepository.findById(username);
+      if(!user.isPresent()){Status.formResponse(response, HttpStatus.NOT_FOUND, username + " doesn't exist"); return null;}
+      return user.get().getFollowers();
     }
 
+    @DeleteMapping(path="unfollow")
+    public @ResponseBody void unfollowUser(HttpServletResponse response, @RequestParam String followerUsername, @RequestParam String followingUsername){
+      Optional<User> followerOptional = userRepository.findById(followerUsername);
+      Optional<User> followingOptional = userRepository.findById(followingUsername);
+      if(!followerOptional.isPresent()){Status.formResponse(response, HttpStatus.NOT_FOUND, followerUsername + " doesn't exist"); return;}
+      if(!followingOptional.isPresent()){Status.formResponse(response, HttpStatus.NOT_FOUND, followingUsername + " doesn't exist"); return;}
 
-    @GetMapping(path="follower/{username}")
-    public @ResponseBody Iterable<Follower> getFollowersByUser(@PathVariable("username") String username){
-      return followingRepository.queryUsers(username);
+      User follower = followerOptional.get();
+      User following = followingOptional.get();
+      if(!follower.getFollowing().contains(following)){
+        Status.formResponse(response, HttpStatus.NOT_FOUND, follower.getUsername() + " isn't following " + following.getUsername());
+        return;
+      }
+
+      follower.getFollowing().remove(following);
+      userRepository.save(follower);
+      Status.formResponse(response, HttpStatus.CREATED, follower.getUsername() + " sucessfully unfollowed " + following.getUsername());
     }
 
-    @GetMapping(path="following/{follower}")
-    public @ResponseBody Iterable<Follower> getUsersByFollowing(@PathVariable("follower") String follower){
-      return followingRepository.queryFollowers(follower);
-    }
 }

@@ -1,0 +1,85 @@
+stages:
+  - springbuild
+  - springtest
+  - springdeploy
+  - androidbuild
+  - androidtest
+
+spring-build:   #this is a JOB
+  stage: springbuild
+  tags:
+    - springboot_tag  # this is LINK to the shell runner on the remote-server 
+  script:
+    - cd Backend/scribbleshare
+    - chmod +x gradlew
+    - ./gradlew build
+  artifacts:
+    paths:
+    - Backend/scribbleshare/build/libs/*.jar
+  rules:
+    - changes:
+      - Backend
+      - .gitlab-ci.yml
+
+spring-test:
+  stage: springtest
+  tags:
+    - springboot_tag
+  script:
+    - cd Backend/scribbleshare
+    - chmod +x gradlew
+    - ./gradlew test
+  rules:
+    - changes:
+      - Backend
+      - .gitlab-ci.yml
+
+spring-deploy:
+  stage: springdeploy  #do make a stage with same name!
+  tags:
+   - springboot_tag
+  script:
+    - cd Backend/scribbleshare
+    - chmod +x gradlew
+    - ./gradlew build
+    - sudo mv build/libs/*-SNAPSHOT.jar /target/web-demo.jar 
+    - sudo systemctl stop system-web-demo
+    - sudo systemctl start system-web-demo
+  only:
+    - master  #only deploy when on master branch
+
+
+android-build: #this is another job
+  image: javiersantos/android-ci:latest      # this is a directive to DOCKER
+  stage: androidbuild
+  tags:
+   - android_tag         #this is LINK to the docker runner on the remote-server        
+  before_script:
+    - export GRADLE_USER_HOME=`pwd`/.gradle
+    - chmod +x ./Frontend/gradlew
+  script:
+    - cd Frontend
+    - ./gradlew assemble
+  artifacts:
+    paths:
+    - Android_test/app/build/outputs/
+  rules:
+    - changes:
+      - Frontend
+      - .gitlab-ci.yml
+
+android-test:
+  image: javiersantos/android-ci:latest
+  stage: androidtest
+  before_script:
+    - export GRADLE_USER_HOME=`pwd`/.gradle
+    - chmod +x ./Frontend/gradlew
+  tags:
+   - android_tag
+  script:
+    - cd Frontend
+    - ./gradlew test
+  rules:
+    - changes:
+      - Frontend
+      - .gitlab-ci.yml
