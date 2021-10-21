@@ -4,17 +4,28 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.ContentValues;
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
 import com.google.android.material.slider.RangeSlider;
+
+//import org.apache.http.entity.mime.MultipartEntity;
+//import org.apache.http.entity.mime.MultipartEntityBuilder;
 
 import java.io.OutputStream;
 
@@ -68,34 +79,60 @@ public class Drawing extends AppCompatActivity {
                 // getting the bitmap from DrawView class
                 Bitmap bmp = paint.save();
 
-                // opening a OutputStream to write into the file
-                OutputStream imageOutStream = null;
+                //TODO move all this code to another interface?
+                String url = "http://10.0.2.2:8080/post?username=person1";
+                //TODO currently doesn't work lol
+//                MultipartRequest request = new MultipartRequest(
+//                        Request.Method.PUT,
+//                        url,
+//                        FILE,
+//
+//                        new Response.Listener<String>() {
+//                            @Override
+//                            public void onResponse(String response) {
+//                                Log.d("response", response.toString());
+//
+//                            }
+//                        },
+//                        new Response.ErrorListener() {
+//                            @Override
+//                            public void onErrorResponse(VolleyError error) {
+//                                Log.e("error", error.toString());
+//                            }
+//                        }
+//                );
+//
+//                MySingleton.getInstance(this).addToRequestQueue(request);
 
-                ContentValues cv = new ContentValues();
 
-                // name of the file
-                cv.put(MediaStore.Images.Media.DISPLAY_NAME, "drawing.png");
-
-                // type of the file
-                cv.put(MediaStore.Images.Media.MIME_TYPE, "image/png");
-
-                // location of the file to be saved
-                cv.put(MediaStore.Images.Media.RELATIVE_PATH, Environment.DIRECTORY_PICTURES);
-
-                // get the Uri of the file which is to be created in the storage
-                Uri uri = getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, cv);
-                try {
-                    // open the output stream with the above uri
-                    imageOutStream = getContentResolver().openOutputStream(uri);
-
-                    // this method writes the files in storage
-                    bmp.compress(Bitmap.CompressFormat.PNG, 100, imageOutStream);
-
-                    // close the output stream after use
-                    imageOutStream.close();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+//                // opening a OutputStream to write into the file
+//                OutputStream imageOutStream = null;
+//
+//                ContentValues cv = new ContentValues();
+//
+//                // name of the file
+//                cv.put(MediaStore.Images.Media.DISPLAY_NAME, "drawing.png");
+//
+//                // type of the file
+//                cv.put(MediaStore.Images.Media.MIME_TYPE, "image/png");
+//
+//                // location of the file to be saved
+//                cv.put(MediaStore.Images.Media.RELATIVE_PATH, Environment.DIRECTORY_PICTURES);
+//
+//                // get the Uri of the file which is to be created in the storage
+//                Uri uri = getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, cv);
+//                try {
+//                    // open the output stream with the above uri
+//                    imageOutStream = getContentResolver().openOutputStream(uri);
+//
+//                    // this method writes the files in storage
+//                    bmp.compress(Bitmap.CompressFormat.PNG, 100, imageOutStream);
+//
+//                    // close the output stream after use
+//                    imageOutStream.close();
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                }
             }
         });
 

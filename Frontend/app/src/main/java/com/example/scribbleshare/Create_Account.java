@@ -58,7 +58,7 @@ public class Create_Account extends AppCompatActivity {
                     return;
                 }
                 userCreateAccountRequest(view, usernameText, passwordText);
-                Log.d("userCreated", "Attempting to create user with: " + usernameText + " and password: " + passwordText);
+                Log.d("userCreated", "Attempting to create user with: "+ usernameText  + " and password: " + passwordText);
             }
         });
     }
