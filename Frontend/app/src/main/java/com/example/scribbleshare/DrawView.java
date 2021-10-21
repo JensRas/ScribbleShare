@@ -58,7 +58,7 @@ public class DrawView extends View {
     // this method instantiate the bitmap and object
     public void init(int height, int width) {
 
-        mBitmap = Bitmap.createBitmap(25, 32, Bitmap.Config.ARGB_8888);
+        mBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
         mCanvas = new Canvas(mBitmap);
 
         // set an initial color of the brush
