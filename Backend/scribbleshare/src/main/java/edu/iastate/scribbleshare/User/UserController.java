@@ -1,4 +1,4 @@
-package edu.iastate.scribbleshare;
+package edu.iastate.scribbleshare.User;
 
 import java.util.Optional;
 import java.util.Set;
@@ -12,14 +12,12 @@ import org.springframework.web.server.ResponseStatusException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import edu.iastate.scribbleshare.ScribbleshareApplication;
 import edu.iastate.scribbleshare.helpers.Security;
 import edu.iastate.scribbleshare.helpers.Status;
 
-import edu.iastate.scribbleshare.Objects.User;
-import edu.iastate.scribbleshare.Repository.UserRepository;
-
 @RestController
-public class MainController {
+public class UserController {
     @Autowired
     private UserRepository userRepository;
 
