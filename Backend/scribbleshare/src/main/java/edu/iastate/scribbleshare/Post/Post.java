@@ -1,4 +1,4 @@
-package edu.iastate.scribbleshare.Objects;
+package edu.iastate.scribbleshare.Post;
 
 import java.sql.Date;
 

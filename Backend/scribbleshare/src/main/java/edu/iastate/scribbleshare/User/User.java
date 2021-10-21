@@ -1,4 +1,4 @@
-package edu.iastate.scribbleshare.Objects;
+package edu.iastate.scribbleshare.User;
 
 import java.util.ArrayList;
 import java.util.HashSet;
