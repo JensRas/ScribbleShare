@@ -51,48 +51,12 @@ public class SignIn extends AppCompatActivity implements SignInView{
                     //dont bother with empty credentials
                     return;
                 }
-//                userLoginRequest(view, usernameText, passwordText);
                 presenter.signInRequest(usernameText, passwordText);
                 Log.d("userCreated", "Attempting to login user with: " + usernameText + " and password: " + passwordText);
             }
         });
     }
 
-    private void userLoginRequest(View view, String username, String password) {
-//        String url = "http://10.0.2.2:8080/users/login?username=" + username + "&password=" + password;
-        String usernameCheck = "http://coms-309-010.cs.iastate.edu:8080/users/new";
-        String url = "http://coms-309-010.cs.iastate.edu:8080/users/login?username=" + username + "&password=" + password;
-
-        StringRequest request = new StringRequest(
-                url,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        Log.d("response", response.toString());
-                        Context context = getApplicationContext();
-                        int duration = Toast.LENGTH_SHORT;
-                        if(response.equals("true")){
-                            Log.d("signInSuccess", "Sign in successful");
-                            startActivity(new Intent(view.getContext(), test_homescreen.class));
-                            CharSequence text = "Signed In";
-                            Toast toast = Toast.makeText(context, text, duration);
-                            toast.show();
-                        }else{
-                            CharSequence text = "Username/Password Invalid";
-                            Toast toast = Toast.makeText(context, text, duration);
-                            toast.show();
-                        }
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-
-                    }
-                });
-
-        MySingleton.getInstance(this).addToRequestQueue(request);
-    }
 
     @Override
     public void makeToast(String message) {
