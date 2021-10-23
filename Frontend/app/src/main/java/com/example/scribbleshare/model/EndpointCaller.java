@@ -29,6 +29,11 @@ public class EndpointCaller {
         sendStringRequest(url, Request.Method.PUT);
     }
 
+    public void signInRequest(String username, String password){
+        String url = baseURL + "/users/login?username=" + username + "&password=" + password;
+        sendStringRequest(url, Request.Method.GET);
+    }
+
     private void sendStringRequest(String url, int method){
         StringRequest request = new StringRequest(
                 method,

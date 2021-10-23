@@ -17,15 +17,21 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.example.scribbleshare.MySingleton;
 import com.example.scribbleshare.R;
+import com.example.scribbleshare.presenter.CreateAccountPresenter;
+import com.example.scribbleshare.presenter.SignInPresenter;
 import com.example.scribbleshare.test_homescreen;
 import com.example.scribbleshare.view.MainActivity;
 
-public class SignIn extends AppCompatActivity {
+public class SignIn extends AppCompatActivity implements SignInView{
+
+    private SignInPresenter presenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_in);
+
+        presenter = new SignInPresenter(this, getApplicationContext());
 
         ImageButton back_button = (ImageButton) findViewById(R.id.back_button_sign_in);
         back_button.setOnClickListener(new View.OnClickListener() {
@@ -45,7 +51,8 @@ public class SignIn extends AppCompatActivity {
                     //dont bother with empty credentials
                     return;
                 }
-                userLoginRequest(view, usernameText, passwordText);
+//                userLoginRequest(view, usernameText, passwordText);
+                presenter.signInRequest(usernameText, passwordText);
                 Log.d("userCreated", "Attempting to login user with: " + usernameText + " and password: " + passwordText);
             }
         });
@@ -85,5 +92,18 @@ public class SignIn extends AppCompatActivity {
                 });
 
         MySingleton.getInstance(this).addToRequestQueue(request);
+    }
+
+    @Override
+    public void makeToast(String message) {
+        Context context = getApplicationContext();
+        int duration = Toast.LENGTH_SHORT;
+        Toast toast = Toast.makeText(context, message, duration);
+        toast.show();
+    }
+
+    @Override
+    public void switchView(Class c) {
+        startActivity(new Intent(this, c));
     }
 }
