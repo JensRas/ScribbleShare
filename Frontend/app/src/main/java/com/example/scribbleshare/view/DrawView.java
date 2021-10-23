@@ -1,4 +1,4 @@
-package com.example.scribbleshare;
+package com.example.scribbleshare.view;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -9,6 +9,8 @@ import android.graphics.Path;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
+
+import com.example.scribbleshare.Stroke;
 
 import java.util.ArrayList;
 

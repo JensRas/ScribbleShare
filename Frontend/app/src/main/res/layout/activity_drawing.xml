@@ -65,7 +65,7 @@
 
     </LinearLayout>
 
-    <com.example.scribbleshare.DrawView
+    <com.example.scribbleshare.view.DrawView
         android:id="@+id/draw_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

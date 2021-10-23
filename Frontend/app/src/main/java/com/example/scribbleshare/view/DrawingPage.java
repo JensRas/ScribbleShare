@@ -1,30 +1,25 @@
-package com.example.scribbleshare;
+package com.example.scribbleshare.view;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.ContentValues;
-import android.content.Context;
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
-import android.provider.MediaStore;
-import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
-import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
+import com.example.scribbleshare.MySingleton;
+import com.example.scribbleshare.R;
+import com.example.scribbleshare.model.MultipartRequest;
+import com.example.scribbleshare.presenter.DrawingPagePresenter;
 import com.google.android.material.slider.RangeSlider;
 
 //import org.apache.http.entity.mime.MultipartEntity;
@@ -34,13 +29,12 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
-import java.io.OutputStream;
 import java.util.HashMap;
 import java.util.Map;
 
 import petrov.kristiyan.colorpicker.ColorPicker;
 
-public class Drawing extends AppCompatActivity {
+public class DrawingPage extends AppCompatActivity implements DrawingPageView {
 
     // creating the object of type DrawView
     // in order to get the reference of the View
@@ -53,10 +47,14 @@ public class Drawing extends AppCompatActivity {
     // help in selecting the width of the Stroke
     private RangeSlider rangeSlider;
 
+    private DrawingPagePresenter presenter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_drawing);
+
+        presenter = new DrawingPagePresenter(this, getApplicationContext());
 
         // getting the reference of the views from their ids
         paint = (DrawView) findViewById(R.id.draw_view);
@@ -91,7 +89,8 @@ public class Drawing extends AppCompatActivity {
                 //TODO move all this code to another interface?
                 String URL = "http://10.0.2.2:8080/post?username=person1";
                 //TODO currently doesn't work lol
-                uploadBitmap(bitmap, URL);
+//                uploadBitmap(bitmap, URL);
+                presenter.uploadBitmap("person1", bitmap);
 
             }
         });
@@ -101,7 +100,7 @@ public class Drawing extends AppCompatActivity {
         color.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                final ColorPicker colorPicker = new ColorPicker(Drawing.this);
+                final ColorPicker colorPicker = new ColorPicker(DrawingPage.this);
                 colorPicker.setOnFastChooseColorListener(new ColorPicker.OnFastChooseColorListener() {
                     @Override
                     public void setOnFastChooseColorListener(int position, int color) {
@@ -200,7 +199,8 @@ public class Drawing extends AppCompatActivity {
         MySingleton.getInstance(this).addToRequestQueue(request);
     }
 
-    public byte[] getFileDataFromDrawable(Bitmap bitmap) {
+    //TODO delete when not needed
+    private byte[] getFileDataFromDrawable(Bitmap bitmap) {
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.PNG, 80, byteArrayOutputStream);
         return byteArrayOutputStream.toByteArray();
