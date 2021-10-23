@@ -57,7 +57,7 @@ public class DrawView extends View {
 
     // this method instantiate the bitmap and object
     public void init(int height, int width) {
-
+        //TODO change this to grab the image for testing
         mBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
         mCanvas = new Canvas(mBitmap);
 

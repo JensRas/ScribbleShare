@@ -1,4 +1,4 @@
-package com.example.scribbleshare;
+package com.example.scribbleshare.view;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -18,18 +18,21 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.example.scribbleshare.MySingleton;
+import com.example.scribbleshare.R;
+import com.example.scribbleshare.presenter.CreateAccountPresenter;
 
-public class Create_Account extends AppCompatActivity {
+public class Create_Account extends AppCompatActivity implements CreateAccountView {
 
-    private RequestQueue mRequestQueue;
-    private StringRequest mStringRequest;
-//    private String url = "http://www.mocky.io/v2/597c41390f0000d002f4dbd1";
+    private CreateAccountPresenter presenter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_account);
+
+        presenter = new CreateAccountPresenter(this, getApplicationContext());
 
         TextView sign_in_text = (TextView) findViewById(R.id.sign_in_link_text);
         sign_in_text.setOnClickListener(new View.OnClickListener() {
@@ -57,7 +60,9 @@ public class Create_Account extends AppCompatActivity {
                     //TODO add better login checking and error messages to the user (eg. "this username already exists")
                     return;
                 }
-                userCreateAccountRequest(view, usernameText, passwordText);
+                //change this to call the presenter
+//                userCreateAccountRequest(view, usernameText, passwordText);
+                presenter.createAccountRequest(usernameText, passwordText);
                 Log.d("userCreated", "Attempting to create user with: "+ usernameText  + " and password: " + passwordText);
             }
         });
@@ -96,4 +101,18 @@ public class Create_Account extends AppCompatActivity {
 
         MySingleton.getInstance(this).addToRequestQueue(request);
     }
+
+    @Override
+    public void makeToast(String message) {
+        Context context = getApplicationContext();
+        int duration = Toast.LENGTH_SHORT;
+        Toast toast = Toast.makeText(context, message, duration);
+        toast.show();
+    }
+
+    @Override
+    public void switchView(Class c) {
+        startActivity(new Intent(this, c));
+    }
+
 }

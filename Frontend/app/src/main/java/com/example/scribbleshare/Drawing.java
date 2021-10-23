@@ -20,6 +20,7 @@ import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
+import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -28,6 +29,9 @@ import com.google.android.material.slider.RangeSlider;
 
 //import org.apache.http.entity.mime.MultipartEntity;
 //import org.apache.http.entity.mime.MultipartEntityBuilder;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 import java.io.OutputStream;
@@ -87,62 +91,8 @@ public class Drawing extends AppCompatActivity {
                 //TODO move all this code to another interface?
                 String URL = "http://10.0.2.2:8080/post?username=person1";
                 //TODO currently doesn't work lol
+                uploadBitmap(bitmap, URL);
 
-                ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-                byte[] imageBytes = baos.toByteArray();
-                final String imageString = Base64.encodeToString(imageBytes, Base64.DEFAULT);
-
-                //sending image to server
-                StringRequest request = new StringRequest(Request.Method.PUT, URL, new Response.Listener<String>(){
-                    @Override
-                    public void onResponse(String s) {
-                        Log.d("response", s);
-                    }
-                },new Response.ErrorListener(){
-                    @Override
-                    public void onErrorResponse(VolleyError volleyError) {
-                        Log.d("error", volleyError.toString());
-                    }
-                }) {
-                    //adding parameters to send
-                    @Override
-                    protected Map<String, String> getParams() throws AuthFailureError {
-                        Map<String, String> parameters = new HashMap<String, String>();
-                        parameters.put("image", imageString);
-                        return parameters;
-                    }
-                };
-                MySingleton.getInstance(view.getContext()).addToRequestQueue(request);
-
-//                // opening a OutputStream to write into the file
-//                OutputStream imageOutStream = null;
-//
-//                ContentValues cv = new ContentValues();
-//
-//                // name of the file
-//                cv.put(MediaStore.Images.Media.DISPLAY_NAME, "drawing.png");
-//
-//                // type of the file
-//                cv.put(MediaStore.Images.Media.MIME_TYPE, "image/png");
-//
-//                // location of the file to be saved
-//                cv.put(MediaStore.Images.Media.RELATIVE_PATH, Environment.DIRECTORY_PICTURES);
-//
-//                // get the Uri of the file which is to be created in the storage
-//                Uri uri = getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, cv);
-//                try {
-//                    // open the output stream with the above uri
-//                    imageOutStream = getContentResolver().openOutputStream(uri);
-//
-//                    // this method writes the files in storage
-//                    bmp.compress(Bitmap.CompressFormat.PNG, 100, imageOutStream);
-//
-//                    // close the output stream after use
-//                    imageOutStream.close();
-//                } catch (Exception e) {
-//                    e.printStackTrace();
-//                }
             }
         });
 
@@ -212,5 +162,47 @@ public class Drawing extends AppCompatActivity {
                 paint.init(height, width);
             }
         });
+    }
+
+    private void uploadBitmap(final Bitmap bitmap, String url) {
+
+        MultipartRequest request = new MultipartRequest(Request.Method.PUT, url,
+                new Response.Listener<NetworkResponse>() {
+                    @Override
+                    public void onResponse(NetworkResponse response) {
+                        try {
+                            JSONObject obj = new JSONObject(new String(response.data));
+                            Toast.makeText(getApplicationContext(), obj.getString("message"), Toast.LENGTH_SHORT).show();
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_LONG).show();
+                        Log.e("GotError",""+error.getMessage());
+                    }
+                }) {
+
+
+            @Override
+            protected Map<String, MultipartRequest.DataPart> getByteData() {
+                Map<String, MultipartRequest.DataPart> params = new HashMap<>();
+                long imagename = System.currentTimeMillis();
+                params.put("image", new MultipartRequest.DataPart(imagename + ".png", getFileDataFromDrawable(bitmap)));
+                return params;
+            }
+        };
+
+        //adding the request to volley
+        MySingleton.getInstance(this).addToRequestQueue(request);
+    }
+
+    public byte[] getFileDataFromDrawable(Bitmap bitmap) {
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 80, byteArrayOutputStream);
+        return byteArrayOutputStream.toByteArray();
     }
 }

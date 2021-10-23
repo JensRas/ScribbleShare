@@ -1,4 +1,4 @@
-package com.example.scribbleshare;
+package com.example.scribbleshare.view;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -15,6 +15,10 @@ import android.widget.Toast;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.example.scribbleshare.MySingleton;
+import com.example.scribbleshare.R;
+import com.example.scribbleshare.test_homescreen;
+import com.example.scribbleshare.view.MainActivity;
 
 public class sign_in extends AppCompatActivity {
 
