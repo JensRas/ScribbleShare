@@ -22,7 +22,7 @@ public class MainActivity extends AppCompatActivity {
         create_account.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(view.getContext(), Create_Account.class));
+                startActivity(new Intent(view.getContext(), CreateAccount.class));
             }
         });
 
@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
         sign_in.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(view.getContext(), com.example.scribbleshare.view.sign_in.class));
+                startActivity(new Intent(view.getContext(), SignIn.class));
             }
         });
     }

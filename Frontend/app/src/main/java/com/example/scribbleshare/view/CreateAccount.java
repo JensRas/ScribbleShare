@@ -14,7 +14,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
-import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
@@ -22,7 +21,7 @@ import com.example.scribbleshare.MySingleton;
 import com.example.scribbleshare.R;
 import com.example.scribbleshare.presenter.CreateAccountPresenter;
 
-public class Create_Account extends AppCompatActivity implements CreateAccountView {
+public class CreateAccount extends AppCompatActivity implements CreateAccountView {
 
     private CreateAccountPresenter presenter;
 
@@ -38,7 +37,7 @@ public class Create_Account extends AppCompatActivity implements CreateAccountVi
         sign_in_text.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(view.getContext(), sign_in.class));
+                startActivity(new Intent(view.getContext(), SignIn.class));
             }
         });
 

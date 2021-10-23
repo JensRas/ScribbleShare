@@ -20,7 +20,7 @@ import com.example.scribbleshare.R;
 import com.example.scribbleshare.test_homescreen;
 import com.example.scribbleshare.view.MainActivity;
 
-public class sign_in extends AppCompatActivity {
+public class SignIn extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

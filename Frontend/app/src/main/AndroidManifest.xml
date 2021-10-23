@@ -22,10 +22,10 @@
             android:name=".test_homescreen"
             android:exported="true" />
         <activity
-            android:name=".view.sign_in"
+            android:name=".view.SignIn"
             android:exported="true" />
         <activity
-            android:name=".view.Create_Account"
+            android:name=".view.CreateAccount"
             android:exported="true"
             android:label="@string/title_activity_create_account" />
         <activity
