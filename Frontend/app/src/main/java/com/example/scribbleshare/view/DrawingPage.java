@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
@@ -18,7 +19,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.example.scribbleshare.MySingleton;
 import com.example.scribbleshare.R;
-import com.example.scribbleshare.model.MultipartRequest;
+import com.example.scribbleshare.model.MultipartRequestUpload;
 import com.example.scribbleshare.presenter.DrawingPagePresenter;
 import com.google.android.material.slider.RangeSlider;
 
@@ -82,16 +83,9 @@ public class DrawingPage extends AppCompatActivity implements DrawingPageView {
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 // getting the bitmap from DrawView class
                 Bitmap bitmap = paint.save();
-
-                //TODO move all this code to another interface?
-                String URL = "http://10.0.2.2:8080/post?username=person1";
-                //TODO currently doesn't work lol
-//                uploadBitmap(bitmap, URL);
-                presenter.uploadBitmap("person1", bitmap);
-
+                presenter.createPost("person1", bitmap); //TODO use a stored username value
             }
         });
 
@@ -128,10 +122,13 @@ public class DrawingPage extends AppCompatActivity implements DrawingPageView {
         stroke.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (rangeSlider.getVisibility() == View.VISIBLE)
-                    rangeSlider.setVisibility(View.GONE);
-                else
-                    rangeSlider.setVisibility(View.VISIBLE);
+                //TODO this is the original code I just hijacked this button cuz I dont want to add another rn
+//                if (rangeSlider.getVisibility() == View.VISIBLE)
+//                    rangeSlider.setVisibility(View.GONE);
+//                else
+//                    rangeSlider.setVisibility(View.VISIBLE);
+                Log.d("debug", "clicked stroke button");
+                presenter.getPost("18");
             }
         });
 
@@ -163,46 +160,11 @@ public class DrawingPage extends AppCompatActivity implements DrawingPageView {
         });
     }
 
-    private void uploadBitmap(final Bitmap bitmap, String url) {
-
-        MultipartRequest request = new MultipartRequest(Request.Method.PUT, url,
-                new Response.Listener<NetworkResponse>() {
-                    @Override
-                    public void onResponse(NetworkResponse response) {
-                        try {
-                            JSONObject obj = new JSONObject(new String(response.data));
-                            Toast.makeText(getApplicationContext(), obj.getString("message"), Toast.LENGTH_SHORT).show();
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_LONG).show();
-                        Log.e("GotError",""+error.getMessage());
-                    }
-                }) {
-
-
-            @Override
-            protected Map<String, MultipartRequest.DataPart> getByteData() {
-                Map<String, MultipartRequest.DataPart> params = new HashMap<>();
-                long imagename = System.currentTimeMillis();
-                params.put("image", new MultipartRequest.DataPart(imagename + ".png", getFileDataFromDrawable(bitmap)));
-                return params;
-            }
-        };
-
-        //adding the request to volley
-        MySingleton.getInstance(this).addToRequestQueue(request);
-    }
-
-    //TODO delete when not needed
-    private byte[] getFileDataFromDrawable(Bitmap bitmap) {
-        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.PNG, 80, byteArrayOutputStream);
-        return byteArrayOutputStream.toByteArray();
+    @Override
+    public void setDrawingImage(byte[] data) {
+        Log.d("debug", "calling paint.setBitmap()");
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inMutable = true;
+        paint.setmBitmap(BitmapFactory.decodeByteArray(data , 0, data.length, options));
     }
 }

@@ -1,10 +1,8 @@
 package com.example.scribbleshare.model;
 
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
@@ -12,7 +10,6 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.example.scribbleshare.MySingleton;
-import com.example.scribbleshare.view.MainActivity;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -43,9 +40,15 @@ public class EndpointCaller {
         sendStringRequest(url, Request.Method.GET);
     }
 
-    public void uploadBitmap(String username, Bitmap bitmap){
+    public void createPostRequest(String username, Bitmap scribble){
         String url = baseURL + "/post?username=" + username;
-        sendMultipartFileUpload(bitmap, url, Request.Method.PUT);
+        sendMultipartFileUpload(scribble, url, Request.Method.PUT);
+    }
+
+    public void getPostImageRequest(String postId){
+        String url = baseURL + "/post/" + postId + "/image";
+        Log.d("debug", "Model calling image endpoint: " + url);
+        sendMultipartFileDownload(url, Request.Method.GET);
     }
 
     private void sendStringRequest(String url, int method) {
@@ -72,7 +75,7 @@ public class EndpointCaller {
     }
 
     private void sendMultipartFileUpload(Bitmap bitmap, String url, int requestMethod) {
-        MultipartRequest request = new MultipartRequest(
+        MultipartRequestUpload request = new MultipartRequestUpload(
                 requestMethod,
                 url,
                 new Response.Listener<NetworkResponse>() {
@@ -94,14 +97,13 @@ public class EndpointCaller {
                 }) {
             @Override
             protected Map<String, DataPart> getByteData() {
-                Map<String, MultipartRequest.DataPart> params = new HashMap<>();
+                Map<String, MultipartRequestUpload.DataPart> params = new HashMap<>();
                 long imagename = System.currentTimeMillis();
-                params.put("image", new MultipartRequest.DataPart(imagename + ".png", getFileDataFromDrawable(bitmap)));
+                params.put("image", new MultipartRequestUpload.DataPart(imagename + ".png", getFileDataFromDrawable(bitmap)));
                 return params;
             }
         };
 
-        //adding the request to volley
         MySingleton.getInstance(context).addToRequestQueue(request);
     }
 
@@ -109,6 +111,30 @@ public class EndpointCaller {
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.PNG, 80, byteArrayOutputStream);
         return byteArrayOutputStream.toByteArray();
+    }
+
+    private void sendMultipartFileDownload(String url, int requestMethod) {
+        MultipartRequestDownload request = new MultipartRequestDownload(
+                requestMethod,
+                url,
+                new Response.Listener<byte[]>() {
+                    @Override
+                    public void onResponse(byte[] response) {
+                        Log.d("debug", "MultipartFileDownload success! Calling presenter's listener");
+                        listener.onFileDownloadSuccess(response);
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.d("debug", "MultipartFileDownload FAILURE! Calling presenter's listener");
+                        listener.onFileDownloadFailure(error);
+                    }
+                },
+                null
+        );
+
+        MySingleton.getInstance(context).addToRequestQueue(request);
     }
 
 }

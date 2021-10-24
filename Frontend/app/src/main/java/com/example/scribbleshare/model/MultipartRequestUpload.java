@@ -15,8 +15,7 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.Map;
 
-public class MultipartRequest extends Request<NetworkResponse> {
-
+public class MultipartRequestUpload extends Request<NetworkResponse> {
 
     private final String twoHyphens = "--";
     private final String lineEnd = "\r\n";
@@ -26,10 +25,9 @@ public class MultipartRequest extends Request<NetworkResponse> {
     private Response.ErrorListener mErrorListener;
     private Map<String, String> mHeaders;
 
-
-    public MultipartRequest(int method, String url,
-                            Response.Listener<NetworkResponse> listener,
-                            Response.ErrorListener errorListener) {
+    public MultipartRequestUpload(int method, String url,
+                                  Response.Listener<NetworkResponse> listener,
+                                  Response.ErrorListener errorListener) {
         super(method, url, errorListener);
         this.mListener = listener;
         this.mErrorListener = errorListener;

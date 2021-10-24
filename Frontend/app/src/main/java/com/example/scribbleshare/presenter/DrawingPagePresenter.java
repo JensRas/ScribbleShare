@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.util.Log;
 
+import com.android.volley.VolleyError;
 import com.example.scribbleshare.model.EndpointCaller;
 import com.example.scribbleshare.model.IVolleyListener;
 import com.example.scribbleshare.view.DrawingPageView;
@@ -19,8 +20,25 @@ public class DrawingPagePresenter implements IVolleyListener {
         this.model = new EndpointCaller(c, this);
     }
 
-    public void uploadBitmap(String username, Bitmap bitmap){
-        model.uploadBitmap(username, bitmap);
+    public void createPost(String username, Bitmap scribble){
+        model.createPostRequest(username, scribble);
+    }
+
+    public void getPost(String postId) {
+        //TODO get other post data as well. Right now it only gets the image here
+        Log.d("debug", "presenter calling model for image request");
+        model.getPostImageRequest(postId);
+    }
+
+    @Override
+    public void onFileDownloadSuccess(byte[] data){
+        Log.d("ree", "Download multipart file success");
+        view.setDrawingImage(data);
+    }
+
+    @Override
+    public void onFileDownloadFailure(VolleyError e) {
+        Log.d("ree", "Download multipart file failure! Error was: " + e.toString());
     }
 
     @Override

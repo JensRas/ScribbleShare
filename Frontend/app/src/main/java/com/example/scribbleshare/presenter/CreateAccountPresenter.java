@@ -2,8 +2,10 @@ package com.example.scribbleshare.presenter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.widget.Toast;
 
+import com.android.volley.VolleyError;
 import com.example.scribbleshare.model.EndpointCaller;
 import com.example.scribbleshare.model.IVolleyListener;
 import com.example.scribbleshare.view.CreateAccountView;
@@ -40,6 +42,16 @@ public class CreateAccountPresenter implements IVolleyListener {
     @Override
     public void onError(String error){
         view.makeToast("Unexpected error: " + error);
+    }
+
+    @Override
+    public void onFileDownloadSuccess(byte[] b) {
+        Log.e("ERROR", "Creating account shouldn't require this method");
+    }
+
+    @Override
+    public void onFileDownloadFailure(VolleyError e) {
+        Log.e("ERROR", "Creating account shouldn't require this method");
     }
 
 

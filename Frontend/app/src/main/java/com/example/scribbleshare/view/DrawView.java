@@ -59,7 +59,6 @@ public class DrawView extends View {
 
     // this method instantiate the bitmap and object
     public void init(int height, int width) {
-        //TODO change this to grab the image for testing
         mBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
         mCanvas = new Canvas(mBitmap);
 
@@ -68,6 +67,22 @@ public class DrawView extends View {
 
         // set an initial brush size
         strokeWidth = 20;
+    }
+
+//    public void init(int height, int width, Bitmap bitmap) {
+//        mBitmap = bitmap;
+//        mCanvas = new Canvas(mBitmap);
+//
+//        // set an initial color of the brush
+//        currentColor = Color.GREEN;
+//
+//        // set an initial brush size
+//        strokeWidth = 20;
+//    }
+
+    public void setmBitmap(Bitmap bitmap){
+        this.mBitmap = bitmap;
+        mCanvas = new Canvas(mBitmap);
     }
 
     // sets the current color of stroke
