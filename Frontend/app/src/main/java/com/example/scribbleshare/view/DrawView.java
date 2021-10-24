@@ -2,6 +2,7 @@ package com.example.scribbleshare.view;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -69,20 +70,12 @@ public class DrawView extends View {
         strokeWidth = 20;
     }
 
-//    public void init(int height, int width, Bitmap bitmap) {
-//        mBitmap = bitmap;
-//        mCanvas = new Canvas(mBitmap);
-//
-//        // set an initial color of the brush
-//        currentColor = Color.GREEN;
-//
-//        // set an initial brush size
-//        strokeWidth = 20;
-//    }
-
     public void setmBitmap(Bitmap bitmap){
+        //TODO this currently doesn't work very well. Cant figure out how to get it to properly get the new image
+        mCanvas.save();
         this.mBitmap = bitmap;
-        mCanvas = new Canvas(mBitmap);
+        mCanvas.drawBitmap(mBitmap, 0, 0, mBitmapPaint);
+        mCanvas.restore();
     }
 
     // sets the current color of stroke
