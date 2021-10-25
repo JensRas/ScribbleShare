@@ -22,7 +22,7 @@
         android:textSize="55sp" />
 
     <Button
-        android:id="@+id/sign_out_button"
+        android:id="@+id/draw_button"
         android:layout_width="216dp"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
@@ -30,7 +30,7 @@
         android:layout_marginBottom="250dp"
         android:background="@drawable/rounded_corner"
         android:fontFamily="@font/poppins"
-        android:text="Sign Out"
+        android:text="Draw"
         android:textAlignment="center"
         android:textAllCaps="false"
         android:textColor="@color/white"

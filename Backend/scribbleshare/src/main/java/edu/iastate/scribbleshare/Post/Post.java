@@ -1,70 +1,84 @@
 package edu.iastate.scribbleshare.Post;
 
-import java.sql.Date;
+import java.util.Date;  
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class Post {
-    
-@Id
-private int ID;
+        
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private int ID;
 
-private String username;
+    private String username;
 
-private Date datePosted;
+    private Date datePosted;
 
-private String path;
+    @JsonIgnore
+    private String path;
 
-private int likeCount;
+    private int likeCount;
 
-private int commentCount;
+    private int commentCount;
 
+    public Post(){
+    }
 
+    public Post(String username) {
+        this.username = username;
+        this.datePosted = new Date();
+        this.likeCount = 0;
+        this.commentCount = 0;
+    }
 
-public int getID()
-{
-    return this.ID;
-}
+    public int getID()
+    {
+        return this.ID;
+    }
 
-public String getUsername(){
-    return this.username;
-}
+    public String getUsername(){
+        return this.username;
+    }
 
-public void setUsername(String username){
-    this.username = username;
-}
+    public void setUsername(String username){
+        this.username = username;
+    }
 
-public Date getDatePosted(){
-    return this.datePosted;
-}
+    public Date getDatePosted(){
+        return this.datePosted;
+    }
 
-public void setDatePosted(Date date){
-    this.datePosted = date;
-}
+    public void setDatePosted(Date date){
+        this.datePosted = date;
+    }
 
-public String getPath(){
-    return this.path;
-}
+    public String getPath(){
+        return this.path;
+    }
 
-public void setPath(String path){
-    this.path = path;
-}
+    public void setPath(String path){
+        this.path = path;
+    }
 
-public int getLikeCount(){
-    return this.likeCount;
-}
+    public int getLikeCount(){
+        return this.likeCount;
+    }
 
-public void setLikeCount(int likes){
-    this.likeCount = likes;
-}
+    public void setLikeCount(int likes){
+        this.likeCount = likes;
+    }
 
-public int getCommentCount(){
-    return this.commentCount;
-}
+    public int getCommentCount(){
+        return this.commentCount;
+    }
 
-public void setCommentCount(int comment){
-    this.commentCount = comment;
-}
+    public void setCommentCount(int comment){
+        this.commentCount = comment;
+    }
 }

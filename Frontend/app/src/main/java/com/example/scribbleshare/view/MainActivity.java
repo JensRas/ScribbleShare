@@ -1,4 +1,4 @@
-package com.example.scribbleshare;
+package com.example.scribbleshare.view;
 
 
 import android.content.Intent;
@@ -8,6 +8,8 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.scribbleshare.R;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -20,7 +22,7 @@ public class MainActivity extends AppCompatActivity {
         create_account.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(view.getContext(), Create_Account.class));
+                startActivity(new Intent(view.getContext(), CreateAccount.class));
             }
         });
 
@@ -28,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
         sign_in.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(view.getContext(), sign_in.class));
+                startActivity(new Intent(view.getContext(), SignIn.class));
             }
         });
     }
