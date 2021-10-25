@@ -19,8 +19,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class EndpointCaller {
-//    private final String baseURL = "http://coms-309-010.cs.iastate.edu:8080";
-    private String baseURL = "http://10.0.2.2:8080";
+    private final String baseURL = "http://coms-309-010.cs.iastate.edu:8080";
+//    private String baseURL = "http://10.0.2.2:8080";
 
     private final Context context;
     private final IVolleyListener listener;
@@ -66,7 +66,7 @@ public class EndpointCaller {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         Log.e("string request error", error.toString());
-                        listener.onError(error.getMessage());
+                        listener.onError(error);
                     }
                 }
         );
@@ -93,7 +93,8 @@ public class EndpointCaller {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        listener.onError(error.getMessage());
+                        Log.e("multipart upload error", error.toString());
+                        listener.onError(error);
                     }
                 }) {
             @Override

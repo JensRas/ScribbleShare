@@ -42,7 +42,7 @@ public class SignInPresenter implements IVolleyListener {
     }
 
     @Override
-    public void onError(String s) {
+    public void onError(VolleyError error) {
 
     }
 

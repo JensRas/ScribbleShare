@@ -47,7 +47,7 @@ public class DrawingPagePresenter implements IVolleyListener {
     }
 
     @Override
-    public void onError(String response) {
-        Log.e("ree", "Uploaded multipart file FAILED. Response: " + response);
+    public void onError(VolleyError error) {
+        Log.e("ree", "Uploaded multipart file FAILED. Response: " + error);
     }
 }

@@ -40,7 +40,7 @@ public class CreateAccountPresenter implements IVolleyListener {
     }
 
     @Override
-    public void onError(String error){
+    public void onError(VolleyError error){
         view.makeToast("Unexpected error: " + error);
     }
 
