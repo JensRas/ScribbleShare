@@ -82,6 +82,7 @@ public class EndpointCaller {
                     @Override
                     public void onResponse(NetworkResponse response) {
                         try {
+                            //TODO change this to reflect the acutal endpoints response structure
                             JSONObject obj = new JSONObject(new String(response.data));
                             listener.onSuccess(obj.getString("message"));
                         } catch (JSONException e) {

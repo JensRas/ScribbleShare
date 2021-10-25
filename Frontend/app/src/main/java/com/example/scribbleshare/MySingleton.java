@@ -8,6 +8,7 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.Volley;
+import com.example.scribbleshare.model.User;
 
 public class MySingleton {
 
@@ -15,6 +16,19 @@ public class MySingleton {
     private RequestQueue requestQueue;
     private ImageLoader imageLoader;
     private static Context ctx;
+
+    private User user;
+
+    public void setApplicationUser(User user){
+        this.user = user;
+    }
+
+    public User getApplicationUser() {
+        if(user == null){
+            //TODO throw an error
+        }
+        return user;
+    }
 
     private MySingleton(Context context) {
         ctx = context;

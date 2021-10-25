@@ -122,13 +122,14 @@ public class DrawingPage extends AppCompatActivity implements DrawingPageView {
         stroke.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //TODO this is the original code I just hijacked this button cuz I dont want to add another rn
-//                if (rangeSlider.getVisibility() == View.VISIBLE)
-//                    rangeSlider.setVisibility(View.GONE);
-//                else
-//                    rangeSlider.setVisibility(View.VISIBLE);
-                Log.d("debug", "clicked stroke button");
-                presenter.getPost("18");
+                if (rangeSlider.getVisibility() == View.VISIBLE)
+                    rangeSlider.setVisibility(View.GONE);
+                else
+                    rangeSlider.setVisibility(View.VISIBLE);
+
+//                //for testing something else
+//                Log.d("debug", "clicked stroke button");
+//                presenter.getPost("18");
             }
         });
 
@@ -165,6 +166,7 @@ public class DrawingPage extends AppCompatActivity implements DrawingPageView {
         Log.d("debug", "calling paint.setBitmap()");
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inMutable = true;
-        paint.setmBitmap(BitmapFactory.decodeByteArray(data , 0, data.length, options));
+        Bitmap bitmap = BitmapFactory.decodeByteArray(data , 0, data.length, options);
+        paint.setmBitmap(bitmap);
     }
 }
