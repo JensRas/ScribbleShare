@@ -69,7 +69,10 @@ public class UserTest {
 		verify(repo, times(1)).getAllUsers();
 	}
 
-    
+    @Test
+    public void getFollowers(){
+        
+    }
 
 
 
