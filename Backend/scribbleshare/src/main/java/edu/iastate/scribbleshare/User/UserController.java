@@ -41,12 +41,12 @@ public class UserController {
     }
 
     @GetMapping(path="/users/{username}")
-    public @ResponseBody Optional<User> getUserByUsername(@PathVariable String username){
+    public @ResponseBody User getUserByUsername(@PathVariable String username){
       Optional<User> user = userRepository.findById(username);
       if(!user.isPresent()){
         throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Username doesn't exist");
       }
-      return user;
+      return user.get();
     }
 
     @GetMapping(path="/users/login")
