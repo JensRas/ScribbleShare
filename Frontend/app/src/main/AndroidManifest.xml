@@ -22,6 +22,9 @@
             android:name=".test_homescreen"
             android:exported="true" />
         <activity
+            android:name=".homepage.HomePage"
+            android:exported="true" />
+        <activity
             android:name=".signinpage.SignIn"
             android:exported="true" />
         <activity
