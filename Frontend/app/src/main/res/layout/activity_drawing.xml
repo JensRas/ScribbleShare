@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.MainActivity">
+    tools:context=".MainActivity">
 
     <LinearLayout
         android:id="@+id/linear"
@@ -65,7 +65,7 @@
 
     </LinearLayout>
 
-    <com.example.scribbleshare.view.DrawView
+    <com.example.scribbleshare.drawingpage.DrawView
         android:id="@+id/draw_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

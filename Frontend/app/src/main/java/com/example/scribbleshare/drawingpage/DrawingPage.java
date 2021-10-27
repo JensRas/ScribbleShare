@@ -1,4 +1,4 @@
-package com.example.scribbleshare.view;
+package com.example.scribbleshare.drawingpage;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -11,27 +11,12 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.ImageButton;
-import android.widget.Toast;
 
-import com.android.volley.NetworkResponse;
-import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.example.scribbleshare.MySingleton;
 import com.example.scribbleshare.R;
-import com.example.scribbleshare.model.MultipartRequestUpload;
-import com.example.scribbleshare.presenter.DrawingPagePresenter;
 import com.google.android.material.slider.RangeSlider;
 
 //import org.apache.http.entity.mime.MultipartEntity;
 //import org.apache.http.entity.mime.MultipartEntityBuilder;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.ByteArrayOutputStream;
-import java.util.HashMap;
-import java.util.Map;
 
 import petrov.kristiyan.colorpicker.ColorPicker;
 
@@ -48,14 +33,14 @@ public class DrawingPage extends AppCompatActivity implements DrawingPageView {
     // help in selecting the width of the Stroke
     private RangeSlider rangeSlider;
 
-    private DrawingPagePresenter presenter;
+    private CreatePostPresenter presenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_drawing);
 
-        presenter = new DrawingPagePresenter(this, getApplicationContext());
+        presenter = new CreatePostPresenter(this, getApplicationContext());
 
         // getting the reference of the views from their ids
         paint = (DrawView) findViewById(R.id.draw_view);

@@ -1,4 +1,4 @@
-package com.example.scribbleshare.view;
+package com.example.scribbleshare.drawingpage;
 
 public interface DrawingPageView {
     public void setDrawingImage(byte[] data);
