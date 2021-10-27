@@ -1,4 +1,4 @@
-package com.example.scribbleshare.view;
+package com.example.scribbleshare;
 
 
 import android.content.Intent;
@@ -9,7 +9,8 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.scribbleshare.R;
+import com.example.scribbleshare.createaccountpage.CreateAccount;
+import com.example.scribbleshare.signinpage.SignIn;
 
 public class MainActivity extends AppCompatActivity {
 

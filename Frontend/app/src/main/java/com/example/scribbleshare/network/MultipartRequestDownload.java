@@ -1,4 +1,4 @@
-package com.example.scribbleshare.model;
+package com.example.scribbleshare.network;
 
 import com.android.volley.NetworkResponse;
 import com.android.volley.Request;

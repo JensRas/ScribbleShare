@@ -1,27 +1,24 @@
-package com.example.scribbleshare.presenter;
+package com.example.scribbleshare.signinpage;
 
 import android.content.Context;
-import android.content.Intent;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.android.volley.VolleyError;
 import com.example.scribbleshare.MySingleton;
-import com.example.scribbleshare.model.EndpointCaller;
-import com.example.scribbleshare.model.IVolleyListener;
-import com.example.scribbleshare.model.User;
+import com.example.scribbleshare.network.EndpointCaller;
+import com.example.scribbleshare.network.IVolleyListener;
+import com.example.scribbleshare.User;
 import com.example.scribbleshare.test_homescreen;
-import com.example.scribbleshare.view.SignInView;
 
-public class SignInPresenter implements IVolleyListener {
-    private EndpointCaller model;
+public class SignInPresenter implements IVolleyListener<String> {
+    private EndpointCaller<String> model;
     private SignInView view;
     private Context context;
 
     public SignInPresenter(SignInView view, Context c){
         this.view = view;
         this.context = c;
-        this.model = new EndpointCaller(c, this);
+        this.model = new EndpointCaller<String>(c, this);
     }
 
     public void signInRequest(String username, String password){
@@ -46,13 +43,4 @@ public class SignInPresenter implements IVolleyListener {
 
     }
 
-    @Override
-    public void onFileDownloadSuccess(byte[] b) {
-        Log.e("ERROR", "Signing in shouldn't require this method");
-    }
-
-    @Override
-    public void onFileDownloadFailure(VolleyError e) {
-        Log.e("ERROR", "Signing in shouldn't require this method");
-    }
 }

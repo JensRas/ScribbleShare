@@ -1,4 +1,4 @@
-package com.example.scribbleshare.view;
+package com.example.scribbleshare.createaccountpage;
 
 public interface CreateAccountView {
     //add methods here that the create account view needs to update things in the UI
