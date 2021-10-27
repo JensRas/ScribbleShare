@@ -1,4 +1,4 @@
-package com.example.scribbleshare.view;
+package com.example.scribbleshare.createaccountpage;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -13,13 +13,9 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.example.scribbleshare.MySingleton;
 import com.example.scribbleshare.R;
-import com.example.scribbleshare.presenter.CreateAccountPresenter;
+import com.example.scribbleshare.signinpage.SignIn;
+import com.example.scribbleshare.MainActivity;
 
 public class CreateAccount extends AppCompatActivity implements CreateAccountView {
 

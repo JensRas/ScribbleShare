@@ -1,4 +1,4 @@
-package com.example.scribbleshare.model;
+package com.example.scribbleshare.network;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -18,14 +18,14 @@ import java.io.ByteArrayOutputStream;
 import java.util.HashMap;
 import java.util.Map;
 
-public class EndpointCaller {
+public class EndpointCaller<T> {
     private final String baseURL = "http://coms-309-010.cs.iastate.edu:8080";
 //    private String baseURL = "http://10.0.2.2:8080";
 
     private final Context context;
-    private final IVolleyListener listener;
+    private final IVolleyListener<T> listener;
 
-    public EndpointCaller(Context context, IVolleyListener listener) {
+    public EndpointCaller(Context context, IVolleyListener<T> listener) {
         this.context = context;
         this.listener = listener;
     }
@@ -59,7 +59,8 @@ public class EndpointCaller {
                     @Override
                     public void onResponse(String response) {
                         Log.d("string request success", response);
-                        listener.onSuccess(response);
+
+                        listener.onSuccess((T)response); //TODO check cast?
                     }
                 },
                 new Response.ErrorListener() {
@@ -84,7 +85,7 @@ public class EndpointCaller {
                         try {
                             //TODO change this to reflect the acutal endpoints response structure
                             JSONObject obj = new JSONObject(new String(response.data));
-                            listener.onSuccess(obj.getString("message"));
+                            listener.onSuccess((T)obj.getString("message")); //TODO check cast?
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -123,14 +124,14 @@ public class EndpointCaller {
                     @Override
                     public void onResponse(byte[] response) {
                         Log.d("debug", "MultipartFileDownload success! Calling presenter's listener");
-                        listener.onFileDownloadSuccess(response);
+                        listener.onSuccess((T)response); //TODO check cast?
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         Log.d("debug", "MultipartFileDownload FAILURE! Calling presenter's listener");
-                        listener.onFileDownloadFailure(error);
+                        listener.onError(error);
                     }
                 },
                 null

@@ -1,4 +1,4 @@
-package com.example.scribbleshare.view;
+package com.example.scribbleshare.signinpage;
 
 public interface SignInView {
     void makeToast(String message);

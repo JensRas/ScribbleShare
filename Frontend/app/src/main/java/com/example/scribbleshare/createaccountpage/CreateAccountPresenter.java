@@ -1,26 +1,22 @@
-package com.example.scribbleshare.presenter;
+package com.example.scribbleshare.createaccountpage;
 
 import android.content.Context;
-import android.content.Intent;
-import android.util.Log;
-import android.widget.Toast;
 
 import com.android.volley.VolleyError;
-import com.example.scribbleshare.model.EndpointCaller;
-import com.example.scribbleshare.model.IVolleyListener;
-import com.example.scribbleshare.view.CreateAccountView;
-import com.example.scribbleshare.view.MainActivity;
+import com.example.scribbleshare.network.EndpointCaller;
+import com.example.scribbleshare.network.IVolleyListener;
+import com.example.scribbleshare.MainActivity;
 
-public class CreateAccountPresenter implements IVolleyListener {
+public class CreateAccountPresenter implements IVolleyListener<String> {
 
-    private EndpointCaller model;
+    private EndpointCaller<String> model;
     private CreateAccountView view;
     private Context context;
 
     public CreateAccountPresenter(CreateAccountView view, Context c){
         this.view = view;
         this.context = c;
-        this.model = new EndpointCaller(c, this);
+        this.model = new EndpointCaller<String>(c, this);
     }
 
     public void createAccountRequest(String username, String password){
@@ -43,16 +39,5 @@ public class CreateAccountPresenter implements IVolleyListener {
     public void onError(VolleyError error){
         view.makeToast("Unexpected error: " + error);
     }
-
-    @Override
-    public void onFileDownloadSuccess(byte[] b) {
-        Log.e("ERROR", "Creating account shouldn't require this method");
-    }
-
-    @Override
-    public void onFileDownloadFailure(VolleyError e) {
-        Log.e("ERROR", "Creating account shouldn't require this method");
-    }
-
 
 }

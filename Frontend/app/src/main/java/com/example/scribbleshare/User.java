@@ -1,4 +1,4 @@
-package com.example.scribbleshare.model;
+package com.example.scribbleshare;
 
 //not sure if this is needed yet...
 public class User {
