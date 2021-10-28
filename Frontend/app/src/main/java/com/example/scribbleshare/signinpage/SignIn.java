@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import com.example.scribbleshare.R;
 import com.example.scribbleshare.MainActivity;
+import com.example.scribbleshare.drawingpage.DrawingPage;
 
 public class SignIn extends AppCompatActivity implements SignInView {
 
@@ -46,6 +47,15 @@ public class SignIn extends AppCompatActivity implements SignInView {
                 }
                 presenter.signInRequest(usernameText, passwordText);
                 Log.d("userCreated", "Attempting to login user with: " + usernameText + " and password: " + passwordText);
+            }
+        });
+
+        //TODO remove
+        Button REMOVEMEBUTTON = (Button) findViewById(R.id.REMOVEMEBUTTON);
+        REMOVEMEBUTTON.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(view.getContext(), DrawingPage.class));
             }
         });
     }
