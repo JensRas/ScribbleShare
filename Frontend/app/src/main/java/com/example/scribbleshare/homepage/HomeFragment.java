@@ -38,9 +38,9 @@ public class HomeFragment extends Fragment {
         layoutManager.setStackFromEnd(true);
         recyclerView.setLayoutManager(layoutManager);
         posts = new ArrayList<>();
-        posts.add(new PostModel("1"));
-        posts.add(new PostModel("2"));
-        posts.add(new PostModel("3"));
+        posts.add(new PostModel("1", "post1", 0, 0));
+        posts.add(new PostModel("1", "post2", 69, 69));
+        posts.add(new PostModel("1", "post3", 420, 420));
 
         //TODO populate posts with real data from databse
 

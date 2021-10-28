@@ -9,8 +9,11 @@ public class PostModel {
 
     public PostModel() {}
 
-    public PostModel(String id){
+    public PostModel(String id, String profileName, int likeCount, int commentCount){
         this.id = id;
+        this.profileName = profileName;
+        this.likeCount = likeCount;
+        this.commentCount = commentCount;
     }
 
     public String getId() {
