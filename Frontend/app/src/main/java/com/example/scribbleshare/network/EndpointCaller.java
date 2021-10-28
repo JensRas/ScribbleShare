@@ -8,9 +8,11 @@ import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.example.scribbleshare.MySingleton;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -19,8 +21,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class EndpointCaller<T> {
-//    private final String baseURL = "http://coms-309-010.cs.iastate.edu:8080";
-    private String baseURL = "http://10.0.2.2:8080";
+    private final String baseURL = "http://coms-309-010.cs.iastate.edu:8080";
+//    private String baseURL = "http://10.0.2.2:8080";
 
     private final Context context;
     private final IVolleyListener<T> listener;
@@ -51,6 +53,12 @@ public class EndpointCaller<T> {
         sendMultipartFileDownload(url, Request.Method.GET);
     }
 
+    public void getHomeScreenPostsRequest() {
+        String url = baseURL + "/post/getHomeScreenPosts/blah"; //TODO change blah to actual user once endpoint is implemented
+        Log.d("debug", "Model calling image endpoint: " + url);
+        sendJsonArrayRequest(url);
+    }
+
     private void sendStringRequest(String url, int method) {
         StringRequest request = new StringRequest(
                 method,
@@ -72,6 +80,27 @@ public class EndpointCaller<T> {
                 }
         );
 
+        MySingleton.getInstance(context).addToRequestQueue(request);
+    }
+
+    private void sendJsonArrayRequest(String url) {
+        JsonArrayRequest request = new JsonArrayRequest(
+                url,
+                new Response.Listener<JSONArray>(){
+                    @Override
+                    public void onResponse(JSONArray response) {
+                        Log.e("response", "JsonarrayRequest response: " + response.toString());
+                        listener.onSuccess((T)response);
+                    }
+                },
+                new Response.ErrorListener(){
+
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        //TODO
+                    }
+                }
+        );
         MySingleton.getInstance(context).addToRequestQueue(request);
     }
 
