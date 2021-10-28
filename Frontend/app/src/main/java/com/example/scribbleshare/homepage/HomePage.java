@@ -15,7 +15,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class HomePage extends AppCompatActivity implements HomePageView{
 
@@ -51,7 +50,7 @@ public class HomePage extends AppCompatActivity implements HomePageView{
             }
         }
 
-        AdapterPosts adapterPost = new AdapterPosts(this, postsAL);
+        PostsAdapter adapterPost = new PostsAdapter(this, postsAL);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
 
         setContentView(R.layout.activity_home);

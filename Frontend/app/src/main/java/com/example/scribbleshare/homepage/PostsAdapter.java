@@ -1,6 +1,9 @@
 package com.example.scribbleshare.homepage;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,16 +14,22 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.example.scribbleshare.MySingleton;
 import com.example.scribbleshare.R;
+import com.example.scribbleshare.network.EndpointCaller;
+import com.example.scribbleshare.network.MultipartRequestDownload;
 
 import java.util.List;
 
-public class AdapterPosts extends RecyclerView.Adapter<AdapterPosts.Holder>{
+public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.Holder>{
 
     List<PostModel> postModels;
     Context context;
 
-    public AdapterPosts(Context context, List<PostModel> postModels) {
+    public PostsAdapter(Context context, List<PostModel> postModels) {
         this.context = context;
         this.postModels = postModels;
     }
@@ -35,10 +44,35 @@ public class AdapterPosts extends RecyclerView.Adapter<AdapterPosts.Holder>{
     @Override
     public void onBindViewHolder(@NonNull Holder holder, int position) {
         String profileName = postModels.get(position).getProfileName();
+        String postId = postModels.get(position).getId();
 
         holder.profileName.setText(profileName);
 
-        //TODO set holder.thing.setOnClickListener here
+        //TODO this probably needs changed
+        MultipartRequestDownload request = new MultipartRequestDownload(
+                Request.Method.GET,
+                EndpointCaller.baseURL + "/post/" + postId + "/image",
+                new Response.Listener<byte[]>() {
+                    @Override
+                    public void onResponse(byte[] response) {
+                        Log.d("debug", "MultipartFileDownload success! Calling presenter's listener");
+                        Bitmap bitmap = BitmapFactory.decodeByteArray(response, 0, response.length);
+                        holder.scribble.setImageBitmap(bitmap);
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.d("debug", "MultipartFileDownload FAILURE! Calling presenter's listener");
+                        //TODO
+                    }
+                },
+                null
+        );
+
+        MySingleton.getInstance(context).addToRequestQueue(request);
+
+        //TODO set holder.thing.setOnClickListeners here
     }
 
     @Override
