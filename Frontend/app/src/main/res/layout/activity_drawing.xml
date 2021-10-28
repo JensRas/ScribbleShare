@@ -8,6 +8,31 @@
     android:background="@color/grey"
     tools:context=".MainActivity">
 
+    <LinearLayout
+        android:id="@+id/top_bar_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/top_bar_text"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fontFamily="@font/reenie_beanie"
+            android:text="ScribbleShare"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textSize="40sp"
+            android:layout_marginTop="5dp"
+            />
+
+        <View
+            android:id="@+id/top_bar_line"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/red_orange"/>
+    </LinearLayout>
+
     <com.example.scribbleshare.drawingpage.DrawView
         android:id="@+id/draw_view"
         android:layout_width="393dp"
@@ -15,6 +40,7 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
         android:layout_centerInParent="true"
+        android:layout_centerVertical="true"
         android:layout_marginTop="34dp"
         android:background="@color/white" />
 
@@ -86,6 +112,7 @@
         </LinearLayout>
 
     </LinearLayout>
+
 
 </RelativeLayout>
 
