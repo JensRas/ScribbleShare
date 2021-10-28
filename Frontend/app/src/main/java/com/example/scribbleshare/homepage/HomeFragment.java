@@ -27,10 +27,9 @@ public class HomeFragment extends Fragment {
 
     }
 
-    @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_home, container, false);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.activity_home, container, false);
         recyclerView = view.findViewById(R.id.post_recycler_view);
         recyclerView.setHasFixedSize(true);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
@@ -42,8 +41,9 @@ public class HomeFragment extends Fragment {
         posts.add(new PostModel("1", "post2", 69, 69));
         posts.add(new PostModel("1", "post3", 420, 420));
 
-        //TODO populate posts with real data from databse
-
+        //TODO populate posts with real data from database
+        AdapterPosts adapterPosts = new AdapterPosts(getContext(), posts);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         return view;
     }
 
