@@ -9,23 +9,15 @@ import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
-import javax.sound.midi.ControllerEventListener;
-
-import org.apache.catalina.startup.UserConfig;
-import org.json.JSONException;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.junit.MockitoRule;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import edu.iastate.scribbleshare.User.UserRepository;
 import edu.iastate.scribbleshare.User.UserService;
-import edu.iastate.scribbleshare.helpers.Status;
 import edu.iastate.scribbleshare.User.User;
 import edu.iastate.scribbleshare.User.UserController;
 
