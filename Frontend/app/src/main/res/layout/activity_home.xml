@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/top_ba"
     android:layout_width="match_parent"
@@ -35,15 +36,80 @@
     <FrameLayout
         android:id="@+id/frame"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="577dp"
         tools:context=".homepage.HomePage">
 
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/post_recycler_view"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="609dp"
             android:layout_marginTop="10dp"/>
+
     </FrameLayout>
+
+    <LinearLayout
+        android:id="@+id/icon_bar_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="60dp"
+        android:background="@color/red_orange"
+        >
+
+        <ImageButton
+            android:id="@+id/btn_home"
+            android:layout_width="wrap_content"
+            android:layout_height="36dp"
+            android:layout_weight="1"
+            android:scaleType="fitCenter"
+            android:layout_marginTop="3dp"
+            android:background="@null"
+            android:src="@drawable/ic_baseline_home_24"
+            android:text="Home" />
+
+        <ImageButton
+            android:id="@+id/btn_search"
+            android:layout_width="wrap_content"
+            android:layout_height="36dp"
+            android:layout_weight="1"
+            android:scaleType="fitCenter"
+            android:layout_marginTop="3dp"
+            android:background="@null"
+            android:src="@drawable/ic_baseline_search_24"
+            android:text="Search" />
+
+        <ImageButton
+            android:id="@+id/btn_create_new"
+            android:layout_width="wrap_content"
+            android:layout_height="36dp"
+            android:layout_weight="1"
+            android:scaleType="fitCenter"
+            android:layout_marginTop="5dp"
+            android:background="@null"
+            android:src="@drawable/create_new"
+            android:text="Create New" />
+
+        <ImageButton
+            android:id="@+id/btn_like"
+            android:layout_width="wrap_content"
+            android:layout_height="36dp"
+            android:layout_weight="1"
+            android:scaleType="fitCenter"
+            android:layout_marginTop="3dp"
+            android:src="@drawable/ic_baseline_favorite_border_24"
+            android:background="@null"
+            android:text="Like" />
+
+        <ImageButton
+            android:id="@+id/btn_profile"
+            android:layout_width="wrap_content"
+            android:layout_height="36dp"
+            android:layout_weight="1"
+            android:scaleType="fitCenter"
+            android:layout_marginTop="3dp"
+            android:background="@null"
+            android:src="@drawable/ic_outline_account_circle_24" />
+    </LinearLayout>
 
 </LinearLayout>
