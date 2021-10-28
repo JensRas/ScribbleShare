@@ -1,15 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/top_ba"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/grey"
     tools:context=".homepage.HomePage">
 
+    <LinearLayout
+        android:id="@+id/top_bar_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/post_recycler_view"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/top_bar_text"
+            android:layout_width="match_parent"
+            android:layout_height="58dp"
+            android:ems="10"
+            android:fontFamily="@font/reenie_beanie"
+            android:text="ScribbleShare"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textSize="40sp"
+            android:translationY="1dp" />
+
+        <View
+            android:id="@+id/top_bar_line"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@android:color/black"
+            android:translationY="50dp"/>
+    </LinearLayout>
+    
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/post_recycler_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:layout_below="@id/top_bar_layout"
+        android:layout_marginTop="10dp"/>
 
 </FrameLayout>
