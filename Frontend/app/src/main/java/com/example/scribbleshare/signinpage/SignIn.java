@@ -1,4 +1,4 @@
-package com.example.scribbleshare.view;
+package com.example.scribbleshare.signinpage;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -12,17 +12,10 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.example.scribbleshare.MySingleton;
 import com.example.scribbleshare.R;
-import com.example.scribbleshare.presenter.CreateAccountPresenter;
-import com.example.scribbleshare.presenter.SignInPresenter;
-import com.example.scribbleshare.test_homescreen;
-import com.example.scribbleshare.view.MainActivity;
+import com.example.scribbleshare.MainActivity;
 
-public class SignIn extends AppCompatActivity implements SignInView{
+public class SignIn extends AppCompatActivity implements SignInView {
 
     private SignInPresenter presenter;
 

@@ -16,20 +16,20 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ScribbleShare">
         <activity
-            android:name=".view.DrawingPage"
+            android:name=".drawingpage.DrawingPage"
             android:exported="true" />
         <activity
             android:name=".test_homescreen"
             android:exported="true" />
         <activity
-            android:name=".view.SignIn"
+            android:name=".signinpage.SignIn"
             android:exported="true" />
         <activity
-            android:name=".view.CreateAccount"
+            android:name=".createaccountpage.CreateAccount"
             android:exported="true"
             android:label="@string/title_activity_create_account" />
         <activity
-            android:name=".view.MainActivity"
+            android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

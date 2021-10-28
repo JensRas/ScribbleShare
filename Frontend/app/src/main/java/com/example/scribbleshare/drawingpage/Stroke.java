@@ -1,4 +1,4 @@
-package com.example.scribbleshare;
+package com.example.scribbleshare.drawingpage;
 
 import android.graphics.Path;
 
