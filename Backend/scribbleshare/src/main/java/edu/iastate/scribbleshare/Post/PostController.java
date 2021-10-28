@@ -16,6 +16,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
@@ -78,6 +79,17 @@ public class PostController {
         logger.info("created post with id: " + post.getID() + " and path: " + post.getPath());
 
         return post;
+    }
+
+    @GetMapping(path="/post/getHomeScreenPosts/{username}")
+    public Iterable<Post> getHomeScreenPosts(HttpServletResponse response, @PathVariable String username){
+        ArrayList<Integer> tempList = new ArrayList<Integer>();
+        tempList.add(1);
+        tempList.add(2);
+        tempList.add(3);
+        tempList.add(4);
+        tempList.add(5);
+        return postRepository.findAllById(tempList);
     }
 
     @GetMapping(path="/post/{id}/image")
