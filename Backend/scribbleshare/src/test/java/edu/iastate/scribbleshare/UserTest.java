@@ -11,6 +11,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import javax.sound.midi.ControllerEventListener;
+
 import org.apache.catalina.startup.UserConfig;
 import org.json.JSONException;
 import org.junit.jupiter.api.BeforeAll;
@@ -61,10 +63,13 @@ public class UserTest {
 	}
 
 	@Test
-	public void getUsernameTest(){
-		String username = userService.getUsername("string");
-	}
+	public void newUserTest(){
 	
+		userService.addUser("username", "password");
+
+		verify(controller, times(1)).addNewUser("username", "password");
+	}
+
 	@Test
 	public void getAllUsersTest() {
 		Iterable<User> list = new ArrayList<User>();
@@ -76,16 +81,29 @@ public class UserTest {
 		((ArrayList<User>) list).add(userTwo);
 		((ArrayList<User>) list).add(userThree);
 
-		when(controller.getAllUsers()).thenReturn(list);
+		when(userService.getAllUsers()).thenReturn(list);
 
 		Iterable<User> userList = userService.getAllUsers();
 
 		assertEquals(3, ((List<User>) userList).size());
-		verify(repo, times(1)).findAll();
+		verify(controller, times(1)).getAllUsers();
 	}
 	
+	@Test
+	public void getUserDataTest(){
+		when(controller.getUserByUsername("test")).thenReturn(new User("username", "password"));
 
+		User user = userService.getUserByUsername("test");
+		user.setIsBanned(false);
+		user.setPermissionLevel("test");
+		user.setIsMuted(false);
+		
+		assertEquals("test", user.getPermissionLevel());
+		assertEquals(false, user.getIsBanned());
+		assertEquals(false, user.getIsMuted());
+	}
 
+	
 
 }
 

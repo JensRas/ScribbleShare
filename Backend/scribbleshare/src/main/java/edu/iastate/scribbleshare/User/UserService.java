@@ -15,9 +15,7 @@ public class UserService {
 	private UserController controller;
 
 	public User getUserByUsername(String username) {
-
 		User user = controller.getUserByUsername(username);
-		
 		return user;
 	}
 
@@ -25,13 +23,8 @@ public class UserService {
 		return controller.getAllUsers();
 	}
 
-	public String getUsername(String id){
-
-		User user = controller.getUserByUsername(id);
-
-		String username = user.getUsername();
-
-		return username;
+	public void addUser(String username, String password){
+		controller.addNewUser(username, password);
 	}
 
 }
