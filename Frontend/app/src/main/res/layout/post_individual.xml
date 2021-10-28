@@ -54,7 +54,7 @@
 
         <ImageView
             android:id="@+id/post"
-            android:layout_width="match_parent"
+            android:layout_width="393dp"
             android:layout_height="517dp"
             android:background="@color/white" />
 
