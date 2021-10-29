@@ -20,8 +20,8 @@ public class GetPostsPresenter implements IVolleyListener<JSONArray> {
         this.model = new EndpointCaller<JSONArray>(c, this);
     }
 
-    public void populateHomeScreenPosts(){
-        model.getHomeScreenPostsRequest();
+    public void populateHomeScreenPosts(String username){
+        model.getHomeScreenPostsRequest(username);
     }
 
     @Override

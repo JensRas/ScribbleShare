@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.ImageButton;
 
+import com.example.scribbleshare.MySingleton;
 import com.example.scribbleshare.R;
 import com.google.android.material.slider.RangeSlider;
 
@@ -70,7 +71,8 @@ public class DrawingPage extends AppCompatActivity implements DrawingPageView {
             public void onClick(View view) {
                 // getting the bitmap from DrawView class
                 Bitmap bitmap = paint.save();
-                presenter.createPost("person1", bitmap); //TODO use a stored username value
+                String username = MySingleton.getInstance(view.getContext()).getApplicationUser().getUsername();
+                presenter.createPost(username, bitmap);
             }
         });
 

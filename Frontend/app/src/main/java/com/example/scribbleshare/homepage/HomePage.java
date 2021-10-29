@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.scribbleshare.MySingleton;
 import com.example.scribbleshare.R;
 
 import org.json.JSONArray;
@@ -15,7 +16,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class HomePage extends AppCompatActivity implements HomePageView{
 
@@ -28,7 +28,8 @@ public class HomePage extends AppCompatActivity implements HomePageView{
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         postsPresenter = new GetPostsPresenter(this, getApplicationContext());
-        postsPresenter.populateHomeScreenPosts(); //when the request is done it calls "setHomePagePosts below
+        String username = MySingleton.getInstance(this).getApplicationUser().getUsername();
+        postsPresenter.populateHomeScreenPosts(username); //when the request is done it calls "setHomePagePosts below
     }
 
     @Override
@@ -51,7 +52,7 @@ public class HomePage extends AppCompatActivity implements HomePageView{
             }
         }
 
-        AdapterPosts adapterPost = new AdapterPosts(this, postsAL);
+        PostsAdapter adapterPost = new PostsAdapter(this, postsAL);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
 
         setContentView(R.layout.activity_home);

@@ -5,7 +5,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -19,7 +18,7 @@ import java.util.List;
 
 public class HomeFragment extends Fragment {
 
-    AdapterPosts adapterPosts;
+    PostsAdapter postsAdapter;
     RecyclerView recyclerView;
     List<PostModel> posts;
 
@@ -42,7 +41,7 @@ public class HomeFragment extends Fragment {
         posts.add(new PostModel("1", "post3", 420, 420));
 
         //TODO populate posts with real data from database
-        AdapterPosts adapterPosts = new AdapterPosts(getContext(), posts);
+        PostsAdapter postsAdapter = new PostsAdapter(getContext(), posts);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         return view;
     }

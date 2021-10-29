@@ -8,7 +8,10 @@ import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+
 import com.android.volley.toolbox.JsonArrayRequest;
+
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.example.scribbleshare.MySingleton;
 
@@ -21,8 +24,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class EndpointCaller<T> {
-    private final String baseURL = "http://coms-309-010.cs.iastate.edu:8080";
-//    private String baseURL = "http://10.0.2.2:8080";
+    public static final String baseURL = "http://coms-309-010.cs.iastate.edu:8080";
+//    public static final String baseURL = "http://10.0.2.2:8080";
+
 
     private final Context context;
     private final IVolleyListener<T> listener;
@@ -39,7 +43,7 @@ public class EndpointCaller<T> {
 
     public void signInRequest(String username, String password) {
         String url = baseURL + "/users/login?username=" + username + "&password=" + password;
-        sendStringRequest(url, Request.Method.GET);
+        sendJsonObjectRequest(url);
     }
 
     public void createPostRequest(String username, Bitmap scribble){
@@ -53,8 +57,8 @@ public class EndpointCaller<T> {
         sendMultipartFileDownload(url, Request.Method.GET);
     }
 
-    public void getHomeScreenPostsRequest() {
-        String url = baseURL + "/post/getHomeScreenPosts/blah"; //TODO change blah to actual user once endpoint is implemented
+    public void getHomeScreenPostsRequest(String username) {
+        String url = baseURL + "/post/getHomeScreenPosts/" + username;
         Log.d("debug", "Model calling image endpoint: " + url);
         sendJsonArrayRequest(url);
     }
@@ -80,6 +84,28 @@ public class EndpointCaller<T> {
                 }
         );
 
+        MySingleton.getInstance(context).addToRequestQueue(request);
+    }
+
+    private void sendJsonObjectRequest(String url) {
+        JsonObjectRequest request = new JsonObjectRequest(
+                Request.Method.GET,
+                url,
+                null,
+                new Response.Listener<JSONObject>() {
+
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        listener.onSuccess((T) response);
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        listener.onError(error);
+                    }
+                }
+        );
         MySingleton.getInstance(context).addToRequestQueue(request);
     }
 
