@@ -26,15 +26,21 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import edu.iastate.scribbleshare.ScribbleshareApplication;
+import edu.iastate.scribbleshare.User.User;
+import edu.iastate.scribbleshare.User.UserRepository;
 import edu.iastate.scribbleshare.helpers.Status;
 
 @RestController
 public class PostController {
     @Autowired
     private PostRepository postRepository;
+    
+    @Autowired
+    private UserRepository userRepository;
 
     @Autowired
     HttpServletRequest httpServletRequest;
+
 
     private static String uploadPath = "/uploadedFiles/";
 
@@ -83,13 +89,10 @@ public class PostController {
 
     @GetMapping(path="/post/getHomeScreenPosts/{username}")
     public Iterable<Post> getHomeScreenPosts(HttpServletResponse response, @PathVariable String username){
-        ArrayList<Integer> tempList = new ArrayList<Integer>();
-        tempList.add(1);
-        tempList.add(2);
-        tempList.add(3);
-        tempList.add(4);
-        tempList.add(5);
-        return postRepository.findAllById(tempList);
+        Optional<User> optionalUser = userRepository.findById(username);
+        if(!optionalUser.isPresent()){Status.formResponse(response, HttpStatus.NOT_FOUND, "Username: " + username + " not found!"); return null;}
+        Iterable<Post> posts = postRepository.getHomeScreenPosts(username);
+        return posts;
     }
 
     @GetMapping(path="/post/{id}/image")
