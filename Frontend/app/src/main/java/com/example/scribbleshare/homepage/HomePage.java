@@ -1,15 +1,21 @@
 package com.example.scribbleshare.homepage;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.ImageButton;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.scribbleshare.MainActivity;
 import com.example.scribbleshare.MySingleton;
 import com.example.scribbleshare.R;
+import com.example.scribbleshare.drawingpage.DrawingPage;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -27,10 +33,61 @@ public class HomePage extends AppCompatActivity implements HomePageView{
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_home);
+
         postsPresenter = new GetPostsPresenter(this, getApplicationContext());
         String username = MySingleton.getInstance(this).getApplicationUser().getUsername();
         postsPresenter.populateHomeScreenPosts(username); //when the request is done it calls "setHomePagePosts below
+
+        // Icon buttons
+        ImageButton home_button = (ImageButton) findViewById(R.id.btn_home);
+        home_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(view.getContext(), HomePage.class));
+            }
+        });
+        /*
+        ImageButton search_button = (ImageButton) findViewById(R.id.btn_search);
+        search_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(view.getContext(), HomePage.class));
+            }
+        });
+        */
+        ImageButton create_new_button = (ImageButton) findViewById(R.id.btn_create_new);
+        create_new_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(view.getContext(), DrawingPage.class));
+            }
+        });
+        /*
+        ImageButton likes_button = (ImageButton) findViewById(R.id.btn_likes);
+        likes_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(view.getContext(), HomePage.class));
+            }
+        });
+
+        ImageButton profile_button = (ImageButton) findViewById(R.id.btn_profile);
+        profile_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(view.getContext(), HomePage.class));
+            }
+        });
+         */
+
     }
+    /*
+    @Override
+    public void switchView(Class c) {
+        startActivity(new Intent(this, c));
+    }
+    */
 
     @Override
     public void setHomePagePosts(JSONArray array) {
@@ -60,4 +117,5 @@ public class HomePage extends AppCompatActivity implements HomePageView{
         postsRV.setLayoutManager(linearLayoutManager);
         postsRV.setAdapter(adapterPost);
     }
+
 }
