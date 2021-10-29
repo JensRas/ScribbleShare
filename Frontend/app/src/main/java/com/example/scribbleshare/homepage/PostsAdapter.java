@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.bumptech.glide.Glide;
 import com.example.scribbleshare.MySingleton;
 import com.example.scribbleshare.R;
 import com.example.scribbleshare.network.EndpointCaller;
@@ -48,29 +49,8 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.Holder>{
 
         holder.profileName.setText(profileName);
 
-        //TODO this probably needs changed
-        MultipartRequestDownload request = new MultipartRequestDownload(
-                Request.Method.GET,
-                EndpointCaller.baseURL + "/post/" + postId + "/image",
-                new Response.Listener<byte[]>() {
-                    @Override
-                    public void onResponse(byte[] response) {
-                        Log.d("debug", "MultipartFileDownload success! Calling presenter's listener");
-                        Bitmap bitmap = BitmapFactory.decodeByteArray(response, 0, response.length);
-                        holder.scribble.setImageBitmap(bitmap);
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Log.d("debug", "MultipartFileDownload FAILURE! Calling presenter's listener");
-                        //TODO
-                    }
-                },
-                null
-        );
-
-        MySingleton.getInstance(context).addToRequestQueue(request);
+        String url = EndpointCaller.baseURL + "/post/" + postId + "/image";
+        Glide.with(context).load(url).into(holder.scribble);
 
         //TODO set holder.thing.setOnClickListeners here
     }
