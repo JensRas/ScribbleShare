@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface UserRepository extends CrudRepository<User, String>{
     
-    @Query(value="select * from user u where u.userName=:userName", nativeQuery = true)
+    @Query(value="select * from user u where u.userName=:userName order by id desc", nativeQuery = true)
     public Iterable<User> queryExample(@Param("userName") String userName);
     
 }
