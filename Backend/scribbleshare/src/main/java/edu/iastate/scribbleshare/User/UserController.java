@@ -50,12 +50,22 @@ public class UserController {
     }
 
     @GetMapping(path="/users/login")
-    public @ResponseBody String login(@RequestParam String username, @RequestParam String password){
-      if(!userRepository.findById(username).isPresent()){
-        return "false";
+    public @ResponseBody User login(HttpServletResponse response, @RequestParam String username, @RequestParam String password){
+      Optional<User> optionalUser = userRepository.findById(username);
+      if(!optionalUser.isPresent()){
+        Status.formResponse(response, HttpStatus.NOT_FOUND, username + " not found"); 
+        return null;
       }
-      //TODO add a better return here. Now just returns "true" or "false"
-      return "" + Security.checkHash(userRepository.findById(username).get().getPassword(), password); 
+      User user = optionalUser.get();
+      
+      if(Security.checkHash(user.getPassword(), password)){
+        Status.formResponse(response, HttpStatus.ACCEPTED); 
+        return user;
+      }else{
+        //return bad code
+        Status.formResponse(response, HttpStatus.FORBIDDEN); 
+        return null;
+      }
     }
 
     /*
