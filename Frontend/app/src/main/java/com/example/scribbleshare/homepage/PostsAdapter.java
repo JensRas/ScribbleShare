@@ -63,6 +63,9 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.Holder>{
             @Override
             public void onClick(View view) {
                 //TODO when the image is clicked
+
+                //TODO remove this its just for testing
+                Log.e("test", "username: " + MySingleton.getInstance(context).getApplicationUser().getUsername());
             }
         });
 

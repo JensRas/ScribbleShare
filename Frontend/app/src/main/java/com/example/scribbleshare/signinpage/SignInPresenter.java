@@ -45,7 +45,7 @@ public class SignInPresenter implements IVolleyListener<JSONObject> {
             e.printStackTrace();
         }
         MySingleton.getInstance(context).setApplicationUser(user);
-        view.switchView(test_homescreen.class);
+        view.switchView(HomePage.class);
     }
 
     @Override
