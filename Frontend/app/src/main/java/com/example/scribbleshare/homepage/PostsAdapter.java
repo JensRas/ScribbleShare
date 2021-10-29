@@ -1,6 +1,7 @@
 package com.example.scribbleshare.homepage;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Log;
@@ -20,6 +21,7 @@ import com.android.volley.VolleyError;
 import com.bumptech.glide.Glide;
 import com.example.scribbleshare.MySingleton;
 import com.example.scribbleshare.R;
+import com.example.scribbleshare.createaccountpage.CreateAccount;
 import com.example.scribbleshare.network.EndpointCaller;
 import com.example.scribbleshare.network.MultipartRequestDownload;
 
@@ -46,13 +48,37 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.Holder>{
     public void onBindViewHolder(@NonNull Holder holder, int position) {
         String profileName = postModels.get(position).getProfileName();
         String postId = postModels.get(position).getId();
+        int likeCount = postModels.get(position).getLikeCount();
+        int commentCount = postModels.get(position).getCommentCount();
 
         holder.profileName.setText(profileName);
+        holder.likeCount.setText(likeCount + "");
+        holder.commentCount.setText(commentCount + "");
 
-        String url = EndpointCaller.baseURL + "/post/" + postId + "/image";
-        Glide.with(context).load(url).into(holder.scribble);
+        String imageUrl = EndpointCaller.baseURL + "/post/" + postId + "/image";
+        Glide.with(context).load(imageUrl).into(holder.scribble);
 
         //TODO set holder.thing.setOnClickListeners here
+        holder.scribble.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //TODO when the image is clicked
+            }
+        });
+
+        holder.likeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //TODO when like button clicked
+            }
+        });
+
+        holder.commentButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //TODO when comment button is clicked
+            }
+        });
     }
 
     @Override
