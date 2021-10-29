@@ -72,7 +72,7 @@ public class DrawingPage extends AppCompatActivity implements DrawingPageView {
                 // getting the bitmap from DrawView class
                 Bitmap bitmap = paint.save();
                 String username = MySingleton.getInstance(view.getContext()).getApplicationUser().getUsername();
-                presenter.createPost(username, bitmap); //TODO use a stored username value
+                presenter.createPost(username, bitmap);
             }
         });
 

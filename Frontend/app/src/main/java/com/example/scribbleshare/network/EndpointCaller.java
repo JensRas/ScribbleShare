@@ -57,8 +57,8 @@ public class EndpointCaller<T> {
         sendMultipartFileDownload(url, Request.Method.GET);
     }
 
-    public void getHomeScreenPostsRequest() {
-        String url = baseURL + "/post/getHomeScreenPosts/blah"; //TODO change blah to actual user once endpoint is implemented
+    public void getHomeScreenPostsRequest(String username) {
+        String url = baseURL + "/post/getHomeScreenPosts/" + username;
         Log.d("debug", "Model calling image endpoint: " + url);
         sendJsonArrayRequest(url);
     }
