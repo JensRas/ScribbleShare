@@ -20,7 +20,7 @@ public class Post {
 
     private Date datePosted;
 
-    // @JsonIgnore //TODO un-ignore this
+    @JsonIgnore
     private String path;
 
     private int likeCount;
