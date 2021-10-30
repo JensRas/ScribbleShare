@@ -1,9 +1,6 @@
 package com.example.scribbleshare.homepage;
 
 import android.content.Context;
-import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,15 +12,10 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.bumptech.glide.Glide;
 import com.example.scribbleshare.MySingleton;
 import com.example.scribbleshare.R;
-import com.example.scribbleshare.createaccountpage.CreateAccount;
 import com.example.scribbleshare.network.EndpointCaller;
-import com.example.scribbleshare.network.MultipartRequestDownload;
 
 import java.util.List;
 
@@ -40,7 +32,7 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.Holder>{
     @NonNull
     @Override
     public Holder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.post_individual, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.homepage_post_fragment, parent, false);
         return new Holder(view);
     }
 

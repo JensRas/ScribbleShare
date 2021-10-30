@@ -16,6 +16,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ScribbleShare">
         <activity
+            android:name=".profilepage.ProfilePage"
+            android:exported="true" />
+        <activity
+            android:name=".searchpage.SearchPage"
+            android:exported="true" />
+        <activity
             android:name=".drawingpage.DrawingPage"
             android:exported="true" />
         <activity
