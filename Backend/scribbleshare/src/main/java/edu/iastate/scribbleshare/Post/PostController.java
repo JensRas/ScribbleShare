@@ -109,7 +109,7 @@ public class PostController {
         String pathStr = post.getPath();
         File file = new File(pathStr);
         if(!file.exists()){
-            Status.formResponse(response, HttpStatus.INTERNAL_SERVER_ERROR, "Post image path: " + pathStr + "not found!");
+            Status.formResponse(response, HttpStatus.INTERNAL_SERVER_ERROR, "Post image path: " + pathStr + " not found!");
             return null;
         }
 
@@ -130,6 +130,60 @@ public class PostController {
                 .contentLength(file.length())
                 .contentType(MediaType.parseMediaType("application/octet-stream"))
                 .body(data);
+    }
+
+    @DeleteMapping(path="/post/{id}")
+    public String deletePost(HttpServletResponse response, @PathVariable int id){
+        Optional<Post> optionalPost = postRepository.findById(id);
+        if(!optionalPost.isPresent()){Status.formResponse(response, HttpStatus.NOT_FOUND, "Post with id: " + id + " not found!"); return null;}
+        Post post = optionalPost.get();
+        return deletePost(post);
+    }
+
+    //deletes posts in a range of ids
+    //WARNING don't use this with the app. It's just useful for deleting posts for the backend devs
+    @DeleteMapping(path="/post/{id_start}/{id_end}")
+    public String deletePostRange(HttpServletResponse response, @PathVariable int id_start, @PathVariable int id_end){
+        int count = 0;
+        String r = "";
+        for(int i = id_start; i <= id_end; i++){
+            Optional<Post> optionalPost = postRepository.findById(i);
+            if(!optionalPost.isPresent()){
+                r += "id: " + i + " doesn't exist\n";
+            }else{
+                r += deletePost(optionalPost.get()) + "\n";
+                count++;
+            }
+        }
+        return r + "Attempted to delete " + count + " posts";
+    }
+
+    //TODO this should probably be moved to a service but I'm too lazy rn...
+    private String deletePost(Post post){
+        //delete column from table
+        postRepository.delete(post);
+        
+        //delete post's image
+        String imagePath = post.getPath();
+        if(!new File(imagePath).exists()){
+            return "Unable to locate path: " + imagePath + " for stored post: " + post.getID() + ". Deleting anyway.";
+        }
+        new File(imagePath).delete();
+        
+        return "post: " + post.getID() + " deleted";
+    }
+
+    //reports if there are any posts that have missing image save files
+    @GetMapping(path="/post/imageHealthCheck")
+    public String deletePostRange(HttpServletResponse response){
+        String r = "";
+        for(Post post : postRepository.findAll()){
+            String path = post.getPath();
+            if(!new File(path).exists()){
+                r += "path: " + path + " doesn't exist for post id: " + post.getID() + "\n";
+            }
+        }
+        return r;
     }
 
 }
