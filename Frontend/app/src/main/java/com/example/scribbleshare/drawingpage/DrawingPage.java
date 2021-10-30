@@ -3,6 +3,7 @@ package com.example.scribbleshare.drawingpage;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -12,7 +13,10 @@ import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.ImageButton;
 
+import com.example.scribbleshare.MainActivity;
+import com.example.scribbleshare.MySingleton;
 import com.example.scribbleshare.R;
+import com.example.scribbleshare.homepage.HomePage;
 import com.google.android.material.slider.RangeSlider;
 
 //import org.apache.http.entity.mime.MultipartEntity;
@@ -49,9 +53,17 @@ public class DrawingPage extends AppCompatActivity implements DrawingPageView {
         save = (ImageButton) findViewById(R.id.btn_save);
         color = (ImageButton) findViewById(R.id.btn_color);
         stroke = (ImageButton) findViewById(R.id.btn_stroke);
+        ImageButton back_button = (ImageButton) findViewById(R.id.back_button_draw);
 
         // creating a OnClickListener for each button,
         // to perform certain actions
+
+        back_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(view.getContext(), HomePage.class));
+            }
+        });
 
         // the undo button will remove the most
         // recent stroke from the canvas
@@ -70,7 +82,9 @@ public class DrawingPage extends AppCompatActivity implements DrawingPageView {
             public void onClick(View view) {
                 // getting the bitmap from DrawView class
                 Bitmap bitmap = paint.save();
-                presenter.createPost("person1", bitmap); //TODO use a stored username value
+                String username = MySingleton.getInstance(view.getContext()).getApplicationUser().getUsername();
+                presenter.createPost(username, bitmap);
+                //TODO switch to the post view for that post
             }
         });
 

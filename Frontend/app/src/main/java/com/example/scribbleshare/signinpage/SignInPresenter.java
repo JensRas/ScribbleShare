@@ -5,6 +5,8 @@ import android.util.Log;
 
 import com.android.volley.VolleyError;
 import com.example.scribbleshare.MySingleton;
+import com.example.scribbleshare.homepage.HomeFragment;
+import com.example.scribbleshare.homepage.HomePage;
 import com.example.scribbleshare.network.EndpointCaller;
 import com.example.scribbleshare.network.IVolleyListener;
 import com.example.scribbleshare.User;
@@ -43,7 +45,7 @@ public class SignInPresenter implements IVolleyListener<JSONObject> {
             e.printStackTrace();
         }
         MySingleton.getInstance(context).setApplicationUser(user);
-        view.switchView(test_homescreen.class);
+        view.switchView(HomePage.class);
     }
 
     @Override
