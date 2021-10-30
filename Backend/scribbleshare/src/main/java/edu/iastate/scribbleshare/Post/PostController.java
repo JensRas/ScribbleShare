@@ -26,6 +26,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import edu.iastate.scribbleshare.ScribbleshareApplication;
+import edu.iastate.scribbleshare.Comment.CommentRepository;
+import edu.iastate.scribbleshare.Frame.Frame;
+import edu.iastate.scribbleshare.Frame.FrameRepository;
 import edu.iastate.scribbleshare.User.User;
 import edu.iastate.scribbleshare.User.UserRepository;
 import edu.iastate.scribbleshare.helpers.Status;
@@ -39,8 +42,15 @@ public class PostController {
     private UserRepository userRepository;
 
     @Autowired
+    private CommentRepository commentRepository;
+
+    @Autowired
+    private FrameRepository frameRepository;
+
+    @Autowired
     HttpServletRequest httpServletRequest;
 
+    static final int NEW_POST_FRAME_COUNT = 10; //TODO might be better to put this in a config file
 
     private static String uploadPath = "/uploadedFiles/";
 
@@ -76,15 +86,30 @@ public class PostController {
         postRepository.save(post); //must be saved to set the id properly
         fullPath += "post_" + post.getID() + "_" + imageFile.getOriginalFilename();
         post.setPath(fullPath);
-        postRepository.save(post);
 
         //write file to disk
         File tempFile = new File(fullPath);
         imageFile.transferTo(tempFile);
 
+        for(Frame frame : createEmptyFrames(post, NEW_POST_FRAME_COUNT)){
+            post.addFrame(frame);
+        }
+
+        postRepository.save(post);
+
         logger.info("created post with id: " + post.getID() + " and path: " + post.getPath());
 
         return post;
+    }
+
+    private Iterable<Frame> createEmptyFrames(Post post, int count){
+        ArrayList<Integer> ids = new ArrayList<>();
+        for(int i = 0; i < count; i++){
+            Frame f = new Frame(post);
+            frameRepository.save(f);
+            ids.add(f.getID());
+        }
+        return frameRepository.findAllById(ids);
     }
 
     @GetMapping(path="/post/getHomeScreenPosts/{username}")
