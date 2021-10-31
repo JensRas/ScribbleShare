@@ -1,12 +1,18 @@
 package edu.iastate.scribbleshare.Comment;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.http.HttpHeaders;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Optional;
 
 import javax.annotation.Resource;
@@ -82,6 +88,43 @@ public class CommentController {
 
         logger.info("created comment with id: " + comment.getID() + " and path: " + comment.getPath());
         return comment;
+    }
+
+    @GetMapping(path="/comment/{id}/image")
+    public ResponseEntity<ByteArrayResource> getCommentImage(HttpServletResponse response, @PathVariable int id) throws IOException{
+        Optional<Comment> optionalComment = commentRepository.findById(id);
+        if(!optionalComment.isPresent()){Status.formResponse(response, HttpStatus.NOT_FOUND, "Post with id: " + id + " not found!"); return null;}
+        
+        Comment comment = optionalComment.get();
+        if(comment.getPath() == null){
+            Status.formResponse(response, HttpStatus.INTERNAL_SERVER_ERROR, "Comment image path is null");
+            return null;
+        }
+
+        String pathStr = comment.getPath();
+        File file = new File(pathStr);
+        if(!file.exists()){
+            Status.formResponse(response, HttpStatus.INTERNAL_SERVER_ERROR, "Comment image path: " + pathStr + " not found!");
+            return null;
+        }
+
+        String[] splitPath = pathStr.split("/");
+        String fileName = splitPath[splitPath.length - 1];
+
+        HttpHeaders header = new HttpHeaders();
+        header.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename="+fileName);
+        header.add("Cache-Control", "no-cache, no-store, must-revalidate");
+        header.add("Pragma", "no-cache");
+        header.add("Expires", "0");
+
+        Path path = Paths.get(file.getAbsolutePath());
+        ByteArrayResource data = new ByteArrayResource(Files.readAllBytes(path));
+
+        return ResponseEntity.ok()
+                .headers(header)
+                .contentLength(file.length())
+                .contentType(MediaType.parseMediaType("application/octet-stream"))
+                .body(data);
     }
 
     @GetMapping(path="/comment/{frameId}")
