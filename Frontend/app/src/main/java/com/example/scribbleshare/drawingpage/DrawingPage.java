@@ -13,14 +13,17 @@ import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.ImageButton;
 
-import com.example.scribbleshare.MainActivity;
 import com.example.scribbleshare.MySingleton;
 import com.example.scribbleshare.R;
 import com.example.scribbleshare.homepage.HomePage;
+import com.example.scribbleshare.postpage.PostPage;
 import com.google.android.material.slider.RangeSlider;
 
 //import org.apache.http.entity.mime.MultipartEntity;
 //import org.apache.http.entity.mime.MultipartEntityBuilder;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import petrov.kristiyan.colorpicker.ColorPicker;
 
@@ -37,14 +40,16 @@ public class DrawingPage extends AppCompatActivity implements DrawingPageView {
     // help in selecting the width of the Stroke
     private RangeSlider rangeSlider;
 
-    private CreatePostPresenter presenter;
+    private CreatePostPresenter createPostPresenter;
+    private CreateCommentPresenter createCommentPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_drawing);
 
-        presenter = new CreatePostPresenter(this, getApplicationContext());
+        createPostPresenter = new CreatePostPresenter(this, getApplicationContext());
+        createCommentPresenter = new CreateCommentPresenter(this, getApplicationContext());
 
         String drawContext = "";
 
@@ -96,10 +101,11 @@ public class DrawingPage extends AppCompatActivity implements DrawingPageView {
                 String username = MySingleton.getInstance(view.getContext()).getApplicationUser().getUsername();
                 switch(finalDrawContext){
                     case "newPost":
-                        presenter.createPost(username, bitmap);
+                        createPostPresenter.createPost(username, bitmap);
                         //TODO switch to the post view for that post
                         break;
                     case "newComment":
+                        String frameId = bundle.getString("frameId"); //TODO add error handling if this doesn't exist?
 
                         break;
                 }
@@ -186,5 +192,18 @@ public class DrawingPage extends AppCompatActivity implements DrawingPageView {
         options.inMutable = true;
         Bitmap bitmap = BitmapFactory.decodeByteArray(data , 0, data.length, options);
         paint.setmBitmap(bitmap);
+    }
+
+    @Override
+    public void onCreateCommentSuccess(JSONObject o) {
+        Intent intent = new Intent(this, PostPage.class);
+        try {
+            intent.putExtra("postId", o.getString("id"));
+        } catch (JSONException e) {
+            Log.e("ERROR", "Error parsing response: " + o.toString());
+            e.printStackTrace();
+            return;
+        }
+        startActivity(intent);
     }
 }

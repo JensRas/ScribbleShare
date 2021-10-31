@@ -7,8 +7,10 @@ import com.android.volley.VolleyError;
 import com.example.scribbleshare.network.EndpointCaller;
 import com.example.scribbleshare.network.IVolleyListener;
 
-public class CreateCommentPresenter implements IVolleyListener<String> {
-    private EndpointCaller<String> model;
+import org.json.JSONObject;
+
+public class CreateCommentPresenter implements IVolleyListener<JSONObject> {
+    private EndpointCaller<JSONObject> model;
     private DrawingPageView view;
     private Context context;
 
@@ -18,17 +20,17 @@ public class CreateCommentPresenter implements IVolleyListener<String> {
         this.model = new EndpointCaller<>(c, this);
     }
 
-    public void createPost(String username, Bitmap scribble){
-
+    public void createPost(String username, int frameId, Bitmap scribble){
+        model.createCommentRequest(username, frameId, scribble);
     }
 
     @Override
-    public void onSuccess(String s) {
-
+    public void onSuccess(JSONObject o) {
+        view.onCreateCommentSuccess(o);
     }
 
     @Override
     public void onError(VolleyError e) {
-
+        //TODO handle error
     }
 }

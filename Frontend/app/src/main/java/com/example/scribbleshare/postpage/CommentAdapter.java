@@ -43,8 +43,8 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.Holder>{
         holder.profileName.setText(profileName);
 
         //TODO implement once the proper endpoint has been made :D
-//        String imageUrl = EndpointCaller.baseURL + "";
-//        Glide.with(context).load(imageUrl).into(holder.commentScribble);
+        String imageUrl = EndpointCaller.baseURL + "/comment/" + commentModels.get(position).getId() + "/image";
+        Glide.with(context).load(imageUrl).into(holder.commentScribble);
 
         //TODO set onclick listeners for comment stuff here
     }

@@ -1,6 +1,7 @@
 package com.example.scribbleshare.postpage;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.scribbleshare.R;
+import com.example.scribbleshare.drawingpage.DrawingPage;
 import com.example.scribbleshare.homepage.PostsAdapter;
 
 import org.w3c.dom.Comment;
@@ -41,7 +43,6 @@ public class FrameAdapter extends RecyclerView.Adapter<FrameAdapter.Holder> {
     @Override
     public void onBindViewHolder(@NonNull Holder holder, int position) {
         int frameId = frameModels.get(position).getFrameId();
-        ArrayList<CommentModel> commentModels = frameModels.get(position).getComments();
 
         holder.frameNumber.setText("Frame: " + (position + 1));
 
@@ -54,7 +55,10 @@ public class FrameAdapter extends RecyclerView.Adapter<FrameAdapter.Holder> {
         holder.createCommentButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Intent intent = new Intent(context, DrawingPage.class);
+                intent.putExtra("drawContext", "newComment");
+                intent.putExtra("frameId", frameId);
+                context.startActivity(intent);
             }
         });
     }

@@ -69,6 +69,12 @@ public class EndpointCaller<T> {
         sendJsonArrayRequest(url);
     }
 
+    public void createCommentRequest(String username, int frameId, Bitmap scribble){
+        String url = baseURL + "/comment?username=" + username + ",frameId=" + frameId;
+        Log.d("debug", "creating comment request with url: " + url);
+        sendMultipartFileUpload(scribble, url, Request.Method.PUT);
+    }
+
     private void sendStringRequest(String url, int method) {
         StringRequest request = new StringRequest(
                 method,
@@ -143,13 +149,14 @@ public class EndpointCaller<T> {
                 new Response.Listener<NetworkResponse>() {
                     @Override
                     public void onResponse(NetworkResponse response) {
-                        try {
-                            //TODO change this to reflect the acutal endpoints response structure
-                            JSONObject obj = new JSONObject(new String(response.data));
-                            listener.onSuccess((T)obj.getString("message")); //TODO check cast?
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
+                        listener.onSuccess((T)response); //TODO check cast?
+//                        try {
+//                            //TODO change this to reflect the acutal endpoints response structure
+//                            JSONObject obj = new JSONObject(new String(response.data));
+//                            listener.onSuccess((T)obj.getString("message")); //TODO check cast?
+//                        } catch (JSONException e) {
+//                            e.printStackTrace();
+//                        }
                     }
                 },
                 new Response.ErrorListener() {
