@@ -10,7 +10,6 @@ import javax.persistence.OneToOne;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import edu.iastate.scribbleshare.Frame.Frame;
-import edu.iastate.scribbleshare.Post.Post;
 
 @Entity
 public class Comment {
@@ -54,6 +53,22 @@ public class Comment {
 
     public void setFrame(Frame frame){
         this.frame = frame;
+    }
+
+    public String getUsername(){
+        return username;
+    }
+
+    public void setUsername(String username){
+        this.username = username;
+    }
+
+    public int getLikeCount(){
+        return likeCount;
+    }
+
+    public void setLikeCount(int likeCount){
+        this.likeCount = likeCount;
     }
 
 }
