@@ -28,6 +28,7 @@ import org.slf4j.LoggerFactory;
 import edu.iastate.scribbleshare.ScribbleshareApplication;
 import edu.iastate.scribbleshare.Frame.Frame;
 import edu.iastate.scribbleshare.Frame.FrameRepository;
+import edu.iastate.scribbleshare.Post.Post;
 import edu.iastate.scribbleshare.User.User;
 import edu.iastate.scribbleshare.User.UserRepository;
 import edu.iastate.scribbleshare.helpers.Status;
@@ -50,8 +51,9 @@ public class CommentController {
 
     private static final Logger logger = LoggerFactory.getLogger(ScribbleshareApplication.class);
 
+    //returns the post the comment was placed for. This allows android to switch to the post view after successfully creating a comment
     @PutMapping(path="/comment")
-    public Comment addNewComment(HttpServletResponse response, @RequestParam("username") String username, @RequestParam("frameId") int frameId, @RequestParam("image") MultipartFile imageFile) throws IllegalStateException, IOException{
+    public Post addNewComment(HttpServletResponse response, @RequestParam("username") String username, @RequestParam("frameId") int frameId, @RequestParam("image") MultipartFile imageFile) throws IllegalStateException, IOException{
         Optional<User> optionalUser = userRepository.findById(username);
         if(!optionalUser.isPresent()){
             Status.formResponse(response, HttpStatus.BAD_REQUEST, "username: " + username + " not found!");
@@ -87,7 +89,7 @@ public class CommentController {
         commentRepository.save(comment);
 
         logger.info("created comment with id: " + comment.getID() + " and path: " + comment.getPath());
-        return comment;
+        return frame.getPost();
     }
 
     @GetMapping(path="/comment/{id}/image")
