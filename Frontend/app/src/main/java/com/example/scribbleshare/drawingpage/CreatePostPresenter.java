@@ -8,15 +8,17 @@ import com.android.volley.VolleyError;
 import com.example.scribbleshare.network.EndpointCaller;
 import com.example.scribbleshare.network.IVolleyListener;
 
-public class CreatePostPresenter implements IVolleyListener<byte[]> {
-    private EndpointCaller<byte[]> model;
+import org.json.JSONObject;
+
+public class CreatePostPresenter implements IVolleyListener<JSONObject> {
+    private EndpointCaller<JSONObject> model;
     private DrawingPageView view;
     private Context context;
 
     public CreatePostPresenter(DrawingPageView view, Context c){
         this.view = view;
         this.context = c;
-        this.model = new EndpointCaller<byte[]>(c, this);
+        this.model = new EndpointCaller<>(c, this);
     }
 
     public void createPost(String username, Bitmap scribble){
@@ -30,9 +32,9 @@ public class CreatePostPresenter implements IVolleyListener<byte[]> {
     }
 
     @Override
-    public void onSuccess(byte[] data) {
+    public void onSuccess(JSONObject o) {
         Log.d("ree", "Upload multipart file success! Created new post");
-        //TODO call view function(s) to do stuff when a new post is created
+        view.onCreatePostSuccess(o);
     }
 
     @Override

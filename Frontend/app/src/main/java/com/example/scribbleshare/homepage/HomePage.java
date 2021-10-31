@@ -74,7 +74,8 @@ public class HomePage extends AppCompatActivity implements HomePageView{
         home_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(view.getContext(), HomePage.class));
+                //already on home page
+//                startActivity(new Intent(view.getContext(), HomePage.class));
             }
         });
 

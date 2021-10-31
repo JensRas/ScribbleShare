@@ -102,11 +102,10 @@ public class DrawingPage extends AppCompatActivity implements DrawingPageView {
                 switch(finalDrawContext){
                     case "newPost":
                         createPostPresenter.createPost(username, bitmap);
-                        //TODO switch to the post view for that post
                         break;
                     case "newComment":
-                        String frameId = bundle.getString("frameId"); //TODO add error handling if this doesn't exist?
-
+                        int frameId = bundle.getInt("frameId"); //TODO add error handling if this doesn't exist?
+                        createCommentPresenter.createComment(username, frameId, bitmap);
                         break;
                 }
 
@@ -196,6 +195,7 @@ public class DrawingPage extends AppCompatActivity implements DrawingPageView {
 
     @Override
     public void onCreateCommentSuccess(JSONObject o) {
+        Log.i("info", "onCreatecommentSuccess: " + o.toString());
         Intent intent = new Intent(this, PostPage.class);
         try {
             intent.putExtra("postId", o.getString("id"));
@@ -205,5 +205,10 @@ public class DrawingPage extends AppCompatActivity implements DrawingPageView {
             return;
         }
         startActivity(intent);
+    }
+
+    @Override
+    public void onCreatePostSuccess(JSONObject o) {
+        startActivity(new Intent(this, HomePage.class));
     }
 }

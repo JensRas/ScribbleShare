@@ -20,6 +20,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -70,7 +71,7 @@ public class EndpointCaller<T> {
     }
 
     public void createCommentRequest(String username, int frameId, Bitmap scribble){
-        String url = baseURL + "/comment?username=" + username + ",frameId=" + frameId;
+        String url = baseURL + "/comment?username=" + username + "&frameId=" + frameId;
         Log.d("debug", "creating comment request with url: " + url);
         sendMultipartFileUpload(scribble, url, Request.Method.PUT);
     }
@@ -149,14 +150,13 @@ public class EndpointCaller<T> {
                 new Response.Listener<NetworkResponse>() {
                     @Override
                     public void onResponse(NetworkResponse response) {
-                        listener.onSuccess((T)response); //TODO check cast?
-//                        try {
-//                            //TODO change this to reflect the acutal endpoints response structure
-//                            JSONObject obj = new JSONObject(new String(response.data));
-//                            listener.onSuccess((T)obj.getString("message")); //TODO check cast?
-//                        } catch (JSONException e) {
-//                            e.printStackTrace();
-//                        }
+                        try {
+                            //TODO change this to reflect the acutal endpoints response structure
+                            JSONObject obj = new JSONObject(new String(response.data));
+                            listener.onSuccess((T)obj); //TODO check cast?
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
                     }
                 },
                 new Response.ErrorListener() {

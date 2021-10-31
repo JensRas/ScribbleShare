@@ -20,7 +20,7 @@ public class CreateCommentPresenter implements IVolleyListener<JSONObject> {
         this.model = new EndpointCaller<>(c, this);
     }
 
-    public void createPost(String username, int frameId, Bitmap scribble){
+    public void createComment(String username, int frameId, Bitmap scribble){
         model.createCommentRequest(username, frameId, scribble);
     }
 
