@@ -59,7 +59,13 @@ public class EndpointCaller<T> {
 
     public void getHomeScreenPostsRequest(String username) {
         String url = baseURL + "/post/getHomeScreenPosts/" + username;
-        Log.d("debug", "Model calling image endpoint: " + url);
+        Log.d("debug", "Model calling json array endpoint: " + url);
+        sendJsonArrayRequest(url);
+    }
+
+    public void getPostFrames(String postId){
+        String url = baseURL + "/frames/" + postId;
+        Log.d("debug", "Model calling json array endpoint: " + url);
         sendJsonArrayRequest(url);
     }
 

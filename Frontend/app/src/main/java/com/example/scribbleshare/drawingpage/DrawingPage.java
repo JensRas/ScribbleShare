@@ -46,6 +46,15 @@ public class DrawingPage extends AppCompatActivity implements DrawingPageView {
 
         presenter = new CreatePostPresenter(this, getApplicationContext());
 
+        String drawContext = "";
+
+        Bundle bundle = getIntent().getExtras();
+        if(bundle == null){
+            Log.e("ERROR", "Please set a bundle when switching to the drawing page so it knows the context");
+        }else{
+            drawContext = bundle.getString("drawContext");
+        }
+
         // getting the reference of the views from their ids
         paint = (DrawView) findViewById(R.id.draw_view);
         rangeSlider = (RangeSlider) findViewById(R.id.rangebar);
@@ -61,6 +70,7 @@ public class DrawingPage extends AppCompatActivity implements DrawingPageView {
         back_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //TODO change this based on drawContext
                 startActivity(new Intent(view.getContext(), HomePage.class));
             }
         });
@@ -77,14 +87,23 @@ public class DrawingPage extends AppCompatActivity implements DrawingPageView {
         // the save button will save the current
         // canvas which is actually a bitmap
         // in form of PNG, in the storage
+        String finalDrawContext = drawContext;
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 // getting the bitmap from DrawView class
                 Bitmap bitmap = paint.save();
                 String username = MySingleton.getInstance(view.getContext()).getApplicationUser().getUsername();
-                presenter.createPost(username, bitmap);
-                //TODO switch to the post view for that post
+                switch(finalDrawContext){
+                    case "newPost":
+                        presenter.createPost(username, bitmap);
+                        //TODO switch to the post view for that post
+                        break;
+                    case "newComment":
+
+                        break;
+                }
+
             }
         });
 

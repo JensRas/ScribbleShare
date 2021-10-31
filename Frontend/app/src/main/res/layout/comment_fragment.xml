@@ -14,8 +14,23 @@
             android:id="@+id/frame_image"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-
         </ImageView>
+
+        <TextView
+            android:id="@+id/like_count"
+            android:layout_width="50dp"
+            android:layout_height="30dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentBottom="true"
+            android:text="10"/>
+
+        <TextView
+            android:id="@+id/profile_name"
+            android:layout_width="100dp"
+            android:layout_height="30dp"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:text="username" />
 
     </RelativeLayout>
 
