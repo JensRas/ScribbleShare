@@ -50,7 +50,6 @@ public class PostControllerTest {
         when(postRepository.findById(eq(1))).thenReturn(Optional.of(post1));
 
         Post post = postController.getPost(resp, 1);
-        assertEquals(1,1); //TODO remove
         assertEquals(post.getUsername(), "test1");
         assertEquals(post.getLikeCount(), 0);
         assertEquals(post.getCommentCount(), 0);
