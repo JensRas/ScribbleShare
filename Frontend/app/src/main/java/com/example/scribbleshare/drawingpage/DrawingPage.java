@@ -85,6 +85,7 @@ public class DrawingPage extends AppCompatActivity implements DrawingPageView {
                 String username = MySingleton.getInstance(view.getContext()).getApplicationUser().getUsername();
                 presenter.createPost(username, bitmap);
                 //TODO switch to the post view for that post
+                startActivity(new Intent(view.getContext(), HomePage.class));
             }
         });
 

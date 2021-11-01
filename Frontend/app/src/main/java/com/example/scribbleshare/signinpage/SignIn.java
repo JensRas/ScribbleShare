@@ -50,14 +50,6 @@ public class SignIn extends AppCompatActivity implements SignInView {
             }
         });
 
-        //TODO remove
-        Button REMOVEMEBUTTON = (Button) findViewById(R.id.REMOVEMEBUTTON);
-        REMOVEMEBUTTON.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(view.getContext(), DrawingPage.class));
-            }
-        });
     }
 
 
