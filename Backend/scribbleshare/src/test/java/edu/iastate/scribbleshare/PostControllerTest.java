@@ -1,10 +1,7 @@
 package edu.iastate.scribbleshare;
 
-import static org.junit.Assert.assertEquals;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyInt;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -14,9 +11,8 @@ import java.util.Optional;
 
 import javax.servlet.http.HttpServletResponse;
 
-import org.junit.Test;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -35,7 +31,6 @@ public class PostControllerTest {
     @Mock
     PostRepository postRepository;
 
-    
     @InjectMocks
     PostController postController;
     
