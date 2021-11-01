@@ -1,11 +1,9 @@
 package com.example.scribbleshare.profilepage;
 
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.util.Log;
 
 import com.android.volley.VolleyError;
-import com.example.scribbleshare.drawingpage.DrawingPageView;
 import com.example.scribbleshare.network.EndpointCaller;
 import com.example.scribbleshare.network.IVolleyListener;
 
@@ -23,7 +21,11 @@ public class ProfilePagePresenter implements IVolleyListener<JSONObject> {
     }
 
     public void getFollowers(String username){
-        // model.getFollowersRequest(username);
+        model.getFollowersRequest(username);
+    }
+
+    public void getFollowersNum(String username){
+        model.getNumFollowersRequest(username);
     }
 
     @Override

@@ -63,6 +63,16 @@ public class EndpointCaller<T> {
         sendJsonArrayRequest(url);
     }
 
+    public void getFollowersRequest(String username){
+        String url = baseURL + "/followers/" + username;
+        sendJsonArrayRequest(url);
+    }
+
+    public void getNumFollowersRequest(String username){
+        String url = baseURL + "/followers/" + username + "/num";
+        sendStringRequest(url, Request.Method.GET );
+    }
+
     private void sendStringRequest(String url, int method) {
         StringRequest request = new StringRequest(
                 method,

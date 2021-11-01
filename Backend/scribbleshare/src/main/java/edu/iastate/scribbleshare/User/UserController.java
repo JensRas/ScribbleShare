@@ -4,6 +4,7 @@ import java.util.Optional;
 import java.util.Set;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.websocket.server.PathParam;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -98,6 +99,14 @@ public class UserController {
       }
       return userRepository.findById(username).get().getFollowing();
     }
+
+    @GetMapping(path = "followers/num")
+    public @ResponseBody int getFollowersNum(HttpServletResponse response, @RequestParam String username){
+      Set<User> temp = this.getFollowers(response, username);
+      return temp.size();
+    }
+
+    
 
     @GetMapping(path="followers")
     public @ResponseBody Set<User> getFollowers(HttpServletResponse response, @RequestParam String username){

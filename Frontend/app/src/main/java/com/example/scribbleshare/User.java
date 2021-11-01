@@ -52,6 +52,14 @@ public class User {
         isBanned = banned;
     }
 
+    public int getFollowers(){
+        return 4;
+    }
+
+    public int getFollowing(){
+        return 3;
+    }
+
     @Override
     public String toString(){
         return username + " permission: " + permissionLevel + " isMuted: " + isMuted + " isBanned: " + isBanned;
