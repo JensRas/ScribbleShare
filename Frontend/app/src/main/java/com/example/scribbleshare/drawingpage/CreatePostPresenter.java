@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.util.Log;
 
 import com.android.volley.VolleyError;
+import com.example.scribbleshare.homepage.HomePage;
 import com.example.scribbleshare.network.EndpointCaller;
 import com.example.scribbleshare.network.IVolleyListener;
 
@@ -33,10 +34,13 @@ public class CreatePostPresenter implements IVolleyListener<byte[]> {
     public void onSuccess(byte[] data) {
         Log.d("ree", "Upload multipart file success! Created new post");
         //TODO call view function(s) to do stuff when a new post is created
+        view.switchView(HomePage.class);
+        view.makeToast("Post made / saved!");
     }
 
     @Override
     public void onError(VolleyError error) {
         Log.e("ree", "Uploaded multipart file FAILED. Response: " + error);
+        view.makeToast("Bad save");
     }
 }

@@ -1,8 +1,6 @@
 package com.example.scribbleshare.drawingpage;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -12,17 +10,20 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
-import com.example.scribbleshare.MainActivity;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.example.scribbleshare.MySingleton;
 import com.example.scribbleshare.R;
 import com.example.scribbleshare.homepage.HomePage;
 import com.google.android.material.slider.RangeSlider;
 
+import petrov.kristiyan.colorpicker.ColorPicker;
+
 //import org.apache.http.entity.mime.MultipartEntity;
 //import org.apache.http.entity.mime.MultipartEntityBuilder;
-
-import petrov.kristiyan.colorpicker.ColorPicker;
 
 public class DrawingPage extends AppCompatActivity implements DrawingPageView {
 
@@ -168,5 +169,18 @@ public class DrawingPage extends AppCompatActivity implements DrawingPageView {
         options.inMutable = true;
         Bitmap bitmap = BitmapFactory.decodeByteArray(data , 0, data.length, options);
         paint.setmBitmap(bitmap);
+    }
+
+    @Override
+    public void makeToast(String message) {
+        Context context = getApplicationContext();
+        int duration = Toast.LENGTH_SHORT;
+        Toast toast = Toast.makeText(context, message, duration);
+        toast.show();
+    }
+
+    @Override
+    public void switchView(Class c) {
+        startActivity(new Intent(this, c));
     }
 }
