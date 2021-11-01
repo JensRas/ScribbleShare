@@ -31,8 +31,6 @@ public class User {
     @Id
     private String username;
 
-    private String email;
-
     @JsonIgnore
     private String password; //hashed
 
@@ -73,14 +71,6 @@ public class User {
 
     public void setUsername(String name){
         this.username = name;
-    }
-
-    public String getEmail(){
-        return email;
-    }
-
-    public void setEmail(String email){
-        this.email = email;
     }
 
     public String getPassword(){
