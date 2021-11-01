@@ -10,4 +10,7 @@ public interface PostRepository extends CrudRepository<Post, Integer>{
     @Query(value="select * from post p where p.username!=:username order by id desc", nativeQuery = true)
     public Iterable<Post> getHomeScreenPosts(@Param("username") String userName);
 
+    @Query(value="select * from post p where p.username=:username", nativeQuery = true)
+    public Iterable<Post> getUserPosts(@Param("username")String username);
+
 }

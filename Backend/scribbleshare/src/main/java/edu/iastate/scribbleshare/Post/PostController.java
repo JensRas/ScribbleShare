@@ -120,6 +120,14 @@ public class PostController {
         return posts;
     }
 
+    @GetMapping(path="/post/getUserPost/{username}")
+    public Iterable<Post> getUserPosts(HttpServletResponse response, @PathVariable String username){
+        Optional<User> optionalUser = userRepository.findById(username);
+        if(!optionalUser.isPresent()){Status.formResponse(response, HttpStatus.NOT_FOUND, "Username: " + username + " not found!"); return null;}
+        Iterable<Post> posts = postRepository.getUserPosts(username);
+        return posts;
+    }
+
     @GetMapping(path="/post/{id}/image")
     public ResponseEntity<Resource> getPostImage(HttpServletResponse response, @PathVariable int id) throws IOException{
         Optional<Post> optionalPost = postRepository.findById(id);

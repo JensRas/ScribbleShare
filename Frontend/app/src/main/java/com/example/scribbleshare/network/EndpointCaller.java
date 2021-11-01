@@ -24,8 +24,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class EndpointCaller<T> {
-    public static final String baseURL = "http://coms-309-010.cs.iastate.edu:8080";
-//    public static final String baseURL = "http://10.0.2.2:8080";
+    //public static final String baseURL = "http://coms-309-010.cs.iastate.edu:8080";
+    public static final String baseURL = "http://10.0.2.2:8080";
 
 
     private final Context context;
@@ -71,6 +71,12 @@ public class EndpointCaller<T> {
     public void getNumFollowersRequest(String username){
         String url = baseURL + "/followers/" + username + "/num";
         sendStringRequest(url, Request.Method.GET );
+    }
+
+    public void getUserPostRequest(String username){
+        String url = baseURL + "/post/getUserPost/" + username;
+        Log.d("debug", "Model calling image endpoint: " + url);
+        sendJsonArrayRequest(url);
     }
 
     private void sendStringRequest(String url, int method) {
