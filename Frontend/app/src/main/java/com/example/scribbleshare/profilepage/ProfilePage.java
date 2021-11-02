@@ -73,7 +73,6 @@ public class ProfilePage extends AppCompatActivity implements ProfilePageView {
         postsRV = findViewById(R.id.profile_recycler_view);
         postsRV.setLayoutManager(gridLayoutManager);
         postsRV.setAdapter(adapterPost);
-
     }
 
 
