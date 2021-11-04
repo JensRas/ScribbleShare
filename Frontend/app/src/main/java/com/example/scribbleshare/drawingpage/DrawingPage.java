@@ -1,8 +1,6 @@
 package com.example.scribbleshare.drawingpage;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -12,6 +10,10 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.ImageButton;
+import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.scribbleshare.MySingleton;
 import com.example.scribbleshare.R;
@@ -19,13 +21,10 @@ import com.example.scribbleshare.homepage.HomePage;
 import com.example.scribbleshare.postpage.PostPage;
 import com.google.android.material.slider.RangeSlider;
 
-//import org.apache.http.entity.mime.MultipartEntity;
-//import org.apache.http.entity.mime.MultipartEntityBuilder;
+import petrov.kristiyan.colorpicker.ColorPicker;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import petrov.kristiyan.colorpicker.ColorPicker;
 
 public class DrawingPage extends AppCompatActivity implements DrawingPageView {
 
@@ -108,7 +107,6 @@ public class DrawingPage extends AppCompatActivity implements DrawingPageView {
                         createCommentPresenter.createComment(username, frameId, bitmap);
                         break;
                 }
-
             }
         });
 
@@ -209,6 +207,19 @@ public class DrawingPage extends AppCompatActivity implements DrawingPageView {
 
     @Override
     public void onCreatePostSuccess(JSONObject o) {
-        startActivity(new Intent(this, HomePage.class));
+
+    }
+
+    @Override
+    public void makeToast(String message) {
+        Context context = getApplicationContext();
+        int duration = Toast.LENGTH_SHORT;
+        Toast toast = Toast.makeText(context, message, duration);
+        toast.show();
+    }
+
+    @Override
+    public void switchView(Class c) {
+        startActivity(new Intent(this, c));
     }
 }

@@ -39,7 +39,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         tools:context=".homepage.HomePage"
-        android:layout_below="@+id/top_bar_layout">
+        android:layout_below="@+id/top_bar_layout"
+        android:layout_above="@+id/icon_bar_layout">
 
 
         <androidx.recyclerview.widget.RecyclerView

@@ -2,6 +2,8 @@ package edu.iastate.scribbleshare.Frame;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import edu.iastate.scribbleshare.Comment.Comment;
 import edu.iastate.scribbleshare.Post.Post;
 
@@ -25,6 +27,7 @@ public class Frame {
     private List<Comment> comments;
 
     @OneToOne(cascade = CascadeType.ALL)
+    @JsonIgnore
     private Post post;
 
     public Frame(Post post){
@@ -43,5 +46,13 @@ public class Frame {
 
     public void setComments(List<Comment> comments){
         this.comments = comments;
+    }
+
+    public Post getPost(){
+        return post;
+    }
+
+    public void setPost(Post post){
+        this.post = post;
     }
 }
