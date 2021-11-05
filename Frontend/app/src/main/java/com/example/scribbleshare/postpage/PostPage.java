@@ -69,7 +69,6 @@ public class PostPage extends AppCompatActivity implements PostView{
             try {
                 JSONObject obj = (JSONObject)array.get(i);
                 int id = obj.getInt("id");
-                Log.d("debug", "got id: " + id);
                 JSONArray comments = obj.getJSONArray("comments");
 
                 //get comment data inside of frame
@@ -156,6 +155,7 @@ public class PostPage extends AppCompatActivity implements PostView{
 
     @Override
     public void refreshFrames() {
+        Log.d("debug", "refreshFrames() called");
         getFramesPresenter.getFrames(postId);
     }
 }

@@ -1,6 +1,7 @@
 package com.example.scribbleshare.postpage;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.android.volley.VolleyError;
 import com.example.scribbleshare.network.EndpointCaller;
@@ -27,11 +28,13 @@ public class NewFramePresenter implements IVolleyListener<JSONObject> {
 
     @Override
     public void onSuccess(JSONObject jsonObject) {
+        Log.d("debug", "new frame presenter success!");
         view.refreshFrames();
     }
 
     @Override
     public void onError(VolleyError e) {
         //TODO handle error
+        Log.e("debug", "new frame presenter ERROR! " + e.getMessage());
     }
 }
