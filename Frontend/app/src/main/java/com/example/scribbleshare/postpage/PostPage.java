@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 
 import androidx.annotation.Nullable;
@@ -11,7 +12,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.scribbleshare.MySingleton;
 import com.example.scribbleshare.R;
+import com.example.scribbleshare.User;
 import com.example.scribbleshare.drawingpage.DrawingPage;
 import com.example.scribbleshare.homepage.HomePage;
 import com.example.scribbleshare.profilepage.ProfilePage;
@@ -25,27 +28,35 @@ import java.util.ArrayList;
 
 public class PostPage extends AppCompatActivity implements PostView{
 
-    private FramePresenter framePresenter;
+    private GetFramesPresenter getFramesPresenter;
+    private NewFramePresenter newFramePresenter;
     private CommentPresenter commentPresenter;
 
     private RecyclerView framesRV;
     private ArrayList<FrameModel> framesAL;
 
+    private String postId;
+    private User localUser;
+
     @Override
     protected void onPostCreate(@Nullable Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
 
-        framePresenter = new FramePresenter(this, getApplicationContext());
+        localUser = MySingleton.getInstance(getApplicationContext()).getApplicationUser();
+
+        getFramesPresenter = new GetFramesPresenter(this, getApplicationContext());
+        newFramePresenter = new NewFramePresenter(this, getApplicationContext());
         Bundle bundle = getIntent().getExtras();
         if(bundle != null){
-            String postId = bundle.getString("postId");
-            framePresenter.getFrames(postId);
+            this.postId = bundle.getString("postId");
+            getFramesPresenter.getFrames(postId);
         }else{
             //TODO show an error?
             Log.e("ERROR", "Bundle EMPTY when starting post page");
         }
         commentPresenter = new CommentPresenter();
-
+        framesAL = new ArrayList<>(); //create an empty array list each time the post page is loaded for frames
+        stuff();
     }
 
     @Override
@@ -77,16 +88,28 @@ public class PostPage extends AppCompatActivity implements PostView{
                 e.printStackTrace();
             }
         }
+        Log.d("debug", "setting new frame adapter");
+        FrameAdapter frameAdapter = new FrameAdapter(this, framesAL);
+        framesRV.setAdapter(frameAdapter);
+    }
 
+    private void stuff(){
         FrameAdapter frameAdapter = new FrameAdapter(this, framesAL);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
-
         setContentView(R.layout.activity_post);
         framesRV = findViewById(R.id.frame_recycler_view);
         framesRV.setLayoutManager(linearLayoutManager);
         framesRV.setAdapter(frameAdapter);
 
         //TODO set onclick listeners for other things on this page here
+        Button new_frame_button = (Button) findViewById(R.id.new_frame_button);
+        new_frame_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                newFramePresenter.createNewFrame(localUser.getUsername(), postId);
+            }
+        });
+
         // Icon buttons
         ImageButton home_button = (ImageButton) findViewById(R.id.btn_home);
         home_button.setOnClickListener(new View.OnClickListener() {
@@ -129,5 +152,10 @@ public class PostPage extends AppCompatActivity implements PostView{
                 startActivity(new Intent(view.getContext(), ProfilePage.class));
             }
         });
+    }
+
+    @Override
+    public void refreshFrames() {
+        getFramesPresenter.getFrames(postId);
     }
 }

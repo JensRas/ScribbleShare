@@ -3,30 +3,31 @@ package com.example.scribbleshare.postpage;
 import android.content.Context;
 
 import com.android.volley.VolleyError;
-import com.example.scribbleshare.homepage.HomePageView;
 import com.example.scribbleshare.network.EndpointCaller;
 import com.example.scribbleshare.network.IVolleyListener;
 
 import org.json.JSONArray;
+import org.json.JSONObject;
 
-public class FramePresenter implements IVolleyListener<JSONArray> {
-    private EndpointCaller<JSONArray> model;
+public class NewFramePresenter implements IVolleyListener<JSONObject> {
+
+    private EndpointCaller<JSONObject> model;
     private PostView view;
     private Context context;
 
-    public FramePresenter(PostView view, Context c){
+    public NewFramePresenter(PostView view, Context c){
         this.view = view;
         this.context = c;
-        this.model = new EndpointCaller<JSONArray>(c, this);
+        this.model = new EndpointCaller<>(c, this);
     }
 
-    public void getFrames(String postId){
-        model.getPostFrames(postId);
+    public void createNewFrame(String username, String postId){
+        model.createFrameRequest(username, postId);
     }
 
     @Override
-    public void onSuccess(JSONArray jsonArray) {
-        view.setFrames(jsonArray);
+    public void onSuccess(JSONObject jsonObject) {
+        view.refreshFrames();
     }
 
     @Override

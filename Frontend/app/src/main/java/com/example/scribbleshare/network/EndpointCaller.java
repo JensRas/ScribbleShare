@@ -44,7 +44,7 @@ public class EndpointCaller<T> {
 
     public void signInRequest(String username, String password) {
         String url = baseURL + "/users/login?username=" + username + "&password=" + password;
-        sendJsonObjectRequest(url);
+        sendJsonObjectRequest(url, Request.Method.GET);
     }
 
     public void createPostRequest(String username, Bitmap scribble){
@@ -76,6 +76,12 @@ public class EndpointCaller<T> {
         sendMultipartFileUpload(scribble, url, Request.Method.PUT);
     }
 
+    public void createFrameRequest(String username, String postId){
+        String url = baseURL + "/frames?username=" + username + "&postId=" + postId;
+        Log.d("debug", "creating new frame request with url: " + url);
+        sendJsonObjectRequest(url, Request.Method.POST);
+    }
+
     private void sendStringRequest(String url, int method) {
         StringRequest request = new StringRequest(
                 method,
@@ -100,9 +106,9 @@ public class EndpointCaller<T> {
         MySingleton.getInstance(context).addToRequestQueue(request);
     }
 
-    private void sendJsonObjectRequest(String url) {
+    private void sendJsonObjectRequest(String url, int method) {
         JsonObjectRequest request = new JsonObjectRequest(
-                Request.Method.GET,
+                method,
                 url,
                 null,
                 new Response.Listener<JSONObject>() {
