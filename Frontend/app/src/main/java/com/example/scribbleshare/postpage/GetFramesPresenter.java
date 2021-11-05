@@ -1,6 +1,7 @@
 package com.example.scribbleshare.postpage;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.android.volley.VolleyError;
 import com.example.scribbleshare.homepage.HomePageView;
@@ -32,5 +33,6 @@ public class GetFramesPresenter implements IVolleyListener<JSONArray> {
     @Override
     public void onError(VolleyError e) {
         //TODO handle error
+        Log.e("debug", "get frame presenter ERROR! " + e.getMessage());
     }
 }

@@ -76,8 +76,8 @@ public class EndpointCaller<T> {
         sendMultipartFileUpload(scribble, url, Request.Method.PUT);
     }
 
-    public void createFrameRequest(String username, String postId){
-        String url = baseURL + "/frames?username=" + username + "&postId=" + postId;
+    public void createFrameRequest(String username, String postId, int index){
+        String url = baseURL + "/frames?username=" + username + "&postId=" + postId + "&index=" + index;
         Log.d("debug", "creating new frame request with url: " + url);
         sendJsonObjectRequest(url, Request.Method.POST);
     }

@@ -69,7 +69,7 @@ public class PostPage extends AppCompatActivity implements PostView{
         new_frame_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                newFramePresenter.createNewFrame(localUser.getUsername(), postId);
+                newFramePresenter.createNewFrame(localUser.getUsername(), postId, framesAL.size());
             }
         });
 
@@ -122,7 +122,7 @@ public class PostPage extends AppCompatActivity implements PostView{
         Log.d("debug", "set frames in PostPage called");
         framesAL = new ArrayList<>();
 
-        //iterate over the array and populate postsAL with new posts
+        //iterate over the array and populate framesAL with new posts
         for(int i = 0; i < array.length(); i++){
             try {
                 JSONObject obj = (JSONObject)array.get(i);

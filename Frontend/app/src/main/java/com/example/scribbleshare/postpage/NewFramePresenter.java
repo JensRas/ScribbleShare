@@ -22,8 +22,8 @@ public class NewFramePresenter implements IVolleyListener<JSONObject> {
         this.model = new EndpointCaller<>(c, this);
     }
 
-    public void createNewFrame(String username, String postId){
-        model.createFrameRequest(username, postId);
+    public void createNewFrame(String username, String postId, int index){
+        model.createFrameRequest(username, postId, index);
     }
 
     @Override
