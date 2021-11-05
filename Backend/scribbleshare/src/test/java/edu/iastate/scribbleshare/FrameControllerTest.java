@@ -63,7 +63,7 @@ public class FrameControllerTest {
         int i = 0;
         for(Frame frame : frameController.getFramesForPost(resp, 0)){
             assertEquals(frame.getPost(), post);
-            assertEquals(frame.getIndex(), i);
+            assertEquals(frame.getFrameIndex(), i);
             i++;
         }
 

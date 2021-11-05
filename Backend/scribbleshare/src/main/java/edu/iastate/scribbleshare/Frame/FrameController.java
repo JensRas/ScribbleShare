@@ -7,12 +7,17 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import edu.iastate.scribbleshare.ScribbleshareApplication;
 import edu.iastate.scribbleshare.Post.Post;
 import edu.iastate.scribbleshare.Post.PostRepository;
 import edu.iastate.scribbleshare.User.User;
@@ -30,6 +35,8 @@ public class FrameController {
     @Autowired
     private UserRepository userRepository;
 
+    private static final Logger logger = LoggerFactory.getLogger(ScribbleshareApplication.class);
+
     @GetMapping(path="/frames/{postId}")
     public Iterable<Frame> getFramesForPost(HttpServletResponse response, @PathVariable int postId){
         //TODO error handling
@@ -37,8 +44,9 @@ public class FrameController {
         return frameRepository.findByPost(post);
     }
 
+    //index is used in this endpoint to prevent two users from creating a new frame at the same time
     @PostMapping(path="/frames")
-    public Frame createNewFrame(HttpServletResponse response, @RequestParam String username, @RequestParam int postId){
+    public Frame createNewFrame(HttpServletResponse response, @RequestParam String username, @RequestParam int postId, @RequestParam int index){
         Optional<User> optionalUser = userRepository.findById(username);
         if(!optionalUser.isPresent()){
             Status.formResponse(response, HttpStatus.NOT_FOUND, "Username not found");
@@ -48,15 +56,24 @@ public class FrameController {
         if(!optionalPost.isPresent()){
             Status.formResponse(response, HttpStatus.NOT_FOUND, "Post id not found");
         }
-        
+
         Post post = optionalPost.get();
         int lastIndex = post.getLastFrameIndex();
+
+        if(lastIndex + 1 != index){
+            //bad request, but possible duplicate request, so return last frame
+            logger.info("got multi-index case: lastIndex = " + lastIndex + " index = " + index);
+            return post.getFrames().get(lastIndex);
+        }
 
         Frame frame = new Frame(post, lastIndex + 1);
         frameRepository.save(frame);
         post.getFrames().add(frame);
         postRepository.save(post);
         
+        logger.info("created new frame: " + frame.getID());
+
         return frame;
     }
+
 }

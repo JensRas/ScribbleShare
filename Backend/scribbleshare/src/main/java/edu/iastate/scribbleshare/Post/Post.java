@@ -114,11 +114,11 @@ public class Post {
     }
 
     //TODO add test? move to a service??
-    //TODO bad implementation
+    //TODO bad implementation... but it works lol
     public int getLastFrameIndex(){
         int r = -1;
         for(Frame f : frames){
-            int index = f.getIndex();
+            int index = f.getFrameIndex();
             if(index > r){
                 r = index;
             }

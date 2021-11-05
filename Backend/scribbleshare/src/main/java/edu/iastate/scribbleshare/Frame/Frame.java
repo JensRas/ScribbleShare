@@ -59,11 +59,11 @@ public class Frame {
         this.post = post;
     }
 
-    public int getIndex(){
+    public int getFrameIndex(){
         return frameIndex;
     }
 
-    public void setIndex(int index){
+    public void setFrameIndex(int index){
         this.frameIndex = index;
     }
 }
