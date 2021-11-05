@@ -30,8 +30,11 @@ public class Frame {
     @JsonIgnore
     private Post post;
 
-    public Frame(Post post){
+    private int frameIndex;
+
+    public Frame(Post post, int index){
         this.post = post;
+        this.frameIndex = index;
     }
 
     public Frame(){}
@@ -54,5 +57,13 @@ public class Frame {
 
     public void setPost(Post post){
         this.post = post;
+    }
+
+    public int getIndex(){
+        return frameIndex;
+    }
+
+    public void setIndex(int index){
+        this.frameIndex = index;
     }
 }

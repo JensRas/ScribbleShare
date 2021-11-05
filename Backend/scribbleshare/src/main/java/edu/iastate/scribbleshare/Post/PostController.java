@@ -105,7 +105,7 @@ public class PostController {
     private Iterable<Frame> createEmptyFrames(Post post, int count){
         ArrayList<Integer> ids = new ArrayList<>();
         for(int i = 0; i < count; i++){
-            Frame f = new Frame(post);
+            Frame f = new Frame(post, i);
             frameRepository.save(f);
             ids.add(f.getID());
         }
