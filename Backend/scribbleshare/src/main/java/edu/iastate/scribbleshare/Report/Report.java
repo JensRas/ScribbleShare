@@ -5,8 +5,11 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import edu.iastate.scribbleshare.User.User;
 
 @Entity
 public class Report {
@@ -15,15 +18,17 @@ public class Report {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int ID;
 
-    private String username;
+    @OneToOne
+    private User username;
 
-    private String userWhoReported;
+    @OneToOne
+    private User userWhoReported;
 
     private String reason;
 
     private String comment;    
     
-    public Report(String username, String userWhoReported, String reason, String comment){
+    public Report(User username, User userWhoReported, String reason, String comment){
         this.reason = reason;
         this.comment = comment;
         this.username = username;
@@ -34,19 +39,19 @@ public class Report {
 
     }
 
-    public void setUser(String username){
+    public void setUser(User username){
         this.username = username;
     }
 
-    public String getUser(){
+    public User getUser(){
         return this.username;
     }
 
-    public void setUserWhoReported(String username){
+    public void setUserWhoReported(User username){
         this.userWhoReported = username;
     }
 
-    public String getUserWhoReported(){
+    public User getUserWhoReported(){
         return this.userWhoReported;
     }
     

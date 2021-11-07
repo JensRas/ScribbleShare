@@ -26,10 +26,10 @@ public class ReportController {
     UserRepository userRepo;
 
     @PutMapping(path = "/report/new")
-    public void addNewReport(@RequestParam("username")String user, @RequestParam("userWhoReported")String userWhoReported, @RequestParam("comment") String comment, @RequestParam("reason") String reason){
+    public void addNewReport(@RequestParam("username")User user, @RequestParam("userWhoReported")User userWhoReported, @RequestParam("comment") String comment, @RequestParam("reason") String reason){
         
-        Optional<User> reporter = userRepo.findById(userWhoReported);
-        Optional<User> reportee = userRepo.findById(user);
+        Optional<User> reporter = userRepo.findById(userWhoReported.getUsername());
+        Optional<User> reportee = userRepo.findById(user.getUsername());
         if(!reporter.isPresent() || !reportee.isPresent()){
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Username doesn't exist");
       }
