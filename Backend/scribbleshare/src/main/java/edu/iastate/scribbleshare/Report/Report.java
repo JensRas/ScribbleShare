@@ -17,16 +17,19 @@ public class Report {
 
     private String username;
 
+    private String userWhoReported;
+
     private String reason;
 
     private String comment;    
     
-    public Report(String username, String reason, String comment){
+    public Report(String username, String userWhoReported, String reason, String comment){
         this.reason = reason;
         this.comment = comment;
         this.username = username;
     }
     
+    //Required by springboot otherwise throws errors
     public Report(){
 
     }
@@ -37,6 +40,14 @@ public class Report {
 
     public String getUser(){
         return this.username;
+    }
+
+    public void setUserWhoReported(String username){
+        this.userWhoReported = username;
+    }
+
+    public String getUserWhoReported(){
+        return this.userWhoReported;
     }
     
     public void setReason(String reason){
