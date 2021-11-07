@@ -2,11 +2,12 @@ package edu.iastate.scribbleshare.Report;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import edu.iastate.scribbleshare.User.User;
 
 @RestController
 public class ReportController {
@@ -26,4 +27,10 @@ public class ReportController {
         return repo.findAll();
     }
 
+    @GetMapping(path = "/report/{username}")
+    public @ResponseBody Iterable<Report> getReportByUsername(@PathVariable String username){
+        return repo.findAllByUsername(username);
+    }
+
 }
+
