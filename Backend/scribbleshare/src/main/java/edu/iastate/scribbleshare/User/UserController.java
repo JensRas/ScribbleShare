@@ -15,7 +15,10 @@ import org.slf4j.LoggerFactory;
 import edu.iastate.scribbleshare.ScribbleshareApplication;
 import edu.iastate.scribbleshare.helpers.Security;
 import edu.iastate.scribbleshare.helpers.Status;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 
+@Api(value = "UserController", description = "REST API relating to User Entity")
 @RestController
 public class UserController {
     @Autowired
@@ -35,6 +38,7 @@ public class UserController {
         return "new user created";
     }
 
+    @ApiOperation(value = "Get a list of all Users", response = Iterable.class, tags = "getAllUsers")
     @GetMapping(path="/users")
     public @ResponseBody Iterable<User> getAllUsers() {
       return userRepository.findAll();
