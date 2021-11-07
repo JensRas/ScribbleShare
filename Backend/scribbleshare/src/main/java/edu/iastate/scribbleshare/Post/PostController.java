@@ -91,10 +91,10 @@ public class PostController {
         File tempFile = new File(fullPath);
         imageFile.transferTo(tempFile);
 
-        for(Frame frame : createEmptyFrames(post, NEW_POST_FRAME_COUNT)){
-            post.addFrame(frame);
-        }
+        Frame frame = new Frame(post, 0);
+        frameRepository.save(frame);
 
+        post.addFrame(frame);
         postRepository.save(post);
 
         logger.info("created post with id: " + post.getID() + " and path: " + post.getPath());
@@ -102,15 +102,6 @@ public class PostController {
         return post;
     }
 
-    private Iterable<Frame> createEmptyFrames(Post post, int count){
-        ArrayList<Integer> ids = new ArrayList<>();
-        for(int i = 0; i < count; i++){
-            Frame f = new Frame(post);
-            frameRepository.save(f);
-            ids.add(f.getID());
-        }
-        return frameRepository.findAllById(ids);
-    }
 
     @GetMapping(path="/post/getHomeScreenPosts/{username}")
     public Iterable<Post> getHomeScreenPosts(HttpServletResponse response, @PathVariable String username){

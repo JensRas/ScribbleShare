@@ -1,24 +1,22 @@
 package com.example.scribbleshare.postpage;
 
-import android.media.Image;
-
 import java.util.ArrayList;
 
 public class FrameModel {
-    int frameNumber;
+    int frameId;
     ArrayList<CommentModel> comments;
 
     public FrameModel(int frameNumber, ArrayList<CommentModel> comments){
-        this.frameNumber = frameNumber;
+        this.frameId = frameNumber;
         this.comments = comments;
     }
 
-    public int getFrameNumber(){
-        return frameNumber;
+    public int getFrameId(){
+        return frameId;
     }
 
-    public void setFrameNumber(int frameNumber){
-        this.frameNumber = frameNumber;
+    public void setFrameId(int frameId){
+        this.frameId = frameId;
     }
 
     public ArrayList<CommentModel> getComments(){

@@ -18,12 +18,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.scribbleshare.MySingleton;
 import com.example.scribbleshare.R;
 import com.example.scribbleshare.homepage.HomePage;
+import com.example.scribbleshare.postpage.PostPage;
 import com.google.android.material.slider.RangeSlider;
 
 import petrov.kristiyan.colorpicker.ColorPicker;
 
-//import org.apache.http.entity.mime.MultipartEntity;
-//import org.apache.http.entity.mime.MultipartEntityBuilder;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class DrawingPage extends AppCompatActivity implements DrawingPageView {
 
@@ -38,14 +39,25 @@ public class DrawingPage extends AppCompatActivity implements DrawingPageView {
     // help in selecting the width of the Stroke
     private RangeSlider rangeSlider;
 
-    private CreatePostPresenter presenter;
+    private CreatePostPresenter createPostPresenter;
+    private CreateCommentPresenter createCommentPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_drawing);
 
-        presenter = new CreatePostPresenter(this, getApplicationContext());
+        createPostPresenter = new CreatePostPresenter(this, getApplicationContext());
+        createCommentPresenter = new CreateCommentPresenter(this, getApplicationContext());
+
+        String drawContext = "";
+
+        Bundle bundle = getIntent().getExtras();
+        if(bundle == null){
+            Log.e("ERROR", "Please set a bundle when switching to the drawing page so it knows the context");
+        }else{
+            drawContext = bundle.getString("drawContext");
+        }
 
         // getting the reference of the views from their ids
         paint = (DrawView) findViewById(R.id.draw_view);
@@ -62,6 +74,7 @@ public class DrawingPage extends AppCompatActivity implements DrawingPageView {
         back_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //TODO change this based on drawContext
                 startActivity(new Intent(view.getContext(), HomePage.class));
             }
         });
@@ -78,15 +91,22 @@ public class DrawingPage extends AppCompatActivity implements DrawingPageView {
         // the save button will save the current
         // canvas which is actually a bitmap
         // in form of PNG, in the storage
+        String finalDrawContext = drawContext;
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 // getting the bitmap from DrawView class
                 Bitmap bitmap = paint.save();
                 String username = MySingleton.getInstance(view.getContext()).getApplicationUser().getUsername();
-                presenter.createPost(username, bitmap);
-                //TODO switch to the post view for that post
-                startActivity(new Intent(view.getContext(), HomePage.class));
+                switch(finalDrawContext){
+                    case "newPost":
+                        createPostPresenter.createPost(username, bitmap);
+                        break;
+                    case "newComment":
+                        int frameId = bundle.getInt("frameId"); //TODO add error handling if this doesn't exist?
+                        createCommentPresenter.createComment(username, frameId, bitmap);
+                        break;
+                }
             }
         });
 
@@ -169,6 +189,25 @@ public class DrawingPage extends AppCompatActivity implements DrawingPageView {
         options.inMutable = true;
         Bitmap bitmap = BitmapFactory.decodeByteArray(data , 0, data.length, options);
         paint.setmBitmap(bitmap);
+    }
+
+    @Override
+    public void onCreateCommentSuccess(JSONObject o) {
+        Log.i("info", "onCreatecommentSuccess: " + o.toString());
+        Intent intent = new Intent(this, PostPage.class);
+        try {
+            intent.putExtra("postId", o.getString("id"));
+        } catch (JSONException e) {
+            Log.e("ERROR", "Error parsing response: " + o.toString());
+            e.printStackTrace();
+            return;
+        }
+        startActivity(intent);
+    }
+
+    @Override
+    public void onCreatePostSuccess(JSONObject o) {
+
     }
 
     @Override

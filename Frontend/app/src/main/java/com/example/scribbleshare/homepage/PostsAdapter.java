@@ -1,6 +1,7 @@
 package com.example.scribbleshare.homepage;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +17,7 @@ import com.bumptech.glide.Glide;
 import com.example.scribbleshare.MySingleton;
 import com.example.scribbleshare.R;
 import com.example.scribbleshare.network.EndpointCaller;
+import com.example.scribbleshare.postpage.PostPage;
 
 import java.util.List;
 
@@ -55,9 +57,9 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.Holder>{
             @Override
             public void onClick(View view) {
                 //TODO when the image is clicked
-
-                //TODO remove this its just for testing
-                Log.e("test", "username: " + MySingleton.getInstance(context).getApplicationUser().getUsername());
+                Intent intent = new Intent(context, PostPage.class);
+                intent.putExtra("postId", postId);
+                context.startActivity(intent);
             }
         });
 
@@ -85,7 +87,6 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.Holder>{
         ImageView scribble;
         TextView profileName, likeCount, commentCount;
         ImageButton likeButton, commentButton, shareButton;
-        //TODO add other buttons/textviews/etc
 
         public Holder(@NonNull View itemView) {
             super(itemView);

@@ -20,6 +20,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import edu.iastate.scribbleshare.ScribbleshareApplication;
+import edu.iastate.scribbleshare.Report.Report;
 import edu.iastate.scribbleshare.exceptions.BadHashException;
 import edu.iastate.scribbleshare.helpers.Security;
 
@@ -64,7 +65,21 @@ public class User {
 	@JsonIgnore
 	private Set<User> followers = new HashSet<User>();
 
+    @OneToMany
+    private List<Report> reports;
 
+    public List<Report> getReports(){
+        return this.reports;
+    }
+
+    public void setReports(List<Report> reports){
+        this.reports = reports;
+    }
+
+    public void addReport(Report report){
+        this.reports.add(report);
+    }
+    
     public String getUsername() {
         return username;
     }
