@@ -9,6 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -110,5 +111,18 @@ public class Post {
 
     public void addFrame(Frame frame){
         frames.add(frame);
+    }
+
+    //TODO add test? move to a service??
+    //TODO bad implementation... but it works lol
+    public int getLastFrameIndex(){
+        int r = -1;
+        for(Frame f : frames){
+            int index = f.getFrameIndex();
+            if(index > r){
+                r = index;
+            }
+        }
+        return r;
     }
 }  
