@@ -38,7 +38,6 @@ public class UserController {
         return "new user created";
     }
 
-    @ApiOperation(value = "Get a list of all Users", response = Iterable.class, tags = "getAllUsers")
     @GetMapping(path="/users")
     public @ResponseBody Iterable<User> getAllUsers() {
       return userRepository.findAll();
