@@ -15,7 +15,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Optional;
 
-import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -52,8 +51,7 @@ public class CommentController {
 
     private static final Logger logger = LoggerFactory.getLogger(ScribbleshareApplication.class);
 
-    //returns the post the comment was placed for. This allows android to switch to the post view after successfully creating a comment
-    @ApiOperation(value = "Create New Comments", response = Post.class, tags= "Comments")
+    @ApiOperation(value = "Create New Comment. Returns the post where the comment was created.", response = Post.class, tags= "Comments")
     @PutMapping(path="/comment")
     public Post addNewComment(HttpServletResponse response, @RequestParam("username") String username, @RequestParam("frameId") int frameId, @RequestParam("image") MultipartFile imageFile) throws IllegalStateException, IOException{
         Optional<User> optionalUser = userRepository.findById(username);
@@ -98,7 +96,7 @@ public class CommentController {
         return frame.getPost();
     }
 
-    @ApiOperation(value = "Get Comment Images by Id", response = ResponseEntity.class, tags= "Comments")
+    @ApiOperation(value = "Get Comment Image by comment Id", response = ResponseEntity.class, tags= "Comments")
     @GetMapping(path="/comment/{id}/image")
     public ResponseEntity<ByteArrayResource> getCommentImage(HttpServletResponse response, @PathVariable int id) throws IOException{
         Optional<Comment> optionalComment = commentRepository.findById(id);

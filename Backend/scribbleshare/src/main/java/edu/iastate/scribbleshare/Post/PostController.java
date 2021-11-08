@@ -16,7 +16,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
@@ -45,16 +44,14 @@ public class PostController {
     private UserRepository userRepository;
 
     @Autowired
-    private CommentRepository commentRepository;
-
-    @Autowired
     private FrameRepository frameRepository;
 
     @Autowired
     HttpServletRequest httpServletRequest;
 
-    static final int NEW_POST_FRAME_COUNT = 10; //TODO might be better to put this in a config file
-
+    /**
+     * The path where posts are uploaded to relative to the application context
+     */
     private static String uploadPath = "/uploadedFiles/";
 
     private static final Logger logger = LoggerFactory.getLogger(ScribbleshareApplication.class);
@@ -78,7 +75,7 @@ public class PostController {
     public Post addNewPost(HttpServletResponse response, @RequestParam("username") String username, @RequestParam("image") MultipartFile imageFile) throws IllegalStateException, IOException{
         Optional<User> optionalUser = userRepository.findById(username);
         if(!optionalUser.isPresent()){
-            //TODO status response
+            Status.formResponse(response, HttpStatus.NOT_FOUND, "User not found");
             return null;
         }
 
@@ -177,7 +174,7 @@ public class PostController {
 
     //deletes posts in a range of ids
     //WARNING don't use this with the app. It's just useful for deleting posts for the backend devs
-    @ApiOperation(value = "Delete Post(Used for just devs)", response = String.class, tags= "Post")
+    @ApiOperation(value = "Delete Post(DEV USE ONLY)", response = String.class, tags= "Post")
     @DeleteMapping(path="/post/{id_start}/{id_end}")
     public String deletePostRange(HttpServletResponse response, @PathVariable int id_start, @PathVariable int id_end){
         int count = 0;
@@ -194,7 +191,11 @@ public class PostController {
         return r + "Attempted to delete " + count + " posts";
     }
 
-    //TODO this should probably be moved to a service but I'm too lazy rn...
+    /**
+     * Delete a post from the repository
+     * @param post post to be deleted
+     * @return a string describing the status of the post delete operation. Should be sent directly to the user
+     */
     private String deletePost(Post post){
         //delete column from table
         postRepository.delete(post);
@@ -209,8 +210,7 @@ public class PostController {
         return "post: " + post.getID() + " deleted";
     }
 
-    //reports if there are any posts that have missing image save files
-    @ApiOperation(value = "Check for Post Errors", response = String.class, tags= "Post")
+    @ApiOperation(value = "Check for Post Errors (DEV ONLY)", response = String.class, tags= "Post")
     @GetMapping(path="/post/imageHealthCheck")
     public String deletePostRange(HttpServletResponse response){
         String r = "";

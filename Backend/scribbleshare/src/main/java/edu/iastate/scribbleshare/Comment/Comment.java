@@ -12,6 +12,11 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import edu.iastate.scribbleshare.Frame.Frame;
 import edu.iastate.scribbleshare.User.User;
 
+/**
+ * A comment by a single user for a frame. Comments are very similar to posts, as they need to store the image files under them.
+ * A comment must keep track of a uniquely generated ID, the frame with which it exists under, the user who made the comment, its like count, and the path 
+ * where the image is stored on the server's filesystem. 
+ */
 @Entity
 public class Comment {
     @Id

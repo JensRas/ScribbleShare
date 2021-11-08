@@ -9,7 +9,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,7 +22,11 @@ import edu.iastate.scribbleshare.User.User;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
-
+/**
+ * A post created by a user. It stores the path to an image stored in the filesystem. 
+ * This image is used as the starter for a set of frames, which a Post also stores as a list (one to many relationship)
+ * Posts also must store the user who created the post, the date it was posted, the like count, the comment count, and have a unique generated ID.   
+ */
 @Entity
 public class Post {
         
@@ -116,8 +119,10 @@ public class Post {
         frames.add(frame);
     }
 
-    //TODO add test? move to a service??
-    //TODO bad implementation... but it works lol
+    /**
+     * Get the last frame in a post. Is useful for creating new frames in a post.
+     * @return the index of the last frame a post has
+     */
     public int getLastFrameIndex(){
         int r = -1;
         for(Frame f : frames){

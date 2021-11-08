@@ -7,7 +7,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import edu.iastate.scribbleshare.Comment.Comment;
 import edu.iastate.scribbleshare.Post.Post;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -16,6 +15,11 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+/**
+ * A single frame of a post which holds user comments for that frame. 
+ * A frame must have a unique, generated ID, a one to many list of Comments posted under it, a backwards pointing, 
+ * one to one relationship with the post it is under (for easier data manipulation), and an index value. The index must represent the ordering of the frame for a given post
+ */
 @Entity
 public class Frame {
 

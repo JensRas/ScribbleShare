@@ -47,8 +47,7 @@ public class FrameController {
         return frameRepository.findByPost(post);
     }
 
-    //index is used in this endpoint to prevent two users from creating a new frame at the same time
-    @ApiOperation(value = "Create New Frame", response = Frame.class, tags= "Frames")
+    @ApiOperation(value = "Create New Frame. Must specify index to prevent concurrency errors with multiple users.", response = Frame.class, tags= "Frames")
     @PostMapping(path="/frames")
     public Frame createNewFrame(HttpServletResponse response, @RequestParam String username, @RequestParam int postId, @RequestParam int index){
         Optional<User> optionalUser = userRepository.findById(username);
