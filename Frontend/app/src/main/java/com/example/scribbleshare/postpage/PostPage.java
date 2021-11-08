@@ -40,10 +40,7 @@ public class PostPage extends AppCompatActivity implements PostView{
     private String postId;
     private User localUser;
 
-    /**
-     *
-     * @param savedInstanceState
-     */
+
     @Override
     protected void onPostCreate(@Nullable Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
@@ -73,10 +70,6 @@ public class PostPage extends AppCompatActivity implements PostView{
         //TODO set onclick listeners for other things on this page here
         Button new_frame_button = (Button) findViewById(R.id.new_frame_button);
         new_frame_button.setOnClickListener(new View.OnClickListener() {
-            /**
-             *
-             * @param view
-             */
             @Override
             public void onClick(View view) {
                 newFramePresenter.createNewFrame(localUser.getUsername(), postId, framesAL.size());
@@ -86,10 +79,6 @@ public class PostPage extends AppCompatActivity implements PostView{
         // Icon buttons
         ImageButton home_button = (ImageButton) findViewById(R.id.btn_home);
         home_button.setOnClickListener(new View.OnClickListener() {
-            /**
-             *
-             * @param view
-             */
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(view.getContext(), HomePage.class));
@@ -98,10 +87,6 @@ public class PostPage extends AppCompatActivity implements PostView{
 
         ImageButton search_button = (ImageButton) findViewById(R.id.btn_search);
         search_button.setOnClickListener(new View.OnClickListener() {
-            /**
-             *
-             * @param view
-             */
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(view.getContext(), SearchPage.class));
@@ -110,10 +95,6 @@ public class PostPage extends AppCompatActivity implements PostView{
 
         ImageButton create_new_button = (ImageButton) findViewById(R.id.btn_create_new);
         create_new_button.setOnClickListener(new View.OnClickListener() {
-            /**
-             *
-             * @param view
-             */
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(view.getContext(), DrawingPage.class);
@@ -132,10 +113,7 @@ public class PostPage extends AppCompatActivity implements PostView{
         */
         ImageButton profile_button = (ImageButton) findViewById(R.id.btn_profile);
         profile_button.setOnClickListener(new View.OnClickListener() {
-            /**
-             *
-             * @param view
-             */
+
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(view.getContext(), ProfilePage.class));
@@ -143,10 +121,6 @@ public class PostPage extends AppCompatActivity implements PostView{
         });
     }
 
-    /**
-     *
-     * @param array
-     */
     @Override
     public void setFrames(JSONArray array) {
         Log.d("debug", "set frames in PostPage called");
@@ -180,9 +154,6 @@ public class PostPage extends AppCompatActivity implements PostView{
         framesRV.setAdapter(frameAdapter);
     }
 
-    /**
-     *
-     */
     @Override
     public void refreshFrames() {
         Log.d("debug", "refreshFrames() called");

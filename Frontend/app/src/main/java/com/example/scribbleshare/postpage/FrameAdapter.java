@@ -65,10 +65,6 @@ public class FrameAdapter extends RecyclerView.Adapter<FrameAdapter.Holder> {
 
         //TODO add listener for clickable stuff here
         holder.createCommentButton.setOnClickListener(new View.OnClickListener() {
-            /**
-             *
-             * @param view
-             */
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(context, DrawingPage.class);
