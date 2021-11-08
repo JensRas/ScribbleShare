@@ -32,7 +32,10 @@ import edu.iastate.scribbleshare.Frame.FrameRepository;
 import edu.iastate.scribbleshare.User.User;
 import edu.iastate.scribbleshare.User.UserRepository;
 import edu.iastate.scribbleshare.helpers.Status;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 
+@Api(value = "PostController", description = "REST API relating to Post Entity")
 @RestController
 public class PostController {
     @Autowired
@@ -56,11 +59,13 @@ public class PostController {
 
     private static final Logger logger = LoggerFactory.getLogger(ScribbleshareApplication.class);
 
+    @ApiOperation(value = "Get All Posts", response = Iterable.class, tags= "Post")
     @GetMapping(path="/post")
     public @ResponseBody Iterable<Post> getAllPosts(){
         return postRepository.findAll();
     }
 
+    @ApiOperation(value = "Get Post by Id", response = Post.class, tags= "Post")
     @GetMapping(path="/post/{id}")
     public @ResponseBody Post getPost(HttpServletResponse response, @PathVariable int id){
         Optional<Post> optionalPost = postRepository.findById(id);
@@ -68,6 +73,7 @@ public class PostController {
         return optionalPost.get();
     }
 
+    @ApiOperation(value = "Add New Post", response = Post.class, tags= "Post")
     @PutMapping(path="/post")
     public Post addNewPost(HttpServletResponse response, @RequestParam("username") String username, @RequestParam("image") MultipartFile imageFile) throws IllegalStateException, IOException{
         Optional<User> optionalUser = userRepository.findById(username);
@@ -113,7 +119,7 @@ public class PostController {
         return post;
     }
 
-
+    @ApiOperation(value = "Get Posts For Homescreen", response = Iterable.class, tags= "Post")
     @GetMapping(path="/post/getHomeScreenPosts/{username}")
     public Iterable<Post> getHomeScreenPosts(HttpServletResponse response, @PathVariable String username){
         Optional<User> optionalUser = userRepository.findById(username);
@@ -122,6 +128,7 @@ public class PostController {
         return posts;
     }
 
+    @ApiOperation(value = "Get Post by Id", response = ResponseEntity.class, tags= "Post")
     @GetMapping(path="/post/{id}/image")
     public ResponseEntity<Resource> getPostImage(HttpServletResponse response, @PathVariable int id) throws IOException{
         Optional<Post> optionalPost = postRepository.findById(id);
@@ -159,6 +166,7 @@ public class PostController {
                 .body(data);
     }
 
+    @ApiOperation(value = "Delete Post by Id", response = String.class, tags= "Post")
     @DeleteMapping(path="/post/{id}")
     public String deletePost(HttpServletResponse response, @PathVariable int id){
         Optional<Post> optionalPost = postRepository.findById(id);
@@ -169,6 +177,7 @@ public class PostController {
 
     //deletes posts in a range of ids
     //WARNING don't use this with the app. It's just useful for deleting posts for the backend devs
+    @ApiOperation(value = "Delete Post(Used for just devs)", response = String.class, tags= "Post")
     @DeleteMapping(path="/post/{id_start}/{id_end}")
     public String deletePostRange(HttpServletResponse response, @PathVariable int id_start, @PathVariable int id_end){
         int count = 0;
@@ -201,6 +210,7 @@ public class PostController {
     }
 
     //reports if there are any posts that have missing image save files
+    @ApiOperation(value = "Check for Post Errors", response = String.class, tags= "Post")
     @GetMapping(path="/post/imageHealthCheck")
     public String deletePostRange(HttpServletResponse response){
         String r = "";

@@ -11,27 +11,48 @@ import com.example.scribbleshare.network.IVolleyListener;
 
 import org.json.JSONObject;
 
+/**
+ *
+ */
 public class CreatePostPresenter implements IVolleyListener<JSONObject> {
     private EndpointCaller<JSONObject> model;
     private DrawingPageView view;
     private Context context;
 
+    /**
+     *
+     * @param view
+     * @param c
+     */
     public CreatePostPresenter(DrawingPageView view, Context c){
         this.view = view;
         this.context = c;
         this.model = new EndpointCaller<>(c, this);
     }
 
+    /**
+     *
+     * @param username
+     * @param scribble
+     */
     public void createPost(String username, Bitmap scribble){
         model.createPostRequest(username, scribble);
     }
 
+    /**
+     *
+     * @param postId
+     */
     public void getPost(String postId) {
         //TODO get other post data as well. Right now it only gets the image here
         Log.d("debug", "presenter calling model for image request");
         model.getPostImageRequest(postId);
     }
 
+    /**
+     *
+     * @param o
+     */
     @Override
     public void onSuccess(JSONObject o) {
         Log.d("ree", "Upload multipart file success! Created new post");
@@ -40,6 +61,10 @@ public class CreatePostPresenter implements IVolleyListener<JSONObject> {
         view.makeToast("Post made / saved!");
     }
 
+    /**
+     *
+     * @param error
+     */
     @Override
     public void onError(VolleyError error) {
         Log.e("ree", "Uploaded multipart file FAILED. Response: " + error);

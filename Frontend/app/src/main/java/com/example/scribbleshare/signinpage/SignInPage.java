@@ -1,7 +1,5 @@
 package com.example.scribbleshare.signinpage;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,14 +10,23 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
-import com.example.scribbleshare.R;
-import com.example.scribbleshare.MainActivity;
-import com.example.scribbleshare.drawingpage.DrawingPage;
+import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.scribbleshare.MainActivity;
+import com.example.scribbleshare.R;
+
+/**
+ *
+ */
 public class SignInPage extends AppCompatActivity implements SignInView {
+
 
     private SignInPresenter presenter;
 
+    /**
+     *
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,6 +36,10 @@ public class SignInPage extends AppCompatActivity implements SignInView {
 
         ImageButton back_button = (ImageButton) findViewById(R.id.back_button_sign_in);
         back_button.setOnClickListener(new View.OnClickListener() {
+            /**
+             *
+             * @param view
+             */
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(view.getContext(), MainActivity.class));
@@ -37,6 +48,10 @@ public class SignInPage extends AppCompatActivity implements SignInView {
 
         Button sign_in_button = (Button) findViewById(R.id.create_account_button);
         sign_in_button.setOnClickListener(new View.OnClickListener() {
+            /**
+             *
+             * @param view
+             */
             @Override
             public void onClick(View view) {
                 String usernameText = ((EditText) findViewById(R.id.si_username)).getText().toString();
@@ -52,7 +67,10 @@ public class SignInPage extends AppCompatActivity implements SignInView {
 
     }
 
-
+    /**
+     *
+     * @param message
+     */
     @Override
     public void makeToast(String message) {
         Context context = getApplicationContext();
@@ -61,6 +79,10 @@ public class SignInPage extends AppCompatActivity implements SignInView {
         toast.show();
     }
 
+    /**
+     *
+     * @param c
+     */
     @Override
     public void switchView(Class c) {
         startActivity(new Intent(this, c));

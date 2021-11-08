@@ -13,21 +13,38 @@ import com.example.scribbleshare.User;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+/**
+ *
+ */
 public class SignInPresenter implements IVolleyListener<JSONObject> {
     private EndpointCaller<JSONObject> model;
     private SignInView view;
     private Context context;
 
+    /**
+     *
+     * @param view
+     * @param c
+     */
     public SignInPresenter(SignInView view, Context c){
         this.view = view;
         this.context = c;
         this.model = new EndpointCaller<JSONObject>(c, this);
     }
 
+    /**
+     *
+     * @param username
+     * @param password
+     */
     public void signInRequest(String username, String password){
         model.signInRequest(username, password);
     }
 
+    /**
+     *
+     * @param response
+     */
     @Override
     public void onSuccess(JSONObject response) {
         Log.e("test", "response: " + response);
@@ -46,6 +63,10 @@ public class SignInPresenter implements IVolleyListener<JSONObject> {
         view.switchView(HomePage.class);
     }
 
+    /**
+     *
+     * @param error
+     */
     @Override
     public void onError(VolleyError error) {
         //login invalid
