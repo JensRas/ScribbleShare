@@ -26,8 +26,8 @@ import java.util.Map;
  * @param <T>
  */
 public class EndpointCaller<T> {
-    public static final String baseURL = "http://coms-309-010.cs.iastate.edu:8080";
-//    public static final String baseURL = "http://10.0.2.2:8080";
+//    public static final String baseURL = "http://coms-309-010.cs.iastate.edu:8080";
+    public static final String baseURL = "http://10.0.2.2:8080";
 
     private final Context context;
     private final IVolleyListener<T> listener;

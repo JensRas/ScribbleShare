@@ -18,7 +18,8 @@ import com.example.scribbleshare.R;
 /**
  *
  */
-public class SignIn extends AppCompatActivity implements SignInView {
+public class SignInPage extends AppCompatActivity implements SignInView {
+
 
     private SignInPresenter presenter;
 

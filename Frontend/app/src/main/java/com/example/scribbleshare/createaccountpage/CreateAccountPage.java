@@ -15,12 +15,14 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.scribbleshare.MainActivity;
 import com.example.scribbleshare.R;
-import com.example.scribbleshare.signinpage.SignIn;
+import com.example.scribbleshare.signinpage.SignInPage;
+
 
 /**
  *
  */
-public class CreateAccount extends AppCompatActivity implements CreateAccountView {
+public class CreateAccountPage extends AppCompatActivity implements CreateAccountView {
+
     private CreateAccountPresenter presenter;
 
     /**
@@ -43,7 +45,7 @@ public class CreateAccount extends AppCompatActivity implements CreateAccountVie
              */
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(view.getContext(), SignIn.class));
+                startActivity(new Intent(view.getContext(), SignInPage.class));
             }
         });
 
