@@ -3,36 +3,35 @@ package com.example.scribbleshare.drawingpage;
 import org.json.JSONObject;
 
 /**
- *
+ * View for drawing page
  */
 public interface DrawingPageView {
     /**
-     *
-     * @param data
+     * Sets bitmap for drawing
+     * @param data bitmap data from the drawing
      */
     public void setDrawingImage(byte[] data);
 
     /**
-     *
-     * @param o
+     * Creates comment if successful
+     * @param o returned post-JSON
      */
     public void onCreateCommentSuccess(JSONObject o);
 
     /**
-     *
-     * @param o
+     * TODO
      */
     public void onCreatePostSuccess(JSONObject o);
 
     /**
-     *
-     * @param message
+     * Creates a toast with an inputted message
+     * @param message Toast message to be shown
      */
     public void makeToast(String message);
 
     /**
-     *
-     * @param c
+     * Switches View
+     * @param c class of new view
      */
     void switchView(Class c);
 }

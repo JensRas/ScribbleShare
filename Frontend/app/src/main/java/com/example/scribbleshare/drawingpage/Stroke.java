@@ -3,7 +3,7 @@ package com.example.scribbleshare.drawingpage;
 import android.graphics.Path;
 
 /**
- *
+ * Stroke information
  */
 public class Stroke {
     // color of the stroke
@@ -17,10 +17,10 @@ public class Stroke {
     public Path path;
 
     /**
-     *
-     * @param color
-     * @param strokeWidth
-     * @param path
+     * Sets stroke information
+     * @param color Color of stroke
+     * @param strokeWidth Width of stroke
+     * @param path Drawing path of stroke
      */
     // constructor to initialise the attributes
     public Stroke(int color, int strokeWidth, Path path) {

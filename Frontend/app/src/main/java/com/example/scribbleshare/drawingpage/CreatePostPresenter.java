@@ -12,7 +12,7 @@ import com.example.scribbleshare.network.IVolleyListener;
 import org.json.JSONObject;
 
 /**
- *
+ * Presenter class for creating a new post
  */
 public class CreatePostPresenter implements IVolleyListener<JSONObject> {
     private EndpointCaller<JSONObject> model;
@@ -20,9 +20,9 @@ public class CreatePostPresenter implements IVolleyListener<JSONObject> {
     private Context context;
 
     /**
-     *
-     * @param view
-     * @param c
+     * Sets view and context to this
+     * @param view drawing page view
+     * @param c context
      */
     public CreatePostPresenter(DrawingPageView view, Context c){
         this.view = view;
@@ -31,17 +31,17 @@ public class CreatePostPresenter implements IVolleyListener<JSONObject> {
     }
 
     /**
-     *
-     * @param username
-     * @param scribble
+     * Creates post
+     * @param username username of the poster
+     * @param scribble data from the drawing post
      */
     public void createPost(String username, Bitmap scribble){
         model.createPostRequest(username, scribble);
     }
 
     /**
-     *
-     * @param postId
+     * Gets post ID
+     * @param postId id of the new post
      */
     public void getPost(String postId) {
         //TODO get other post data as well. Right now it only gets the image here
@@ -50,8 +50,8 @@ public class CreatePostPresenter implements IVolleyListener<JSONObject> {
     }
 
     /**
-     *
-     * @param o
+     * Creates the post on success
+     * @param o JSON data for the created post
      */
     @Override
     public void onSuccess(JSONObject o) {
@@ -62,8 +62,8 @@ public class CreatePostPresenter implements IVolleyListener<JSONObject> {
     }
 
     /**
-     *
-     * @param error
+     * Displays a toast if the post had an error
+     * @param error Error message from Volley
      */
     @Override
     public void onError(VolleyError error) {

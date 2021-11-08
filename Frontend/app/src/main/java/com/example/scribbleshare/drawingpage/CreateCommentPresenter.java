@@ -10,7 +10,7 @@ import com.example.scribbleshare.network.IVolleyListener;
 import org.json.JSONObject;
 
 /**
- *
+ * Presenter Class for creating a new comment
  */
 public class CreateCommentPresenter implements IVolleyListener<JSONObject> {
     private EndpointCaller<JSONObject> model;
@@ -18,9 +18,9 @@ public class CreateCommentPresenter implements IVolleyListener<JSONObject> {
     private Context context;
 
     /**
-     *
-     * @param view
-     * @param c
+     * Sets view and context to this
+     * @param view drawing page view
+     * @param c context
      */
     public CreateCommentPresenter(DrawingPageView view, Context c){
         this.view = view;
@@ -29,18 +29,18 @@ public class CreateCommentPresenter implements IVolleyListener<JSONObject> {
     }
 
     /**
-     *
-     * @param username
-     * @param frameId
-     * @param scribble
+     * Gets information for the comment
+     * @param username username of the person commenting
+     * @param frameId id of frame they're drawing their comment in
+     * @param scribble bitmap data from the drawing comment
      */
     public void createComment(String username, int frameId, Bitmap scribble){
         model.createCommentRequest(username, frameId, scribble);
     }
 
     /**
-     *
-     * @param o
+     * Returns JSON data for successful comment
+     * @param o JSONObject for successful comment
      */
     @Override
     public void onSuccess(JSONObject o) {
@@ -48,8 +48,7 @@ public class CreateCommentPresenter implements IVolleyListener<JSONObject> {
     }
 
     /**
-     *
-     * @param e
+     * TODO
      */
     @Override
     public void onError(VolleyError e) {
