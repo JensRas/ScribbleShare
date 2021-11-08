@@ -5,14 +5,14 @@ package com.example.scribbleshare.signinpage;
  */
 public interface SignInView {
     /**
-     *
-     * @param message
+     * Creates a toast
+     * @param message message to be displayed in toast
      */
     void makeToast(String message);
 
-    /**\
-     *
-     * @param c
+    /**
+     * Switches view
+     * @param c class of view to switch to
      */
     void switchView(Class c);
 }

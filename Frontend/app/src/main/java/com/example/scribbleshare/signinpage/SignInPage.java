@@ -16,17 +16,14 @@ import com.example.scribbleshare.MainActivity;
 import com.example.scribbleshare.R;
 
 /**
- *
+ * Handles the xml and button actions
  */
 public class SignInPage extends AppCompatActivity implements SignInView {
 
 
     private SignInPresenter presenter;
 
-    /**
-     *
-     * @param savedInstanceState
-     */
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,8 +34,8 @@ public class SignInPage extends AppCompatActivity implements SignInView {
         ImageButton back_button = (ImageButton) findViewById(R.id.back_button_sign_in);
         back_button.setOnClickListener(new View.OnClickListener() {
             /**
-             *
-             * @param view
+             * Onclick to go to splash screen
+             * @param view view of splash screen
              */
             @Override
             public void onClick(View view) {
@@ -49,8 +46,8 @@ public class SignInPage extends AppCompatActivity implements SignInView {
         Button sign_in_button = (Button) findViewById(R.id.create_account_button);
         sign_in_button.setOnClickListener(new View.OnClickListener() {
             /**
-             *
-             * @param view
+             * Checks if username and password are in the database
+             * @param view current view
              */
             @Override
             public void onClick(View view) {
@@ -67,10 +64,6 @@ public class SignInPage extends AppCompatActivity implements SignInView {
 
     }
 
-    /**
-     *
-     * @param message
-     */
     @Override
     public void makeToast(String message) {
         Context context = getApplicationContext();
@@ -79,10 +72,6 @@ public class SignInPage extends AppCompatActivity implements SignInView {
         toast.show();
     }
 
-    /**
-     *
-     * @param c
-     */
     @Override
     public void switchView(Class c) {
         startActivity(new Intent(this, c));

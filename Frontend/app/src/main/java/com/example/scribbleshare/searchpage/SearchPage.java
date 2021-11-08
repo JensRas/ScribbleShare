@@ -9,12 +9,11 @@ import com.example.scribbleshare.MySingleton;
 import com.example.scribbleshare.R;
 
 /**
- *
+ * TODO
  */
 public class SearchPage extends AppCompatActivity implements SearchPageView {
     /**
-     *
-     * @param savedInstanceState
+     * TODO implement
      */
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

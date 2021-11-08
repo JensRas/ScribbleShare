@@ -1,7 +1,7 @@
 package com.example.scribbleshare.searchpage;
 
 /**
- *
+ * TODO implement
  */
 public interface SearchPageView {
     //add methods here that the search page view needs to update things in the UI

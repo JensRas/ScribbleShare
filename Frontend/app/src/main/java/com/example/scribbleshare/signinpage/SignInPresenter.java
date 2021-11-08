@@ -22,9 +22,9 @@ public class SignInPresenter implements IVolleyListener<JSONObject> {
     private Context context;
 
     /**
-     *
-     * @param view
-     * @param c
+     * sets values to this
+     * @param view Sign in view
+     * @param c Sign in context
      */
     public SignInPresenter(SignInView view, Context c){
         this.view = view;
@@ -33,9 +33,9 @@ public class SignInPresenter implements IVolleyListener<JSONObject> {
     }
 
     /**
-     *
-     * @param username
-     * @param password
+     * Creates a sign in request with given username/password
+     * @param username username entered by user
+     * @param password password entered by user
      */
     public void signInRequest(String username, String password){
         model.signInRequest(username, password);
@@ -64,8 +64,8 @@ public class SignInPresenter implements IVolleyListener<JSONObject> {
     }
 
     /**
-     *
-     * @param error
+     * Handles if username/password is invalid
+     * @param error Volley error
      */
     @Override
     public void onError(VolleyError error) {
