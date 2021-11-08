@@ -1,7 +1,7 @@
 package com.example.scribbleshare.signinpage;
 
 /**
- *
+ * Holds methods that sign in needs
  */
 public interface SignInView {
     /**
