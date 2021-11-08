@@ -44,17 +44,20 @@ public class User {
 
     
     @Id
-    @ApiModelProperty(value = "Username of user",name="username", dataType = "String", required=true,example = "Corbeno")
+    @ApiModelProperty(value = "Username of user",name="username", required=true,example = "Corbeno")
     private String username;
 
     @JsonIgnore
+    @ApiModelProperty(value = "Password of the user, is hashed", required=true, example = "password123")
     private String password; //hashed
 
     @ApiModelProperty(value = "Permission level of user, either Mod or user", required=true, example = "Mod")
     private String permissionLevel;
 
+    @ApiModelProperty(value = "If user is muted, they wont be able to post", required=true, example = "False")
     private boolean isMuted;
 
+    @ApiModelProperty(value = "If user is banned, they wont be able to log in to their account", required=true, example = "False")
     private boolean isBanned;
 
     public User(String username, String password){

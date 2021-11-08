@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import edu.iastate.scribbleshare.Comment.Comment;
 import edu.iastate.scribbleshare.Post.Post;
+import io.swagger.annotations.ApiModelProperty;
 
 import java.util.List;
 
@@ -28,12 +29,15 @@ public class Frame {
     private int ID;
 
     @OneToMany(cascade = CascadeType.REMOVE)
+    @ApiModelProperty(value = "Comments for the frame", required=true, example = "")
     private List<Comment> comments;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JsonIgnore
+    @ApiModelProperty(value = "Post the frame is for", required=true, example = "")
     private Post post;
 
+    @ApiModelProperty(value = "Index of the frame", required=true, example = "3")
     private int frameIndex;
 
     public Frame(Post post, int index){
