@@ -22,20 +22,30 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- *
- * @param <T>
+ * A model type object which communicates with the server. It is assumed that the specified parameter is the return type of the requests
+ * @param <T> The type of the request
  */
 public class EndpointCaller<T> {
-//    public static final String baseURL = "http://coms-309-010.cs.iastate.edu:8080";
-    public static final String baseURL = "http://10.0.2.2:8080";
+    /**
+     * The URL of the endpoint. (The local one is also present below for easier testing
+     */
+    public static final String baseURL = "http://coms-309-010.cs.iastate.edu:8080";
+//    public static final String baseURL = "http://10.0.2.2:8080";
 
+    /**
+     * The context of the request when instantiated
+     */
     private final Context context;
+
+    /**
+     * The listener each requet will send to. Most presenters are these listeners as they all implement IVolleyListener<T>
+     */
     private final IVolleyListener<T> listener;
 
     /**
-     *
-     * @param context
-     * @param listener
+     * Create an endpoint caller with given context and listener objects
+     * @param context the context which the caller resides
+     * @param listener the listener with which the requests will be sent to one received
      */
     public EndpointCaller(Context context, IVolleyListener<T> listener) {
         this.context = context;
@@ -43,9 +53,9 @@ public class EndpointCaller<T> {
     }
 
     /**
-     *
-     * @param username
-     * @param password
+     * Create a new account
+     * @param username Account username
+     * @param password Account password (plaintext)
      */
     public void createAccountRequest(String username, String password) {
         String url = baseURL + "/users/new?username=" + username + "&password=" + password;
@@ -53,9 +63,9 @@ public class EndpointCaller<T> {
     }
 
     /**
-     *
-     * @param username
-     * @param password
+     * Attempt a sign in
+     * @param username attempted username sign in
+     * @param password attempted password sign in
      */
     public void signInRequest(String username, String password) {
         String url = baseURL + "/users/login?username=" + username + "&password=" + password;
@@ -63,9 +73,9 @@ public class EndpointCaller<T> {
     }
 
     /**
-     *
-     * @param username
-     * @param scribble
+     * Create a new post and save the specified bitmap
+     * @param username Username of the account to create the post
+     * @param scribble Bitmap of the post's image to be saved on the database
      */
     public void createPostRequest(String username, Bitmap scribble){
         String url = baseURL + "/post?username=" + username;
@@ -73,18 +83,8 @@ public class EndpointCaller<T> {
     }
 
     /**
-     *
-     * @param postId
-     */
-    public void getPostImageRequest(String postId){
-        String url = baseURL + "/post/" + postId + "/image";
-        Log.d("debug", "Model calling image endpoint: " + url);
-        sendMultipartFileDownload(url, Request.Method.GET);
-    }
-
-    /**
-     *
-     * @param username
+     * Get the home screen posts for a specified user
+     * @param username The username of the user to get the recommended home screen posts
      */
     public void getHomeScreenPostsRequest(String username) {
         String url = baseURL + "/post/getHomeScreenPosts/" + username;
@@ -93,8 +93,8 @@ public class EndpointCaller<T> {
     }
 
     /**
-     *
-     * @param postId
+     * Get the frames of a specified post
+     * @param postId the id of the post
      */
     public void getPostFrames(String postId){
         String url = baseURL + "/frames/" + postId;
@@ -103,10 +103,10 @@ public class EndpointCaller<T> {
     }
 
     /**
-     *
-     * @param username
-     * @param frameId
-     * @param scribble
+     * Create a new comment
+     * @param username Username of the user who made the comment
+     * @param frameId Frame id with which the comment was made
+     * @param scribble Bitmap of the image the comment was made under
      */
     public void createCommentRequest(String username, int frameId, Bitmap scribble){
         String url = baseURL + "/comment?username=" + username + "&frameId=" + frameId;
@@ -115,10 +115,10 @@ public class EndpointCaller<T> {
     }
 
     /**
-     *
-     * @param username
-     * @param postId
-     * @param index
+     * Create a new frame for the specified post
+     * @param username Username of the user creating the frame
+     * @param postId Id of the post to create the new frame
+     * @param index Index of the new frame for the post (for concurrency)
      */
     public void createFrameRequest(String username, String postId, int index){
         String url = baseURL + "/frames?username=" + username + "&postId=" + postId + "&index=" + index;
@@ -127,19 +127,15 @@ public class EndpointCaller<T> {
     }
 
     /**
-     *
-     * @param url
-     * @param method
+     * Send a request where the response is a string
+     * @param url full endpoint url
+     * @param method HTTP method for the request
      */
     private void sendStringRequest(String url, int method) {
         StringRequest request = new StringRequest(
                 method,
                 url,
                 new Response.Listener<String>() {
-                    /**
-                     *
-                     * @param response
-                     */
                     @Override
                     public void onResponse(String response) {
                         Log.d("string request success", response);
@@ -148,10 +144,6 @@ public class EndpointCaller<T> {
                     }
                 },
                 new Response.ErrorListener() {
-                    /**
-                     *
-                     * @param error
-                     */
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         Log.e("string request error", error.toString());
@@ -164,9 +156,9 @@ public class EndpointCaller<T> {
     }
 
     /**
-     *
-     * @param url
-     * @param method
+     * Send a request where the response is a JSON object
+     * @param url full endpoint url
+     * @param method HTTP method for the request
      */
     private void sendJsonObjectRequest(String url, int method) {
         JsonObjectRequest request = new JsonObjectRequest(
@@ -174,20 +166,12 @@ public class EndpointCaller<T> {
                 url,
                 null,
                 new Response.Listener<JSONObject>() {
-                    /**
-                     *
-                     * @param response
-                     */
                     @Override
                     public void onResponse(JSONObject response) {
                         listener.onSuccess((T) response);
                     }
                 },
                 new Response.ErrorListener() {
-                    /**
-                     *
-                     * @param error
-                     */
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         listener.onError(error);
@@ -198,17 +182,13 @@ public class EndpointCaller<T> {
     }
 
     /**
-     *
-     * @param url
+     * Send a request where the response is a JSON array
+     * @param url full endpoint url
      */
     private void sendJsonArrayRequest(String url) {
         JsonArrayRequest request = new JsonArrayRequest(
                 url,
                 new Response.Listener<JSONArray>(){
-                    /**
-                     *
-                     * @param response
-                     */
                     @Override
                     public void onResponse(JSONArray response) {
                         Log.e("response", "JsonarrayRequest response: " + response.toString());
@@ -216,10 +196,6 @@ public class EndpointCaller<T> {
                     }
                 },
                 new Response.ErrorListener(){
-                    /**
-                     *
-                     * @param error
-                     */
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         //TODO
@@ -230,20 +206,16 @@ public class EndpointCaller<T> {
     }
 
     /**
-     *
-     * @param bitmap
-     * @param url
-     * @param requestMethod
+     * Send a multipart file upload
+     * @param bitmap bitmap file to upload
+     * @param url full endpoint url
+     * @param requestMethod HTTP method for the request
      */
     private void sendMultipartFileUpload(Bitmap bitmap, String url, int requestMethod) {
         MultipartRequestUpload request = new MultipartRequestUpload(
                 requestMethod,
                 url,
                 new Response.Listener<NetworkResponse>() {
-                    /**
-                     *
-                     * @param response
-                     */
                     @Override
                     public void onResponse(NetworkResponse response) {
                         try {
@@ -256,20 +228,13 @@ public class EndpointCaller<T> {
                     }
                 },
                 new Response.ErrorListener() {
-                    /**
-                     *
-                     * @param error
-                     */
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         Log.e("multipart upload error", error.toString());
                         listener.onError(error);
                     }
                 }) {
-            /**
-             *
-             * @return
-             */
+
             @Override
             protected Map<String, DataPart> getByteData() {
                 Map<String, MultipartRequestUpload.DataPart> params = new HashMap<>();
@@ -283,9 +248,9 @@ public class EndpointCaller<T> {
     }
 
     /**
-     *
-     * @param bitmap
-     * @return
+     * Convert a bitmap to a byte array
+     * @param bitmap bitmap
+     * @return the byte array of the bitmap
      */
     private byte[] getFileDataFromDrawable(Bitmap bitmap) {
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
@@ -293,40 +258,4 @@ public class EndpointCaller<T> {
         return byteArrayOutputStream.toByteArray();
     }
 
-    /**
-     *
-     * @param url
-     * @param requestMethod
-     */
-    private void sendMultipartFileDownload(String url, int requestMethod) {
-        MultipartRequestDownload request = new MultipartRequestDownload(
-                requestMethod,
-                url,
-                new Response.Listener<byte[]>() {
-                    /**
-                     *
-                     * @param response
-                     */
-                    @Override
-                    public void onResponse(byte[] response) {
-                        Log.d("debug", "MultipartFileDownload success! Calling presenter's listener");
-                        listener.onSuccess((T)response); //TODO check cast?
-                    }
-                },
-                new Response.ErrorListener() {
-                    /**
-                     *
-                     * @param error
-                     */
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Log.d("debug", "MultipartFileDownload FAILURE! Calling presenter's listener");
-                        listener.onError(error);
-                    }
-                },
-                null
-        );
-
-        MySingleton.getInstance(context).addToRequestQueue(request);
-    }
 }

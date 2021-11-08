@@ -40,16 +40,6 @@ public class CreatePostPresenter implements IVolleyListener<JSONObject> {
     }
 
     /**
-     * Gets post ID
-     * @param postId id of the new post
-     */
-    public void getPost(String postId) {
-        //TODO get other post data as well. Right now it only gets the image here
-        Log.d("debug", "presenter calling model for image request");
-        model.getPostImageRequest(postId);
-    }
-
-    /**
      * Creates the post on success
      * @param o JSON data for the created post
      */

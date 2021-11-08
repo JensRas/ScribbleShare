@@ -16,7 +16,7 @@ import java.io.UnsupportedEncodingException;
 import java.util.Map;
 
 /**
- *
+ * Create a request of a multi part file to upload to the database
  */
 public class MultipartRequestUpload extends Request<NetworkResponse> {
     private final String twoHyphens = "--";
@@ -28,11 +28,11 @@ public class MultipartRequestUpload extends Request<NetworkResponse> {
     private Map<String, String> mHeaders;
 
     /**
-     *
-     * @param method
-     * @param url
-     * @param listener
-     * @param errorListener
+     * Create a multipart request upload object
+     * @param method The method type of the request (GET, POST, etc)
+     * @param url The endpoint to send the request
+     * @param listener The listener the request sends to on success
+     * @param errorListener The listener the request sends to on error
      */
     public MultipartRequestUpload(int method, String url,
                                   Response.Listener<NetworkResponse> listener,
@@ -43,8 +43,8 @@ public class MultipartRequestUpload extends Request<NetworkResponse> {
     }
 
     /**
-     *
-     * @return
+     * Get the headers of the request
+     * @return The headers
      * @throws AuthFailureError
      */
     @Override
@@ -53,8 +53,8 @@ public class MultipartRequestUpload extends Request<NetworkResponse> {
     }
 
     /**
-     *
-     * @return
+     * Get the body content type
+     * @return The body content type
      */
     @Override
     public String getBodyContentType() {
@@ -62,8 +62,8 @@ public class MultipartRequestUpload extends Request<NetworkResponse> {
     }
 
     /**
-     *
-     * @return
+     * Get the body of the request
+     * @return The file to upload
      * @throws AuthFailureError
      */
     @Override
@@ -105,8 +105,8 @@ public class MultipartRequestUpload extends Request<NetworkResponse> {
     }
 
     /**
-     *
-     * @param response
+     * Parse the network response
+     * @param response The response to parse
      * @return
      */
     @Override
@@ -121,8 +121,8 @@ public class MultipartRequestUpload extends Request<NetworkResponse> {
     }
 
     /**
-     *
-     * @param response
+     * Deliver the response to the listener
+     * @param response The response to deliver
      */
     @Override
     protected void deliverResponse(NetworkResponse response) {
@@ -130,8 +130,8 @@ public class MultipartRequestUpload extends Request<NetworkResponse> {
     }
 
     /**
-     *
-     * @param error
+     * Deliver the response to the error listener
+     * @param error volley error object
      */
     @Override
     public void deliverError(VolleyError error) {
@@ -221,7 +221,7 @@ public class MultipartRequestUpload extends Request<NetworkResponse> {
     }
 
     /**
-     *
+     * A part of data in a multipart file
      */
     public class DataPart {
         private String fileName;
@@ -229,41 +229,29 @@ public class MultipartRequestUpload extends Request<NetworkResponse> {
         private String type;
 
         /**
-         *
+         * Default constructor
          */
         public DataPart() {
         }
 
         /**
-         *
-         * @param name
-         * @param data
+         * Create a new datapart
+         * @param name Name of datapart
+         * @param data Byte array of data in datapart
          */
         public DataPart(String name, byte[] data) {
             fileName = name;
             content = data;
         }
 
-        /**
-         *
-         * @return
-         */
         String getFileName() {
             return fileName;
         }
 
-        /**
-         *
-         * @return
-         */
         byte[] getContent() {
             return content;
         }
 
-        /**
-         *
-         * @return
-         */
         String getType() {
             return type;
         }

@@ -14,7 +14,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
- *
+ * A presenter/listener for the sign in page
  */
 public class SignInPresenter implements IVolleyListener<JSONObject> {
     private EndpointCaller<JSONObject> model;
@@ -22,9 +22,9 @@ public class SignInPresenter implements IVolleyListener<JSONObject> {
     private Context context;
 
     /**
-     *
-     * @param view
-     * @param c
+     * Create a new sign in presenter for a given view and context
+     * @param view The view of the presenter
+     * @param c The context of the presenter
      */
     public SignInPresenter(SignInView view, Context c){
         this.view = view;
@@ -33,17 +33,17 @@ public class SignInPresenter implements IVolleyListener<JSONObject> {
     }
 
     /**
-     *
-     * @param username
-     * @param password
+     * Create a new sign in request with the given user credentials
+     * @param username The username for the sign in request
+     * @param password The password for the sign in request
      */
     public void signInRequest(String username, String password){
         model.signInRequest(username, password);
     }
 
     /**
-     *
-     * @param response
+     * When the request succeeds
+     * @param response The object of the response
      */
     @Override
     public void onSuccess(JSONObject response) {
@@ -64,8 +64,8 @@ public class SignInPresenter implements IVolleyListener<JSONObject> {
     }
 
     /**
-     *
-     * @param error
+     * When the request fails
+     * @param error the error of the request to process
      */
     @Override
     public void onError(VolleyError error) {
