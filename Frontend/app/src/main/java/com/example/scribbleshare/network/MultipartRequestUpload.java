@@ -15,8 +15,10 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.Map;
 
+/**
+ *
+ */
 public class MultipartRequestUpload extends Request<NetworkResponse> {
-
     private final String twoHyphens = "--";
     private final String lineEnd = "\r\n";
     private final String boundary = "apiclient-" + System.currentTimeMillis();
@@ -25,6 +27,13 @@ public class MultipartRequestUpload extends Request<NetworkResponse> {
     private Response.ErrorListener mErrorListener;
     private Map<String, String> mHeaders;
 
+    /**
+     *
+     * @param method
+     * @param url
+     * @param listener
+     * @param errorListener
+     */
     public MultipartRequestUpload(int method, String url,
                                   Response.Listener<NetworkResponse> listener,
                                   Response.ErrorListener errorListener) {
@@ -33,16 +42,30 @@ public class MultipartRequestUpload extends Request<NetworkResponse> {
         this.mErrorListener = errorListener;
     }
 
+    /**
+     *
+     * @return
+     * @throws AuthFailureError
+     */
     @Override
     public Map<String, String> getHeaders() throws AuthFailureError {
         return (mHeaders != null) ? mHeaders : super.getHeaders();
     }
 
+    /**
+     *
+     * @return
+     */
     @Override
     public String getBodyContentType() {
         return "multipart/form-data;boundary=" + boundary;
     }
 
+    /**
+     *
+     * @return
+     * @throws AuthFailureError
+     */
     @Override
     public byte[] getBody() throws AuthFailureError {
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
@@ -81,6 +104,11 @@ public class MultipartRequestUpload extends Request<NetworkResponse> {
         return null;
     }
 
+    /**
+     *
+     * @param response
+     * @return
+     */
     @Override
     protected Response<NetworkResponse> parseNetworkResponse(NetworkResponse response) {
         try {
@@ -92,11 +120,19 @@ public class MultipartRequestUpload extends Request<NetworkResponse> {
         }
     }
 
+    /**
+     *
+     * @param response
+     */
     @Override
     protected void deliverResponse(NetworkResponse response) {
         mListener.onResponse(response);
     }
 
+    /**
+     *
+     * @param error
+     */
     @Override
     public void deliverError(VolleyError error) {
         mErrorListener.onErrorResponse(error);
@@ -184,30 +220,52 @@ public class MultipartRequestUpload extends Request<NetworkResponse> {
         dataOutputStream.writeBytes(lineEnd);
     }
 
+    /**
+     *
+     */
     public class DataPart {
         private String fileName;
         private byte[] content;
         private String type;
 
+        /**
+         *
+         */
         public DataPart() {
         }
 
+        /**
+         *
+         * @param name
+         * @param data
+         */
         public DataPart(String name, byte[] data) {
             fileName = name;
             content = data;
         }
 
+        /**
+         *
+         * @return
+         */
         String getFileName() {
             return fileName;
         }
 
+        /**
+         *
+         * @return
+         */
         byte[] getContent() {
             return content;
         }
 
+        /**
+         *
+         * @return
+         */
         String getType() {
             return type;
         }
-
     }
 }
