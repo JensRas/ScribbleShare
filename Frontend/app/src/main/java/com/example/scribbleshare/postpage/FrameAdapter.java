@@ -6,8 +6,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -16,23 +14,32 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.scribbleshare.R;
 import com.example.scribbleshare.drawingpage.DrawingPage;
-import com.example.scribbleshare.homepage.PostsAdapter;
 
-import org.w3c.dom.Comment;
-
-import java.util.ArrayList;
 import java.util.List;
 
+/**
+ *
+ */
 public class FrameAdapter extends RecyclerView.Adapter<FrameAdapter.Holder> {
-
     List<FrameModel> frameModels;
     Context context;
 
+    /**
+     *
+     * @param context
+     * @param frameModels
+     */
     public FrameAdapter(Context context, List<FrameModel> frameModels){
         this.context = context;
         this.frameModels = frameModels;
     }
 
+    /**
+     *
+     * @param parent
+     * @param viewType
+     * @return
+     */
     @NonNull
     @Override
     public Holder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -40,6 +47,11 @@ public class FrameAdapter extends RecyclerView.Adapter<FrameAdapter.Holder> {
         return new FrameAdapter.Holder(view);
     }
 
+    /**
+     *
+     * @param holder
+     * @param position
+     */
     @Override
     public void onBindViewHolder(@NonNull Holder holder, int position) {
         int frameId = frameModels.get(position).getFrameId();
@@ -53,6 +65,10 @@ public class FrameAdapter extends RecyclerView.Adapter<FrameAdapter.Holder> {
 
         //TODO add listener for clickable stuff here
         holder.createCommentButton.setOnClickListener(new View.OnClickListener() {
+            /**
+             *
+             * @param view
+             */
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(context, DrawingPage.class);
@@ -63,16 +79,27 @@ public class FrameAdapter extends RecyclerView.Adapter<FrameAdapter.Holder> {
         });
     }
 
+    /**
+     *
+     * @return
+     */
     @Override
     public int getItemCount() {
         return frameModels.size();
     }
 
+    /**
+     *
+     */
     class Holder extends RecyclerView.ViewHolder {
         TextView frameNumber;
         Button createCommentButton;
         RecyclerView commentRV;
 
+        /**
+         *
+         * @param itemView
+         */
         public Holder(@NonNull View itemView) {
             super(itemView);
             frameNumber = itemView.findViewById(R.id.frame_number);
