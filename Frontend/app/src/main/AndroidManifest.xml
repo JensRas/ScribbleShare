@@ -34,10 +34,10 @@
             android:name=".homepage.HomePage"
             android:exported="true" />
         <activity
-            android:name=".signinpage.SignIn"
+            android:name=".signinpage.SignInPage"
             android:exported="true" />
         <activity
-            android:name=".createaccountpage.CreateAccount"
+            android:name=".createaccountpage.CreateAccountPage"
             android:exported="true"
             android:label="@string/title_activity_create_account" />
         <activity

@@ -16,7 +16,7 @@ import com.example.scribbleshare.R;
 import com.example.scribbleshare.MainActivity;
 import com.example.scribbleshare.drawingpage.DrawingPage;
 
-public class SignIn extends AppCompatActivity implements SignInView {
+public class SignInPage extends AppCompatActivity implements SignInView {
 
     private SignInPresenter presenter;
 

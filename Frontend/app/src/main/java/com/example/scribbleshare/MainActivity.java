@@ -9,8 +9,8 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.scribbleshare.createaccountpage.CreateAccount;
-import com.example.scribbleshare.signinpage.SignIn;
+import com.example.scribbleshare.createaccountpage.CreateAccountPage;
+import com.example.scribbleshare.signinpage.SignInPage;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -23,7 +23,7 @@ public class MainActivity extends AppCompatActivity {
         create_account.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(view.getContext(), CreateAccount.class));
+                startActivity(new Intent(view.getContext(), CreateAccountPage.class));
             }
         });
 
@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
         sign_in.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(view.getContext(), SignIn.class));
+                startActivity(new Intent(view.getContext(), SignInPage.class));
             }
         });
     }
