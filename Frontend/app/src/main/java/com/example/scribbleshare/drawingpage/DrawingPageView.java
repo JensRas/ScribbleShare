@@ -19,7 +19,7 @@ public interface DrawingPageView {
     public void onCreateCommentSuccess(JSONObject o);
 
     /**
-     * TODO
+     * TODO implement
      */
     public void onCreatePostSuccess(JSONObject o);
 

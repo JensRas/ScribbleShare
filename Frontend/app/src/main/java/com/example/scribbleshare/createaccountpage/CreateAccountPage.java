@@ -25,10 +25,6 @@ public class CreateAccountPage extends AppCompatActivity implements CreateAccoun
 
     private CreateAccountPresenter presenter;
 
-    /**
-     *
-     * @param savedInstanceState
-     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
 
@@ -39,10 +35,7 @@ public class CreateAccountPage extends AppCompatActivity implements CreateAccoun
 
         TextView sign_in_text = (TextView) findViewById(R.id.sign_in_link_text);
         sign_in_text.setOnClickListener(new View.OnClickListener() {
-            /**
-             *
-             * @param view
-             */
+
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(view.getContext(), SignInPage.class));
@@ -51,10 +44,7 @@ public class CreateAccountPage extends AppCompatActivity implements CreateAccoun
 
         ImageButton back_button = (ImageButton) findViewById(R.id.back_button_create_account);
         back_button.setOnClickListener(new View.OnClickListener() {
-            /**
-             *
-             * @param view
-             */
+
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(view.getContext(), MainActivity.class));
@@ -63,10 +53,6 @@ public class CreateAccountPage extends AppCompatActivity implements CreateAccoun
 
         Button create_account_button = (Button) findViewById(R.id.create_account_button);
         create_account_button.setOnClickListener(new View.OnClickListener() {
-            /**
-             *
-             * @param view
-             */
             @Override
             public void onClick(View view) {
                 String usernameText = ((EditText) findViewById(R.id.ca_username)).getText().toString();
@@ -81,10 +67,6 @@ public class CreateAccountPage extends AppCompatActivity implements CreateAccoun
         });
     }
 
-    /**
-     *
-     * @param message
-     */
     @Override
     public void makeToast(String message) {
         Context context = getApplicationContext();
@@ -93,10 +75,6 @@ public class CreateAccountPage extends AppCompatActivity implements CreateAccoun
         toast.show();
     }
 
-    /**
-     * 
-     * @param c
-     */
     @Override
     public void switchView(Class c) {
         startActivity(new Intent(this, c));

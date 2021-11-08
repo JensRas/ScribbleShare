@@ -18,6 +18,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import edu.iastate.scribbleshare.ScribbleshareApplication;
 import edu.iastate.scribbleshare.Frame.Frame;
 import edu.iastate.scribbleshare.User.User;
+import io.swagger.annotations.ApiModelProperty;
 
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
@@ -37,18 +38,24 @@ public class Post {
     private int ID;
 
     @OneToOne(cascade = CascadeType.ALL)
+    @ApiModelProperty(value = "User who made the post", required=true, example = "User")
     private User user;
 
+    @ApiModelProperty(value = "Date the post was made", required=true, example = "12:32")
     private Date datePosted;
 
     @JsonIgnore
+    @ApiModelProperty(value = "Path the post is stored", required=true, example = "")
     private String path;
 
+    @ApiModelProperty(value = "Number of likes the post has", required=true, example = "21")
     private int likeCount;
 
+    @ApiModelProperty(value = "Number of comments the post has", required=true, example = "23")
     private int commentCount;
 
     @OneToMany(cascade = CascadeType.ALL)
+    @ApiModelProperty(value = "Frames that belong to the post", required=true, example = "")
     private List<Frame> frames;
 
     public Post(){

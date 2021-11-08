@@ -11,6 +11,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import edu.iastate.scribbleshare.Frame.Frame;
 import edu.iastate.scribbleshare.User.User;
+import io.swagger.annotations.ApiModelProperty;
 
 /**
  * A comment by a single user for a frame. Comments are very similar to posts, as they need to store the image files under them.
@@ -25,14 +26,18 @@ public class Comment {
 
     @OneToOne(cascade = CascadeType.REMOVE)
     @JsonIgnore
+    @ApiModelProperty(value = "Frame for the comment", required=true, example = "")
     private Frame frame;
 
     @OneToOne(cascade = CascadeType.ALL)
+    @ApiModelProperty(value = "User that made the comment", required=true, example = "User")
     private User user;
 
     @JsonIgnore
+    @ApiModelProperty(value = "Path where the comment is stored", required=true, example = "")
     private String path;
 
+    @ApiModelProperty(value = "How many likes the comment has", required=true, example = "")
     private int likeCount;
 
     public Comment(){} //need default constructor

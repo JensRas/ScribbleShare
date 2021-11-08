@@ -9,11 +9,11 @@ import com.example.scribbleshare.MySingleton;
 import com.example.scribbleshare.R;
 
 /**
- *
+ * TODO implement
  */
 public class ProfilePage extends AppCompatActivity implements ProfilePageView {
     /**
-     *
+     * TODO implement
      * @param savedInstanceState
      */
     @Override

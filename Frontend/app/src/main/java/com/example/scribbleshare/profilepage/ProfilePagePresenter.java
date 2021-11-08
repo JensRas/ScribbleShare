@@ -10,7 +10,7 @@ import com.example.scribbleshare.network.IVolleyListener;
 import org.json.JSONObject;
 
 /**
- *
+ * TODO implement
  */
 public class ProfilePagePresenter implements IVolleyListener<JSONObject> {
     private EndpointCaller<JSONObject> model;
@@ -18,7 +18,7 @@ public class ProfilePagePresenter implements IVolleyListener<JSONObject> {
     private Context context;
 
     /**
-     *
+     * TODO implement
      * @param view
      * @param c
      */
@@ -29,7 +29,7 @@ public class ProfilePagePresenter implements IVolleyListener<JSONObject> {
     }
 
     /**
-     *
+     * TODO implement
      * @param username
      */
     public void getFollowers(String username){
@@ -37,7 +37,7 @@ public class ProfilePagePresenter implements IVolleyListener<JSONObject> {
     }
 
     /**
-     *
+     * TODO implement
      * @param data
      */
     @Override
@@ -46,7 +46,7 @@ public class ProfilePagePresenter implements IVolleyListener<JSONObject> {
     }
 
     /**
-     *
+     * TODO implement
      * @param error
      */
     @Override
