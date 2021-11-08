@@ -70,10 +70,18 @@ public class PostController {
 
     @PutMapping(path="/post")
     public Post addNewPost(HttpServletResponse response, @RequestParam("username") String username, @RequestParam("image") MultipartFile imageFile) throws IllegalStateException, IOException{
+        Optional<User> optionalUser = userRepository.findById(username);
+        if(!optionalUser.isPresent()){
+            //TODO status response
+            return null;
+        }
+
         if(imageFile.isEmpty()){
             Status.formResponse(response, HttpStatus.BAD_REQUEST, "Empty file specified");
             return null;
         }
+
+        User user = optionalUser.get();
 
         String fullPath = httpServletRequest.getServletContext().getRealPath(uploadPath);
 
@@ -82,7 +90,7 @@ public class PostController {
         }
 
         //create post and set path location
-        Post post = new Post(username);
+        Post post = new Post(user);
         postRepository.save(post); //must be saved to set the id properly
         fullPath += "post_" + post.getID() + "_" + imageFile.getOriginalFilename();
         post.setPath(fullPath);
@@ -96,6 +104,9 @@ public class PostController {
 
         post.addFrame(frame);
         postRepository.save(post);
+
+        user.getPosts().add(post);
+        userRepository.save(user);
 
         logger.info("created post with id: " + post.getID() + " and path: " + post.getPath());
 

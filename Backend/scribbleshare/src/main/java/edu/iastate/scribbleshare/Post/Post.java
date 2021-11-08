@@ -18,8 +18,10 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import edu.iastate.scribbleshare.ScribbleshareApplication;
 import edu.iastate.scribbleshare.Frame.Frame;
+import edu.iastate.scribbleshare.User.User;
 
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 
 @Entity
@@ -31,7 +33,8 @@ public class Post {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int ID;
 
-    private String username;
+    @OneToOne(cascade = CascadeType.ALL)
+    private User user;
 
     private Date datePosted;
 
@@ -48,8 +51,8 @@ public class Post {
     public Post(){
     }
 
-    public Post(String username) {
-        this.username = username;
+    public Post(User user) {
+        this.user = user;
         this.datePosted = new Date();
         this.likeCount = 0;
         this.commentCount = 0;
@@ -61,12 +64,12 @@ public class Post {
         return this.ID;
     }
 
-    public String getUsername(){
-        return this.username;
+    public User getUser(){
+        return this.user;
     }
 
-    public void setUsername(String username){
-        this.username = username;
+    public void setUser(User user){
+        this.user = user;
     }
 
     public Date getDatePosted(){

@@ -7,7 +7,8 @@ import org.springframework.data.repository.query.Param;
 public interface PostRepository extends CrudRepository<Post, Integer>{
     
     //currently only selects all posts not created by the user
-    @Query(value="select * from post p where p.username!=:username order by id desc", nativeQuery = true)
+    // @Query(value="select * from post p where p.username!=:username order by id desc", nativeQuery = true)
+    @Query(value="select * from post order by id desc", nativeQuery = true)
     public Iterable<Post> getHomeScreenPosts(@Param("username") String userName);
 
 }

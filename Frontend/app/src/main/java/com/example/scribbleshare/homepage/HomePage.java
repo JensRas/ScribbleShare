@@ -51,7 +51,7 @@ public class HomePage extends AppCompatActivity implements HomePageView{
             try {
                 JSONObject obj = (JSONObject)array.get(i);
                 String id = obj.getString("id");
-                String profileName = obj.getString("username");
+                String profileName = ((JSONObject)obj.get("user")).getString("username");
                 int likeCount = obj.getInt("likeCount");
                 int commentCount = obj.getInt("commentCount");
                 PostModel m = new PostModel(id, profileName, likeCount, commentCount);
