@@ -15,7 +15,10 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 import edu.iastate.scribbleshare.User.*;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 
+@Api(value = "ReportController", description = "REST API relating to Report Entity")
 @RestController
 public class ReportController {
     
@@ -25,6 +28,7 @@ public class ReportController {
     @Autowired
     UserRepository userRepo;
 
+    @ApiOperation(value = "Add New Report", response = Void.class, tags= "Report")
     @PutMapping(path = "/report/new")
     public void addNewReport(@RequestParam("username")User user, @RequestParam("userWhoReported")User userWhoReported, @RequestParam("comment") String comment, @RequestParam("reason") String reason){
         
@@ -39,11 +43,13 @@ public class ReportController {
         repo.save(report);
     }
 
+    @ApiOperation(value = "Get All Reports", response = Iterable.class, tags= "Report")
     @GetMapping(path = "/report/getAllReports")
     public Iterable<Report> getAllReports(){
         return repo.findAll();
     }
 
+    @ApiOperation(value = "Get Report By Username", response = Iterable.class, tags= "Report")
     @GetMapping(path = "/report/{username}")
     public @ResponseBody Iterable<Report> getReportByUsername(@PathVariable String username){
         return repo.findAllByUsername(username);
