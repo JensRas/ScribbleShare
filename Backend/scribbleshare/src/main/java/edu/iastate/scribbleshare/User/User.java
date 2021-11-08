@@ -23,6 +23,7 @@ import edu.iastate.scribbleshare.Post.Post;
 import edu.iastate.scribbleshare.Report.Report;
 import edu.iastate.scribbleshare.exceptions.BadHashException;
 import edu.iastate.scribbleshare.helpers.Security;
+import io.swagger.annotations.ApiModelProperty;
 
 
 /**
@@ -43,11 +44,13 @@ public class User {
 
     
     @Id
+    @ApiModelProperty(value = "Username of user",name="username", dataType = "String", required=true,example = "Corbeno")
     private String username;
 
     @JsonIgnore
     private String password; //hashed
 
+    @ApiModelProperty(value = "Permission level of user, either Mod or user", required=true, example = "Mod")
     private String permissionLevel;
 
     private boolean isMuted;
