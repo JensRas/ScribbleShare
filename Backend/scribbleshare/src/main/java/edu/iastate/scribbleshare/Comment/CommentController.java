@@ -65,6 +65,7 @@ public class CommentController {
             Status.formResponse(response, HttpStatus.BAD_REQUEST, "frameId: " + frameId + " not found!");
             return null;
         }
+        User user = optionalUser.get();
         Frame frame = optionalFrame.get();
 
         String fullPath = httpServletRequest.getServletContext().getRealPath(uploadPath);
@@ -73,7 +74,7 @@ public class CommentController {
             new File(fullPath).mkdir();
         }
 
-        Comment comment = new Comment(username);
+        Comment comment = new Comment(user);
         comment.setFrame(frame);
         commentRepository.save(comment);
         frame.getComments().add(comment);
@@ -81,6 +82,9 @@ public class CommentController {
         logger.info(comment.getFrame().toString());
         fullPath += "comment_" + comment.getID() + "_" + imageFile.getOriginalFilename();
         comment.setPath(fullPath);
+
+        user.getComments().add(comment);
+        userRepository.save(user);
 
         //write file to disk
         File tempFile = new File(fullPath);

@@ -20,13 +20,13 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
 public class EndpointCaller<T> {
     public static final String baseURL = "http://coms-309-010.cs.iastate.edu:8080";
 //    public static final String baseURL = "http://10.0.2.2:8080";
-
 
     private final Context context;
     private final IVolleyListener<T> listener;
@@ -43,7 +43,7 @@ public class EndpointCaller<T> {
 
     public void signInRequest(String username, String password) {
         String url = baseURL + "/users/login?username=" + username + "&password=" + password;
-        sendJsonObjectRequest(url);
+        sendJsonObjectRequest(url, Request.Method.GET);
     }
 
     public void createPostRequest(String username, Bitmap scribble){
@@ -59,8 +59,26 @@ public class EndpointCaller<T> {
 
     public void getHomeScreenPostsRequest(String username) {
         String url = baseURL + "/post/getHomeScreenPosts/" + username;
-        Log.d("debug", "Model calling image endpoint: " + url);
+        Log.d("debug", "Model calling json array endpoint: " + url);
         sendJsonArrayRequest(url);
+    }
+
+    public void getPostFrames(String postId){
+        String url = baseURL + "/frames/" + postId;
+        Log.d("debug", "Model calling json array endpoint: " + url);
+        sendJsonArrayRequest(url);
+    }
+
+    public void createCommentRequest(String username, int frameId, Bitmap scribble){
+        String url = baseURL + "/comment?username=" + username + "&frameId=" + frameId;
+        Log.d("debug", "creating comment request with url: " + url);
+        sendMultipartFileUpload(scribble, url, Request.Method.PUT);
+    }
+
+    public void createFrameRequest(String username, String postId, int index){
+        String url = baseURL + "/frames?username=" + username + "&postId=" + postId + "&index=" + index;
+        Log.d("debug", "creating new frame request with url: " + url);
+        sendJsonObjectRequest(url, Request.Method.POST);
     }
 
     private void sendStringRequest(String url, int method) {
@@ -87,9 +105,9 @@ public class EndpointCaller<T> {
         MySingleton.getInstance(context).addToRequestQueue(request);
     }
 
-    private void sendJsonObjectRequest(String url) {
+    private void sendJsonObjectRequest(String url, int method) {
         JsonObjectRequest request = new JsonObjectRequest(
-                Request.Method.GET,
+                method,
                 url,
                 null,
                 new Response.Listener<JSONObject>() {
@@ -140,7 +158,7 @@ public class EndpointCaller<T> {
                         try {
                             //TODO change this to reflect the acutal endpoints response structure
                             JSONObject obj = new JSONObject(new String(response.data));
-                            listener.onSuccess((T)obj.getString("message")); //TODO check cast?
+                            listener.onSuccess((T)obj); //TODO check cast?
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }

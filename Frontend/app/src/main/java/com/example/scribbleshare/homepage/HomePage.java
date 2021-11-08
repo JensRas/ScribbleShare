@@ -16,6 +16,7 @@ import com.example.scribbleshare.MainActivity;
 import com.example.scribbleshare.MySingleton;
 import com.example.scribbleshare.R;
 import com.example.scribbleshare.drawingpage.DrawingPage;
+import com.example.scribbleshare.postpage.PostPage;
 import com.example.scribbleshare.profilepage.ProfilePage;
 import com.example.scribbleshare.searchpage.SearchPage;
 
@@ -50,7 +51,7 @@ public class HomePage extends AppCompatActivity implements HomePageView{
             try {
                 JSONObject obj = (JSONObject)array.get(i);
                 String id = obj.getString("id");
-                String profileName = obj.getString("username");
+                String profileName = ((JSONObject)obj.get("user")).getString("username");
                 int likeCount = obj.getInt("likeCount");
                 int commentCount = obj.getInt("commentCount");
                 PostModel m = new PostModel(id, profileName, likeCount, commentCount);
@@ -73,7 +74,8 @@ public class HomePage extends AppCompatActivity implements HomePageView{
         home_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(view.getContext(), HomePage.class));
+                //already on home page
+//                startActivity(new Intent(view.getContext(), HomePage.class));
             }
         });
 
@@ -89,7 +91,9 @@ public class HomePage extends AppCompatActivity implements HomePageView{
         create_new_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(view.getContext(), DrawingPage.class));
+                Intent intent = new Intent(view.getContext(), DrawingPage.class);
+                intent.putExtra("drawContext", "newPost");
+                startActivity(intent);
             }
         });
         /*

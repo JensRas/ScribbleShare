@@ -10,6 +10,7 @@ import javax.persistence.OneToOne;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import edu.iastate.scribbleshare.Frame.Frame;
+import edu.iastate.scribbleshare.User.User;
 
 @Entity
 public class Comment {
@@ -21,7 +22,8 @@ public class Comment {
     @JsonIgnore
     private Frame frame;
 
-    private String username;
+    @OneToOne(cascade = CascadeType.ALL)
+    private User user;
 
     @JsonIgnore
     private String path;
@@ -30,8 +32,8 @@ public class Comment {
 
     public Comment(){} //need default constructor
 
-    public Comment(String username){
-        this.username = username;
+    public Comment(User user){
+        this.user = user;
         this.likeCount = 0;
     }
 
@@ -55,12 +57,12 @@ public class Comment {
         this.frame = frame;
     }
 
-    public String getUsername(){
-        return username;
+    public User getUser(){
+        return user;
     }
 
-    public void setUsername(String username){
-        this.username = username;
+    public void setUser(User user){
+        this.user = user;
     }
 
     public int getLikeCount(){

@@ -70,10 +70,18 @@ public class PostController {
 
     @PutMapping(path="/post")
     public Post addNewPost(HttpServletResponse response, @RequestParam("username") String username, @RequestParam("image") MultipartFile imageFile) throws IllegalStateException, IOException{
+        Optional<User> optionalUser = userRepository.findById(username);
+        if(!optionalUser.isPresent()){
+            //TODO status response
+            return null;
+        }
+
         if(imageFile.isEmpty()){
             Status.formResponse(response, HttpStatus.BAD_REQUEST, "Empty file specified");
             return null;
         }
+
+        User user = optionalUser.get();
 
         String fullPath = httpServletRequest.getServletContext().getRealPath(uploadPath);
 
@@ -82,7 +90,7 @@ public class PostController {
         }
 
         //create post and set path location
-        Post post = new Post(username);
+        Post post = new Post(user);
         postRepository.save(post); //must be saved to set the id properly
         fullPath += "post_" + post.getID() + "_" + imageFile.getOriginalFilename();
         post.setPath(fullPath);
@@ -91,26 +99,20 @@ public class PostController {
         File tempFile = new File(fullPath);
         imageFile.transferTo(tempFile);
 
-        for(Frame frame : createEmptyFrames(post, NEW_POST_FRAME_COUNT)){
-            post.addFrame(frame);
-        }
+        Frame frame = new Frame(post, 0);
+        frameRepository.save(frame);
 
+        post.addFrame(frame);
         postRepository.save(post);
+
+        user.getPosts().add(post);
+        userRepository.save(user);
 
         logger.info("created post with id: " + post.getID() + " and path: " + post.getPath());
 
         return post;
     }
 
-    private Iterable<Frame> createEmptyFrames(Post post, int count){
-        ArrayList<Integer> ids = new ArrayList<>();
-        for(int i = 0; i < count; i++){
-            Frame f = new Frame(post);
-            frameRepository.save(f);
-            ids.add(f.getID());
-        }
-        return frameRepository.findAllById(ids);
-    }
 
     @GetMapping(path="/post/getHomeScreenPosts/{username}")
     public Iterable<Post> getHomeScreenPosts(HttpServletResponse response, @PathVariable String username){
