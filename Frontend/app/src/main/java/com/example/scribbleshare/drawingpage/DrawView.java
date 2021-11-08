@@ -12,8 +12,10 @@ import android.view.View;
 
 import java.util.ArrayList;
 
+/**
+ *
+ */
 public class DrawView extends View {
-
     private static final float TOUCH_TOLERANCE = 4;
     private float mX, mY;
     private Path mPath;
@@ -32,11 +34,20 @@ public class DrawView extends View {
     private Canvas mCanvas;
     private Paint mBitmapPaint = new Paint(Paint.DITHER_FLAG);
 
+    /**
+     *
+     * @param context
+     */
     // Constructors to initialise all the attributes
     public DrawView(Context context) {
         this(context, null);
     }
 
+    /**
+     *
+     * @param context
+     * @param attrs
+     */
     public DrawView(Context context, AttributeSet attrs) {
         super(context, attrs);
         mPaint = new Paint();
@@ -55,6 +66,11 @@ public class DrawView extends View {
 
     }
 
+    /**
+     *
+     * @param height
+     * @param width
+     */
     // this method instantiate the bitmap and object
     public void init(int height, int width) {
         mBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
@@ -67,6 +83,10 @@ public class DrawView extends View {
         strokeWidth = 20;
     }
 
+    /**
+     *
+     * @param bitmap
+     */
     public void setmBitmap(Bitmap bitmap){
         //TODO this currently doesn't work very well. Cant figure out how to get it to properly get the new image
         mCanvas.save();
@@ -75,16 +95,27 @@ public class DrawView extends View {
         mCanvas.restore();
     }
 
+    /**
+     *
+     * @param color
+     */
     // sets the current color of stroke
     public void setColor(int color) {
         currentColor = color;
     }
 
+    /**
+     *
+     * @param width
+     */
     // sets the stroke width
     public void setStrokeWidth(int width) {
         strokeWidth = width;
     }
 
+    /**
+     *
+     */
     public void undo() {
         // check whether the List is empty or not
         // if empty, the remove method will return an error
@@ -94,11 +125,19 @@ public class DrawView extends View {
         }
     }
 
+    /**
+     *
+     * @return
+     */
     // this methods returns the current bitmap
     public Bitmap save() {
         return mBitmap;
     }
 
+    /**
+     *
+     * @param canvas
+     */
     // this is the main method where
     // the actual drawing takes place
     @Override
@@ -125,6 +164,11 @@ public class DrawView extends View {
     // the below methods manages the touch
     // response of the user on the screen
 
+    /**
+     *
+     * @param x
+     * @param y
+     */
     // firstly, we create a new Stroke
     // and add it to the paths list
     private void touchStart(float x, float y) {
@@ -146,6 +190,11 @@ public class DrawView extends View {
         mY = y;
     }
 
+    /**
+     *
+     * @param x
+     * @param y
+     */
     // in this method we check
     // if the move of finger on the
     // screen is greater than the
@@ -165,6 +214,9 @@ public class DrawView extends View {
         }
     }
 
+    /**
+     *
+     */
     // at the end, we call the lineTo method
     // which simply draws the line until
     // the end position
@@ -172,6 +224,11 @@ public class DrawView extends View {
         mPath.lineTo(mX, mY);
     }
 
+    /**
+     *
+     * @param event
+     * @return
+     */
     // the onTouchEvent() method provides us with
     // the information about the type of motion
     // which has been taken place, and according

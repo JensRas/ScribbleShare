@@ -21,13 +21,15 @@ import com.example.scribbleshare.homepage.HomePage;
 import com.example.scribbleshare.postpage.PostPage;
 import com.google.android.material.slider.RangeSlider;
 
-import petrov.kristiyan.colorpicker.ColorPicker;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class DrawingPage extends AppCompatActivity implements DrawingPageView {
+import petrov.kristiyan.colorpicker.ColorPicker;
 
+/**
+ *
+ */
+public class DrawingPage extends AppCompatActivity implements DrawingPageView {
     // creating the object of type DrawView
     // in order to get the reference of the View
     private DrawView paint;
@@ -42,6 +44,10 @@ public class DrawingPage extends AppCompatActivity implements DrawingPageView {
     private CreatePostPresenter createPostPresenter;
     private CreateCommentPresenter createCommentPresenter;
 
+    /**
+     *
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,6 +78,10 @@ public class DrawingPage extends AppCompatActivity implements DrawingPageView {
         // to perform certain actions
 
         back_button.setOnClickListener(new View.OnClickListener() {
+            /**
+             *
+             * @param view
+             */
             @Override
             public void onClick(View view) {
                 //TODO change this based on drawContext
@@ -82,6 +92,10 @@ public class DrawingPage extends AppCompatActivity implements DrawingPageView {
         // the undo button will remove the most
         // recent stroke from the canvas
         undo.setOnClickListener(new View.OnClickListener() {
+            /**
+             *
+             * @param view
+             */
             @Override
             public void onClick(View view) {
                 paint.undo();
@@ -93,6 +107,10 @@ public class DrawingPage extends AppCompatActivity implements DrawingPageView {
         // in form of PNG, in the storage
         String finalDrawContext = drawContext;
         save.setOnClickListener(new View.OnClickListener() {
+            /**
+             *
+             * @param view
+             */
             @Override
             public void onClick(View view) {
                 // getting the bitmap from DrawView class
@@ -113,10 +131,19 @@ public class DrawingPage extends AppCompatActivity implements DrawingPageView {
         // the color button will allow the user
         // to select the color of his brush
         color.setOnClickListener(new View.OnClickListener() {
+            /**
+             *
+             * @param view
+             */
             @Override
             public void onClick(View view) {
                 final ColorPicker colorPicker = new ColorPicker(DrawingPage.this);
                 colorPicker.setOnFastChooseColorListener(new ColorPicker.OnFastChooseColorListener() {
+                    /**
+                     *
+                     * @param position
+                     * @param color
+                     */
                     @Override
                     public void setOnFastChooseColorListener(int position, int color) {
                         // get the integer value of color
@@ -124,6 +151,10 @@ public class DrawingPage extends AppCompatActivity implements DrawingPageView {
                         // set it as the stroke color
                         paint.setColor(color);
                     }
+
+                    /**
+                     *
+                     */
                     @Override
                     public void onCancel() {
                         colorPicker.dismissDialog();
@@ -141,6 +172,10 @@ public class DrawingPage extends AppCompatActivity implements DrawingPageView {
 
         // the button will toggle the visibility of the RangeBar/RangeSlider
         stroke.setOnClickListener(new View.OnClickListener() {
+            /**
+             *
+             * @param view
+             */
             @Override
             public void onClick(View view) {
                 if (rangeSlider.getVisibility() == View.VISIBLE)
@@ -162,6 +197,12 @@ public class DrawingPage extends AppCompatActivity implements DrawingPageView {
         // change the stroke width
         // as soon as the user slides the slider
         rangeSlider.addOnChangeListener(new RangeSlider.OnChangeListener() {
+            /**
+             *
+             * @param slider
+             * @param value
+             * @param fromUser
+             */
             @Override
             public void onValueChange(@NonNull RangeSlider slider, float value, boolean fromUser) {
                 paint.setStrokeWidth((int) value);
@@ -172,6 +213,9 @@ public class DrawingPage extends AppCompatActivity implements DrawingPageView {
         // to the init method of the DrawView object
         ViewTreeObserver vto = paint.getViewTreeObserver();
         vto.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            /**
+             *
+             */
             @Override
             public void onGlobalLayout() {
                 paint.getViewTreeObserver().removeOnGlobalLayoutListener(this);
@@ -182,6 +226,10 @@ public class DrawingPage extends AppCompatActivity implements DrawingPageView {
         });
     }
 
+    /**
+     *
+     * @param data
+     */
     @Override
     public void setDrawingImage(byte[] data) {
         Log.d("debug", "calling paint.setBitmap()");
@@ -191,6 +239,10 @@ public class DrawingPage extends AppCompatActivity implements DrawingPageView {
         paint.setmBitmap(bitmap);
     }
 
+    /**
+     *
+     * @param o
+     */
     @Override
     public void onCreateCommentSuccess(JSONObject o) {
         Log.i("info", "onCreatecommentSuccess: " + o.toString());
@@ -205,11 +257,19 @@ public class DrawingPage extends AppCompatActivity implements DrawingPageView {
         startActivity(intent);
     }
 
+    /**
+     *
+     * @param o
+     */
     @Override
     public void onCreatePostSuccess(JSONObject o) {
 
     }
 
+    /**
+     *
+     * @param message
+     */
     @Override
     public void makeToast(String message) {
         Context context = getApplicationContext();
@@ -218,6 +278,10 @@ public class DrawingPage extends AppCompatActivity implements DrawingPageView {
         toast.show();
     }
 
+    /**
+     * 
+     * @param c
+     */
     @Override
     public void switchView(Class c) {
         startActivity(new Intent(this, c));

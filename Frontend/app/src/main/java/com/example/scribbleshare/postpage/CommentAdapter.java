@@ -17,16 +17,29 @@ import com.example.scribbleshare.network.EndpointCaller;
 import java.util.List;
 
 
+/**
+ *
+ */
 public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.Holder>{
-
     List<CommentModel> commentModels;
     Context context;
 
+    /**
+     *
+     * @param context
+     * @param commentModels
+     */
     public CommentAdapter(Context context, List<CommentModel> commentModels){
         this.context = context;
         this.commentModels = commentModels;
     }
 
+    /**
+     *
+     * @param parent
+     * @param viewType
+     * @return
+     */
     @NonNull
     @Override
     public Holder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -34,6 +47,11 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.Holder>{
         return new Holder(view);
     }
 
+    /**
+     *
+     * @param holder
+     * @param position
+     */
     @Override
     public void onBindViewHolder(@NonNull Holder holder, int position) {
         String profileName = commentModels.get(position).getProfileName();
@@ -49,16 +67,27 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.Holder>{
         //TODO set onclick listeners for comment stuff here
     }
 
+    /**
+     *
+     * @return
+     */
     @Override
     public int getItemCount() {
         return commentModels.size();
     }
 
+    /**
+     *
+     */
     class Holder extends RecyclerView.ViewHolder {
         ImageView commentScribble;
         TextView likeCount, profileName;
         //TODO add other buttons/textviews/etc
 
+        /**
+         *
+         * @param itemView
+         */
         public Holder(@NonNull View itemView) {
             super(itemView);
             commentScribble = itemView.findViewById(R.id.frame_image);
