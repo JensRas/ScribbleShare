@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/grey"
-    tools:context=".MainActivity">
+    tools:context=".SplashScreen">
 
     <LinearLayout
         android:id="@+id/top_bar_layout"
@@ -40,29 +40,37 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:layout_marginStart="5dp"
-        android:layout_marginTop="60dp"
+        android:layout_marginTop="10dp"
         android:background="@null"
         android:contentDescription="go_back_to_homepage"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_outline_arrow_back_24" />
 
-    <com.example.scribbleshare.drawingpage.DrawView
-        android:id="@+id/draw_view"
-        android:layout_width="393dp"
-        android:layout_height="517dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
-        android:layout_centerInParent="true"
-        android:layout_marginTop="34dp"
-        android:background="@color/white" />
+<!--    <FrameLayout-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent"-->
+<!--        android:layout_below="@+id/top_bar_layout"-->
+<!--        android:layout_marginBottom="5dp"-->
+<!--        android:layout_above="@+id/draw_controls"-->
+<!--        android:layout_marginTop="60dp">-->
+
+<!--        &lt;!&ndash;original layout width = 393dp, height 517dp&ndash;&gt;-->
+<!--        <com.example.scribbleshare.drawingpage.DrawView-->
+<!--            android:id="@+id/draw_view"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="match_parent"-->
+<!--            android:background="@color/white" />-->
+
+<!--    </FrameLayout>-->
 
     <LinearLayout
-        android:id="@+id/linear"
+        android:id="@+id/draw_controls"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="100dp"
         android:orientation="vertical"
-        android:layout_marginTop="650dp">
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="0dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -125,6 +133,28 @@
         </LinearLayout>
 
     </LinearLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/top_bar_layout"
+        android:layout_marginBottom="5dp"
+        android:layout_above="@+id/draw_controls"
+        android:layout_marginTop="10dp">
+
+        <com.example.scribbleshare.drawingpage.DrawView
+            android:id="@+id/draw_view"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+
+            android:layout_marginTop="0dp"
+            app:layout_constraintDimensionRatio="W,9:16"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:background="@color/white" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 
 </RelativeLayout>

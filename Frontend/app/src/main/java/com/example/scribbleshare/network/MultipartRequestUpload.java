@@ -15,8 +15,10 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.Map;
 
+/**
+ * Create a request of a multi part file to upload to the database
+ */
 public class MultipartRequestUpload extends Request<NetworkResponse> {
-
     private final String twoHyphens = "--";
     private final String lineEnd = "\r\n";
     private final String boundary = "apiclient-" + System.currentTimeMillis();
@@ -25,6 +27,13 @@ public class MultipartRequestUpload extends Request<NetworkResponse> {
     private Response.ErrorListener mErrorListener;
     private Map<String, String> mHeaders;
 
+    /**
+     * Create a multipart request upload object
+     * @param method The method type of the request (GET, POST, etc)
+     * @param url The endpoint to send the request
+     * @param listener The listener the request sends to on success
+     * @param errorListener The listener the request sends to on error
+     */
     public MultipartRequestUpload(int method, String url,
                                   Response.Listener<NetworkResponse> listener,
                                   Response.ErrorListener errorListener) {
@@ -33,16 +42,30 @@ public class MultipartRequestUpload extends Request<NetworkResponse> {
         this.mErrorListener = errorListener;
     }
 
+    /**
+     * Get the headers of the request
+     * @return The headers
+     * @throws AuthFailureError
+     */
     @Override
     public Map<String, String> getHeaders() throws AuthFailureError {
         return (mHeaders != null) ? mHeaders : super.getHeaders();
     }
 
+    /**
+     * Get the body content type
+     * @return The body content type
+     */
     @Override
     public String getBodyContentType() {
         return "multipart/form-data;boundary=" + boundary;
     }
 
+    /**
+     * Get the body of the request
+     * @return The file to upload
+     * @throws AuthFailureError
+     */
     @Override
     public byte[] getBody() throws AuthFailureError {
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
@@ -81,6 +104,11 @@ public class MultipartRequestUpload extends Request<NetworkResponse> {
         return null;
     }
 
+    /**
+     * Parse the network response
+     * @param response The response to parse
+     * @return
+     */
     @Override
     protected Response<NetworkResponse> parseNetworkResponse(NetworkResponse response) {
         try {
@@ -92,11 +120,19 @@ public class MultipartRequestUpload extends Request<NetworkResponse> {
         }
     }
 
+    /**
+     * Deliver the response to the listener
+     * @param response The response to deliver
+     */
     @Override
     protected void deliverResponse(NetworkResponse response) {
         mListener.onResponse(response);
     }
 
+    /**
+     * Deliver the response to the error listener
+     * @param error volley error object
+     */
     @Override
     public void deliverError(VolleyError error) {
         mErrorListener.onErrorResponse(error);
@@ -184,14 +220,25 @@ public class MultipartRequestUpload extends Request<NetworkResponse> {
         dataOutputStream.writeBytes(lineEnd);
     }
 
+    /**
+     * A part of data in a multipart file
+     */
     public class DataPart {
         private String fileName;
         private byte[] content;
         private String type;
 
+        /**
+         * Default constructor
+         */
         public DataPart() {
         }
 
+        /**
+         * Create a new datapart
+         * @param name Name of datapart
+         * @param data Byte array of data in datapart
+         */
         public DataPart(String name, byte[] data) {
             fileName = name;
             content = data;
@@ -208,6 +255,5 @@ public class MultipartRequestUpload extends Request<NetworkResponse> {
         String getType() {
             return type;
         }
-
     }
 }

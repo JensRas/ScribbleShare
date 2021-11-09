@@ -1,8 +1,6 @@
 package com.example.scribbleshare.drawingpage;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -12,20 +10,27 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
-import com.example.scribbleshare.MainActivity;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.example.scribbleshare.MySingleton;
 import com.example.scribbleshare.R;
 import com.example.scribbleshare.homepage.HomePage;
+import com.example.scribbleshare.postpage.PostPage;
 import com.google.android.material.slider.RangeSlider;
 
-//import org.apache.http.entity.mime.MultipartEntity;
-//import org.apache.http.entity.mime.MultipartEntityBuilder;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import petrov.kristiyan.colorpicker.ColorPicker;
 
+/**
+ * Handles UI for drawing page and the button logic
+ * Color of stroke, stroke size, undo button, and saving of image
+ */
 public class DrawingPage extends AppCompatActivity implements DrawingPageView {
-
     // creating the object of type DrawView
     // in order to get the reference of the View
     private DrawView paint;
@@ -37,14 +42,26 @@ public class DrawingPage extends AppCompatActivity implements DrawingPageView {
     // help in selecting the width of the Stroke
     private RangeSlider rangeSlider;
 
-    private CreatePostPresenter presenter;
+    private CreatePostPresenter createPostPresenter;
+    private CreateCommentPresenter createCommentPresenter;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_drawing);
 
-        presenter = new CreatePostPresenter(this, getApplicationContext());
+        createPostPresenter = new CreatePostPresenter(this, getApplicationContext());
+        createCommentPresenter = new CreateCommentPresenter(this, getApplicationContext());
+
+        String drawContext = "";
+
+        Bundle bundle = getIntent().getExtras();
+        if(bundle == null){
+            Log.e("ERROR", "Please set a bundle when switching to the drawing page so it knows the context");
+        }else{
+            drawContext = bundle.getString("drawContext");
+        }
 
         // getting the reference of the views from their ids
         paint = (DrawView) findViewById(R.id.draw_view);
@@ -61,6 +78,7 @@ public class DrawingPage extends AppCompatActivity implements DrawingPageView {
         back_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //TODO change this based on drawContext
                 startActivity(new Intent(view.getContext(), HomePage.class));
             }
         });
@@ -77,14 +95,22 @@ public class DrawingPage extends AppCompatActivity implements DrawingPageView {
         // the save button will save the current
         // canvas which is actually a bitmap
         // in form of PNG, in the storage
+        String finalDrawContext = drawContext;
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 // getting the bitmap from DrawView class
                 Bitmap bitmap = paint.save();
                 String username = MySingleton.getInstance(view.getContext()).getApplicationUser().getUsername();
-                presenter.createPost(username, bitmap);
-                //TODO switch to the post view for that post
+                switch(finalDrawContext){
+                    case "newPost":
+                        createPostPresenter.createPost(username, bitmap);
+                        break;
+                    case "newComment":
+                        int frameId = bundle.getInt("frameId"); //TODO add error handling if this doesn't exist?
+                        createCommentPresenter.createComment(username, frameId, bitmap);
+                        break;
+                }
             }
         });
 
@@ -95,6 +121,11 @@ public class DrawingPage extends AppCompatActivity implements DrawingPageView {
             public void onClick(View view) {
                 final ColorPicker colorPicker = new ColorPicker(DrawingPage.this);
                 colorPicker.setOnFastChooseColorListener(new ColorPicker.OnFastChooseColorListener() {
+                    /**
+                     * Sets the paint color when drawing
+                     * @param position gets position of canvas
+                     * @param color color chosen on the color picker gets an int value
+                     */
                     @Override
                     public void setOnFastChooseColorListener(int position, int color) {
                         // get the integer value of color
@@ -102,6 +133,10 @@ public class DrawingPage extends AppCompatActivity implements DrawingPageView {
                         // set it as the stroke color
                         paint.setColor(color);
                     }
+
+                    /**
+                     * Dismisses the color picker
+                     */
                     @Override
                     public void onCancel() {
                         colorPicker.dismissDialog();
@@ -119,6 +154,10 @@ public class DrawingPage extends AppCompatActivity implements DrawingPageView {
 
         // the button will toggle the visibility of the RangeBar/RangeSlider
         stroke.setOnClickListener(new View.OnClickListener() {
+            /**
+             * Shows/hides range slider
+             * @param view Is either Visible or Gone, then based off that value shows/hides range slider
+             */
             @Override
             public void onClick(View view) {
                 if (rangeSlider.getVisibility() == View.VISIBLE)
@@ -140,6 +179,12 @@ public class DrawingPage extends AppCompatActivity implements DrawingPageView {
         // change the stroke width
         // as soon as the user slides the slider
         rangeSlider.addOnChangeListener(new RangeSlider.OnChangeListener() {
+            /**
+             * Set's the stroke width to the chose thickness from the user
+             * @param slider range slider
+             * @param value value of the thickness chosen from slider
+             * @param fromUser gets input from user
+             */
             @Override
             public void onValueChange(@NonNull RangeSlider slider, float value, boolean fromUser) {
                 paint.setStrokeWidth((int) value);
@@ -160,6 +205,7 @@ public class DrawingPage extends AppCompatActivity implements DrawingPageView {
         });
     }
 
+
     @Override
     public void setDrawingImage(byte[] data) {
         Log.d("debug", "calling paint.setBitmap()");
@@ -167,5 +213,41 @@ public class DrawingPage extends AppCompatActivity implements DrawingPageView {
         options.inMutable = true;
         Bitmap bitmap = BitmapFactory.decodeByteArray(data , 0, data.length, options);
         paint.setmBitmap(bitmap);
+    }
+
+
+    @Override
+    public void onCreateCommentSuccess(JSONObject o) {
+        Log.i("info", "onCreatecommentSuccess: " + o.toString());
+        Intent intent = new Intent(this, PostPage.class);
+        try {
+            intent.putExtra("postId", o.getString("id"));
+        } catch (JSONException e) {
+            Log.e("ERROR", "Error parsing response: " + o.toString());
+            e.printStackTrace();
+            return;
+        }
+        startActivity(intent);
+    }
+
+
+    @Override
+    public void onCreatePostSuccess(JSONObject o) {
+        //TODO
+    }
+
+
+    @Override
+    public void makeToast(String message) {
+        Context context = getApplicationContext();
+        int duration = Toast.LENGTH_SHORT;
+        Toast toast = Toast.makeText(context, message, duration);
+        toast.show();
+    }
+
+
+    @Override
+    public void switchView(Class c) {
+        startActivity(new Intent(this, c));
     }
 }

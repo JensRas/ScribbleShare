@@ -36,7 +36,7 @@
 
 
     <FrameLayout
-        android:id="@+id/frame"
+        android:id="@+id/frame_frame_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         tools:context=".homepage.HomePage"
@@ -50,6 +50,19 @@
             android:layout_marginTop="10dp"/>
 
     </FrameLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_below="@+id/frame_frame_layout">
+
+        <Button
+            android:id="@+id/new_frame_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="+ Frame" />
+    </FrameLayout>
+
 
     <LinearLayout
         android:id="@+id/icon_bar_layout"

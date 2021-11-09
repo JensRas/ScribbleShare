@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageButton;
 
 import androidx.annotation.Nullable;
@@ -12,7 +11,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.scribbleshare.MainActivity;
 import com.example.scribbleshare.MySingleton;
 import com.example.scribbleshare.R;
 import com.example.scribbleshare.drawingpage.DrawingPage;
@@ -25,8 +23,10 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+/**
+ * Handles UI for the homepage and the buttons in the icon bar
+ */
 public class HomePage extends AppCompatActivity implements HomePageView{
-
     private RecyclerView postsRV;
     private ArrayList<PostModel> postsAL;
 
@@ -40,6 +40,10 @@ public class HomePage extends AppCompatActivity implements HomePageView{
         postsPresenter.populateHomeScreenPosts(username); //when the request is done it calls "setHomePagePosts below
     }
 
+    /**
+     * This method sets the posts for the scrollable homepage
+     * @param array Array of posts data
+     */
     @Override
     public void setHomePagePosts(JSONArray array) {
         Log.e("setHomePagePosts", "calling method");
@@ -50,7 +54,7 @@ public class HomePage extends AppCompatActivity implements HomePageView{
             try {
                 JSONObject obj = (JSONObject)array.get(i);
                 String id = obj.getString("id");
-                String profileName = obj.getString("username");
+                String profileName = ((JSONObject)obj.get("user")).getString("username");
                 int likeCount = obj.getInt("likeCount");
                 int commentCount = obj.getInt("commentCount");
                 PostModel m = new PostModel(id, profileName, likeCount, commentCount);
@@ -73,7 +77,8 @@ public class HomePage extends AppCompatActivity implements HomePageView{
         home_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(view.getContext(), HomePage.class));
+                //already on home page
+//                startActivity(new Intent(view.getContext(), HomePage.class));
             }
         });
 
@@ -89,7 +94,9 @@ public class HomePage extends AppCompatActivity implements HomePageView{
         create_new_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(view.getContext(), DrawingPage.class));
+                Intent intent = new Intent(view.getContext(), DrawingPage.class);
+                intent.putExtra("drawContext", "newPost");
+                startActivity(intent);
             }
         });
         /*

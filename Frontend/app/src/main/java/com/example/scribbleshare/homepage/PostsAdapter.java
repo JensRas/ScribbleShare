@@ -1,6 +1,7 @@
 package com.example.scribbleshare.homepage;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,14 +17,22 @@ import com.bumptech.glide.Glide;
 import com.example.scribbleshare.MySingleton;
 import com.example.scribbleshare.R;
 import com.example.scribbleshare.network.EndpointCaller;
+import com.example.scribbleshare.postpage.PostPage;
 
 import java.util.List;
 
+/**
+ * Handles the RecyclerView for the homepage
+ */
 public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.Holder>{
-
     List<PostModel> postModels;
     Context context;
 
+    /**
+     * Constructor to initialize post models for the homepage
+     * @param context Current context
+     * @param postModels List of post models for the homepage
+     */
     public PostsAdapter(Context context, List<PostModel> postModels) {
         this.context = context;
         this.postModels = postModels;
@@ -55,9 +64,9 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.Holder>{
             @Override
             public void onClick(View view) {
                 //TODO when the image is clicked
-
-                //TODO remove this its just for testing
-                Log.e("test", "username: " + MySingleton.getInstance(context).getApplicationUser().getUsername());
+                Intent intent = new Intent(context, PostPage.class);
+                intent.putExtra("postId", postId);
+                context.startActivity(intent);
             }
         });
 
@@ -76,17 +85,27 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.Holder>{
         });
     }
 
+    /**
+     * This method returns the item count inside the RecyclerView
+     * @return Item count inside the RecyclerView
+     */
     @Override
     public int getItemCount() {
         return postModels.size();
     }
 
+    /**
+     * RecyclerView ViewHolder necessary for homepage post
+     */
     class Holder extends RecyclerView.ViewHolder {
         ImageView scribble;
         TextView profileName, likeCount, commentCount;
         ImageButton likeButton, commentButton, shareButton;
-        //TODO add other buttons/textviews/etc
 
+        /**
+         * Constructor to initialize necessary information for a homepage post
+         * @param itemView Current item view
+         */
         public Holder(@NonNull View itemView) {
             super(itemView);
             scribble = itemView.findViewById(R.id.post);
