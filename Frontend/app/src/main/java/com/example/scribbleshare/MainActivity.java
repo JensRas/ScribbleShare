@@ -13,7 +13,6 @@ import com.example.scribbleshare.createaccountpage.CreateAccountPage;
 import com.example.scribbleshare.signinpage.SignInPage;
 
 public class MainActivity extends AppCompatActivity {
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

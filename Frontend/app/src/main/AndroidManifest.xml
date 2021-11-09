@@ -28,9 +28,6 @@
             android:name=".drawingpage.DrawingPage"
             android:exported="true" />
         <activity
-            android:name=".test_homescreen"
-            android:exported="true" />
-        <activity
             android:name=".homepage.HomePage"
             android:exported="true" />
         <activity
