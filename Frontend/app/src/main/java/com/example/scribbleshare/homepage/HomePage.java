@@ -24,7 +24,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 /**
- *
+ * Handles UI for the homepage and the buttons in the icon bar
  */
 public class HomePage extends AppCompatActivity implements HomePageView{
     private RecyclerView postsRV;
@@ -32,10 +32,6 @@ public class HomePage extends AppCompatActivity implements HomePageView{
 
     private GetPostsPresenter postsPresenter;
 
-    /**
-     *
-     * @param savedInstanceState
-     */
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,8 +41,8 @@ public class HomePage extends AppCompatActivity implements HomePageView{
     }
 
     /**
-     *
-     * @param array
+     * This method sets the posts for the scrollable homepage
+     * @param array Array of posts data
      */
     @Override
     public void setHomePagePosts(JSONArray array) {
@@ -79,10 +75,6 @@ public class HomePage extends AppCompatActivity implements HomePageView{
         // Icon buttons
         ImageButton home_button = (ImageButton) findViewById(R.id.btn_home);
         home_button.setOnClickListener(new View.OnClickListener() {
-            /**
-             *
-             * @param view
-             */
             @Override
             public void onClick(View view) {
                 //already on home page
@@ -92,10 +84,6 @@ public class HomePage extends AppCompatActivity implements HomePageView{
 
         ImageButton search_button = (ImageButton) findViewById(R.id.btn_search);
         search_button.setOnClickListener(new View.OnClickListener() {
-            /**
-             *
-             * @param view
-             */
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(view.getContext(), SearchPage.class));
@@ -104,10 +92,6 @@ public class HomePage extends AppCompatActivity implements HomePageView{
 
         ImageButton create_new_button = (ImageButton) findViewById(R.id.btn_create_new);
         create_new_button.setOnClickListener(new View.OnClickListener() {
-            /**
-             *
-             * @param view
-             */
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(view.getContext(), DrawingPage.class);
@@ -126,10 +110,6 @@ public class HomePage extends AppCompatActivity implements HomePageView{
         */
         ImageButton profile_button = (ImageButton) findViewById(R.id.btn_profile);
         profile_button.setOnClickListener(new View.OnClickListener() {
-            /**
-             *
-             * @param view
-             */
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(view.getContext(), ProfilePage.class));

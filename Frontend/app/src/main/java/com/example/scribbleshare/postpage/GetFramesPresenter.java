@@ -10,7 +10,7 @@ import com.example.scribbleshare.network.IVolleyListener;
 import org.json.JSONArray;
 
 /**
- *
+ * Handles the endpoint calls for the frames of a post
  */
 public class GetFramesPresenter implements IVolleyListener<JSONArray> {
     private EndpointCaller<JSONArray> model;
@@ -18,9 +18,9 @@ public class GetFramesPresenter implements IVolleyListener<JSONArray> {
     private Context context;
 
     /**
-     *
-     * @param view
-     * @param c
+     * Constructor to initialize necessary information for requests for the frames of a post
+     * @param view The current view
+     * @param c The current context
      */
     public GetFramesPresenter(PostView view, Context c){
         this.view = view;
@@ -29,16 +29,16 @@ public class GetFramesPresenter implements IVolleyListener<JSONArray> {
     }
 
     /**
-     *
-     * @param postId
+     * This method returns the frames of the given post
+     * @param postId Id of post
      */
     public void getFrames(String postId){
         model.getPostFrames(postId);
     }
 
     /**
-     *
-     * @param jsonArray
+     * This method handles the successful endpoint request
+     * @param jsonArray Frame data from request
      */
     @Override
     public void onSuccess(JSONArray jsonArray) {

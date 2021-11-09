@@ -22,28 +22,22 @@ import com.example.scribbleshare.postpage.PostPage;
 import java.util.List;
 
 /**
- *
+ * Handles the RecyclerView for the homepage
  */
 public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.Holder>{
     List<PostModel> postModels;
     Context context;
 
     /**
-     *
-     * @param context
-     * @param postModels
+     * Constructor to initialize post models for the homepage
+     * @param context Current context
+     * @param postModels List of post models for the homepage
      */
     public PostsAdapter(Context context, List<PostModel> postModels) {
         this.context = context;
         this.postModels = postModels;
     }
 
-    /**
-     *
-     * @param parent
-     * @param viewType
-     * @return
-     */
     @NonNull
     @Override
     public Holder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -51,11 +45,6 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.Holder>{
         return new Holder(view);
     }
 
-    /**
-     *
-     * @param holder
-     * @param position
-     */
     @Override
     public void onBindViewHolder(@NonNull Holder holder, int position) {
         String profileName = postModels.get(position).getProfileName();
@@ -72,10 +61,6 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.Holder>{
 
         //TODO set holder.thing.setOnClickListeners here
         holder.scribble.setOnClickListener(new View.OnClickListener() {
-            /**
-             *
-             * @param view
-             */
             @Override
             public void onClick(View view) {
                 //TODO when the image is clicked
@@ -86,10 +71,6 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.Holder>{
         });
 
         holder.likeButton.setOnClickListener(new View.OnClickListener() {
-            /**
-             *
-             * @param view
-             */
             @Override
             public void onClick(View view) {
                 //TODO when like button clicked
@@ -97,10 +78,6 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.Holder>{
         });
 
         holder.commentButton.setOnClickListener(new View.OnClickListener() {
-            /**
-             *
-             * @param view
-             */
             @Override
             public void onClick(View view) {
                 //TODO when comment button is clicked
@@ -109,8 +86,8 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.Holder>{
     }
 
     /**
-     *
-     * @return
+     * This method returns the item count inside the RecyclerView
+     * @return Item count inside the RecyclerView
      */
     @Override
     public int getItemCount() {
@@ -118,7 +95,7 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.Holder>{
     }
 
     /**
-     *
+     * RecyclerView ViewHolder necessary for homepage post
      */
     class Holder extends RecyclerView.ViewHolder {
         ImageView scribble;
@@ -126,8 +103,8 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.Holder>{
         ImageButton likeButton, commentButton, shareButton;
 
         /**
-         *
-         * @param itemView
+         * Constructor to initialize necessary information for a homepage post
+         * @param itemView Current item view
          */
         public Holder(@NonNull View itemView) {
             super(itemView);

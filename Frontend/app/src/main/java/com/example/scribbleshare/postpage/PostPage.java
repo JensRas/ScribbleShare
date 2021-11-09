@@ -27,7 +27,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 /**
- *
+ * Handles the UI for the post page
  */
 public class PostPage extends AppCompatActivity implements PostView{
     private GetFramesPresenter getFramesPresenter;

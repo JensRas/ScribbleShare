@@ -18,28 +18,22 @@ import com.example.scribbleshare.drawingpage.DrawingPage;
 import java.util.List;
 
 /**
- *
+ * Handles the RecyclerView for the frames of a post
  */
 public class FrameAdapter extends RecyclerView.Adapter<FrameAdapter.Holder> {
     List<FrameModel> frameModels;
     Context context;
 
     /**
-     *
-     * @param context
-     * @param frameModels
+     * Constructor to initialize necessary information for a frame
+     * @param context Current context
+     * @param frameModels List of model frames
      */
     public FrameAdapter(Context context, List<FrameModel> frameModels){
         this.context = context;
         this.frameModels = frameModels;
     }
 
-    /**
-     *
-     * @param parent
-     * @param viewType
-     * @return
-     */
     @NonNull
     @Override
     public Holder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -47,11 +41,6 @@ public class FrameAdapter extends RecyclerView.Adapter<FrameAdapter.Holder> {
         return new FrameAdapter.Holder(view);
     }
 
-    /**
-     *
-     * @param holder
-     * @param position
-     */
     @Override
     public void onBindViewHolder(@NonNull Holder holder, int position) {
         int frameId = frameModels.get(position).getFrameId();
@@ -76,8 +65,8 @@ public class FrameAdapter extends RecyclerView.Adapter<FrameAdapter.Holder> {
     }
 
     /**
-     *
-     * @return
+     * This method returns the item count inside the RecyclerView
+     * @return Item count inside the RecyclerView
      */
     @Override
     public int getItemCount() {
@@ -85,7 +74,7 @@ public class FrameAdapter extends RecyclerView.Adapter<FrameAdapter.Holder> {
     }
 
     /**
-     *
+     * RecyclerView ViewHolder necessary for a frame of a post
      */
     class Holder extends RecyclerView.ViewHolder {
         TextView frameNumber;
@@ -93,8 +82,8 @@ public class FrameAdapter extends RecyclerView.Adapter<FrameAdapter.Holder> {
         RecyclerView commentRV;
 
         /**
-         *
-         * @param itemView
+         * Constructor to initialize necessary information for a frame of a post
+         * @param itemView Current item view
          */
         public Holder(@NonNull View itemView) {
             super(itemView);

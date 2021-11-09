@@ -18,28 +18,22 @@ import java.util.List;
 
 
 /**
- *
+ * Handles the RecyclerView for the comments on a post
  */
 public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.Holder>{
     List<CommentModel> commentModels;
     Context context;
 
     /**
-     *
-     * @param context
-     * @param commentModels
+     * Constructor to initialize comment models for the post
+     * @param context Current context
+     * @param commentModels List of comment models for the post
      */
     public CommentAdapter(Context context, List<CommentModel> commentModels){
         this.context = context;
         this.commentModels = commentModels;
     }
 
-    /**
-     *
-     * @param parent
-     * @param viewType
-     * @return
-     */
     @NonNull
     @Override
     public Holder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -47,11 +41,6 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.Holder>{
         return new Holder(view);
     }
 
-    /**
-     *
-     * @param holder
-     * @param position
-     */
     @Override
     public void onBindViewHolder(@NonNull Holder holder, int position) {
         String profileName = commentModels.get(position).getProfileName();
@@ -68,8 +57,8 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.Holder>{
     }
 
     /**
-     *
-     * @return
+     * This method returns the item count of the comment models
+     * @return Item count of the comment models
      */
     @Override
     public int getItemCount() {
@@ -77,7 +66,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.Holder>{
     }
 
     /**
-     *
+     * RecyclerView ViewHolder necessary for the post's comments
      */
     class Holder extends RecyclerView.ViewHolder {
         ImageView commentScribble;
@@ -85,8 +74,8 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.Holder>{
         //TODO add other buttons/textviews/etc
 
         /**
-         *
-         * @param itemView
+         * Constructor to initialize necessary information for a post's comments
+         * @param itemView Current item view
          */
         public Holder(@NonNull View itemView) {
             super(itemView);
