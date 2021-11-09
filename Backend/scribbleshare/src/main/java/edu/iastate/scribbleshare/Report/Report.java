@@ -9,6 +9,14 @@ import javax.persistence.OneToOne;
 import edu.iastate.scribbleshare.User.User;
 import io.swagger.annotations.ApiModelProperty;
 
+/**
+ * Reports will be an option for users to report a user if their posts
+ * dont follow guidelines for our app
+ * 
+ * Report stores username, which is the user being reported, userWhoReported who is the user who made 
+ * the report, reason which will be a set options we give users on which why they reported, 
+ * and comments which will be any additional comments the userWhoReported wants to make
+ */
 @Entity
 public class Report {
     
