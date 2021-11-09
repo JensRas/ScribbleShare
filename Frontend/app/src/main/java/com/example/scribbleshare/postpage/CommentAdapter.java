@@ -17,11 +17,18 @@ import com.example.scribbleshare.network.EndpointCaller;
 import java.util.List;
 
 
+/**
+ * Handles the RecyclerView for the comments on a post
+ */
 public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.Holder>{
-
     List<CommentModel> commentModels;
     Context context;
 
+    /**
+     * Constructor to initialize comment models for the post
+     * @param context Current context
+     * @param commentModels List of comment models for the post
+     */
     public CommentAdapter(Context context, List<CommentModel> commentModels){
         this.context = context;
         this.commentModels = commentModels;
@@ -49,16 +56,27 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.Holder>{
         //TODO set onclick listeners for comment stuff here
     }
 
+    /**
+     * This method returns the item count of the comment models
+     * @return Item count of the comment models
+     */
     @Override
     public int getItemCount() {
         return commentModels.size();
     }
 
+    /**
+     * RecyclerView ViewHolder necessary for the post's comments
+     */
     class Holder extends RecyclerView.ViewHolder {
         ImageView commentScribble;
         TextView likeCount, profileName;
         //TODO add other buttons/textviews/etc
 
+        /**
+         * Constructor to initialize necessary information for a post's comments
+         * @param itemView Current item view
+         */
         public Holder(@NonNull View itemView) {
             super(itemView);
             commentScribble = itemView.findViewById(R.id.frame_image);

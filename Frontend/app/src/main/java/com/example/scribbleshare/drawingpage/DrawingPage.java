@@ -21,13 +21,16 @@ import com.example.scribbleshare.homepage.HomePage;
 import com.example.scribbleshare.postpage.PostPage;
 import com.google.android.material.slider.RangeSlider;
 
-import petrov.kristiyan.colorpicker.ColorPicker;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class DrawingPage extends AppCompatActivity implements DrawingPageView {
+import petrov.kristiyan.colorpicker.ColorPicker;
 
+/**
+ * Handles UI for drawing page and the button logic
+ * Color of stroke, stroke size, undo button, and saving of image
+ */
+public class DrawingPage extends AppCompatActivity implements DrawingPageView {
     // creating the object of type DrawView
     // in order to get the reference of the View
     private DrawView paint;
@@ -41,6 +44,7 @@ public class DrawingPage extends AppCompatActivity implements DrawingPageView {
 
     private CreatePostPresenter createPostPresenter;
     private CreateCommentPresenter createCommentPresenter;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -117,6 +121,11 @@ public class DrawingPage extends AppCompatActivity implements DrawingPageView {
             public void onClick(View view) {
                 final ColorPicker colorPicker = new ColorPicker(DrawingPage.this);
                 colorPicker.setOnFastChooseColorListener(new ColorPicker.OnFastChooseColorListener() {
+                    /**
+                     * Sets the paint color when drawing
+                     * @param position gets position of canvas
+                     * @param color color chosen on the color picker gets an int value
+                     */
                     @Override
                     public void setOnFastChooseColorListener(int position, int color) {
                         // get the integer value of color
@@ -124,6 +133,10 @@ public class DrawingPage extends AppCompatActivity implements DrawingPageView {
                         // set it as the stroke color
                         paint.setColor(color);
                     }
+
+                    /**
+                     * Dismisses the color picker
+                     */
                     @Override
                     public void onCancel() {
                         colorPicker.dismissDialog();
@@ -141,6 +154,10 @@ public class DrawingPage extends AppCompatActivity implements DrawingPageView {
 
         // the button will toggle the visibility of the RangeBar/RangeSlider
         stroke.setOnClickListener(new View.OnClickListener() {
+            /**
+             * Shows/hides range slider
+             * @param view Is either Visible or Gone, then based off that value shows/hides range slider
+             */
             @Override
             public void onClick(View view) {
                 if (rangeSlider.getVisibility() == View.VISIBLE)
@@ -162,6 +179,12 @@ public class DrawingPage extends AppCompatActivity implements DrawingPageView {
         // change the stroke width
         // as soon as the user slides the slider
         rangeSlider.addOnChangeListener(new RangeSlider.OnChangeListener() {
+            /**
+             * Set's the stroke width to the chose thickness from the user
+             * @param slider range slider
+             * @param value value of the thickness chosen from slider
+             * @param fromUser gets input from user
+             */
             @Override
             public void onValueChange(@NonNull RangeSlider slider, float value, boolean fromUser) {
                 paint.setStrokeWidth((int) value);
@@ -182,6 +205,7 @@ public class DrawingPage extends AppCompatActivity implements DrawingPageView {
         });
     }
 
+
     @Override
     public void setDrawingImage(byte[] data) {
         Log.d("debug", "calling paint.setBitmap()");
@@ -190,6 +214,7 @@ public class DrawingPage extends AppCompatActivity implements DrawingPageView {
         Bitmap bitmap = BitmapFactory.decodeByteArray(data , 0, data.length, options);
         paint.setmBitmap(bitmap);
     }
+
 
     @Override
     public void onCreateCommentSuccess(JSONObject o) {
@@ -205,10 +230,12 @@ public class DrawingPage extends AppCompatActivity implements DrawingPageView {
         startActivity(intent);
     }
 
+
     @Override
     public void onCreatePostSuccess(JSONObject o) {
-
+        //TODO
     }
+
 
     @Override
     public void makeToast(String message) {
@@ -217,6 +244,7 @@ public class DrawingPage extends AppCompatActivity implements DrawingPageView {
         Toast toast = Toast.makeText(context, message, duration);
         toast.show();
     }
+
 
     @Override
     public void switchView(Class c) {

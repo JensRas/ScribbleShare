@@ -21,11 +21,18 @@ import com.example.scribbleshare.postpage.PostPage;
 
 import java.util.List;
 
+/**
+ * Handles the RecyclerView for the homepage
+ */
 public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.Holder>{
-
     List<PostModel> postModels;
     Context context;
 
+    /**
+     * Constructor to initialize post models for the homepage
+     * @param context Current context
+     * @param postModels List of post models for the homepage
+     */
     public PostsAdapter(Context context, List<PostModel> postModels) {
         this.context = context;
         this.postModels = postModels;
@@ -78,16 +85,27 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.Holder>{
         });
     }
 
+    /**
+     * This method returns the item count inside the RecyclerView
+     * @return Item count inside the RecyclerView
+     */
     @Override
     public int getItemCount() {
         return postModels.size();
     }
 
+    /**
+     * RecyclerView ViewHolder necessary for homepage post
+     */
     class Holder extends RecyclerView.ViewHolder {
         ImageView scribble;
         TextView profileName, likeCount, commentCount;
         ImageButton likeButton, commentButton, shareButton;
 
+        /**
+         * Constructor to initialize necessary information for a homepage post
+         * @param itemView Current item view
+         */
         public Holder(@NonNull View itemView) {
             super(itemView);
             scribble = itemView.findViewById(R.id.post);

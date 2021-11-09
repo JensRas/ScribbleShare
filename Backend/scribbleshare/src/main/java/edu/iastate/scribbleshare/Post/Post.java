@@ -9,7 +9,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,11 +18,16 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import edu.iastate.scribbleshare.ScribbleshareApplication;
 import edu.iastate.scribbleshare.Frame.Frame;
 import edu.iastate.scribbleshare.User.User;
+import io.swagger.annotations.ApiModelProperty;
 
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
-
+/**
+ * A post created by a user. It stores the path to an image stored in the filesystem. 
+ * This image is used as the starter for a set of frames, which a Post also stores as a list (one to many relationship)
+ * Posts also must store the user who created the post, the date it was posted, the like count, the comment count, and have a unique generated ID.   
+ */
 @Entity
 public class Post {
         
@@ -34,18 +38,24 @@ public class Post {
     private int ID;
 
     @OneToOne(cascade = CascadeType.ALL)
+    @ApiModelProperty(value = "User who made the post", required=true, example = "User")
     private User user;
 
+    @ApiModelProperty(value = "Date the post was made", required=true, example = "12:32")
     private Date datePosted;
 
     @JsonIgnore
+    @ApiModelProperty(value = "Path the post is stored", required=true, example = "")
     private String path;
 
+    @ApiModelProperty(value = "Number of likes the post has", required=true, example = "21")
     private int likeCount;
 
+    @ApiModelProperty(value = "Number of comments the post has", required=true, example = "23")
     private int commentCount;
 
     @OneToMany(cascade = CascadeType.ALL)
+    @ApiModelProperty(value = "Frames that belong to the post", required=true, example = "")
     private List<Frame> frames;
 
     public Post(){
@@ -116,8 +126,10 @@ public class Post {
         frames.add(frame);
     }
 
-    //TODO add test? move to a service??
-    //TODO bad implementation... but it works lol
+    /**
+     * Get the last frame in a post. Is useful for creating new frames in a post.
+     * @return the index of the last frame a post has
+     */
     public int getLastFrameIndex(){
         int r = -1;
         for(Frame f : frames){

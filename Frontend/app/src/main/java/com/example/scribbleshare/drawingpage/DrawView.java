@@ -12,8 +12,10 @@ import android.view.View;
 
 import java.util.ArrayList;
 
+/**
+ * Holds data for drawing
+ */
 public class DrawView extends View {
-
     private static final float TOUCH_TOLERANCE = 4;
     private float mX, mY;
     private Path mPath;
@@ -32,11 +34,19 @@ public class DrawView extends View {
     private Canvas mCanvas;
     private Paint mBitmapPaint = new Paint(Paint.DITHER_FLAG);
 
-    // Constructors to initialise all the attributes
+    /**
+     * Constructor to initialise all the attributes
+     * @param context given context
+     */
     public DrawView(Context context) {
         this(context, null);
     }
 
+    /**
+     * Defaults for drawing
+     * @param context context for drawing
+     * @param attrs attributes for drawing
+     */
     public DrawView(Context context, AttributeSet attrs) {
         super(context, attrs);
         mPaint = new Paint();
@@ -55,7 +65,11 @@ public class DrawView extends View {
 
     }
 
-    // this method instantiate the bitmap and object
+    /**
+     * Instantiates the bitmap and object
+     * @param height height for bitmap
+     * @param width width for bitmap
+     */
     public void init(int height, int width) {
         mBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
         mCanvas = new Canvas(mBitmap);
@@ -67,6 +81,10 @@ public class DrawView extends View {
         strokeWidth = 20;
     }
 
+    /**
+     * Sets the bitmap and saves it
+     * @param bitmap bitmap for drawing
+     */
     public void setmBitmap(Bitmap bitmap){
         //TODO this currently doesn't work very well. Cant figure out how to get it to properly get the new image
         mCanvas.save();
@@ -75,32 +93,44 @@ public class DrawView extends View {
         mCanvas.restore();
     }
 
-    // sets the current color of stroke
+    /**
+     * Sets the current color of stroke
+     * @param color color for drawing
+     */
     public void setColor(int color) {
         currentColor = color;
     }
 
-    // sets the stroke width
+    /**
+     * Sets the stroke width
+     * @param width width of the stroke
+     */
     public void setStrokeWidth(int width) {
         strokeWidth = width;
     }
 
+    /**
+     * Checks whether the List is empty or not and if empty, the remove method will return an error
+     */
     public void undo() {
-        // check whether the List is empty or not
-        // if empty, the remove method will return an error
         if (paths.size() != 0) {
             paths.remove(paths.size() - 1);
             invalidate();
         }
     }
 
-    // this methods returns the current bitmap
+    /**
+     * This methods returns the current bitmap
+     * @return returns current bitmap
+     */
     public Bitmap save() {
         return mBitmap;
     }
 
-    // this is the main method where
-    // the actual drawing takes place
+    /**
+     * Main method where drawing takes place
+     * @param canvas Canvas of the drawing
+     */
     @Override
     protected void onDraw(Canvas canvas) {
         // save the current state of the canvas before,
@@ -122,11 +152,11 @@ public class DrawView extends View {
         canvas.restore();
     }
 
-    // the below methods manages the touch
-    // response of the user on the screen
-
-    // firstly, we create a new Stroke
-    // and add it to the paths list
+    /**
+     * Creates new stroke at the (x,y) coordinate that the user touches and adds to paths list
+     * @param x x coordinate on the bitmap
+     * @param y y coordinate on the bitmap
+     */
     private void touchStart(float x, float y) {
         mPath = new Path();
         Stroke fp = new Stroke(currentColor, strokeWidth, mPath);
@@ -146,14 +176,11 @@ public class DrawView extends View {
         mY = y;
     }
 
-    // in this method we check
-    // if the move of finger on the
-    // screen is greater than the
-    // Tolerance we have previously defined,
-    // then we call the quadTo() method which
-    // actually smooths the turns we create,
-    // by calculating the mean position between
-    // the previous position and current position
+    /**
+     * Calculates the movement of the users finger
+     * @param x x coordinate on the bitmap
+     * @param y y coordinate on the bitmap
+     */
     private void touchMove(float x, float y) {
         float dx = Math.abs(x - mX);
         float dy = Math.abs(y - mY);
@@ -165,17 +192,18 @@ public class DrawView extends View {
         }
     }
 
-    // at the end, we call the lineTo method
-    // which simply draws the line until
-    // the end position
+    /**
+     * Draws the line from start of position to the end of the position
+     */
     private void touchUp() {
         mPath.lineTo(mX, mY);
     }
 
-    // the onTouchEvent() method provides us with
-    // the information about the type of motion
-    // which has been taken place, and according
-    // to that we call our desired methods
+    /**
+     * Provides information about the touch event (Down, Move, Up)
+     * @param event touch event
+     * @return the type of the touch (up, down, move)
+     */
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         float x = event.getX();

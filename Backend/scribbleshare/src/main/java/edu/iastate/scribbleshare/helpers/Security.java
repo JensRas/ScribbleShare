@@ -11,18 +11,20 @@ import javax.crypto.spec.PBEKeySpec;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * General class for security needs. This should only have static methods, as any functions using hashing functionality shouldn't rely on a service. 
+ */
 public class Security {
     
     public static final Logger logger = LoggerFactory.getLogger(Security.class);
 
     /**
-     * Hashes a given password and returns the salt and the hashed string (with a space between). 
+     * Hashes a given password.
      * Can be used in two situations. 
      * 1. Storing a user's password on account creation
-     * 2. Hashing a user's password when they try to login to compare to the 
-     * hashed value in the database
-     * @param password 
-     * @return
+     * 2. Hashing a user's password when they try to login to compare to the hashed value in the database
+     * @param password plaintext password
+     * @return the salt and the hashed string (with a space between)
      */
     public static String generateHash(String password){
         SecureRandom secureRandom = new SecureRandom();
@@ -32,8 +34,8 @@ public class Security {
 
     /**
      * Generates a hash with the given salt and password. Can be used to generate a new password hash or check login.
-     * @param salt
-     * @param password
+     * @param salt salt
+     * @param password password
      * @return The hash using the given salt and password
      */
     private static String getHash(String salt, String password){
@@ -58,7 +60,7 @@ public class Security {
      * Return if the given password's hash matches the stored password (stored passwords are already hashed)
      * @param storedPassword Salt + hash stored in the database
      * @param givenPassword Attempted login password
-     * @return
+     * @return true or false
      */
     public static boolean checkHash(String storedPassword, String givenPassword){
         String[] saltHash = storedPassword.split(" ");

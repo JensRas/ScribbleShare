@@ -23,7 +23,9 @@ import edu.iastate.scribbleshare.Post.PostRepository;
 import edu.iastate.scribbleshare.User.User;
 import edu.iastate.scribbleshare.User.UserRepository;
 import edu.iastate.scribbleshare.helpers.Status;
-
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+@Api(value = "FrameController", description = "REST API relating to Frame Entity")
 @RestController
 public class FrameController {
     @Autowired
@@ -37,6 +39,7 @@ public class FrameController {
 
     private static final Logger logger = LoggerFactory.getLogger(ScribbleshareApplication.class);
 
+    @ApiOperation(value = "Get Frames for a Post by Post Id", response = Iterable.class, tags= "Frames")
     @GetMapping(path="/frames/{postId}")
     public Iterable<Frame> getFramesForPost(HttpServletResponse response, @PathVariable int postId){
         //TODO error handling
@@ -44,7 +47,7 @@ public class FrameController {
         return frameRepository.findByPost(post);
     }
 
-    //index is used in this endpoint to prevent two users from creating a new frame at the same time
+    @ApiOperation(value = "Create New Frame. Must specify index to prevent concurrency errors with multiple users.", response = Frame.class, tags= "Frames")
     @PostMapping(path="/frames")
     public Frame createNewFrame(HttpServletResponse response, @RequestParam String username, @RequestParam int postId, @RequestParam int index){
         Optional<User> optionalUser = userRepository.findById(username);

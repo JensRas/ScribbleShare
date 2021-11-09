@@ -15,7 +15,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Optional;
 
-import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -32,6 +31,7 @@ import edu.iastate.scribbleshare.Post.Post;
 import edu.iastate.scribbleshare.User.User;
 import edu.iastate.scribbleshare.User.UserRepository;
 import edu.iastate.scribbleshare.helpers.Status;
+import io.swagger.annotations.ApiOperation;
 
 @RestController
 public class CommentController {
@@ -51,7 +51,7 @@ public class CommentController {
 
     private static final Logger logger = LoggerFactory.getLogger(ScribbleshareApplication.class);
 
-    //returns the post the comment was placed for. This allows android to switch to the post view after successfully creating a comment
+    @ApiOperation(value = "Create New Comment. Returns the post where the comment was created.", response = Post.class, tags= "Comments")
     @PutMapping(path="/comment")
     public Post addNewComment(HttpServletResponse response, @RequestParam("username") String username, @RequestParam("frameId") int frameId, @RequestParam("image") MultipartFile imageFile) throws IllegalStateException, IOException{
         Optional<User> optionalUser = userRepository.findById(username);
@@ -96,6 +96,7 @@ public class CommentController {
         return frame.getPost();
     }
 
+    @ApiOperation(value = "Get Comment Image by comment Id", response = ResponseEntity.class, tags= "Comments")
     @GetMapping(path="/comment/{id}/image")
     public ResponseEntity<ByteArrayResource> getCommentImage(HttpServletResponse response, @PathVariable int id) throws IOException{
         Optional<Comment> optionalComment = commentRepository.findById(id);
@@ -133,6 +134,7 @@ public class CommentController {
                 .body(data);
     }
 
+    @ApiOperation(value = "Get Comments for Frame by Frame Id", response = Iterable.class, tags= "Comments")
     @GetMapping(path="/comment/{frameId}")
     public Iterable<Comment> getCommentsForFrame(HttpServletResponse response, @PathVariable int frameId){
         Optional<Frame> optionalFrame = frameRepository.findById(frameId);

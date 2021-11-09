@@ -26,8 +26,10 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+/**
+ * Handles the UI for the post page
+ */
 public class PostPage extends AppCompatActivity implements PostView{
-
     private GetFramesPresenter getFramesPresenter;
     private NewFramePresenter newFramePresenter;
     private CommentPresenter commentPresenter;
@@ -38,6 +40,7 @@ public class PostPage extends AppCompatActivity implements PostView{
     private String postId;
     private User localUser;
 
+
     @Override
     protected void onPostCreate(@Nullable Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
@@ -47,10 +50,10 @@ public class PostPage extends AppCompatActivity implements PostView{
         getFramesPresenter = new GetFramesPresenter(this, getApplicationContext());
         newFramePresenter = new NewFramePresenter(this, getApplicationContext());
         Bundle bundle = getIntent().getExtras();
-        if(bundle != null){
+        if (bundle != null) {
             this.postId = bundle.getString("postId");
             getFramesPresenter.getFrames(postId);
-        }else{
+        } else {
             //TODO show an error?
             Log.e("ERROR", "Bundle EMPTY when starting post page");
         }
@@ -110,6 +113,7 @@ public class PostPage extends AppCompatActivity implements PostView{
         */
         ImageButton profile_button = (ImageButton) findViewById(R.id.btn_profile);
         profile_button.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(view.getContext(), ProfilePage.class));

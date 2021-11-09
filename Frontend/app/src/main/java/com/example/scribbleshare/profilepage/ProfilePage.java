@@ -7,10 +7,12 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.scribbleshare.MySingleton;
 import com.example.scribbleshare.R;
-import com.example.scribbleshare.homepage.GetPostsPresenter;
-import com.example.scribbleshare.searchpage.SearchPageView;
 
+/**
+ * TODO implement
+ */
 public class ProfilePage extends AppCompatActivity implements ProfilePageView {
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

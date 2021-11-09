@@ -1,6 +1,5 @@
 package edu.iastate.scribbleshare.User;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -11,7 +10,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -25,6 +23,20 @@ import edu.iastate.scribbleshare.Post.Post;
 import edu.iastate.scribbleshare.Report.Report;
 import edu.iastate.scribbleshare.exceptions.BadHashException;
 import edu.iastate.scribbleshare.helpers.Security;
+import io.swagger.annotations.ApiModelProperty;
+
+
+/**
+ * A user is an account required to create posts/comments/etc and is created for each user.
+ * Users will be used to keep track of several things we use throughout the app. 
+ * There will be two different kinds of users, Mod which can ban and mute users, and just
+ * normal users who will use the app as normal. User is storing Username, which is the Id, 
+ * password which is hashed, persmissionLevel, isMuted and isBanned which mods can change.
+ * 
+ * 
+ * Followers are also implemented here as a many to many relation both ways. Following is who the 
+ * user follows, and followers is who follows the user.
+ */
 
 @Entity //make a table with this class
 public class User {
@@ -32,15 +44,20 @@ public class User {
     private static final Logger logger = LoggerFactory.getLogger(ScribbleshareApplication.class);
 
     @Id
+    @ApiModelProperty(value = "Username of user",name="username", required=true,example = "Corbeno")
     private String username;
 
     @JsonIgnore
+    @ApiModelProperty(value = "Password of the user, is hashed", required=true, example = "password123")
     private String password; //hashed
 
+    @ApiModelProperty(value = "Permission level of user, either Mod or user", required=true, example = "Mod")
     private String permissionLevel;
 
+    @ApiModelProperty(value = "If user is muted, they wont be able to post", required=true, example = "False")
     private boolean isMuted;
 
+    @ApiModelProperty(value = "If user is banned, they wont be able to log in to their account", required=true, example = "False")
     private boolean isBanned;
 
     public User(String username, String password){

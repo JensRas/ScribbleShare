@@ -4,13 +4,19 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import edu.iastate.scribbleshare.User.User;
+import io.swagger.annotations.ApiModelProperty;
 
+/**
+ * Reports will be an option for users to report a user if their posts
+ * dont follow guidelines for our app
+ * 
+ * Report stores username, which is the user being reported, userWhoReported who is the user who made 
+ * the report, reason which will be a set options we give users on which why they reported, 
+ * and comments which will be any additional comments the userWhoReported wants to make
+ */
 @Entity
 public class Report {
     
@@ -19,13 +25,17 @@ public class Report {
     private int ID;
 
     @OneToOne
+    @ApiModelProperty(value = "Username of the person who is being reported", required=true, example = "Username1")
     private User username;
 
     @OneToOne
+    @ApiModelProperty(value = "Username of the person who reported", required=true, example = "Username2")
     private User userWhoReported;
 
+    @ApiModelProperty(value = "Reason User reported", required=true, example = "Is was very bad")
     private String reason;
 
+    @ApiModelProperty(value = "Any extra comments", required=true, example = "I dont like that it was bad")
     private String comment;    
     
     public Report(User username, User userWhoReported, String reason, String comment){

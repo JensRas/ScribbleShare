@@ -6,8 +6,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -16,18 +14,21 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.scribbleshare.R;
 import com.example.scribbleshare.drawingpage.DrawingPage;
-import com.example.scribbleshare.homepage.PostsAdapter;
 
-import org.w3c.dom.Comment;
-
-import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Handles the RecyclerView for the frames of a post
+ */
 public class FrameAdapter extends RecyclerView.Adapter<FrameAdapter.Holder> {
-
     List<FrameModel> frameModels;
     Context context;
 
+    /**
+     * Constructor to initialize necessary information for a frame
+     * @param context Current context
+     * @param frameModels List of model frames
+     */
     public FrameAdapter(Context context, List<FrameModel> frameModels){
         this.context = context;
         this.frameModels = frameModels;
@@ -63,16 +64,27 @@ public class FrameAdapter extends RecyclerView.Adapter<FrameAdapter.Holder> {
         });
     }
 
+    /**
+     * This method returns the item count inside the RecyclerView
+     * @return Item count inside the RecyclerView
+     */
     @Override
     public int getItemCount() {
         return frameModels.size();
     }
 
+    /**
+     * RecyclerView ViewHolder necessary for a frame of a post
+     */
     class Holder extends RecyclerView.ViewHolder {
         TextView frameNumber;
         Button createCommentButton;
         RecyclerView commentRV;
 
+        /**
+         * Constructor to initialize necessary information for a frame of a post
+         * @param itemView Current item view
+         */
         public Holder(@NonNull View itemView) {
             super(itemView);
             frameNumber = itemView.findViewById(R.id.frame_number);

@@ -11,7 +11,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context=".createaccountpage.CreateAccount">
+    tools:context=".createaccountpage.CreateAccountPage">
 
     <ImageButton
         android:id="@+id/back_button_create_account"
