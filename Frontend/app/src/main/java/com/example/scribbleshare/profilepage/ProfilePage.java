@@ -10,20 +10,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.scribbleshare.MySingleton;
 import com.example.scribbleshare.R;
-import com.example.scribbleshare.homepage.PostModel;
-import com.example.scribbleshare.homepage.PostsAdapter;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.ArrayList;
-
-
+/**
+ * TODO implement
+ */
 public class ProfilePage extends AppCompatActivity implements ProfilePageView {
-    private ArrayList<PostModel> postsAL;
-    private RecyclerView postsRV;
-
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

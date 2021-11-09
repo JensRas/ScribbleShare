@@ -16,7 +16,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
@@ -32,7 +31,10 @@ import edu.iastate.scribbleshare.Frame.FrameRepository;
 import edu.iastate.scribbleshare.User.User;
 import edu.iastate.scribbleshare.User.UserRepository;
 import edu.iastate.scribbleshare.helpers.Status;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 
+@Api(value = "PostController", description = "REST API relating to Post Entity")
 @RestController
 public class PostController {
     @Autowired
@@ -42,25 +44,25 @@ public class PostController {
     private UserRepository userRepository;
 
     @Autowired
-    private CommentRepository commentRepository;
-
-    @Autowired
     private FrameRepository frameRepository;
 
     @Autowired
     HttpServletRequest httpServletRequest;
 
-    static final int NEW_POST_FRAME_COUNT = 10; //TODO might be better to put this in a config file
-
+    /**
+     * The path where posts are uploaded to relative to the application context
+     */
     private static String uploadPath = "/uploadedFiles/";
 
     private static final Logger logger = LoggerFactory.getLogger(ScribbleshareApplication.class);
 
+    @ApiOperation(value = "Get All Posts", response = Iterable.class, tags= "Post")
     @GetMapping(path="/post")
     public @ResponseBody Iterable<Post> getAllPosts(){
         return postRepository.findAll();
     }
 
+    @ApiOperation(value = "Get Post by Id", response = Post.class, tags= "Post")
     @GetMapping(path="/post/{id}")
     public @ResponseBody Post getPost(HttpServletResponse response, @PathVariable int id){
         Optional<Post> optionalPost = postRepository.findById(id);
@@ -68,12 +70,21 @@ public class PostController {
         return optionalPost.get();
     }
 
+    @ApiOperation(value = "Add New Post", response = Post.class, tags= "Post")
     @PutMapping(path="/post")
     public Post addNewPost(HttpServletResponse response, @RequestParam("username") String username, @RequestParam("image") MultipartFile imageFile) throws IllegalStateException, IOException{
+        Optional<User> optionalUser = userRepository.findById(username);
+        if(!optionalUser.isPresent()){
+            Status.formResponse(response, HttpStatus.NOT_FOUND, "User not found");
+            return null;
+        }
+
         if(imageFile.isEmpty()){
             Status.formResponse(response, HttpStatus.BAD_REQUEST, "Empty file specified");
             return null;
         }
+
+        User user = optionalUser.get();
 
         String fullPath = httpServletRequest.getServletContext().getRealPath(uploadPath);
 
@@ -82,7 +93,7 @@ public class PostController {
         }
 
         //create post and set path location
-        Post post = new Post(username);
+        Post post = new Post(user);
         postRepository.save(post); //must be saved to set the id properly
         fullPath += "post_" + post.getID() + "_" + imageFile.getOriginalFilename();
         post.setPath(fullPath);
@@ -91,27 +102,21 @@ public class PostController {
         File tempFile = new File(fullPath);
         imageFile.transferTo(tempFile);
 
-        for(Frame frame : createEmptyFrames(post, NEW_POST_FRAME_COUNT)){
-            post.addFrame(frame);
-        }
+        Frame frame = new Frame(post, 0);
+        frameRepository.save(frame);
 
+        post.addFrame(frame);
         postRepository.save(post);
+
+        user.getPosts().add(post);
+        userRepository.save(user);
 
         logger.info("created post with id: " + post.getID() + " and path: " + post.getPath());
 
         return post;
     }
 
-    private Iterable<Frame> createEmptyFrames(Post post, int count){
-        ArrayList<Integer> ids = new ArrayList<>();
-        for(int i = 0; i < count; i++){
-            Frame f = new Frame(post);
-            frameRepository.save(f);
-            ids.add(f.getID());
-        }
-        return frameRepository.findAllById(ids);
-    }
-
+    @ApiOperation(value = "Get Posts For Homescreen", response = Iterable.class, tags= "Post")
     @GetMapping(path="/post/getHomeScreenPosts/{username}")
     public Iterable<Post> getHomeScreenPosts(HttpServletResponse response, @PathVariable String username){
         Optional<User> optionalUser = userRepository.findById(username);
@@ -120,14 +125,7 @@ public class PostController {
         return posts;
     }
 
-    @GetMapping(path="/post/getUserPost/{username}")
-    public Iterable<Post> getUserPosts(HttpServletResponse response, @PathVariable String username){
-        Optional<User> optionalUser = userRepository.findById(username);
-        if(!optionalUser.isPresent()){Status.formResponse(response, HttpStatus.NOT_FOUND, "Username: " + username + " not found!"); return null;}
-        Iterable<Post> posts = postRepository.getUserPosts(username);
-        return posts;
-    }
-
+    @ApiOperation(value = "Get Post by Id", response = ResponseEntity.class, tags= "Post")
     @GetMapping(path="/post/{id}/image")
     public ResponseEntity<Resource> getPostImage(HttpServletResponse response, @PathVariable int id) throws IOException{
         Optional<Post> optionalPost = postRepository.findById(id);
@@ -165,6 +163,7 @@ public class PostController {
                 .body(data);
     }
 
+    @ApiOperation(value = "Delete Post by Id", response = String.class, tags= "Post")
     @DeleteMapping(path="/post/{id}")
     public String deletePost(HttpServletResponse response, @PathVariable int id){
         Optional<Post> optionalPost = postRepository.findById(id);
@@ -175,6 +174,7 @@ public class PostController {
 
     //deletes posts in a range of ids
     //WARNING don't use this with the app. It's just useful for deleting posts for the backend devs
+    @ApiOperation(value = "Delete Post(DEV USE ONLY)", response = String.class, tags= "Post")
     @DeleteMapping(path="/post/{id_start}/{id_end}")
     public String deletePostRange(HttpServletResponse response, @PathVariable int id_start, @PathVariable int id_end){
         int count = 0;
@@ -191,7 +191,11 @@ public class PostController {
         return r + "Attempted to delete " + count + " posts";
     }
 
-    //TODO this should probably be moved to a service but I'm too lazy rn...
+    /**
+     * Delete a post from the repository
+     * @param post post to be deleted
+     * @return a string describing the status of the post delete operation. Should be sent directly to the user
+     */
     private String deletePost(Post post){
         //delete column from table
         postRepository.delete(post);
@@ -206,7 +210,7 @@ public class PostController {
         return "post: " + post.getID() + " deleted";
     }
 
-    //reports if there are any posts that have missing image save files
+    @ApiOperation(value = "Check for Post Errors (DEV ONLY)", response = String.class, tags= "Post")
     @GetMapping(path="/post/imageHealthCheck")
     public String deletePostRange(HttpServletResponse response){
         String r = "";

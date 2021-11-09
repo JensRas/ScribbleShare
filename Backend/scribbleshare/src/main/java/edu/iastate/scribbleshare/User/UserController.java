@@ -16,7 +16,10 @@ import org.slf4j.LoggerFactory;
 import edu.iastate.scribbleshare.ScribbleshareApplication;
 import edu.iastate.scribbleshare.helpers.Security;
 import edu.iastate.scribbleshare.helpers.Status;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 
+@Api(value = "UserController", description = "REST API relating to User Entity")
 @RestController
 public class UserController {
     @Autowired
@@ -24,6 +27,7 @@ public class UserController {
 
     private static final Logger logger = LoggerFactory.getLogger(ScribbleshareApplication.class);
 
+    @ApiOperation(value = "Add New User", response = String.class, tags= "Users")
     @PutMapping(path="/users/new")
     public @ResponseBody String addNewUser(@RequestParam String username, @RequestParam String password){
         //TODO add checking if username is allowed
@@ -35,12 +39,13 @@ public class UserController {
         userRepository.save(new User(username, password));
         return "new user created";
     }
-
+    @ApiOperation(value = "Get All Users", response = Iterable.class, tags = "Users")
     @GetMapping(path="/users")
     public @ResponseBody Iterable<User> getAllUsers() {
       return userRepository.findAll();
     }
 
+    @ApiOperation(value = "Get user by username", response = User.class, tags= "Users")
     @GetMapping(path="/users/{username}")
     public @ResponseBody User getUserByUsername(@PathVariable String username){
       Optional<User> user = userRepository.findById(username);
@@ -50,6 +55,7 @@ public class UserController {
       return user.get();
     }
 
+    @ApiOperation(value = "Log in User", response = User.class, tags= "Users")
     @GetMapping(path="/users/login")
     public @ResponseBody User login(HttpServletResponse response, @RequestParam String username, @RequestParam String password){
       Optional<User> optionalUser = userRepository.findById(username);
@@ -75,6 +81,7 @@ public class UserController {
     If I follow somebody, I'm FOLLOWING them
     If somebody follows me, they are a FOLLOWER
     */
+    @ApiOperation(value = "Add a follower", response = Void.class, tags= "Users")
     @PutMapping(path="following")
     public @ResponseBody void addFollower(HttpServletResponse response, @RequestParam String followerUsername, @RequestParam String followingUsername){
       Optional<User> followerOptional = userRepository.findById(followerUsername);
@@ -90,6 +97,7 @@ public class UserController {
       Status.formResponse(response, HttpStatus.CREATED, follower.getUsername() + " sucessfully followed " + following.getUsername());
     }
 
+    @ApiOperation(value = "Get User Following", response = Set.class, tags= "Users")
     @GetMapping(path="following")
     public @ResponseBody Set<User> getFollowing(HttpServletResponse response, @RequestParam String username){
       Optional<User> userOptional = userRepository.findById(username);
@@ -100,14 +108,7 @@ public class UserController {
       return userRepository.findById(username).get().getFollowing();
     }
 
-    @GetMapping(path = "followers/num")
-    public @ResponseBody int getFollowersNum(HttpServletResponse response, @RequestParam String username){
-      Set<User> temp = this.getFollowers(response, username);
-      return temp.size();
-    }
-
-    
-
+    @ApiOperation(value = "Get User Followers", response = Set.class, tags= "Users")
     @GetMapping(path="followers")
     public @ResponseBody Set<User> getFollowers(HttpServletResponse response, @RequestParam String username){
       Optional<User> user = userRepository.findById(username);
@@ -115,6 +116,7 @@ public class UserController {
       return user.get().getFollowers();
     }
 
+    @ApiOperation(value = "Unfollow User", response = Void.class, tags= "Users")
     @DeleteMapping(path="unfollow")
     public @ResponseBody void unfollowUser(HttpServletResponse response, @RequestParam String followerUsername, @RequestParam String followingUsername){
       Optional<User> followerOptional = userRepository.findById(followerUsername);
