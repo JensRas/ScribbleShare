@@ -19,7 +19,7 @@ import com.example.scribbleshare.signinpage.SignInPage;
 
 
 /**
- *
+ * Handles the UI of creating an account. Also handles button clicks
  */
 public class CreateAccountPage extends AppCompatActivity implements CreateAccountView {
 
