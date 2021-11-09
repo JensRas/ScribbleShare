@@ -27,6 +27,7 @@ import io.swagger.annotations.ApiModelProperty;
 
 
 /**
+ * A user is an account required to create posts/comments/etc and is created for each user.
  * Users will be used to keep track of several things we use throughout the app. 
  * There will be two different kinds of users, Mod which can ban and mute users, and just
  * normal users who will use the app as normal. User is storing Username, which is the Id, 
@@ -42,7 +43,6 @@ public class User {
 
     private static final Logger logger = LoggerFactory.getLogger(ScribbleshareApplication.class);
 
-    
     @Id
     @ApiModelProperty(value = "Username of user",name="username", required=true,example = "Corbeno")
     private String username;
