@@ -12,7 +12,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.scribbleshare.createaccountpage.CreateAccountPage;
 import com.example.scribbleshare.signinpage.SignInPage;
 
-public class MainActivity extends AppCompatActivity {
+/**
+ * The entry point of the application for new users. It allows users to log in or create a new account.
+ */
+public class SplashScreen extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

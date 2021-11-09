@@ -13,7 +13,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.scribbleshare.MainActivity;
+import com.example.scribbleshare.SplashScreen;
 import com.example.scribbleshare.R;
 import com.example.scribbleshare.signinpage.SignInPage;
 
@@ -47,7 +47,7 @@ public class CreateAccountPage extends AppCompatActivity implements CreateAccoun
 
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(view.getContext(), MainActivity.class));
+                startActivity(new Intent(view.getContext(), SplashScreen.class));
             }
         });
 

@@ -6,7 +6,6 @@ import com.android.volley.VolleyError;
 import com.example.scribbleshare.homepage.HomePage;
 import com.example.scribbleshare.network.EndpointCaller;
 import com.example.scribbleshare.network.IVolleyListener;
-import com.example.scribbleshare.MainActivity;
 
 /**
  * Presenter for create account

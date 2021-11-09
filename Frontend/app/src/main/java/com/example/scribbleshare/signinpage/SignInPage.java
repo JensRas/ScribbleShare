@@ -12,7 +12,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.scribbleshare.MainActivity;
+import com.example.scribbleshare.SplashScreen;
 import com.example.scribbleshare.R;
 
 /**
@@ -36,7 +36,7 @@ public class SignInPage extends AppCompatActivity implements SignInView {
 
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(view.getContext(), MainActivity.class));
+                startActivity(new Intent(view.getContext(), SplashScreen.class));
             }
         });
 
