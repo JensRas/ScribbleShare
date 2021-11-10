@@ -223,4 +223,26 @@ public class PostController {
         return r;
     }
 
+    @PostMapping(path="/post/like")
+    public Post likePost(HttpServletResponse response, @RequestParam int post_id, @RequestParam String username){
+        Optional<Post> optionalPost = postRepository.findById(post_id);
+        Optional<User> optionalUser = userRepository.findById(username);
+
+        if(!optionalPost.isPresent()){
+            //TODO
+        }
+
+        if(!optionalUser.isPresent()){
+            //TODO
+        }
+
+        Post post = optionalPost.get();
+        User user = optionalUser.get();
+
+        
+
+        return post;
+
+    }
+
 }

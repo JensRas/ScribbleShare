@@ -138,7 +138,7 @@ public class PostPage extends AppCompatActivity implements PostView{
                 for(int j = 0; j < comments.length(); j++){
                     JSONObject commentObj = (JSONObject)comments.get(j);
                     int commentId = commentObj.getInt("id");
-                    String commentProfileName = commentObj.getString("username");
+                    String commentProfileName = ((JSONObject)commentObj.get("user")).getString("username");
                     int likeCount = commentObj.getInt("likeCount");
                     commentModels.add(new CommentModel(commentId, commentProfileName, likeCount));
                 }

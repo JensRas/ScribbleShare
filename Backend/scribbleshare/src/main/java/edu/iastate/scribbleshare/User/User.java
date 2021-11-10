@@ -88,13 +88,29 @@ public class User {
     @JsonIgnore
     private List<Report> reports;
 
-    @OneToMany
+    @OneToMany(mappedBy="user", cascade = CascadeType.ALL)
     @JsonIgnore
     private List<Post> posts;
 
-    @OneToMany
+    @OneToMany(mappedBy="user")
     @JsonIgnore
     private List<Comment> comments;
+
+    // @OneToMany(targetEntity = Post.class, mappedBy="liked_users")
+    // @JsonIgnore
+    // private List<Post> liked_posts;
+
+    // @OneToMany
+    // @JsonIgnore
+    // private List<Comment> liked_comments;
+
+    // public List<Post> getLikedPosts(){
+    //     return this.liked_posts;
+    // }
+
+    // public void setLikedPosts(List<Post> liked_posts){
+    //     this.liked_posts = liked_posts;
+    // }
 
     public List<Post> getPosts(){
         return this.posts;

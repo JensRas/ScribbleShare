@@ -3,12 +3,15 @@ package edu.iastate.scribbleshare.Post;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -37,7 +40,8 @@ public class Post {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int ID;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name="user_username")
     @ApiModelProperty(value = "User who made the post", required=true, example = "User")
     private User user;
 
@@ -54,9 +58,14 @@ public class Post {
     @ApiModelProperty(value = "Number of comments the post has", required=true, example = "23")
     private int commentCount;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(mappedBy="post", cascade = CascadeType.ALL)
     @ApiModelProperty(value = "Frames that belong to the post", required=true, example = "")
     private List<Frame> frames;
+
+    // @ManyToOne(cascade = CascadeType.ALL)
+    // // @JsonIgnore //TODO add this when done
+    // @JoinColumn(name="username", referencedColumnName="username")
+    // private User liked_users;
 
     public Post(){
     }
