@@ -3,7 +3,6 @@ package edu.iastate.scribbleshare.Post;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -24,7 +23,6 @@ import edu.iastate.scribbleshare.User.User;
 import io.swagger.annotations.ApiModelProperty;
 
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 
 /**
  * A post created by a user. It stores the path to an image stored in the filesystem. 
@@ -76,6 +74,21 @@ public class Post {
         this.likeCount = 0;
         this.commentCount = 0;
         frames = new ArrayList<>();
+    }
+
+    /**
+     * Get the last frame in a post. Is useful for creating new frames in a post.
+     * @return the index of the last frame a post has
+     */
+    public int getLastFrameIndex(){
+        int r = -1;
+        for(Frame f : frames){
+            int index = f.getFrameIndex();
+            if(index > r){
+                r = index;
+            }
+        }
+        return r;
     }
 
     public int getID()
@@ -135,18 +148,4 @@ public class Post {
         frames.add(frame);
     }
 
-    /**
-     * Get the last frame in a post. Is useful for creating new frames in a post.
-     * @return the index of the last frame a post has
-     */
-    public int getLastFrameIndex(){
-        int r = -1;
-        for(Frame f : frames){
-            int index = f.getFrameIndex();
-            if(index > r){
-                r = index;
-            }
-        }
-        return r;
-    }
 }  

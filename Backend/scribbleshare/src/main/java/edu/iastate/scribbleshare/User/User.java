@@ -60,19 +60,6 @@ public class User {
     @ApiModelProperty(value = "If user is banned, they wont be able to log in to their account", required=true, example = "False")
     private boolean isBanned;
 
-    public User(String username, String password){
-        this.username = username;
-        String hash = Security.generateHash(password);
-        if(hash == null){
-            throw new BadHashException();
-        }
-        this.password = hash;
-    }
-
-    //need a default constructor or springboot will throw a tantrum
-    public User(){
-    }
-
     @ManyToMany(cascade = CascadeType.ALL)
     @JsonIgnore
     @JoinTable(name = "following",
@@ -111,6 +98,19 @@ public class User {
     // public void setLikedPosts(List<Post> liked_posts){
     //     this.liked_posts = liked_posts;
     // }
+
+    public User(String username, String password){
+        this.username = username;
+        String hash = Security.generateHash(password);
+        if(hash == null){
+            throw new BadHashException();
+        }
+        this.password = hash;
+    }
+
+    //default constructor needed for springboot
+    public User(){
+    }
 
     public List<Post> getPosts(){
         return this.posts;
