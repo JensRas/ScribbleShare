@@ -148,7 +148,7 @@
             android:layout_height="match_parent"
 
             android:layout_marginTop="0dp"
-            app:layout_constraintDimensionRatio="W,9:16"
+            app:layout_constraintDimensionRatio="W,11:16"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
