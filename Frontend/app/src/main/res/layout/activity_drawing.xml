@@ -148,12 +148,12 @@
             android:layout_height="match_parent"
 
             android:layout_marginTop="0dp"
-            app:layout_constraintDimensionRatio="W,11:16"
+            app:layout_constraintDimensionRatio="W,1.1:2"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:background="@color/white" />
-
+<!--"W,720,1280"-->
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
