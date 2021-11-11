@@ -10,11 +10,23 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.scribbleshare.MySingleton;
 import com.example.scribbleshare.R;
+import com.example.scribbleshare.homepage.PostModel;
+import com.example.scribbleshare.homepage.PostsAdapter;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
 
 /**
  * TODO implement
  */
 public class ProfilePage extends AppCompatActivity implements ProfilePageView {
+
+    private RecyclerView postsRV;
+    private ArrayList<PostModel> postsAL;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -23,8 +35,8 @@ public class ProfilePage extends AppCompatActivity implements ProfilePageView {
 
         ProfilePagePresenter presenter = new ProfilePagePresenter(this, getApplicationContext());
         String username = MySingleton.getInstance(this).getApplicationUser().getUsername();
-        int followers = MySingleton.getInstance(this).getApplicationUser().getFollowers();
-        int following = MySingleton.getInstance(this).getApplicationUser().getFollowers();
+       // int followers = MySingleton.getInstance(this).getApplicationUser().getFollowers();
+       // int following = MySingleton.getInstance(this).getApplicationUser().getFollowers();
         presenter.getFollowers(username); //when the request is done it calls "setHomePagePosts below
         TextView profileName, textFollowers, textFollowing;
         presenter.getUserPosts(username);
@@ -36,16 +48,16 @@ public class ProfilePage extends AppCompatActivity implements ProfilePageView {
 
 
         profileName.setText(username);
-        textFollowers.setText("Followers: " + followers);
-        textFollowing.setText("Following: " + following);
+       // textFollowers.setText("Followers: " + followers);
+      //  textFollowing.setText("Following: " + following);
     }
 
     public void setUserPosts(JSONArray array){
         postsAL = new ArrayList<>();
 
-        //iterate over the array and populate postsAL with new posts
+        //iterate over the array and populate postsAL with user posts
         for(int i = 0; i < array.length(); i++){
-            try {
+            try{
                 JSONObject obj = (JSONObject)array.get(i);
                 String id = obj.getString("id");
                 String profileName = obj.getString("username");

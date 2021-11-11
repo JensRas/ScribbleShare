@@ -13,8 +13,8 @@ import org.json.JSONObject;
 /**
  * TODO implement
  */
-public class ProfilePagePresenter implements IVolleyListener<JSONObject> {
-    private EndpointCaller<JSONObject> model;
+public class ProfilePagePresenter implements IVolleyListener<JSONArray> {
+    private EndpointCaller<JSONArray> model;
     private ProfilePageView view;
     private Context context;
 
@@ -34,20 +34,16 @@ public class ProfilePagePresenter implements IVolleyListener<JSONObject> {
      * @param username
      */
     public void getFollowers(String username){
-       // model.getFollowersRequest(username);
+       //model.getFollowersRequest(username);
     }
 
     public void getUserPosts(String username){
         model.getUserPostRequest(username);
     }
 
-    /**
-     * TODO implement
-     * @param data
-     */
+
     @Override
     public void onSuccess(JSONArray array) {
-        Log.d("success", "get followers success!");
         view.setUserPosts(array);
     }
 

@@ -29,8 +29,8 @@ public class EndpointCaller<T> {
     /**
      * The URL of the endpoint. (The local one is also present below for easier testing
      */
-    public static final String baseURL = "http://coms-309-010.cs.iastate.edu:8080";
-//    public static final String baseURL = "http://10.0.2.2:8080";
+//    public static final String baseURL = "http://coms-309-010.cs.iastate.edu:8080";
+     public static final String baseURL = "http://10.0.2.2:8080";
 
     /**
      * The context of the request when instantiated
@@ -80,6 +80,12 @@ public class EndpointCaller<T> {
     public void createPostRequest(String username, Bitmap scribble){
         String url = baseURL + "/post?username=" + username;
         sendMultipartFileUpload(scribble, url, Request.Method.PUT);
+    }
+
+
+    public void getUserPostRequest(String username) {
+        String url = baseURL + "/post?uesrname=" + username;
+        sendJsonArrayRequest(url);
     }
 
     /**
@@ -257,5 +263,4 @@ public class EndpointCaller<T> {
         bitmap.compress(Bitmap.CompressFormat.PNG, 80, byteArrayOutputStream);
         return byteArrayOutputStream.toByteArray();
     }
-
 }

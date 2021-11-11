@@ -2,6 +2,8 @@ package com.example.scribbleshare.network;
 
 import com.android.volley.VolleyError;
 
+import org.json.JSONArray;
+
 /**
  * A listener that presenters should implement
  * @param <T> The object that the request will return (JSONObject, JSONArray, etc)
@@ -12,6 +14,8 @@ public interface IVolleyListener <T>{
      * @param t The object that the request will return (JSONObject, JSONArray, etc)
      */
     void onSuccess(T t);
+
+    //void onSuccess(JSONArray array);
 
     /**
      * Called when a request fails
