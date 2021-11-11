@@ -58,7 +58,7 @@
 
     <RelativeLayout
         android:id="@+id/metrics"
-        android:layout_width="316dp"
+        android:layout_width="320dp"
         android:layout_height="wrap_content"
         android:layout_below="@id/profile_profile_name"
         android:layout_centerHorizontal="true"
@@ -67,7 +67,7 @@
 
         <RelativeLayout
             android:id="@+id/post_block"
-            android:layout_width="73dp"
+            android:layout_width="75dp"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:orientation="vertical">
@@ -98,7 +98,7 @@
 
         <RelativeLayout
             android:id="@+id/followers_block"
-            android:layout_width="73dp"
+            android:layout_width="75dp"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:orientation="vertical">
@@ -130,7 +130,7 @@
 
         <RelativeLayout
             android:id="@+id/following_block"
-            android:layout_width="73dp"
+            android:layout_width="75dp"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:orientation="vertical">
@@ -181,5 +181,78 @@
         android:layout_below="@+id/grid"
         android:layout_marginTop="8dp"
         />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="fill_parent"
+        android:id="@+id/profile_gallery_layout"
+        android:layout_below="@+id/gallery_icon_line"
+        android:layout_above="@+id/icon_bar_layout"
+        />
+
+    <LinearLayout
+        android:id="@+id/icon_bar_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_alignParentBottom="true"
+        android:background="@color/red_orange"
+        >
+
+        <ImageButton
+            android:id="@+id/btn_home"
+            android:layout_width="wrap_content"
+            android:layout_height="36dp"
+            android:layout_weight="1"
+            android:scaleType="fitCenter"
+            android:layout_marginTop="3dp"
+            android:background="@null"
+            android:src="@drawable/ic_baseline_home_24"
+            android:text="Home" />
+
+        <ImageButton
+            android:id="@+id/btn_search"
+            android:layout_width="wrap_content"
+            android:layout_height="36dp"
+            android:layout_weight="1"
+            android:scaleType="fitCenter"
+            android:layout_marginTop="3dp"
+            android:background="@null"
+            android:src="@drawable/ic_baseline_search_24"
+            android:text="Search" />
+
+        <ImageButton
+            android:id="@+id/btn_create_new"
+            android:layout_width="wrap_content"
+            android:layout_height="36dp"
+            android:layout_weight="1"
+            android:scaleType="fitCenter"
+            android:layout_marginTop="5dp"
+            android:background="@null"
+            android:src="@drawable/create_new"
+            android:text="Create New" />
+
+        <ImageButton
+            android:id="@+id/btn_likes"
+            android:layout_width="wrap_content"
+            android:layout_height="36dp"
+            android:layout_weight="1"
+            android:scaleType="fitCenter"
+            android:layout_marginTop="3dp"
+            android:src="@drawable/ic_baseline_favorite_border_24"
+            android:background="@null"
+            android:text="Likes" />
+
+        <ImageButton
+            android:id="@+id/btn_profile"
+            android:layout_width="wrap_content"
+            android:layout_height="36dp"
+            android:layout_weight="1"
+            android:scaleType="fitCenter"
+            android:layout_marginTop="3dp"
+            android:background="@null"
+            android:src="@drawable/ic_outline_account_circle_24"
+            android:text="Profile"/>
+    </LinearLayout>
 
 </RelativeLayout>
