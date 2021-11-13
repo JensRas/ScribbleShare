@@ -144,4 +144,69 @@ public class CommentController {
         }
         return optionalFrame.get().getComments();
     }
+
+    @PostMapping(path="/comment/like")
+    public Comment likeComment(HttpServletResponse response, @RequestParam int comment_id, @RequestParam String username){
+        Optional<Comment> optionalComment = commentRepository.findById(comment_id);
+        Optional<User> optionalUser = userRepository.findById(username);
+
+        if(!optionalComment.isPresent()){
+            Status.formResponse(response, HttpStatus.NOT_FOUND, "Comment with id: " + comment_id + " not found!");
+            return null;
+        }
+
+        if(!optionalUser.isPresent()){
+            Status.formResponse(response, HttpStatus.NOT_FOUND, "User with username: " + username + " not found!");
+            return null;
+        }
+
+        Comment comment = optionalComment.get();
+        User user = optionalUser.get();
+
+        if(user.getLikedComments().contains(comment)){
+            return comment;
+        }
+
+        user.getLikedComments().add(comment);
+        userRepository.save(user);
+        comment.getLikedUsers().add(user);
+        comment.setLikeCount(comment.getLikeCount() + 1);
+        commentRepository.save(comment);
+
+        return comment;
+
+    }
+
+    @DeleteMapping(path="/comment/like")
+    public Comment removeLikeComment(HttpServletResponse response, @RequestParam int comment_id, @RequestParam String username){
+        Optional<Comment> optionalComment = commentRepository.findById(comment_id);
+        Optional<User> optionalUser = userRepository.findById(username);
+
+        if(!optionalComment.isPresent()){
+            Status.formResponse(response, HttpStatus.NOT_FOUND, "Comment with id: " + comment_id + " not found!");
+            return null;
+        }
+
+        if(!optionalUser.isPresent()){
+            Status.formResponse(response, HttpStatus.NOT_FOUND, "User with username: " + username + " not found!");
+            return null;
+        }
+
+        Comment comment = optionalComment.get();
+        User user = optionalUser.get();
+
+        if(!user.getLikedComments().contains(comment)){
+            return comment;
+        }
+
+        user.getLikedComments().remove(comment);
+        userRepository.save(user);
+        comment.getLikedUsers().remove(user);
+        comment.setLikeCount(comment.getLikeCount() - 1);
+        commentRepository.save(comment);
+
+        return comment;
+
+    }
+
 }

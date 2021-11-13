@@ -1,12 +1,15 @@
 package edu.iastate.scribbleshare.Comment;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -41,11 +44,23 @@ public class Comment {
     @ApiModelProperty(value = "How many likes the comment has", required=true, example = "")
     private int likeCount;
 
+    @ManyToMany(mappedBy="liked_comments")
+	@JsonIgnore
+	private Set<User> liked_users = new HashSet<User>();
+
     public Comment(){} //need default constructor
 
     public Comment(User user){
         this.user = user;
         this.likeCount = 0;
+    }
+
+    public Set<User> getLikedUsers() {
+        return liked_users;
+    }
+
+    public void setLikedUsers(Set<User> liked_users){
+        this.liked_users = liked_users;
     }
 
     public String getPath(){

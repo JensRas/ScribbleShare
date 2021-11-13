@@ -103,6 +103,13 @@ public class User {
         inverseJoinColumns = @JoinColumn(name = "post_id", referencedColumnName = "id"))
     private Set<Post> liked_posts;
 
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JsonIgnore
+    @JoinTable(name = "liked_comments",
+        joinColumns = @JoinColumn(name="username", referencedColumnName="username"),
+        inverseJoinColumns = @JoinColumn(name = "comment_id", referencedColumnName = "id"))
+    private Set<Comment> liked_comments;
+
     @JsonIgnore
     public Set<Post> getLikedPosts(){
         return this.liked_posts;
@@ -111,6 +118,16 @@ public class User {
     public void setLikedPosts(Set<Post> liked_posts){
         this.liked_posts = liked_posts;
     }
+
+    @JsonIgnore
+    public Set<Comment> getLikedComments(){
+        return this.liked_comments;
+    }
+
+    public void setLikedComments(Set<Comment> liked_comments){
+        this.liked_comments = liked_comments;
+    }
+
 
     public List<Post> getPosts(){
         return this.posts;
