@@ -26,7 +26,6 @@ import edu.iastate.scribbleshare.User.User;
 import io.swagger.annotations.ApiModelProperty;
 
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 
 /**
  * A post created by a user. It stores the path to an image stored in the filesystem. 
@@ -79,6 +78,21 @@ public class Post {
         frames = new ArrayList<>();
     }
 
+    /**
+     * Get the last frame in a post. Is useful for creating new frames in a post.
+     * @return the index of the last frame a post has
+     */
+    public int getLastFrameIndex(){
+        int r = -1;
+        for(Frame f : frames){
+            int index = f.getFrameIndex();
+            if(index > r){
+                r = index;
+            }
+        }
+        return r;
+    }
+
     @JsonIgnore
     public Set<User> getLikedUsers(){
         return this.liked_users;
@@ -88,8 +102,7 @@ public class Post {
         this.liked_users = liked_users;
     }
 
-    public int getID()
-    {
+    public int getID(){
         return this.ID;
     }
 
@@ -145,18 +158,4 @@ public class Post {
         frames.add(frame);
     }
 
-    /**
-     * Get the last frame in a post. Is useful for creating new frames in a post.
-     * @return the index of the last frame a post has
-     */
-    public int getLastFrameIndex(){
-        int r = -1;
-        for(Frame f : frames){
-            int index = f.getFrameIndex();
-            if(index > r){
-                r = index;
-            }
-        }
-        return r;
-    }
 }  
