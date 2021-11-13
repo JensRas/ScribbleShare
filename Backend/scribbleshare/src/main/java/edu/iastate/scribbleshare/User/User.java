@@ -96,21 +96,21 @@ public class User {
     @JsonIgnore
     private List<Comment> comments;
 
-    // @OneToMany(targetEntity = Post.class, mappedBy="liked_users")
-    // @JsonIgnore
-    // private List<Post> liked_posts;
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JsonIgnore
+    @JoinTable(name = "liked_posts",
+        joinColumns = @JoinColumn(name="username", referencedColumnName="username"),
+        inverseJoinColumns = @JoinColumn(name = "post_id", referencedColumnName = "id"))
+    private Set<Post> liked_posts;
 
-    // @OneToMany
-    // @JsonIgnore
-    // private List<Comment> liked_comments;
+    @JsonIgnore
+    public Set<Post> getLikedPosts(){
+        return this.liked_posts;
+    }
 
-    // public List<Post> getLikedPosts(){
-    //     return this.liked_posts;
-    // }
-
-    // public void setLikedPosts(List<Post> liked_posts){
-    //     this.liked_posts = liked_posts;
-    // }
+    public void setLikedPosts(Set<Post> liked_posts){
+        this.liked_posts = liked_posts;
+    }
 
     public List<Post> getPosts(){
         return this.posts;

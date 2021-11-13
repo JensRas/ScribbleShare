@@ -2,6 +2,7 @@ package edu.iastate.scribbleshare.Post;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -11,6 +12,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 
 import org.slf4j.Logger;
@@ -62,10 +64,9 @@ public class Post {
     @ApiModelProperty(value = "Frames that belong to the post", required=true, example = "")
     private List<Frame> frames;
 
-    // @ManyToOne(cascade = CascadeType.ALL)
-    // // @JsonIgnore //TODO add this when done
-    // @JoinColumn(name="username", referencedColumnName="username")
-    // private User liked_users;
+    @ManyToMany(mappedBy="liked_posts")
+	@JsonIgnore
+	private Set<User> liked_users = new HashSet<User>();
 
     public Post(){
     }
@@ -76,6 +77,15 @@ public class Post {
         this.likeCount = 0;
         this.commentCount = 0;
         frames = new ArrayList<>();
+    }
+
+    @JsonIgnore
+    public Set<User> getLikedUsers(){
+        return this.liked_users;
+    }
+
+    public void setLikedUsers(Set<User> liked_users){
+        this.liked_users = liked_users;
     }
 
     public int getID()
