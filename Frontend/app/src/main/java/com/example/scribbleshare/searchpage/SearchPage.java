@@ -8,6 +8,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.scribbleshare.MySingleton;
 import com.example.scribbleshare.R;
 
+import org.json.JSONArray;
+
 /**
  * TODO
  */
@@ -21,5 +23,10 @@ public class SearchPage extends AppCompatActivity implements SearchPageView {
         setContentView(R.layout.activity_search);
 
         String username = MySingleton.getInstance(this).getApplicationUser().getUsername();
+    }
+
+    @Override
+    public void setSearchResults(JSONArray a) {
+
     }
 }

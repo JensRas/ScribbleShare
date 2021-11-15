@@ -135,4 +135,9 @@ public class UserController {
       Status.formResponse(response, HttpStatus.CREATED, follower.getUsername() + " sucessfully unfollowed " + following.getUsername());
     }
 
+    @GetMapping(path="/users/search/{search}")
+    public @ResponseBody Iterable<User> searchUsers(@PathVariable String search) {
+      //TODO implement a proper search. For now this will work though
+      return userRepository.findAll();
+    }
 }
