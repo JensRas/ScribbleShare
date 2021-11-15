@@ -10,4 +10,5 @@ public interface SearchPageView {
     //then override them in the SearchPage class and actually implement them
 
     public void setSearchResults(JSONArray a);
+    public void refreshSearch(String s);
 }

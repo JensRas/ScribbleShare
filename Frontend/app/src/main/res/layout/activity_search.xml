@@ -37,7 +37,7 @@
     <EditText
         android:id="@+id/username_search"
         android:layout_width="match_parent"
-        android:layout_height="25dp"
+        android:layout_height="50dp"
         android:layout_below="@+id/top_bar_layout"
         android:ems="10"
         android:inputType="textPersonName"
