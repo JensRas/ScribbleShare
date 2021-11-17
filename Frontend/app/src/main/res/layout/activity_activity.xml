@@ -9,11 +9,11 @@
         android:layout_height="match_parent"
         >
         <TextView
-            android:id="@+id/search_page_text"
+            android:id="@+id/activity_page_text"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:fontFamily="@font/reenie_beanie"
-            android:text="SearchPage"
+            android:text="ActivityPage"
             android:textAlignment="center"
             android:textColor="@color/white"
             android:textSize="40sp"
@@ -54,7 +54,7 @@
                 android:background="@color/red_orange"/>
         </LinearLayout>
 
-        <!-- TODO Search page -->
+        <!-- TODO Activity page -->
 
         <LinearLayout
             android:id="@+id/icon_bar_layout"

@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.scribbleshare.MySingleton;
 import com.example.scribbleshare.R;
 import com.example.scribbleshare.User;
+import com.example.scribbleshare.activitypage.ActivityPage;
 import com.example.scribbleshare.drawingpage.DrawingPage;
 import com.example.scribbleshare.homepage.HomePage;
 import com.example.scribbleshare.profilepage.ProfilePage;
@@ -39,7 +40,6 @@ public class PostPage extends AppCompatActivity implements PostView{
 
     private String postId;
     private User localUser;
-
 
     @Override
     protected void onPostCreate(@Nullable Bundle savedInstanceState) {
@@ -102,18 +102,17 @@ public class PostPage extends AppCompatActivity implements PostView{
                 startActivity(intent);
             }
         });
-        /*
-        ImageButton likes_button = (ImageButton) findViewById(R.id.btn_likes);
-        likes_button.setOnClickListener(new View.OnClickListener() {
+
+        ImageButton activity_button = (ImageButton) findViewById(R.id.btn_activity);
+        activity_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(view.getContext(), HomePage.class));
+                startActivity(new Intent(view.getContext(), ActivityPage.class));
             }
         });
-        */
+
         ImageButton profile_button = (ImageButton) findViewById(R.id.btn_profile);
         profile_button.setOnClickListener(new View.OnClickListener() {
-
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(view.getContext(), ProfilePage.class));
