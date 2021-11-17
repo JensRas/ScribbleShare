@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -75,6 +76,25 @@ public class PostPage extends AppCompatActivity implements PostView{
                 newFramePresenter.createNewFrame(localUser.getUsername(), postId, framesAL.size());
             }
         });
+
+        ImageButton like_button = (ImageButton) findViewById(R.id.post_like_button);
+        like_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Needs to be exact post > frame > comment
+                // Increment like count
+                TextView like_count = (TextView) findViewById(R.id.like_count);
+            }
+        });
+
+        /*Button add_comment_button = (Button) findViewById(R.id.add_comment);
+        add_comment_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Increment comment count
+
+            }
+        });*/
 
         // Icon buttons
         ImageButton home_button = (ImageButton) findViewById(R.id.btn_home);
