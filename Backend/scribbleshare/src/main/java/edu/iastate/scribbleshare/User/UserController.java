@@ -2,6 +2,7 @@ package edu.iastate.scribbleshare.User;
 
 import java.util.Optional;
 import java.util.Set;
+import java.util.ArrayList;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -139,7 +140,18 @@ public class UserController {
 
     @GetMapping(path="/users/search/{search}")
     public @ResponseBody Iterable<User> searchUsers(@PathVariable String search) {
-      //TODO implement a proper search. For now this will work though
-      return userRepository.findAll();
+      logger.info("search: " + search);
+      if(search.equals(" ")){
+        return userRepository.findAll();
+      }
+
+      ArrayList<User> r = new ArrayList<>();
+      for(User user: userRepository.findAll()){
+        if(user.getUsername().contains(search)){
+          r.add(user);
+        }
+      }
+
+      return r;
     }
 }

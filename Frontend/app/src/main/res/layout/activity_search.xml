@@ -41,7 +41,7 @@
         android:layout_below="@+id/top_bar_layout"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="Name" />
+        android:text="" />
 
 
     <FrameLayout
