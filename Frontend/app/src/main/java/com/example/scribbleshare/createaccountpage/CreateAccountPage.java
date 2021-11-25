@@ -22,12 +22,10 @@ import com.example.scribbleshare.signinpage.SignInPage;
  * Handles the UI of creating an account. Also handles button clicks
  */
 public class CreateAccountPage extends AppCompatActivity implements CreateAccountView {
-
     private CreateAccountPresenter presenter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_account);
 

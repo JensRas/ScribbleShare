@@ -24,8 +24,7 @@
             android:textAlignment="center"
             android:textColor="@color/white"
             android:textSize="40sp"
-            android:layout_marginTop="5dp"
-          />
+            android:layout_marginTop="5dp" />
 
         <View
             android:id="@+id/top_bar_line"
@@ -42,13 +41,11 @@
         android:layout_below="@+id/top_bar_layout"
         android:layout_above="@+id/icon_bar_layout">
 
-
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/post_recycler_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"/>
-
     </FrameLayout>
 
     <LinearLayout
@@ -94,7 +91,7 @@
             android:text="Create New" />
 
         <ImageButton
-            android:id="@+id/btn_likes"
+            android:id="@+id/btn_activity"
             android:layout_width="wrap_content"
             android:layout_height="36dp"
             android:layout_weight="1"

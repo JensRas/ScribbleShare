@@ -1,4 +1,4 @@
-package com.example.scribbleshare.searchpage;
+package com.example.scribbleshare.activitypage;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,26 +8,23 @@ import android.widget.ImageButton;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.scribbleshare.MySingleton;
 import com.example.scribbleshare.R;
-import com.example.scribbleshare.activitypage.ActivityPage;
 import com.example.scribbleshare.drawingpage.DrawingPage;
 import com.example.scribbleshare.homepage.HomePage;
 import com.example.scribbleshare.profilepage.ProfilePage;
+import com.example.scribbleshare.searchpage.SearchPage;
 
 /**
  * TODO
  */
-public class SearchPage extends AppCompatActivity implements SearchPageView {
+public class ActivityPage extends AppCompatActivity implements ActivityPageView {
     /**
      * TODO implement
      */
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_search);
-
-        String username = MySingleton.getInstance(this).getApplicationUser().getUsername();
+        setContentView(R.layout.activity_activity);
 
         // Icon buttons
         ImageButton home_button = (ImageButton) findViewById(R.id.btn_home);
@@ -42,8 +39,7 @@ public class SearchPage extends AppCompatActivity implements SearchPageView {
         search_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //already on search page
-                //startActivity(new Intent(view.getContext(), SearchPage.class));
+                startActivity(new Intent(view.getContext(), SearchPage.class));
             }
         });
 
@@ -61,7 +57,8 @@ public class SearchPage extends AppCompatActivity implements SearchPageView {
         activity_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(view.getContext(), ActivityPage.class));
+                //already on activity page
+                //startActivity(new Intent(view.getContext(), ActivityPage.class));
             }
         });
 

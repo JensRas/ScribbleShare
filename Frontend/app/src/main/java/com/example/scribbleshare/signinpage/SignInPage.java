@@ -33,16 +33,14 @@ public class SignInPage extends AppCompatActivity implements SignInView {
 
         ImageButton back_button = (ImageButton) findViewById(R.id.back_button_sign_in);
         back_button.setOnClickListener(new View.OnClickListener() {
-
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(view.getContext(), SplashScreen.class));
             }
         });
 
-        Button sign_in_button = (Button) findViewById(R.id.create_account_button);
+        Button sign_in_button = (Button) findViewById(R.id.sign_in_button);
         sign_in_button.setOnClickListener(new View.OnClickListener() {
-
             @Override
             public void onClick(View view) {
                 String usernameText = ((EditText) findViewById(R.id.si_username)).getText().toString();

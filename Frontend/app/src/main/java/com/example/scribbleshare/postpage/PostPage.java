@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -15,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.scribbleshare.MySingleton;
 import com.example.scribbleshare.R;
 import com.example.scribbleshare.User;
+import com.example.scribbleshare.activitypage.ActivityPage;
 import com.example.scribbleshare.drawingpage.DrawingPage;
 import com.example.scribbleshare.homepage.HomePage;
 import com.example.scribbleshare.profilepage.ProfilePage;
@@ -39,7 +41,6 @@ public class PostPage extends AppCompatActivity implements PostView{
 
     private String postId;
     private User localUser;
-
 
     @Override
     protected void onPostCreate(@Nullable Bundle savedInstanceState) {
@@ -76,6 +77,25 @@ public class PostPage extends AppCompatActivity implements PostView{
             }
         });
 
+        ImageButton like_button = (ImageButton) findViewById(R.id.post_like_button);
+        like_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Needs to be exact post > frame > comment
+                // Increment like count
+                TextView like_count = (TextView) findViewById(R.id.like_count);
+            }
+        });
+
+        /*Button add_comment_button = (Button) findViewById(R.id.add_comment);
+        add_comment_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Increment comment count
+
+            }
+        });*/
+
         // Icon buttons
         ImageButton home_button = (ImageButton) findViewById(R.id.btn_home);
         home_button.setOnClickListener(new View.OnClickListener() {
@@ -102,18 +122,17 @@ public class PostPage extends AppCompatActivity implements PostView{
                 startActivity(intent);
             }
         });
-        /*
-        ImageButton likes_button = (ImageButton) findViewById(R.id.btn_likes);
-        likes_button.setOnClickListener(new View.OnClickListener() {
+
+        ImageButton activity_button = (ImageButton) findViewById(R.id.btn_activity);
+        activity_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(view.getContext(), HomePage.class));
+                startActivity(new Intent(view.getContext(), ActivityPage.class));
             }
         });
-        */
+
         ImageButton profile_button = (ImageButton) findViewById(R.id.btn_profile);
         profile_button.setOnClickListener(new View.OnClickListener() {
-
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(view.getContext(), ProfilePage.class));
@@ -138,7 +157,7 @@ public class PostPage extends AppCompatActivity implements PostView{
                 for(int j = 0; j < comments.length(); j++){
                     JSONObject commentObj = (JSONObject)comments.get(j);
                     int commentId = commentObj.getInt("id");
-                    String commentProfileName = commentObj.getString("username");
+                    String commentProfileName = ((JSONObject)commentObj.get("user")).getString("username");
                     int likeCount = commentObj.getInt("likeCount");
                     commentModels.add(new CommentModel(commentId, commentProfileName, likeCount));
                 }
