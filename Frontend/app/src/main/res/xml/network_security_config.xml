@@ -4,5 +4,6 @@
         <domain includeSubdomains="true">mocky.io</domain>
         <domain includeSubdomains="true">10.0.2.2</domain>
         <domain includeSubdomains="true">coms-309-010.cs.iastate.edu</domain>
+        <domain includeSubdomains="true">localhost</domain>
     </domain-config>
 </network-security-config>

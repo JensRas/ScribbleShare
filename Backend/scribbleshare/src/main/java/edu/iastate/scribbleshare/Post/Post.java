@@ -37,7 +37,7 @@ public class Post {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int ID;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.PERSIST)
     @ApiModelProperty(value = "User who made the post", required=true, example = "User")
     private User user;
 

@@ -88,11 +88,11 @@ public class User {
     @JsonIgnore
     private List<Report> reports;
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
     @JsonIgnore
     private List<Post> posts;
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
     @JsonIgnore
     private List<Comment> comments;
 
