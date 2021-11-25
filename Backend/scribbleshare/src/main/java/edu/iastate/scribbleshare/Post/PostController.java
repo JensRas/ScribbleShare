@@ -303,7 +303,70 @@ public class PostController {
             //TODO better handle when there are no comments?
             return null;
         }
+    }
         
+    @PostMapping(path="/post/like")
+    public Post likePost(HttpServletResponse response, @RequestParam int post_id, @RequestParam String username){
+        Optional<Post> optionalPost = postRepository.findById(post_id);
+        Optional<User> optionalUser = userRepository.findById(username);
+
+        if(!optionalPost.isPresent()){
+            Status.formResponse(response, HttpStatus.NOT_FOUND, "Post with id: " + post_id + " not found!");
+            return null;
+        }
+
+        if(!optionalUser.isPresent()){
+            Status.formResponse(response, HttpStatus.NOT_FOUND, "User with username: " + username + " not found!");
+            return null;
+        }
+
+        Post post = optionalPost.get();
+        User user = optionalUser.get();
+
+        if(user.getLikedPosts().contains(post)){
+            return post;
+        }
+
+        user.getLikedPosts().add(post);
+        userRepository.save(user);
+        post.getLikedUsers().add(user);
+        post.setLikeCount(post.getLikeCount() + 1);
+        postRepository.save(post);
+
+        return post;
+
+    }
+
+    @DeleteMapping(path="/post/like")
+    public Post removeLikePost(HttpServletResponse response, @RequestParam int post_id, @RequestParam String username){
+        Optional<Post> optionalPost = postRepository.findById(post_id);
+        Optional<User> optionalUser = userRepository.findById(username);
+
+        if(!optionalPost.isPresent()){
+            Status.formResponse(response, HttpStatus.NOT_FOUND, "Post with id: " + post_id + " not found!");
+            return null;
+        }
+
+        if(!optionalUser.isPresent()){
+            Status.formResponse(response, HttpStatus.NOT_FOUND, "User with username: " + username + " not found!");
+            return null;
+        }
+
+        Post post = optionalPost.get();
+        User user = optionalUser.get();
+
+        if(!user.getLikedPosts().contains(post)){
+            return post;
+        }
+
+        user.getLikedPosts().remove(post);
+        userRepository.save(user);
+        post.getLikedUsers().remove(user);
+        post.setLikeCount(post.getLikeCount() - 1);
+        postRepository.save(post);
+
+        return post;
+
     }
 
 }

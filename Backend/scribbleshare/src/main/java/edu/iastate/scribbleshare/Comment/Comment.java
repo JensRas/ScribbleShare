@@ -1,11 +1,15 @@
 package edu.iastate.scribbleshare.Comment;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -24,12 +28,12 @@ public class Comment {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int ID;
 
-    @OneToOne(cascade = CascadeType.REMOVE)
+    @ManyToOne(cascade = CascadeType.REMOVE)
     @JsonIgnore
     @ApiModelProperty(value = "Frame for the comment", required=true, example = "")
     private Frame frame;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.ALL)
     @ApiModelProperty(value = "User that made the comment", required=true, example = "User")
     private User user;
 
@@ -40,11 +44,23 @@ public class Comment {
     @ApiModelProperty(value = "How many likes the comment has", required=true, example = "")
     private int likeCount;
 
+    @ManyToMany(mappedBy="liked_comments")
+	@JsonIgnore
+	private Set<User> liked_users = new HashSet<User>();
+
     public Comment(){} //need default constructor
 
     public Comment(User user){
         this.user = user;
         this.likeCount = 0;
+    }
+
+    public Set<User> getLikedUsers() {
+        return liked_users;
+    }
+
+    public void setLikedUsers(Set<User> liked_users){
+        this.liked_users = liked_users;
     }
 
     public String getPath(){
