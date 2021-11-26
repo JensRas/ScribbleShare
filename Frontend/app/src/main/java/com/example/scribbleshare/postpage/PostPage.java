@@ -1,11 +1,15 @@
 package com.example.scribbleshare.postpage;
 
+import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
@@ -13,20 +17,25 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.signature.ObjectKey;
 import com.example.scribbleshare.MySingleton;
 import com.example.scribbleshare.R;
 import com.example.scribbleshare.User;
 import com.example.scribbleshare.activitypage.ActivityPage;
 import com.example.scribbleshare.drawingpage.DrawingPage;
 import com.example.scribbleshare.homepage.HomePage;
+import com.example.scribbleshare.network.EndpointCaller;
 import com.example.scribbleshare.profilepage.ProfilePage;
 import com.example.scribbleshare.searchpage.SearchPage;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.logging.Logger;
 
 /**
  * Handles the UI for the post page
@@ -41,6 +50,8 @@ public class PostPage extends AppCompatActivity implements PostView{
 
     private String postId;
     private User localUser;
+
+    Dialog dialog;
 
     @Override
     protected void onPostCreate(@Nullable Bundle savedInstanceState) {
@@ -69,6 +80,15 @@ public class PostPage extends AppCompatActivity implements PostView{
         framesRV.setAdapter(frameAdapter);
 
         //TODO set onclick listeners for other things on this page here
+        FloatingActionButton gif_button = (FloatingActionButton) findViewById(R.id.gif_button);
+        gif_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.d("debug", "clicked!");
+                showDialog();
+            }
+        });
+
         Button new_frame_button = (Button) findViewById(R.id.new_frame_button);
         new_frame_button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -177,5 +197,34 @@ public class PostPage extends AppCompatActivity implements PostView{
     public void refreshFrames() {
         Log.d("debug", "refreshFrames() called");
         getFramesPresenter.getFrames(postId);
+    }
+
+    private void showDialog() {
+        // custom dialog
+        dialog = new Dialog(this);
+        dialog.setContentView(R.layout.dialog_gif);
+
+        ImageView gif = (ImageView) dialog.findViewById(R.id.gif);
+        String url = EndpointCaller.baseURL + "/post/" + postId + "/gif";
+        Glide.with(this)
+                .load(url)
+                .signature(new ObjectKey(System.currentTimeMillis()))
+                .into(gif);
+
+        // set the custom dialog components - text, image and button
+        ImageButton close = (ImageButton) dialog.findViewById(R.id.close_button);
+
+        // Close Button
+        close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+                //TODO Close button action
+            }
+        });
+
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+        dialog.show();
     }
 }
