@@ -41,7 +41,7 @@ public class Post {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int ID;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name="user_username")
     @ApiModelProperty(value = "User who made the post", required=true, example = "User")
     private User user;

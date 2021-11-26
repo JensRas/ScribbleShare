@@ -108,7 +108,8 @@ public class PostController {
         //create post and set path location
         Post post = new Post(user);
         postRepository.save(post); //must be saved to set the id properly
-        fullPath += "post_" + post.getID() + "_" + imageFile.getOriginalFilename();
+        long unixTime = System.currentTimeMillis() / 1000L;
+        fullPath += "post_" + post.getID() + "_" + unixTime + imageFile.getOriginalFilename();
         post.setPath(fullPath);
 
         //write file to disk

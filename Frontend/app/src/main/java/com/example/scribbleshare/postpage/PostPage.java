@@ -77,15 +77,15 @@ public class PostPage extends AppCompatActivity implements PostView{
             }
         });
 
-        ImageButton like_button = (ImageButton) findViewById(R.id.post_like_button);
-        like_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // Needs to be exact post > frame > comment
-                // Increment like count
-                TextView like_count = (TextView) findViewById(R.id.like_count);
-            }
-        });
+//        ImageButton like_button = (ImageButton) findViewById(R.id.post_like_button);
+//        like_button.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                // Needs to be exact post > frame > comment
+//                // Increment like count
+//                TextView like_count = (TextView) findViewById(R.id.like_count);
+//            }
+//        });
 
         /*Button add_comment_button = (Button) findViewById(R.id.add_comment);
         add_comment_button.setOnClickListener(new View.OnClickListener() {
@@ -123,13 +123,13 @@ public class PostPage extends AppCompatActivity implements PostView{
             }
         });
 
-        ImageButton activity_button = (ImageButton) findViewById(R.id.btn_activity);
-        activity_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(view.getContext(), ActivityPage.class));
-            }
-        });
+//        ImageButton activity_button = (ImageButton) findViewById(R.id.btn_activity);
+//        activity_button.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                startActivity(new Intent(view.getContext(), ActivityPage.class));
+//            }
+//        });
 
         ImageButton profile_button = (ImageButton) findViewById(R.id.btn_profile);
         profile_button.setOnClickListener(new View.OnClickListener() {
