@@ -58,8 +58,8 @@ public class LikeSocket {
         sessionUsernameMap.put(session, username);
         usernameSessionMap.put(username, session);
 
-        //Get all post likes and send it to the user
-        sendMessageToPArticularUser(username, getLikeCounts(posts.split(",")));
+        // Get all post likes and send it to the user
+        sendMessageToParticularUser(username, getLikeCounts(posts.split(",")));
     }
 
     @OnMessage
@@ -138,7 +138,7 @@ public class LikeSocket {
 	}
 
 
-    private void sendMessageToPArticularUser(String username, String message) {
+    private void sendMessageToParticularUser(String username, String message) {
 		try {
 			usernameSessionMap.get(username).getBasicRemote().sendText(message);
 		} catch (IOException e) {
@@ -161,7 +161,7 @@ public class LikeSocket {
 	}
 	
 
-  // Gets the Chat history from the repository
+    // Gets the Chat history from the repository
 	private String getLikeCounts(String[] posts) {
         StringBuilder sb = new StringBuilder();
         
