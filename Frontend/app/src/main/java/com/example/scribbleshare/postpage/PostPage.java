@@ -76,7 +76,7 @@ public class PostPage extends AppCompatActivity implements PostView{
                 newFramePresenter.createNewFrame(localUser.getUsername(), postId, framesAL.size());
             }
         });
-
+        /*
         ImageButton like_button = (ImageButton) findViewById(R.id.post_like_button);
         like_button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -86,7 +86,7 @@ public class PostPage extends AppCompatActivity implements PostView{
                 TextView like_count = (TextView) findViewById(R.id.like_count);
             }
         });
-
+        */
         /*Button add_comment_button = (Button) findViewById(R.id.add_comment);
         add_comment_button.setOnClickListener(new View.OnClickListener() {
             @Override
