@@ -73,7 +73,7 @@
                 android:scaleType="fitCenter"
                 android:layout_marginTop="3dp"
                 android:background="@null"
-                android:src="@drawable/ic_baseline_home_24"
+                android:src="@drawable/ic_outline_home_24"
                 android:text="Home" />
 
             <ImageButton
