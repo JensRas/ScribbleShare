@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 
 import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
@@ -22,8 +23,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import edu.iastate.scribbleshare.User.User;
+import edu.iastate.scribbleshare.User.UserController;
 import edu.iastate.scribbleshare.User.UserRepository;
+import edu.iastate.scribbleshare.User.UserService;
 
+import org.hibernate.Hibernate;
+import org.hibernate.LockMode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -33,16 +38,23 @@ public class LikeSocket {
     
     private static PostRepository postRepository;
     private static UserRepository userRepository;
+    private static PostController postController;
 
     @Autowired
     public void setPostRepository(PostRepository postRepository){
-        this.postRepository = postRepository;
+        LikeSocket.postRepository = postRepository;
     }
 
     @Autowired
     public void setUserRepository(UserRepository userRepository){
-        this.userRepository = userRepository;
+        LikeSocket.userRepository = userRepository;
     }
+
+    @Autowired
+    public void setPostController(PostController postController){
+        LikeSocket.postController = postController;
+    }
+
 
     // Store all socket session and their corresponding username.
 	private static Map<Session, String> sessionUsernameMap = new Hashtable<>();
@@ -51,7 +63,7 @@ public class LikeSocket {
     private final Logger logger = LoggerFactory.getLogger(LikeSocket.class);
 
     @OnOpen
-    public void onOpen(Session session, @PathParam("username") String username, @RequestParam("posts") String posts) throws IOException{
+    public void onOpen(Session session, @PathParam("username") String username) throws IOException{
         logger.info("Entered into Open");
 
         // store connecting user information
@@ -59,15 +71,20 @@ public class LikeSocket {
         usernameSessionMap.put(username, session);
 
         // Get all post likes and send it to the user
-        sendMessageToParticularUser(username, getLikeCounts(posts.split(",")));
+        // sendMessageToParticularUser(username, getLikeCounts(posts.split(",")));
     }
 
     @OnMessage
 	public void onMessage(Session session, String message) throws IOException {
 
 		// Handle new messages
-		logger.info("Entered into Message: Got Message:" + message);
 		String username = sessionUsernameMap.get(session);
+		logger.info("Entered into Message: Got Message:" + message + " from username: " + username);
+
+        if(message.equals("test")){
+            logger.info("GOT TEST");
+            return;
+        }
 
         //+ 162  <---- adds a like to post 162
 
@@ -77,29 +94,60 @@ public class LikeSocket {
             return;
         }
         String operator = args[0];
-        String postId = args[1];
+        String body = args[1];
 
-        Optional<Post> optionalPost = postRepository.findById(Integer.parseInt(postId));
-        if(!optionalPost.isPresent()){
-            logger.info("Unable to find post: " + postId);
-        }
-
-        Post post = optionalPost.get();
         User user = userRepository.findById(username).get();
-
-        if(operator.equals("+")){
-            if(user.getLikedPosts().contains(post)){
-                //already liked post, returning 
-                return;
+        if(operator.equals("r")){ //get all posts like counts, body is a comma seperated list of post ids to return
+            String[] posts = body.split(",");
+            String r = "";
+            for(String postId: posts){
+                //get post
+                Optional<Post> optionalPost = postRepository.findById(Integer.parseInt(postId));
+                if(!optionalPost.isPresent()){
+                    logger.info("Unable to find post: " + postId + " when reading posts with WS");
+                    r += postId + ":-1,"; //if the frontend ever gets -1 like count, it means something went wrong
+                    continue;
+                }
+                Post post = optionalPost.get();
+                r +=  postId + ":" + post.getLikeCount() + ",";
             }
 
-            user.getLikedPosts().add(post);
-            userRepository.save(user);
-            post.getLikedUsers().add(user);
-            post.setLikeCount(post.getLikeCount() + 1);
-            postRepository.save(post);
+            //send response to single user
+            sendMessageToParticularUser(username, r);
+            
+        }else if(operator.equals("+")){ //add a like, body is post id
+            Optional<Post> optionalPost = postRepository.findById(Integer.parseInt(body));
+            if(!optionalPost.isPresent()){
+                logger.info("Unable to find post: " + body);
+            }
 
-        }else if(operator.equals("-")){
+            Hibernate.initialize(user.getLikedPosts());
+
+
+            Post post = optionalPost.get();
+            Set<Post> test = user.getLikedPosts();
+            boolean test2 = test.contains(post); //  <--- this line fails
+
+
+            // if(user.getLikedPosts().contains(post)){
+            //     //already liked post, returning 
+            //     return;
+            // }
+
+            // user.getLikedPosts().add(post);
+            // userRepository.save(user);
+            // post.getLikedUsers().add(user);
+            // post.setLikeCount(post.getLikeCount() + 1);
+            // postRepository.save(post);
+            // broadcast(body + ": " + post.getLikeCount());
+
+        }else if(operator.equals("-")){ //remove a like, body is post id
+            Optional<Post> optionalPost = postRepository.findById(Integer.parseInt(body));
+            if(!optionalPost.isPresent()){
+                logger.info("Unable to find post: " + body);
+            }
+            Post post = optionalPost.get();
+
             if(!user.getLikedPosts().contains(post)){
                 return;
             }
@@ -109,13 +157,12 @@ public class LikeSocket {
             post.getLikedUsers().remove(user);
             post.setLikeCount(post.getLikeCount() - 1);
             postRepository.save(post);
-
+            broadcast(body + ": " + post.getLikeCount());
 
         }else{
             logger.info("unknown operator");
         }
 
-        broadcast(postId + ": " + post.getLikeCount());
 	}
 
 

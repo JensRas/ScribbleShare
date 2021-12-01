@@ -16,6 +16,7 @@ import com.example.scribbleshare.MySingleton;
 import com.example.scribbleshare.R;
 import com.example.scribbleshare.activitypage.ActivityPage;
 import com.example.scribbleshare.drawingpage.DrawingPage;
+import com.example.scribbleshare.network.EndpointCaller;
 import com.example.scribbleshare.profilepage.ProfilePage;
 import com.example.scribbleshare.searchpage.SearchPage;
 
@@ -59,25 +60,43 @@ public class HomePage extends AppCompatActivity implements HomePageView{
          * String w = "ws://10.26.13.93:8080/websocket/"+e1.getText().toString();
          */
         // TODO Fix this connection
-        String s = "ws://localhost:8080/live/like/" + username;
+        String s = EndpointCaller.baseURL.replace("http", "ws") + "/live/like/" + username;
+//        String s = "ws://localhost:8080/live/like/" + username;
 
+        //SENDING WEB SOCKET MESSAGES TO THE SERVER
+        //the web socket is configured to send 3 different kinds of messages, r, +, or -
+        //each message consists of the type (r,+,-) and a body, separated like a space
+        //example; if I wanted to read the like counts of post 1, 2, and 3, I would send:
+        //      "r 1,2,3"
+        //example: if I wanted to increase the like count of post 2, I would send:
+        //      "+ 2"
+        //the same would be for un-liking a post, but to replace the "+" with a "-"
+        //you cannot update the like count of multiple posts in one socket message
+
+        //RECIEVING WEB SOCKET MESSAGES FROM THE SERVER
+        //the web server responds with one format, a comma separated list of postId:likeCount
+        //for example, if I sent the socket "r 2,3", I would get a response of
+        //      2:423,3:49    <--- This means post 2 has 423 likes and post 3 has 49 likes
+        //if the socket gets a request like the following:
+        //      3:12,
+        //this means post 3 needs to be updated to have a like count of 12
+
+        //if there is ever a like count of -1, it means that the requested post couldn't be found on the server
         try {
-            Log.d("Socket:", "Trying socket");
+            Log.d("Socket:", "Trying socket with url: " + s);
             cc = new WebSocketClient(new URI(s),(Draft) drafts[0]) {
                 @Override
                 public void onMessage(String message) {
-                    Log.d("", "run() returned: " + message);
-                    //String s=t1.getText().toString();
-                    //t1.setText("hello world");
-                    //Log.d("first", "run() returned: " + s);
-                    //s=t1.getText().toString();
-                    //Log.d("second", "run() returned: " + s);
-                    //t1.setText(s+" Server:"+message);
+                    //
+                    Log.d("SOCKET", "socket message returned: " + message);
                 }
 
                 @Override
                 public void onOpen(ServerHandshake handshake) {
                     Log.d("OPEN", "run() returned: " + "is connecting");
+                    //once opened, THEN get posts here...
+                    //
+                    cc.send("r 5,");
                 }
 
                 @Override
@@ -96,7 +115,19 @@ public class HomePage extends AppCompatActivity implements HomePageView{
             Log.d("Exception:", e.getMessage().toString());
             e.printStackTrace();
         }
-        cc.connect();
+
+        try {
+            cc.connectBlocking();
+        } catch (InterruptedException e) {
+            Log.e("SOCKET", "connect blocking interrupted");
+            e.printStackTrace();
+        }
+        cc.send("+ 5");
+//        cc.send("+ 5");
+//        cc.send("+ 5");
+//        cc.send("+ 5");
+//        cc.send("+ 5");
+
     }
 
     /**
