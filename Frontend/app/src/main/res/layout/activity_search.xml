@@ -54,7 +54,39 @@
                 android:background="@color/red_orange"/>
         </LinearLayout>
 
-        <!-- TODO Search page -->
+        <EditText
+            android:id="@+id/username_search"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_below="@+id/top_bar_layout"
+            android:backgroundTint="@color/white"
+            android:ems="10"
+            android:fontFamily="@font/poppins_light"
+            android:hint="Search"
+            android:inputType="text"
+            android:selectAllOnFocus="true"
+            android:textColor="@color/red_orange"
+            android:textColorHint="@color/red_orange"
+            android:includeFontPadding="true"/>
+
+
+        <FrameLayout
+            android:id="@+id/users_frame_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/icon_bar_layout"
+            android:layout_below="@+id/username_search"
+            tools:context=".homepage.HomePage">
+
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/users_recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp" />
+
+        </FrameLayout>
+
 
         <LinearLayout
             android:id="@+id/icon_bar_layout"
