@@ -20,6 +20,7 @@ import javax.websocket.Session;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import edu.iastate.scribbleshare.User.User;
@@ -74,6 +75,17 @@ public class LikeSocket {
         // sendMessageToParticularUser(username, getLikeCounts(posts.split(",")));
     }
 
+    // public void test(String body, User user){
+    //     Optional<Post> optionalPost = postRepository.findById(Integer.parseInt(body));
+    //     if(!optionalPost.isPresent()){
+    //         logger.info("Unable to find post: " + body);
+    //     }
+
+    //     Post post = optionalPost.get();
+    //     Set<Post> test = user.getLikedPosts();
+    //     boolean test2 = test.contains(post); //  <--- this line fails
+    // }
+
     @OnMessage
 	public void onMessage(Session session, String message) throws IOException {
 
@@ -120,25 +132,36 @@ public class LikeSocket {
             if(!optionalPost.isPresent()){
                 logger.info("Unable to find post: " + body);
             }
-
-            Hibernate.initialize(user.getLikedPosts());
+            // test(body, user);
+            // Hibernate.initialize(user.getLikedPosts());
 
 
             Post post = optionalPost.get();
-            Set<Post> test = user.getLikedPosts();
-            boolean test2 = test.contains(post); //  <--- this line fails
+            // Set<Post> test = user.getLikedPosts();
+            // Set<Integer> test = userRepository.getLikedPosts(username);
+            // boolean test2 = test.contains((Integer)post.getID()); //  <--- this line fails
+            // logger.info("TEST2: " + test2);
 
+            //get liked posts DONE
+            //add a post to the liked_post table DONE
+            //add a user to the liked_user  (check if this is right)
 
-            // if(user.getLikedPosts().contains(post)){
-            //     //already liked post, returning 
-            //     return;
-            // }
+            if(userRepository.getLikedPosts(username).contains((Integer)post.getID())){
+                //already liked post, returning 
+                logger.info("already liked post, returning ");
+                return;
+            }
 
             // user.getLikedPosts().add(post);
             // userRepository.save(user);
+            userRepository.addLikedPost(username, post.getID());
+            
             // post.getLikedUsers().add(user);
-            // post.setLikeCount(post.getLikeCount() + 1);
-            // postRepository.save(post);
+            
+            //doesn't need fixing
+            post.setLikeCount(post.getLikeCount() + 1);
+            postRepository.save(post);
+            
             // broadcast(body + ": " + post.getLikeCount());
 
         }else if(operator.equals("-")){ //remove a like, body is post id
