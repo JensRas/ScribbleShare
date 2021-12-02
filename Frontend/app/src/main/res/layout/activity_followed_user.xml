@@ -161,6 +161,21 @@
         </RelativeLayout>
     </RelativeLayout>
 
+    <Button
+        android:id="@+id/following_button"
+        android:layout_width="120dp"
+        android:layout_height="45dp"
+        android:layout_below="@+id/metrics"
+        android:layout_centerHorizontal="true"
+        android:fontFamily="@font/poppins"
+        android:text="Following"
+        android:textAlignment="center"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        app:cornerRadius="50dp" />
+
+
     <ImageButton
         android:id="@+id/grid"
         android:layout_width="38dp"
@@ -170,7 +185,7 @@
         app:srcCompat="@drawable/ic_baseline_grid_on_24"
         android:layout_below="@id/metrics"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="35dp"
+        android:layout_marginTop="45dp"
         />
 
     <View
@@ -183,12 +198,11 @@
         />
 
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/profile_gallery_layout"
         android:layout_width="match_parent"
         android:layout_height="fill_parent"
-        android:id="@+id/profile_gallery_layout"
-        android:layout_below="@+id/gallery_icon_line"
         android:layout_above="@+id/icon_bar_layout"
-        />
+        android:layout_below="@+id/gallery_icon_line" />
 
     <LinearLayout
         android:id="@+id/icon_bar_layout"
@@ -207,7 +221,7 @@
             android:scaleType="fitCenter"
             android:layout_marginTop="3dp"
             android:background="@null"
-            android:src="@drawable/ic_outline_home_24"
+            android:src="@drawable/ic_baseline_home_24"
             android:text="Home" />
 
         <ImageButton
@@ -233,7 +247,7 @@
             android:text="Create New" />
 
         <ImageButton
-            android:id="@+id/btn_activity"
+            android:id="@+id/btn_likes"
             android:layout_width="wrap_content"
             android:layout_height="36dp"
             android:layout_weight="1"

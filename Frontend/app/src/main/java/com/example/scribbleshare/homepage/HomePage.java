@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.scribbleshare.MySingleton;
 import com.example.scribbleshare.R;
+import com.example.scribbleshare.activitypage.ActivityPage;
 import com.example.scribbleshare.drawingpage.DrawingPage;
 import com.example.scribbleshare.profilepage.ProfilePage;
 import com.example.scribbleshare.searchpage.SearchPage;
@@ -67,7 +68,7 @@ public class HomePage extends AppCompatActivity implements HomePageView{
         PostsAdapter adapterPost = new PostsAdapter(this, postsAL);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
 
-        setContentView(R.layout.activity_home);
+        setContentView(R.layout.activity_homepage);
         postsRV = findViewById(R.id.post_recycler_view);
         postsRV.setLayoutManager(linearLayoutManager);
         postsRV.setAdapter(adapterPost);
@@ -78,7 +79,7 @@ public class HomePage extends AppCompatActivity implements HomePageView{
             @Override
             public void onClick(View view) {
                 //already on home page
-//                startActivity(new Intent(view.getContext(), HomePage.class));
+                //startActivity(new Intent(view.getContext(), HomePage.class));
             }
         });
 
@@ -99,15 +100,15 @@ public class HomePage extends AppCompatActivity implements HomePageView{
                 startActivity(intent);
             }
         });
-        /*
-        ImageButton likes_button = (ImageButton) findViewById(R.id.btn_likes);
-        likes_button.setOnClickListener(new View.OnClickListener() {
+
+        ImageButton activity_button = (ImageButton) findViewById(R.id.btn_activity);
+        activity_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(view.getContext(), HomePage.class));
+                startActivity(new Intent(view.getContext(), ActivityPage.class));
             }
         });
-        */
+
         ImageButton profile_button = (ImageButton) findViewById(R.id.btn_profile);
         profile_button.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -37,7 +37,7 @@ public class FrameAdapter extends RecyclerView.Adapter<FrameAdapter.Holder> {
     @NonNull
     @Override
     public Holder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.frame_fragment, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.fragment_frame, parent, false);
         return new FrameAdapter.Holder(view);
     }
 

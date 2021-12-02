@@ -2,13 +2,18 @@ package edu.iastate.scribbleshare.Post;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,7 +26,6 @@ import edu.iastate.scribbleshare.User.User;
 import io.swagger.annotations.ApiModelProperty;
 
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 
 /**
  * A post created by a user. It stores the path to an image stored in the filesystem. 
@@ -37,7 +41,8 @@ public class Post {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int ID;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name="user_username")
     @ApiModelProperty(value = "User who made the post", required=true, example = "User")
     private User user;
 
@@ -54,9 +59,13 @@ public class Post {
     @ApiModelProperty(value = "Number of comments the post has", required=true, example = "23")
     private int commentCount;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(mappedBy="post", cascade = CascadeType.ALL)
     @ApiModelProperty(value = "Frames that belong to the post", required=true, example = "")
     private List<Frame> frames;
+
+    @ManyToMany(mappedBy="liked_posts")
+	@JsonIgnore
+	private Set<User> liked_users = new HashSet<User>();
 
     public Post(){
     }
@@ -69,8 +78,31 @@ public class Post {
         frames = new ArrayList<>();
     }
 
-    public int getID()
-    {
+    /**
+     * Get the last frame in a post. Is useful for creating new frames in a post.
+     * @return the index of the last frame a post has
+     */
+    public int getLastFrameIndex(){
+        int r = -1;
+        for(Frame f : frames){
+            int index = f.getFrameIndex();
+            if(index > r){
+                r = index;
+            }
+        }
+        return r;
+    }
+
+    @JsonIgnore
+    public Set<User> getLikedUsers(){
+        return this.liked_users;
+    }
+
+    public void setLikedUsers(Set<User> liked_users){
+        this.liked_users = liked_users;
+    }
+
+    public int getID(){
         return this.ID;
     }
 
@@ -126,18 +158,4 @@ public class Post {
         frames.add(frame);
     }
 
-    /**
-     * Get the last frame in a post. Is useful for creating new frames in a post.
-     * @return the index of the last frame a post has
-     */
-    public int getLastFrameIndex(){
-        int r = -1;
-        for(Frame f : frames){
-            int index = f.getFrameIndex();
-            if(index > r){
-                r = index;
-            }
-        }
-        return r;
-    }
 }  

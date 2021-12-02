@@ -6,6 +6,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
+import android.view.View;
 import android.widget.ImageButton;
 
 import androidx.annotation.Nullable;
@@ -24,6 +25,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import com.example.scribbleshare.activitypage.ActivityPage;
+import com.example.scribbleshare.drawingpage.DrawingPage;
+import com.example.scribbleshare.homepage.HomePage;
+import com.example.scribbleshare.profilepage.ProfilePage;
 
 public class SearchPage extends AppCompatActivity implements SearchPageView {
 
@@ -131,6 +136,50 @@ public class SearchPage extends AppCompatActivity implements SearchPageView {
 
     @Override
     public void refreshSearch(String search) {
+        String username = MySingleton.getInstance(this).getApplicationUser().getUsername();
 
+        // Icon buttons
+        ImageButton home_button = (ImageButton) findViewById(R.id.btn_home);
+        home_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(view.getContext(), HomePage.class));
+            }
+        });
+
+        ImageButton search_button = (ImageButton) findViewById(R.id.btn_search);
+        search_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //already on search page
+                //startActivity(new Intent(view.getContext(), SearchPage.class));
+            }
+        });
+
+        ImageButton create_new_button = (ImageButton) findViewById(R.id.btn_create_new);
+        create_new_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(view.getContext(), DrawingPage.class);
+                intent.putExtra("drawContext", "newPost");
+                startActivity(intent);
+            }
+        });
+
+        ImageButton activity_button = (ImageButton) findViewById(R.id.btn_activity);
+        activity_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(view.getContext(), ActivityPage.class));
+            }
+        });
+
+        ImageButton profile_button = (ImageButton) findViewById(R.id.btn_profile);
+        profile_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(view.getContext(), ProfilePage.class));
+            }
+        });
     }
 }

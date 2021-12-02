@@ -56,9 +56,9 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="249dp"
-        android:text="Sign In"
         android:clickable="true"
         android:focusable="true"
+        android:text="Sign In"
         android:textColor="@color/white"
         android:textSize="16sp" />
 

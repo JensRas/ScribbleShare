@@ -60,19 +60,6 @@ public class User {
     @ApiModelProperty(value = "If user is banned, they wont be able to log in to their account", required=true, example = "False")
     private boolean isBanned;
 
-    public User(String username, String password){
-        this.username = username;
-        String hash = Security.generateHash(password);
-        if(hash == null){
-            throw new BadHashException();
-        }
-        this.password = hash;
-    }
-
-    //need a default constructor or springboot will throw a tantrum
-    public User(){
-    }
-
     @ManyToMany(cascade = CascadeType.ALL)
     @JsonIgnore
     @JoinTable(name = "following",
@@ -88,13 +75,59 @@ public class User {
     @JsonIgnore
     private List<Report> reports;
 
-    @OneToMany
+    @OneToMany(mappedBy="user", cascade = CascadeType.ALL)
     @JsonIgnore
     private List<Post> posts;
 
-    @OneToMany
+    @OneToMany(mappedBy="user")
     @JsonIgnore
     private List<Comment> comments;
+
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JsonIgnore
+    @JoinTable(name = "liked_posts",
+        joinColumns = @JoinColumn(name="username", referencedColumnName="username"),
+        inverseJoinColumns = @JoinColumn(name = "post_id", referencedColumnName = "id"))
+    private Set<Post> liked_posts;
+
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JsonIgnore
+    @JoinTable(name = "liked_comments",
+        joinColumns = @JoinColumn(name="username", referencedColumnName="username"),
+        inverseJoinColumns = @JoinColumn(name = "comment_id", referencedColumnName = "id"))
+    private Set<Comment> liked_comments;
+
+    @JsonIgnore
+    public Set<Post> getLikedPosts(){
+        return this.liked_posts;
+    }
+
+    public void setLikedPosts(Set<Post> liked_posts){
+        this.liked_posts = liked_posts;
+    }
+
+    @JsonIgnore
+    public Set<Comment> getLikedComments(){
+        return this.liked_comments;
+    }
+
+    public void setLikedComments(Set<Comment> liked_comments){
+        this.liked_comments = liked_comments;
+    }
+
+
+    public User(String username, String password){
+        this.username = username;
+        String hash = Security.generateHash(password);
+        if(hash == null){
+            throw new BadHashException();
+        }
+        this.password = hash;
+    }
+
+    //default constructor needed for springboot
+    public User(){
+    }
 
     public List<Post> getPosts(){
         return this.posts;
