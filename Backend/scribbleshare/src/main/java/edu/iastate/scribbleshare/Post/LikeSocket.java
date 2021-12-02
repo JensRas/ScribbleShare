@@ -121,7 +121,7 @@ public class LikeSocket {
                     continue;
                 }
                 Post post = optionalPost.get();
-                r +=  postId + ":" + post.getLikeCount() + ",";
+                r +=  postId + ":" + postRepository.getPostLikeCount(post.getID()) + ",";
             }
 
             //send response to single user
@@ -132,19 +132,8 @@ public class LikeSocket {
             if(!optionalPost.isPresent()){
                 logger.info("Unable to find post: " + body);
             }
-            // test(body, user);
-            // Hibernate.initialize(user.getLikedPosts());
-
 
             Post post = optionalPost.get();
-            // Set<Post> test = user.getLikedPosts();
-            // Set<Integer> test = userRepository.getLikedPosts(username);
-            // boolean test2 = test.contains((Integer)post.getID()); //  <--- this line fails
-            // logger.info("TEST2: " + test2);
-
-            //get liked posts DONE
-            //add a post to the liked_post table DONE
-            //add a user to the liked_user  (check if this is right)
 
             if(userRepository.getLikedPosts(username).contains((Integer)post.getID())){
                 //already liked post, returning 
@@ -152,17 +141,8 @@ public class LikeSocket {
                 return;
             }
 
-            // user.getLikedPosts().add(post);
-            // userRepository.save(user);
             userRepository.addLikedPost(username, post.getID());
-            
-            // post.getLikedUsers().add(user);
-            
-            //doesn't need fixing
-            post.setLikeCount(post.getLikeCount() + 1);
-            postRepository.save(post);
-            
-            // broadcast(body + ": " + post.getLikeCount());
+            broadcast(body + ":" + postRepository.getPostLikeCount(post.getID()));
 
         }else if(operator.equals("-")){ //remove a like, body is post id
             Optional<Post> optionalPost = postRepository.findById(Integer.parseInt(body));
@@ -171,19 +151,14 @@ public class LikeSocket {
             }
             Post post = optionalPost.get();
 
-            if(!user.getLikedPosts().contains(post)){
+            if(!userRepository.getLikedPosts(username).contains((Integer)post.getID())){
                 return;
             }
     
-            user.getLikedPosts().remove(post);
-            userRepository.save(user);
-            post.getLikedUsers().remove(user);
-            post.setLikeCount(post.getLikeCount() - 1);
-            postRepository.save(post);
-            broadcast(body + ": " + post.getLikeCount());
-
+            postRepository.removeLikedPost(username, post.getID());
+            broadcast(body + ":" + postRepository.getPostLikeCount(post.getID()));
         }else{
-            logger.info("unknown operator");
+            logger.info("ERROR: unknown operator");
         }
 
 	}

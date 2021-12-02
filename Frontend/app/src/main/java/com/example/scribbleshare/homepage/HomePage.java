@@ -89,14 +89,15 @@ public class HomePage extends AppCompatActivity implements HomePageView{
                 public void onMessage(String message) {
                     //
                     Log.d("SOCKET", "socket message returned: " + message);
+                    //loop through the returned list, example: 2:423,3:49 means that post 2 and 3 should be updated to have like counts 423 and 49
                 }
 
                 @Override
                 public void onOpen(ServerHandshake handshake) {
                     Log.d("OPEN", "run() returned: " + "is connecting");
                     //once opened, THEN get posts here...
-                    //
-                    cc.send("r 5,");
+                    //this should be "r 1,2,3,4," where the numbers are a list of post ids that are on the home page
+                    cc.send("r 1,");
                 }
 
                 @Override
@@ -122,12 +123,7 @@ public class HomePage extends AppCompatActivity implements HomePageView{
             Log.e("SOCKET", "connect blocking interrupted");
             e.printStackTrace();
         }
-        cc.send("+ 5");
-//        cc.send("+ 5");
-//        cc.send("+ 5");
-//        cc.send("+ 5");
-//        cc.send("+ 5");
-
+        cc.send("+ 1");
     }
 
     /**

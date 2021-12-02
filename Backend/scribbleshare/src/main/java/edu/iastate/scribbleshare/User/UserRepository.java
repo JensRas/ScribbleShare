@@ -8,8 +8,6 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
-import edu.iastate.scribbleshare.Post.Post;
-
 public interface UserRepository extends CrudRepository<User, String>{
 
     @Query(value = "select id from liked_posts lp JOIN post p ON p.user_username = lp.username where lp.username=:username", nativeQuery = true)
