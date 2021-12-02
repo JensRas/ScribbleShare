@@ -107,23 +107,23 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="40dp"
         android:fontFamily="@font/poppins"
-        android:text="Already have an account?"
+        android:text="Don't want to create an account?"
         android:textAlignment="center"
         android:textColor="@color/white"
         android:textSize="12sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.352"
         app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginRight="100dp"
         app:layout_constraintTop_toBottomOf="@+id/create_account_button" />
 
 
     <TextView
-        android:id="@+id/sign_in_link_text"
+        android:id="@+id/browse_posts_link_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="38dp"
         android:fontFamily="@font/poppins_bold"
-        android:text="Sign In"
+        android:text="Browse Posts"
         android:clickable="true"
         android:textColor="@color/white"
         android:textColorLink="@color/white"
