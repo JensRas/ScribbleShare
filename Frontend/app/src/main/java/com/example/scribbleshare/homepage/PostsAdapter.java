@@ -13,6 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.signature.ObjectKey;
 import com.example.scribbleshare.R;
 import com.example.scribbleshare.network.EndpointCaller;
 import com.example.scribbleshare.postpage.PostPage;
@@ -55,7 +56,10 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.Holder>{
         holder.commentCount.setText(commentCount + "");
 
         String imageUrl = EndpointCaller.baseURL + "/post/" + postId + "/image";
-        Glide.with(context).load(imageUrl).into(holder.scribble);
+        Glide.with(context)
+            .load(imageUrl)
+            .signature(new ObjectKey(System.currentTimeMillis()))
+            .into(holder.scribble);
 
         //TODO set holder.thing.setOnClickListeners here
         holder.scribble.setOnClickListener(new View.OnClickListener() {
