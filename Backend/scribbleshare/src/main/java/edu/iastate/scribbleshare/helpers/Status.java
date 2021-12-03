@@ -1,5 +1,4 @@
 package edu.iastate.scribbleshare.helpers;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.http.HttpStatus;
 import java.io.IOException;
@@ -23,7 +22,7 @@ public class Status {
      * @param status the status code
      * @param message status message
      */
-    public static void formResponse(HttpServletRequest response, HttpStatus status, String message){
+    public static void formResponse(HttpServletResponse response, HttpStatus status, String message){
         response.setStatus(status.value());
         try {
           response.getWriter().println(message);

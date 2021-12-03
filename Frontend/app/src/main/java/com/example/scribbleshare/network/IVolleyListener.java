@@ -15,8 +15,6 @@ public interface IVolleyListener <T>{
      */
     void onSuccess(T t);
 
-    //void onSuccess(JSONArray array);
-
     /**
      * Called when a request fails
      * @param e The error from the request

@@ -82,9 +82,8 @@ public class EndpointCaller<T> {
         sendMultipartFileUpload(scribble, url, Request.Method.PUT);
     }
 
-
     public void getUserPostRequest(String username) {
-        String url = baseURL + "/post?uesrname=" + username;
+        String url = baseURL + "/post/getUserPost/" + username;
         sendJsonArrayRequest(url);
     }
 

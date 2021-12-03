@@ -125,7 +125,7 @@ public class PostController {
         return posts;
     }
 
-    @GetMapping(path= "/post/{username}")
+    @GetMapping(path= "/post/getUserPost/{username}")
     public @ResponseBody Iterable<Post> getUserPosts (HttpServletRequest response, @PathVariable String username){
         //Optional<User> optionalUser = userRepository.findById(username);
         //if(!optionalUser.isPresent()){Status.formResponse(response, HttpStatus.NOT_FOUND, "Username: " + username + " not found!"); return null;}

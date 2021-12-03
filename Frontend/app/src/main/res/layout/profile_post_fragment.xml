@@ -16,7 +16,7 @@
         <ImageView
             android:id="@+id/test_image"
             android:layout_width="203dp"
-            android:layout_height="203dp"
+            android:layout_height="40dp"
             android:background="@color/red_orange"
             android:layout_gravity="center"
              />

@@ -28,6 +28,7 @@ public class ProfilePage extends AppCompatActivity implements ProfilePageView {
     private ArrayList<PostModel> postsAL;
 
 
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,21 +36,10 @@ public class ProfilePage extends AppCompatActivity implements ProfilePageView {
 
         ProfilePagePresenter presenter = new ProfilePagePresenter(this, getApplicationContext());
         String username = MySingleton.getInstance(this).getApplicationUser().getUsername();
-       // int followers = MySingleton.getInstance(this).getApplicationUser().getFollowers();
-       // int following = MySingleton.getInstance(this).getApplicationUser().getFollowers();
-        presenter.getFollowers(username); //when the request is done it calls "setHomePagePosts below
-        TextView profileName, textFollowers, textFollowing;
+
+        //presenter.getFollowers(username); //when the request is done it calls "setHomePagePosts below
         presenter.getUserPosts(username);
 
-        profileName = (TextView) findViewById(R.id.profileName);
-        textFollowers = (TextView) findViewById(R.id.followers);
-        textFollowing = (TextView) findViewById(R.id.following);
-
-
-
-        profileName.setText(username);
-       // textFollowers.setText("Followers: " + followers);
-      //  textFollowing.setText("Following: " + following);
     }
 
     public void setUserPosts(JSONArray array){
@@ -60,7 +50,7 @@ public class ProfilePage extends AppCompatActivity implements ProfilePageView {
             try{
                 JSONObject obj = (JSONObject)array.get(i);
                 String id = obj.getString("id");
-                String profileName = obj.getString("username");
+                String profileName = "test";//obj.getString("username");
                 int likeCount = obj.getInt("likeCount");
                 int commentCount = obj.getInt("commentCount");
                 PostModel m = new PostModel(id, profileName, likeCount, commentCount);
@@ -70,12 +60,13 @@ public class ProfilePage extends AppCompatActivity implements ProfilePageView {
             }
         }
 
-        PostsAdapter adapterPost = new PostsAdapter(this, postsAL);
+        ProfileAdapter profileAdapter = new ProfileAdapter(this, postsAL);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 2);
-        setContentView(R.layout.activity_profile);
-        postsRV = findViewById(R.id.profile_recycler_view);
+        postsRV = findViewById(R.id.profile_gallery_layout);
         postsRV.setLayoutManager(gridLayoutManager);
-        postsRV.setAdapter(adapterPost);
+        postsRV.setAdapter(profileAdapter);
+
+        //setContentView(R.layout.activity_profile);
     }
 
 
