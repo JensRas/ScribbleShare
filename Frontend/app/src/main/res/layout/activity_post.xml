@@ -8,6 +8,17 @@
     android:background="@color/grey"
     android:orientation="vertical">
 
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/gif_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end|bottom"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="60dp"
+        android:layout_marginRight="20dp"
+        android:contentDescription="test"/>
+
     <LinearLayout
         android:id="@+id/top_bar_layout"
         android:layout_width="match_parent"
