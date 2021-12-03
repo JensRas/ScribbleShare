@@ -293,10 +293,12 @@ public class PostController {
             ByteArrayResource data = new ByteArrayResource(Files.readAllBytes(path));
 
             //TODO delete the gif file now?
+            long fileLength = file.length();
+            file.delete();
             
             return ResponseEntity.ok()
                     .headers(header)
-                    .contentLength(file.length())
+                    .contentLength(fileLength)
                     .contentType(MediaType.parseMediaType("application/octet-stream"))
                     .body(data);
 
