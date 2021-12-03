@@ -107,14 +107,15 @@ public class PostPage extends AppCompatActivity implements PostView{
 //            }
 //        });
 
-        /*Button add_comment_button = (Button) findViewById(R.id.add_comment);
+
+        Button add_comment_button = (Button) findViewById(R.id.add_comment);
         add_comment_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 // Increment comment count
 
             }
-        });*/
+        });
 
         // Icon buttons
         ImageButton home_button = (ImageButton) findViewById(R.id.btn_home);

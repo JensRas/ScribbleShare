@@ -29,9 +29,11 @@ public class EndpointCaller<T> {
     /**
      * The URL of the endpoint. (The local one is also present below for easier testing
      */
-//    public static final String baseURL = "http://coms-309-010.cs.iastate.edu:8080";
-//    public static final String baseURL = "http://10.0.2.2:8080";
-    public static final String baseURL = "http://localhost:8080";
+
+    public static final String baseURL = "http://coms-309-010.cs.iastate.edu:8080";
+//    public static final String baseURL = "http://10.0.2.2:8080"; //for debugging with emulated phone
+//    public static final String baseURL = "http://localhost:8080"; //for debugging with tethered phone (must use chrome reverse port forwarding)
+
 
     /**
      * The context of the request when instantiated
@@ -60,7 +62,7 @@ public class EndpointCaller<T> {
      */
     public void createAccountRequest(String username, String password) {
         String url = baseURL + "/users/new?username=" + username + "&password=" + password;
-        sendStringRequest(url, Request.Method.PUT);
+        sendJsonObjectRequest(url, Request.Method.PUT);
     }
 
     /**
@@ -125,6 +127,12 @@ public class EndpointCaller<T> {
         String url = baseURL + "/frames?username=" + username + "&postId=" + postId + "&index=" + index;
         Log.d("debug", "creating new frame request with url: " + url);
         sendJsonObjectRequest(url, Request.Method.POST);
+    }
+
+    public void createSearchRequest(String search) {
+        String url = baseURL + "/users/search/" + search;
+        Log.d("debug", "performing search with url: " + url);
+        sendJsonArrayRequest(url);
     }
 
     /**

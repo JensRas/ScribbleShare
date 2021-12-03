@@ -2,6 +2,7 @@ package edu.iastate.scribbleshare.User;
 
 import java.util.Optional;
 import java.util.Set;
+import java.util.ArrayList;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -28,16 +29,17 @@ public class UserController {
 
     @ApiOperation(value = "Add New User", response = String.class, tags= "Users")
     @PutMapping(path="/users/new")
-    public @ResponseBody String addNewUser(@RequestParam String username, @RequestParam String password){
-        //TODO add checking if username is allowed
-
+    public @ResponseBody User addNewUser(HttpServletResponse response, @RequestParam String username, @RequestParam String password){
         if(userRepository.findById(username).isPresent()){
           //handle invalid username
-          return "username already exists";
+          Status.formResponse(response, HttpStatus.BAD_REQUEST, username + " already exists"); 
+          return null;
         }
-        userRepository.save(new User(username, password));
-        return "new user created";
+        User user = new User(username, password);
+        userRepository.save(user);
+        return user;
     }
+
     @ApiOperation(value = "Get All Users", response = Iterable.class, tags = "Users")
     @GetMapping(path="/users")
     public @ResponseBody Iterable<User> getAllUsers() {
@@ -57,6 +59,7 @@ public class UserController {
     @ApiOperation(value = "Log in User", response = User.class, tags= "Users")
     @GetMapping(path="/users/login")
     public @ResponseBody User login(HttpServletResponse response, @RequestParam String username, @RequestParam String password){
+      logger.info("login request");
       Optional<User> optionalUser = userRepository.findById(username);
       if(!optionalUser.isPresent()){
         Status.formResponse(response, HttpStatus.NOT_FOUND, username + " not found"); 
@@ -135,4 +138,20 @@ public class UserController {
       Status.formResponse(response, HttpStatus.CREATED, follower.getUsername() + " sucessfully unfollowed " + following.getUsername());
     }
 
+    @GetMapping(path="/users/search/{search}")
+    public @ResponseBody Iterable<User> searchUsers(@PathVariable String search) {
+      logger.info("search: " + search);
+      if(search.equals(" ")){
+        return userRepository.findAll();
+      }
+
+      ArrayList<User> r = new ArrayList<>();
+      for(User user: userRepository.findAll()){
+        if(user.getUsername().contains(search)){
+          r.add(user);
+        }
+      }
+
+      return r;
+    }
 }

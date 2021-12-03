@@ -15,6 +15,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.scribbleshare.SplashScreen;
 import com.example.scribbleshare.R;
+import com.example.scribbleshare.homepage.HomePage;
 import com.example.scribbleshare.signinpage.SignInPage;
 
 
@@ -31,12 +32,12 @@ public class CreateAccountPage extends AppCompatActivity implements CreateAccoun
 
         presenter = new CreateAccountPresenter(this, getApplicationContext());
 
-        TextView sign_in_text = (TextView) findViewById(R.id.sign_in_link_text);
+        TextView sign_in_text = (TextView) findViewById(R.id.browse_posts_link_text);
         sign_in_text.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(view.getContext(), SignInPage.class));
+                startActivity(new Intent(view.getContext(), HomePage.class));
             }
         });
 
