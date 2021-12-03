@@ -208,7 +208,6 @@ public class DrawingPage extends AppCompatActivity implements DrawingPageView {
 
     @Override
     public void setDrawingImage(byte[] data) {
-        Log.d("debug", "calling paint.setBitmap()");
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inMutable = true;
         Bitmap bitmap = BitmapFactory.decodeByteArray(data , 0, data.length, options);

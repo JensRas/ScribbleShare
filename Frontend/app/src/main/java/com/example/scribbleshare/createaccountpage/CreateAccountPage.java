@@ -61,7 +61,7 @@ public class CreateAccountPage extends AppCompatActivity implements CreateAccoun
                     return;
                 }
                 presenter.createAccountRequest(usernameText, passwordText);
-                Log.d("userCreated", "Attempting to create user with: "+ usernameText  + " and password: " + passwordText);
+//                Log.d("userCreated", "Attempting to create user with: "+ usernameText  + " and password: " + passwordText);
             }
         });
     }

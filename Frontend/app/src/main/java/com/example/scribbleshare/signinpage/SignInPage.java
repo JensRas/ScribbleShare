@@ -50,7 +50,6 @@ public class SignInPage extends AppCompatActivity implements SignInView {
                     return;
                 }
                 presenter.signInRequest(usernameText, passwordText);
-                Log.d("userCreated", "Attempting to login user with: " + usernameText + " and password: " + passwordText);
             }
         });
 

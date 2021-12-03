@@ -52,7 +52,7 @@ public class SearchPage extends AppCompatActivity implements SearchPageView {
         searchRV.setLayoutManager(linearLayoutManager);
         searchRV.setAdapter(searchAdapter);
 
-        searchPresenter.performSearch("%20"); //perform all search on page load
+//        searchPresenter.performSearch("%20"); //perform all search on page load
 
         EditText usernameSearch = findViewById(R.id.username_search);
         usernameSearch.addTextChangedListener(new TextWatcher() {
@@ -65,7 +65,7 @@ public class SearchPage extends AppCompatActivity implements SearchPageView {
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 String text = usernameSearch.getText().toString();
                 if(text.isEmpty()){
-                    searchPresenter.performSearch("%20"); //space encoding
+//                    searchPresenter.performSearch("%20"); //space encoding
                 }else {
                     searchPresenter.performSearch(text.trim());
                 }
