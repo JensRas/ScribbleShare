@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.signature.ObjectKey;
 import com.example.scribbleshare.R;
 import com.example.scribbleshare.network.EndpointCaller;
 
@@ -37,7 +38,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.Holder>{
     @NonNull
     @Override
     public Holder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.comment_fragment, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.fragment_comment, parent, false);
         return new Holder(view);
     }
 
@@ -51,7 +52,10 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.Holder>{
 
         //load comment image
         String imageUrl = EndpointCaller.baseURL + "/comment/" + commentModels.get(position).getId() + "/image";
-        Glide.with(context).load(imageUrl).into(holder.commentScribble);
+        Glide.with(context)
+                .load(imageUrl)
+                .signature(new ObjectKey(System.currentTimeMillis()))
+                .into(holder.commentScribble);
 
         //TODO set onclick listeners for comment stuff here
     }

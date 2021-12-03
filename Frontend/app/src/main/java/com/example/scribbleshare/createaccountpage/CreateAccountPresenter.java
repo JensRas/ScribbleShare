@@ -3,15 +3,20 @@ package com.example.scribbleshare.createaccountpage;
 import android.content.Context;
 
 import com.android.volley.VolleyError;
+import com.example.scribbleshare.MySingleton;
+import com.example.scribbleshare.User;
 import com.example.scribbleshare.homepage.HomePage;
 import com.example.scribbleshare.network.EndpointCaller;
 import com.example.scribbleshare.network.IVolleyListener;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 /**
  * Presenter for create account
  */
-public class CreateAccountPresenter implements IVolleyListener<String> {
-    private EndpointCaller<String> model;
+public class CreateAccountPresenter implements IVolleyListener<JSONObject> {
+    private EndpointCaller<JSONObject> model;
     private CreateAccountView view;
     private Context context;
 
@@ -23,7 +28,7 @@ public class CreateAccountPresenter implements IVolleyListener<String> {
     public CreateAccountPresenter(CreateAccountView view, Context c){
         this.view = view;
         this.context = c;
-        this.model = new EndpointCaller<String>(c, this);
+        this.model = new EndpointCaller<>(c, this);
     }
 
     /**
@@ -42,13 +47,20 @@ public class CreateAccountPresenter implements IVolleyListener<String> {
      * @param response Is either user created or username already exists
      */
     @Override
-    public void onSuccess(String response) {
-        if(response.equals("new user created")){
-            view.switchView(HomePage.class);
-            view.makeToast("Account Created");
-        } else if(response.equals("username already exists")) {
-            view.makeToast("username already exists");
+    public void onSuccess(JSONObject response) {
+        User user = new User();
+        try {
+            user.setUsername((String)response.get("username"));
+//            user.setPermissionLevel((String)response.get("permissionLevel")); //TODO uncomment once implemented
+            user.setMuted((boolean)response.get("isMuted"));
+            user.setBanned((boolean)response.get("isBanned"));
+        } catch (JSONException e) {
+            //TODO handle bad parse?
+            e.printStackTrace();
         }
+        MySingleton.getInstance(context).setApplicationUser(user);
+        view.switchView(HomePage.class);
+        view.makeToast("Account Created");
     }
 
     /**
@@ -57,7 +69,7 @@ public class CreateAccountPresenter implements IVolleyListener<String> {
      */
     @Override
     public void onError(VolleyError error){
-        view.makeToast("Unexpected error: " + error);
+        view.makeToast("USERNAME ERROR TODO");
     }
 
 }

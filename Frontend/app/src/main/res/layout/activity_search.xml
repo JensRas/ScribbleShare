@@ -4,13 +4,154 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <EditText
-        android:id="@+id/editTextTextPersonName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:text="SearchPage"
-        tools:layout_editor_absoluteX="90dp"
-        tools:layout_editor_absoluteY="231dp" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+        <TextView
+            android:id="@+id/search_page_text"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fontFamily="@font/reenie_beanie"
+            android:text="SearchPage"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textSize="40sp"
+            android:layout_marginTop="500dp" />
+    </LinearLayout>
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/top_ba"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/grey"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/top_bar_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_alignParentTop="true">
+
+            <TextView
+                android:id="@+id/top_bar_text"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:fontFamily="@font/reenie_beanie"
+                android:text="ScribbleShare"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                android:textSize="40sp"
+                android:layout_marginTop="5dp" />
+
+            <View
+                android:id="@+id/top_bar_line"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/red_orange"/>
+        </LinearLayout>
+
+        <EditText
+            android:id="@+id/username_search"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_below="@+id/top_bar_layout"
+            android:backgroundTint="@color/white"
+            android:ems="10"
+            android:fontFamily="@font/poppins_light"
+            android:hint="Search"
+            android:inputType="text"
+            android:selectAllOnFocus="true"
+            android:textColor="@color/red_orange"
+            android:textColorHint="@color/red_orange"
+            android:includeFontPadding="true"/>
+
+
+        <FrameLayout
+            android:id="@+id/users_frame_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/icon_bar_layout"
+            android:layout_below="@+id/username_search"
+            tools:context=".homepage.HomePage">
+
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/users_recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp" />
+
+        </FrameLayout>
+
+
+        <LinearLayout
+            android:id="@+id/icon_bar_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_alignParentBottom="true"
+            android:background="@color/red_orange"
+            >
+
+            <ImageButton
+                android:id="@+id/btn_home"
+                android:layout_width="wrap_content"
+                android:layout_height="36dp"
+                android:layout_weight="1"
+                android:scaleType="fitCenter"
+                android:layout_marginTop="3dp"
+                android:background="@null"
+                android:src="@drawable/ic_outline_home_24"
+                android:text="Home" />
+
+            <ImageButton
+                android:id="@+id/btn_search"
+                android:layout_width="wrap_content"
+                android:layout_height="36dp"
+                android:layout_weight="1"
+                android:scaleType="fitCenter"
+                android:layout_marginTop="3dp"
+                android:background="@null"
+                android:src="@drawable/ic_baseline_search_24"
+                android:text="Search" />
+
+            <ImageButton
+                android:id="@+id/btn_create_new"
+                android:layout_width="wrap_content"
+                android:layout_height="36dp"
+                android:layout_weight="1"
+                android:scaleType="fitCenter"
+                android:layout_marginTop="5dp"
+                android:background="@null"
+                android:src="@drawable/create_new"
+                android:text="Create New" />
+
+            <ImageButton
+                android:id="@+id/btn_activity"
+                android:layout_width="wrap_content"
+                android:layout_height="36dp"
+                android:layout_weight="1"
+                android:scaleType="fitCenter"
+                android:layout_marginTop="3dp"
+                android:src="@drawable/ic_baseline_favorite_border_24"
+                android:background="@null"
+                android:text="Activity" />
+
+            <ImageButton
+                android:id="@+id/btn_profile"
+                android:layout_width="wrap_content"
+                android:layout_height="36dp"
+                android:layout_weight="1"
+                android:scaleType="fitCenter"
+                android:layout_marginTop="3dp"
+                android:background="@null"
+                android:src="@drawable/ic_outline_account_circle_24"
+                android:text="Profile"/>
+        </LinearLayout>
+
+    </RelativeLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
