@@ -184,7 +184,6 @@ public class HomePage extends AppCompatActivity implements HomePageView{
         });
 
         ImageButton search_button = (ImageButton) findViewById(R.id.btn_search);
-        //search_button.setImageResource(android.R.drawable.ic_baseline_favorite_24);
         search_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
