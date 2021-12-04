@@ -27,7 +27,7 @@ public class DrawView extends View {
 
     // ArrayList to store all the strokes
     // drawn by the user on the Canvas
-    private ArrayList<Stroke> paths = new ArrayList<>();
+    public ArrayList<Stroke> paths = new ArrayList<>();
     private int currentColor;
     private int strokeWidth;
     private Bitmap mBitmap;
