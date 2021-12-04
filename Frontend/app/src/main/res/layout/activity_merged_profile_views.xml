@@ -47,19 +47,6 @@
         android:layout_marginTop="10dp"
         android:layout_marginRight="10dp" />
 
-    <ImageButton
-        android:id="@+id/logout_button"
-        android:layout_width="25dp"
-        android:layout_height="25dp"
-        android:scaleType="fitCenter"
-        android:background="@null"
-        app:srcCompat="@drawable/ic_baseline_logout_24"
-        android:layout_below="@id/top_bar_layout"
-        android:layout_centerHorizontal="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="10dp"
-        android:layout_marginStart="10dp" />
-
     <ImageView
         android:id="@+id/profile_profile_picture"
         android:layout_width="60sp"
