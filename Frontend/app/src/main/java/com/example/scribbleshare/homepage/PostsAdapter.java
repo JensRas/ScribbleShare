@@ -53,7 +53,6 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.Holder>{
 
         holder.profileName.setText(profileName);
         holder.likeCount.setText(likeCount + "");
-        holder.commentCount.setText(commentCount + "");
 
         String imageUrl = EndpointCaller.baseURL + "/post/" + postId + "/image";
         Glide.with(context)
@@ -101,7 +100,7 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.Holder>{
      */
     class Holder extends RecyclerView.ViewHolder {
         ImageView scribble;
-        TextView profileName, likeCount, commentCount;
+        TextView profileName, likeCount;
         ImageButton likeButton, commentButton, shareButton;
 
         /**
@@ -113,7 +112,6 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.Holder>{
             scribble = itemView.findViewById(R.id.post);
             profileName = itemView.findViewById(R.id.profile_name);
             likeCount = itemView.findViewById(R.id.post_like_count);
-            commentCount = itemView.findViewById(R.id.post_comment_count);
             likeButton = itemView.findViewById(R.id.post_like_button);
             commentButton = itemView.findViewById(R.id.post_comment_button);
             shareButton = itemView.findViewById(R.id.post_share_button);
