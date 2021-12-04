@@ -17,6 +17,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.transaction.annotation.Transactional;
 
 import edu.iastate.scribbleshare.ScribbleshareApplication;
 import edu.iastate.scribbleshare.Comment.Comment;
@@ -39,6 +40,7 @@ import io.swagger.annotations.ApiModelProperty;
  * user follows, and followers is who follows the user.
  */
 
+@Transactional
 @Entity //make a table with this class
 public class User {
 

@@ -33,7 +33,6 @@ public class EndpointCaller<T> {
     public static final String baseURL = "http://10.0.2.2:8080"; //for debugging with emulated phone
 //    public static final String baseURL = "http://localhost:8080"; //for debugging with tethered phone (must use chrome reverse port forwarding)
 
-
     /**
      * The context of the request when instantiated
      */
