@@ -17,6 +17,8 @@ import com.example.scribbleshare.R;
 import com.example.scribbleshare.homepage.PostModel;
 import com.example.scribbleshare.network.EndpointCaller;
 import com.example.scribbleshare.postpage.PostPage;
+import com.example.scribbleshare.profilepage.OtherProfilePage;
+import com.example.scribbleshare.profilepage.ProfilePage;
 
 import java.util.List;
 
@@ -56,6 +58,9 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.Holder> {
             @Override
             public void onClick(View view) {
                 //TODO when a username is clicked on, go to the profile page
+                Intent intent = new Intent(context, OtherProfilePage.class);
+                intent.putExtra("username", username);
+                context.startActivity(intent);
             }
         });
     }
@@ -83,7 +88,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.Holder> {
          */
         public Holder(@NonNull View itemView) {
             super(itemView);
-            username = itemView.findViewById(R.id.profile_name);
+            username = itemView.findViewById(R.id.search_profile_name);
             followerCount = itemView.findViewById(R.id.follower_count);
         }
     }

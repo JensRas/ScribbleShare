@@ -25,6 +25,9 @@
             android:name=".profilepage.ProfilePage"
             android:exported="true" />
         <activity
+            android:name=".profilepage.OtherProfilePage"
+            android:exported="true" />
+        <activity
             android:name=".searchpage.SearchPage"
             android:exported="true" />
         <activity
