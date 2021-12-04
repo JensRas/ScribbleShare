@@ -116,7 +116,6 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.Holder>{
             commentCount = itemView.findViewById(R.id.post_comment_count);
             likeButton = itemView.findViewById(R.id.post_like_button);
             commentButton = itemView.findViewById(R.id.post_comment_button);
-            shareButton = itemView.findViewById(R.id.post_share_button);
         }
     }
 }
