@@ -48,13 +48,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/profile_profile_picture"
-        android:layout_marginTop="1dp"
         android:layout_centerHorizontal="true"
-        android:textAlignment="center"
+        android:layout_marginTop="1dp"
         android:fontFamily="@font/poppins_bold"
-        android:textSize="16sp"
+        android:text="profile_name"
+        android:textAlignment="center"
         android:textColor="@color/white"
-        android:text="profile_name" />
+        android:textSize="16sp" />
 
     <RelativeLayout
         android:id="@+id/metrics"

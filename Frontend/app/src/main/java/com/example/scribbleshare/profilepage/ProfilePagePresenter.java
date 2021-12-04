@@ -33,13 +33,15 @@ public class ProfilePagePresenter implements IVolleyListener<JSONArray> {
      * TODO implement
      * @param username
      */
-    public void getFollowers(String username){
-       //model.getFollowersRequest(username);
-    }
+//    public void getFollowers(String username){
+//       model.getFollowersRequest(username);
+//    }
 
     public void getUserPosts(String username){
         model.getUserPostRequest(username);
     }
+
+
 
 
     @Override

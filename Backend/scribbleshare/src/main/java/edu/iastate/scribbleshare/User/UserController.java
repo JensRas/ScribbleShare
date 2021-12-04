@@ -2,8 +2,10 @@ package edu.iastate.scribbleshare.User;
 
 import java.util.Optional;
 import java.util.Set;
+import java.lang.StackWalker.Option;
 import java.util.ArrayList;
 
+import javax.net.ssl.HttpsURLConnection;
 import javax.servlet.http.HttpServletResponse;
 import javax.websocket.server.PathParam;
 
@@ -55,6 +57,18 @@ public class UserController {
         throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Username doesn't exist");
       }
       return user.get();
+    }
+
+    @GetMapping(path="/getNumFollowers/{username}")
+    public @ResponseBody int getNumFollowers(HttpServletResponse response, @PathVariable String username){
+      Set<User> user = getFollowers(response, username);
+      return user.size();
+    }
+
+    @GetMapping(path="/getNumFollowing/{username}")
+    public @ResponseBody int getNumFollowing(HttpServletResponse response, @PathVariable String username){
+      Set<User> user = getFollowing(response, username);
+      return user.size();
     }
 
     @ApiOperation(value = "Log in User", response = User.class, tags= "Users")

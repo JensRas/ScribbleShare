@@ -8,6 +8,7 @@ public class User {
     private String permissionLevel;
     private boolean isMuted;
     private boolean isBanned;
+    private int followers;
 
     /**
      * Default constructor
@@ -21,12 +22,17 @@ public class User {
      * @param isMuted Muted status of user
      * @param isBanned Banned status of user
      */
-    public User(String username, String permissionLevel, boolean isMuted, boolean isBanned){
+    public User(String username, String permissionLevel, boolean isMuted, boolean isBanned, int followers){
         this.username = username;
         this.permissionLevel = permissionLevel;
         this.isMuted = isMuted;
         this.isBanned = isBanned;
+        this.followers = followers;
     }
+
+    public int getFollowers(){return followers;}
+
+    public void setFollowers(int followers){this.followers = followers;}
 
     /**
      * This method returns the username of the user

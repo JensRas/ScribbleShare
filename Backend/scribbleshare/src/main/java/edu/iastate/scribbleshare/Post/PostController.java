@@ -147,6 +147,17 @@ public class PostController {
         return posts;
     }
 
+    @GetMapping(path = "/post/getNumberOfPosts/{username}")
+    public @ResponseBody int getNumberOfPosts(HttpServletRequest response, @PathVariable String username){
+        Iterable<Post> posts = postRepository.getUserPosts(username);
+       
+        int counter = 0;
+        for (Post i : posts) {
+        counter++;
+    }
+        return counter;
+    }
+
     @ApiOperation(value = "Get Post by Id", response = ResponseEntity.class, tags= "Post")
     @GetMapping(path="/post/{id}/image")
     public ResponseEntity<Resource> getPostImage(HttpServletResponse response, @PathVariable int id) throws IOException{

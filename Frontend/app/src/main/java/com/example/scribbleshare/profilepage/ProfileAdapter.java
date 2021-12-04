@@ -2,7 +2,6 @@ package com.example.scribbleshare.profilepage;
 
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,11 +13,11 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.example.scribbleshare.MySingleton;
+import com.bumptech.glide.signature.ObjectKey;
 import com.example.scribbleshare.R;
-import com.example.scribbleshare.homepage.PostModel;
 import com.example.scribbleshare.network.EndpointCaller;
 import com.example.scribbleshare.postpage.PostPage;
+import com.example.scribbleshare.homepage.PostModel;
 
 import java.util.List;
 
@@ -48,17 +47,20 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.Holder>{
 
     @Override
     public void onBindViewHolder(@NonNull Holder holder, int position) {
-        String profileName = postModels.get(position).getProfileName();
-        String postId = postModels.get(position).getId();
-        int likeCount = postModels.get(position).getLikeCount();
-        int commentCount = postModels.get(position).getCommentCount();
+       String profileName = postModels.get(position).getProfileName();
+       String postId = postModels.get(position).getId();
+       int likeCount = postModels.get(position).getLikeCount();
+       int commentCount = postModels.get(position).getCommentCount();
 
-       // holder.profileName.setText(profileName);
-       // holder.likeCount.setText(likeCount + "");
-       // holder.commentCount.setText(commentCount + "");
+        holder.profileName.setText(profileName);
+        holder.likeCount.setText(likeCount + "");
+        holder.commentCount.setText(commentCount + "");
 
-        String imageUrl = EndpointCaller.baseURL + "/post/getUserPost" + profileName;
-        Glide.with(context).load(imageUrl).into(holder.scribble);
+        String imageUrl = EndpointCaller.baseURL + "/post/" + postId + "/image";
+        Glide.with(context)
+                .load(imageUrl)
+                .signature(new ObjectKey(System.currentTimeMillis()))
+                .into(holder.scribble);
 
         //TODO set holder.thing.setOnClickListeners here
         holder.scribble.setOnClickListener(new View.OnClickListener() {
@@ -109,7 +111,7 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.Holder>{
          */
         public Holder(@NonNull View itemView) {
             super(itemView);
-            scribble = itemView.findViewById(R.id.post);
+            scribble = itemView.findViewById(R.id.test_image);
             profileName = itemView.findViewById(R.id.profile_name);
             likeCount = itemView.findViewById(R.id.post_like_count);
             commentCount = itemView.findViewById(R.id.post_comment_count);
