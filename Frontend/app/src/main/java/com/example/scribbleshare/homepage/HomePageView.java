@@ -11,4 +11,10 @@ public interface HomePageView {
      * @param array Array of posts data
      */
     public void setHomePagePosts(JSONArray array);
+
+    /**
+     * Creates a toast
+     * @param message message to be displayed in toast
+     */
+    void makeToast(String message);
 }
