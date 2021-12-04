@@ -89,13 +89,13 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.Holder>{
                 /*
                 if (userHasLiked) {
                     holder.likeButton.setImageResource(R.drawable.ic_baseline_favorite_border_24);
-                    websocket.send("- " + postID);
+                    websocket.send("- " + postId);
                 } else {
                     holder.likeButton.setImageResource(R.drawable.ic_baseline_favorite_24);
-                    websocket.send("+ " + postID);
+                    websocket.send("+ " + postId);
                 }
                  */
-
+                websocket.send("+ " + postId);
             }
         });
 

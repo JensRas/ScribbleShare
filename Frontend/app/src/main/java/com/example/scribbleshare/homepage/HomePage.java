@@ -1,5 +1,6 @@
 package com.example.scribbleshare.homepage;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -78,6 +79,14 @@ public class HomePage extends AppCompatActivity implements HomePageView{
             }
         }
 
+        Context c = this;
+        PostsAdapter adapterPost = new PostsAdapter(c, postsAL, cc);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+        postsRV = findViewById(R.id.post_recycler_view);
+        postsRV.setLayoutManager(linearLayoutManager);
+        postsRV.setAdapter(adapterPost);
+        setContentView(R.layout.activity_homepage);
+
         // START WEBSOCKET FOR LIKES
         Draft[] drafts = {new Draft_6455()};
 
@@ -117,6 +126,7 @@ public class HomePage extends AppCompatActivity implements HomePageView{
                         for (int j = 0; j < postsAL.size(); j++) {
                             if (postsAL.get(j).getId().equals(post[0])) {
                                 postsAL.get(j).setLikeCount(Integer.parseInt(post[1]));
+                                Log.d("SOCKET:","Update like count.");
                             }
                         }
                     }
@@ -164,14 +174,6 @@ public class HomePage extends AppCompatActivity implements HomePageView{
             e.printStackTrace();
         }
         //cc.send("+ 1");
-
-        PostsAdapter adapterPost = new PostsAdapter(this, postsAL, cc);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
-
-        setContentView(R.layout.activity_homepage);
-        postsRV = findViewById(R.id.post_recycler_view);
-        postsRV.setLayoutManager(linearLayoutManager);
-        postsRV.setAdapter(adapterPost);
 
         // Icon buttons
         ImageButton home_button = (ImageButton) findViewById(R.id.btn_home);
