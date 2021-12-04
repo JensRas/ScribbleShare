@@ -4,23 +4,52 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="70dp"
+    android:layout_height="60dp"
     android:background="@color/grey">
 
+    <ImageView
+        android:id="@+id/profile_image"
+        android:layout_width="35sp"
+        android:layout_height="35sp"
+        app:srcCompat="@drawable/ic_outline_account_circle_24"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="20dp"
+        android:layout_centerVertical="true"
+        />
 
     <TextView
         android:id="@+id/profile_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="username"
-        android:textSize="34sp" />
+        android:layout_centerVertical="true"
+        android:layout_toEndOf="@+id/profile_image"
+        android:layout_marginLeft="10dp"
+        android:fontFamily="@font/poppins_bold"
+        android:textColor="@color/white"
+        android:textSize="20sp" />
 
     <TextView
         android:id="@+id/follower_count"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@id/profile_name"
+        android:layout_centerVertical="true"
+        android:layout_toStartOf="@id/follower_count_text"
+        android:layout_marginRight="5dp"
         android:text="0"
-        android:textSize="34sp"
-        android:layout_marginLeft="20dp"/>
+        android:fontFamily="@font/poppins"
+        android:textColor="@color/red_orange"
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/follower_count_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="20dp"
+        android:fontFamily="@font/poppins"
+        android:text="followers"
+        android:textColor="@color/red_orange"
+        android:textSize="20sp" />
 </RelativeLayout>

@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.scribbleshare.MySingleton;
 import com.example.scribbleshare.R;
+import com.example.scribbleshare.SplashScreen;
 import com.example.scribbleshare.activitypage.ActivityPage;
 import com.example.scribbleshare.drawingpage.DrawingPage;
 import com.example.scribbleshare.homepage.HomePage;
@@ -70,6 +71,14 @@ public class ProfilePage extends AppCompatActivity implements ProfilePageView {
             public void onClick(View view) {
                 // Already on profile page
                 //startActivity(new Intent(view.getContext(), ProfilePage.class));
+            }
+        });
+
+        ImageButton logout_button = (ImageButton) findViewById(R.id.logout_button);
+        logout_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(view.getContext(), SplashScreen.class));
             }
         });
     }

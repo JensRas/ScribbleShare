@@ -125,7 +125,7 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.Holder>{
     class Holder extends RecyclerView.ViewHolder {
         ImageView scribble;
         TextView profileName, likeCount;
-        ImageButton likeButton, commentButton, shareButton;
+        ImageButton likeButton, commentButton;
 
         /**
          * Constructor to initialize necessary information for a homepage post
@@ -138,7 +138,6 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.Holder>{
             likeCount = itemView.findViewById(R.id.post_like_count);
             likeButton = itemView.findViewById(R.id.post_like_button);
             commentButton = itemView.findViewById(R.id.post_comment_button);
-            shareButton = itemView.findViewById(R.id.post_share_button);
         }
     }
 }

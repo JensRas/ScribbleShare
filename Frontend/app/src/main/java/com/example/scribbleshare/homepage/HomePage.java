@@ -6,7 +6,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
-import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.scribbleshare.MySingleton;
 import com.example.scribbleshare.R;
+import com.example.scribbleshare.SplashScreen;
 import com.example.scribbleshare.activitypage.ActivityPage;
 import com.example.scribbleshare.drawingpage.DrawingPage;
 import com.example.scribbleshare.network.EndpointCaller;
@@ -62,6 +63,8 @@ public class HomePage extends AppCompatActivity implements HomePageView{
         String username = MySingleton.getInstance(this).getApplicationUser().getUsername();
         Log.e("setHomePagePosts", "calling method");
         postsAL = new ArrayList<>();
+
+        Context c = this;
         //iterate over the array and populate postsAL with new posts
         for(int i = 0; i < array.length(); i++){
             try {
@@ -206,6 +209,11 @@ public class HomePage extends AppCompatActivity implements HomePageView{
         search_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (MySingleton.getInstance(c).getApplicationUser().getUsername() == "GUEST") {
+                    makeToast("Create an account for access to this feature.");
+                    startActivity(new Intent(view.getContext(), SplashScreen.class));
+                    return;
+                }
                 startActivity(new Intent(view.getContext(), SearchPage.class));
             }
         });
@@ -214,6 +222,11 @@ public class HomePage extends AppCompatActivity implements HomePageView{
         create_new_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (MySingleton.getInstance(c).getApplicationUser().getUsername() == "GUEST") {
+                    makeToast("Create an account for access to this feature.");
+                    startActivity(new Intent(view.getContext(), SplashScreen.class));
+                    return;
+                }
                 Intent intent = new Intent(view.getContext(), DrawingPage.class);
                 intent.putExtra("drawContext", "newPost");
                 startActivity(intent);
@@ -224,6 +237,11 @@ public class HomePage extends AppCompatActivity implements HomePageView{
         activity_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (MySingleton.getInstance(c).getApplicationUser().getUsername() == "GUEST") {
+                    makeToast("Create an account for access to this feature.");
+                    startActivity(new Intent(view.getContext(), SplashScreen.class));
+                    return;
+                }
                 startActivity(new Intent(view.getContext(), ActivityPage.class));
             }
         });
@@ -232,9 +250,21 @@ public class HomePage extends AppCompatActivity implements HomePageView{
         profile_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (MySingleton.getInstance(c).getApplicationUser().getUsername() == "GUEST") {
+                    makeToast("Create an account for access to this feature.");
+                    startActivity(new Intent(view.getContext(), SplashScreen.class));
+                    return;
+                }
                 startActivity(new Intent(view.getContext(), ProfilePage.class));
             }
         });
     }
 
+    @Override
+    public void makeToast(String message) {
+        Context context = getApplicationContext();
+        int duration = Toast.LENGTH_SHORT;
+        Toast toast = Toast.makeText(context, message, duration);
+        toast.show();
+    }
 }
