@@ -51,6 +51,7 @@
         <entry key="app/src/main/res/layout/activity_create_account.xml" value="0.335" />
         <entry key="app/src/main/res/layout/activity_drawing.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_home.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/activity_homepage.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.335" />
         <entry key="app/src/main/res/layout/activity_not_followed_user.xml" value="0.335" />
         <entry key="app/src/main/res/layout/activity_post.xml" value="0.375" />
@@ -65,6 +66,10 @@
         <entry key="app/src/main/res/layout/button_new_frame.xml" value="0.18" />
         <entry key="app/src/main/res/layout/dialog_gif.xml" value="0.1047008547008547" />
         <entry key="app/src/main/res/layout/fragment_comment.xml" value="0.15625" />
+<<<<<<< HEAD
+        <entry key="app/src/main/res/layout/fragment_frame.xml" value="0.1" />
+=======
+>>>>>>> 4b1afdd0f6774591152ced639cdab7119dceec37
         <entry key="app/src/main/res/layout/fragment_homepage_post.xml" value="0.1" />
 >>>>>>> 4b1afdd0f6774591152ced639cdab7119dceec37
         <entry key="app/src/main/res/layout/frame_single_fragment.xml" value="0.335" />

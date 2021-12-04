@@ -18,6 +18,8 @@ import com.example.scribbleshare.R;
 import com.example.scribbleshare.network.EndpointCaller;
 import com.example.scribbleshare.postpage.PostPage;
 
+import org.java_websocket.client.WebSocketClient;
+
 import java.util.List;
 
 /**
@@ -26,6 +28,7 @@ import java.util.List;
 public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.Holder>{
     List<PostModel> postModels;
     Context context;
+    WebSocketClient websocket;
 
     /**
      * Constructor to initialize post models for the homepage
@@ -37,6 +40,10 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.Holder>{
         this.postModels = postModels;
     }
 
+    public void setWebsocket(WebSocketClient websocket){
+        this.websocket = websocket;
+    }
+
     @NonNull
     @Override
     public Holder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -46,18 +53,25 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.Holder>{
 
     @Override
     public void onBindViewHolder(@NonNull Holder holder, int position) {
-        String profileName = postModels.get(position).getProfileName();
-        String postId = postModels.get(position).getId();
-        int likeCount = postModels.get(position).getLikeCount();
+        PostModel model = postModels.get(position);
+        String profileName = model.getProfileName();
+        String postId = model.getId();
+        int likeCount = model.getLikeCount();
 
         holder.profileName.setText(profileName);
         holder.likeCount.setText(likeCount + "");
 
         String imageUrl = EndpointCaller.baseURL + "/post/" + postId + "/image";
         Glide.with(context)
-            .load(imageUrl)
-            .signature(new ObjectKey(System.currentTimeMillis()))
-            .into(holder.scribble);
+                .load(imageUrl)
+                .signature(new ObjectKey(System.currentTimeMillis()))
+                .into(holder.scribble);
+
+        if (model.getIsLiked()) {
+            holder.likeButton.setImageResource(R.drawable.ic_baseline_favorite_24);
+        } else {
+            holder.likeButton.setImageResource(R.drawable.ic_baseline_favorite_border_24);
+        }
 
         //TODO set holder.thing.setOnClickListeners here
         holder.scribble.setOnClickListener(new View.OnClickListener() {
@@ -73,14 +87,22 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.Holder>{
         holder.likeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //TODO when like button clicked
+                if (model.getIsLiked()) {
+                    holder.likeButton.setImageResource(R.drawable.ic_baseline_favorite_border_24);
+                    model.setIsLiked(false);
+                    websocket.send("- " + postId);
+                } else {
+                    holder.likeButton.setImageResource(R.drawable.ic_baseline_favorite_24);
+                    model.setIsLiked(true);
+                    websocket.send("+ " + postId);
+                }
             }
         });
 
         holder.commentButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //TODO when comment button is clicked
+                //TODO when comment button is clicked (open the post)
             }
         });
     }
