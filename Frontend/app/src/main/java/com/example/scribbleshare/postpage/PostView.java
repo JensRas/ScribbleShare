@@ -10,10 +10,12 @@ public interface PostView {
      * Sets the frames of a post
      * @param array Array of frames for the post
      */
-    void setFrames(JSONArray array);
+    void setFrames(JSONArray array, boolean scrollToBottom);
 
     /**
      * Refreshes the frames of the post for debugging
      */
-    void refreshFrames();
+    void refreshFrames(boolean shouldScrollToBottom);
+
+    void scrollViewToBottom();
 }

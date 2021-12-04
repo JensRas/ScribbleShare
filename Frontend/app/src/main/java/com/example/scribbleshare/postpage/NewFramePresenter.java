@@ -16,6 +16,7 @@ public class NewFramePresenter implements IVolleyListener<JSONObject> {
     private EndpointCaller<JSONObject> model;
     private PostView view;
     private Context context;
+    boolean shouldScrollToBottom;
 
     /**
      * Constructor to initialize necessary information for requests for the frame
@@ -35,6 +36,12 @@ public class NewFramePresenter implements IVolleyListener<JSONObject> {
      * @param index Index of the frame
      */
     public void createNewFrame(String username, String postId, int index){
+        this.shouldScrollToBottom = false;
+        model.createFrameRequest(username, postId, index);
+    }
+
+    public void createNewFrame(String username, String postId, int index, boolean shouldScrollToBottom){
+        this.shouldScrollToBottom = shouldScrollToBottom;
         model.createFrameRequest(username, postId, index);
     }
 
@@ -44,7 +51,7 @@ public class NewFramePresenter implements IVolleyListener<JSONObject> {
      */
     @Override
     public void onSuccess(JSONObject jsonObject) {
-        view.refreshFrames();
+        view.refreshFrames(shouldScrollToBottom);
     }
 
     /**
