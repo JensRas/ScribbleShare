@@ -33,7 +33,7 @@ public class Comment {
     @ApiModelProperty(value = "Frame for the comment", required=true, example = "")
     private Frame frame;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @ApiModelProperty(value = "User that made the comment", required=true, example = "User")
     private User user;
 
