@@ -247,7 +247,7 @@
             android:text="Create New" />
 
         <ImageButton
-            android:id="@+id/btn_likes"
+            android:id="@+id/btn_activity"
             android:layout_width="wrap_content"
             android:layout_height="36dp"
             android:layout_weight="1"

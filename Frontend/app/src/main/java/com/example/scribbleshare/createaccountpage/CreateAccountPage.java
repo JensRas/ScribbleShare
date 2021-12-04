@@ -13,8 +13,10 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.scribbleshare.MySingleton;
 import com.example.scribbleshare.SplashScreen;
 import com.example.scribbleshare.R;
+import com.example.scribbleshare.User;
 import com.example.scribbleshare.homepage.HomePage;
 import com.example.scribbleshare.signinpage.SignInPage;
 
@@ -32,18 +34,8 @@ public class CreateAccountPage extends AppCompatActivity implements CreateAccoun
 
         presenter = new CreateAccountPresenter(this, getApplicationContext());
 
-        TextView sign_in_text = (TextView) findViewById(R.id.browse_posts_link_text);
-        sign_in_text.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(view.getContext(), HomePage.class));
-            }
-        });
-
         ImageButton back_button = (ImageButton) findViewById(R.id.back_button_create_account);
         back_button.setOnClickListener(new View.OnClickListener() {
-
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(view.getContext(), SplashScreen.class));
@@ -62,6 +54,17 @@ public class CreateAccountPage extends AppCompatActivity implements CreateAccoun
                 }
                 presenter.createAccountRequest(usernameText, passwordText);
 //                Log.d("userCreated", "Attempting to create user with: "+ usernameText  + " and password: " + passwordText);
+            }
+        });
+        Context c = this;
+        TextView sign_in_text = (TextView) findViewById(R.id.browse_posts_link_text);
+        sign_in_text.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                MySingleton.getInstance(c).setApplicationUser(new User("GUEST", null, true, false));
+                Log.d("GUEST:", "Guest login");
+                makeToast("Logging in as a Guest");
+                startActivity(new Intent(view.getContext(), HomePage.class));
             }
         });
     }
