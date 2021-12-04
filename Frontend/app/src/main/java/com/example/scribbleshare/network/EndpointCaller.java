@@ -31,8 +31,8 @@ public class EndpointCaller<T> {
      */
 
 //    public static final String baseURL = "http://coms-309-010.cs.iastate.edu:8080";
-//    public static final String baseURL = "http://10.0.2.2:8080"; //for debugging with emulated phone
-    public static final String baseURL = "http://localhost:8080"; //for debugging with tethered phone (must use chrome reverse port forwarding)
+    public static final String baseURL = "http://10.0.2.2:8080"; //for debugging with emulated phone
+//    public static final String baseURL = "http://localhost:8080"; //for debugging with tethered phone (must use chrome reverse port forwarding)
 
 
     /**
@@ -124,6 +124,7 @@ public class EndpointCaller<T> {
      * @param index Index of the new frame for the post (for concurrency)
      */
     public void createFrameRequest(String username, String postId, int index){
+        //TODO change postId to be an int...
         String url = baseURL + "/frames?username=" + username + "&postId=" + postId + "&index=" + index;
 //        Log.d("debug", "creating new frame request with url: " + url);
         sendJsonObjectRequest(url, Request.Method.POST);

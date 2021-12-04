@@ -28,15 +28,18 @@ public class FrameAdapter extends RecyclerView.Adapter<FrameAdapter.Holder> {
     Context context;
     View view;
     NewFramePresenter newFramePresenter;
+    int postId;
 
     /**
      * Constructor to initialize necessary information for a frame
      * @param context Current context
      * @param frameModels List of model frames
      */
-    public FrameAdapter(Context context, List<FrameModel> frameModels){
+    public FrameAdapter(Context context, List<FrameModel> frameModels, NewFramePresenter newFramePresenter, int postId){
         this.context = context;
         this.frameModels = frameModels;
+        this.newFramePresenter = newFramePresenter;
+        this.postId = postId;
     }
 
     @NonNull
@@ -63,10 +66,8 @@ public class FrameAdapter extends RecyclerView.Adapter<FrameAdapter.Holder> {
             holder.createFrameButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Log.d("button", "BUTTON CLICK");
                     User localUser = MySingleton.getInstance(context).getApplicationUser();
-
-//                    newFramePresenter.createNewFrame(localUser.getUsername(), postId, framesAL.size());
+                    newFramePresenter.createNewFrame(localUser.getUsername(), postId + "", frameModels.size(), true);
                 }
             });
         } else {
@@ -95,7 +96,7 @@ public class FrameAdapter extends RecyclerView.Adapter<FrameAdapter.Holder> {
 
     @Override
     public int getItemViewType(int position) {
-        return (position == frameModels.size()) ? R.id.new_frame_button : R.layout.fragment_frame;
+        return (position == frameModels.size()) ? R.id.add_frame_button : R.layout.fragment_frame;
     }
 
     /**
