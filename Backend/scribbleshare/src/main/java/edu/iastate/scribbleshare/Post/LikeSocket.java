@@ -1,16 +1,12 @@
 package edu.iastate.scribbleshare.Post;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.Map;
 import java.util.Optional;
-import java.util.Set;
 
 import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
-
-import com.mysql.cj.x.protobuf.MysqlxCrud.Limit;
 
 import javax.websocket.OnClose;
 import javax.websocket.OnError;
@@ -20,16 +16,10 @@ import javax.websocket.Session;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import edu.iastate.scribbleshare.User.User;
-import edu.iastate.scribbleshare.User.UserController;
 import edu.iastate.scribbleshare.User.UserRepository;
-import edu.iastate.scribbleshare.User.UserService;
 
-import org.hibernate.Hibernate;
-import org.hibernate.LockMode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
