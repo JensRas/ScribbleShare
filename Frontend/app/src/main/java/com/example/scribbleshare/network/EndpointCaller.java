@@ -30,8 +30,8 @@ public class EndpointCaller<T> {
      * The URL of the endpoint. (The local one is also present below for easier testing
      */
 //    public static final String baseURL = "http://coms-309-010.cs.iastate.edu:8080";
-//    public static final String baseURL = "http://10.0.2.2:8080"; //for debugging with emulated phone
-    public static final String baseURL = "http://localhost:8080"; //for debugging with tethered phone (must use chrome reverse port forwarding)
+    public static final String baseURL = "http://10.0.2.2:8080"; //for debugging with emulated phone
+//    public static final String baseURL = "http://localhost:8080"; //for debugging with tethered phone (must use chrome reverse port forwarding)
 
     /**
      * The context of the request when instantiated

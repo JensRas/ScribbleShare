@@ -135,6 +135,7 @@ public class LikeSocket {
 
             Post post = optionalPost.get();
 
+            logger.info("getLikedPosts: " + userRepository.getLikedPosts(username));
             if(userRepository.getLikedPosts(username).contains((Integer)post.getID())){
                 //already liked post, returning 
                 logger.info("already liked post, returning ");

@@ -10,7 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 public interface UserRepository extends CrudRepository<User, String>{
 
-    @Query(value = "select id from liked_posts lp JOIN post p ON p.user_username = lp.username where lp.username=:username", nativeQuery = true)
+    @Query(value = "select id from liked_posts lp JOIN post p ON p.id = lp.post_id where lp.username=:username", nativeQuery = true)
     public Set<Integer> getLikedPosts(@Param("username") String username);
 
     @Modifying

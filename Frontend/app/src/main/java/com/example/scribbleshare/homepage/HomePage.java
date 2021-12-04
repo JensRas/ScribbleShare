@@ -124,8 +124,17 @@ public class HomePage extends AppCompatActivity implements HomePageView{
                         String[] post = list[i].split(":");
                         for (int j = 0; j < postsAL.size(); j++) {
                             if (postsAL.get(j).getId().equals(post[0])) {
-                                postsAL.get(j).setLikeCount(Integer.parseInt(post[1]));
-                                adapterPost.notifyItemChanged(j);
+
+                                //post must be run on the UI thread to update cleanly
+                                int finalJ = j;
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        postsAL.get(finalJ).setLikeCount(Integer.parseInt(post[1]));
+                                        adapterPost.notifyItemChanged(finalJ);
+                                    }
+                                });
+
                                 Log.d("SOCKET:","Update like count for post index: " + j + " to: " + post[1]);
                             }
                         }
