@@ -62,7 +62,6 @@ public class HomePage extends AppCompatActivity implements HomePageView{
         String username = MySingleton.getInstance(this).getApplicationUser().getUsername();
         Log.e("setHomePagePosts", "calling method");
         postsAL = new ArrayList<>();
-
         //iterate over the array and populate postsAL with new posts
         for(int i = 0; i < array.length(); i++){
             try {
@@ -79,13 +78,12 @@ public class HomePage extends AppCompatActivity implements HomePageView{
             }
         }
 
-        Context c = this;
-        PostsAdapter adapterPost = new PostsAdapter(c, postsAL, cc);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
-        postsRV = findViewById(R.id.post_recycler_view);
-        postsRV.setLayoutManager(linearLayoutManager);
-        postsRV.setAdapter(adapterPost);
-        setContentView(R.layout.activity_homepage);
+//        PostsAdapter adapterPost = new PostsAdapter(this, postsAL, cc);
+//        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+//        setContentView(R.layout.activity_homepage);
+//        postsRV = findViewById(R.id.post_recycler_view);
+//        postsRV.setLayoutManager(linearLayoutManager);
+//        postsRV.setAdapter(adapterPost);
 
         // START WEBSOCKET FOR LIKES
         Draft[] drafts = {new Draft_6455()};
@@ -113,6 +111,7 @@ public class HomePage extends AppCompatActivity implements HomePageView{
         //this means post 3 needs to be updated to have a like count of 12
 
         //if there is ever a like count of -1, it means that the requested post couldn't be found on the server
+        PostsAdapter adapterPost = new PostsAdapter(this, postsAL);
         try {
             Log.d("Socket:", "Trying socket with url: " + s);
             cc = new WebSocketClient(new URI(s),(Draft) drafts[0]) {
@@ -126,7 +125,8 @@ public class HomePage extends AppCompatActivity implements HomePageView{
                         for (int j = 0; j < postsAL.size(); j++) {
                             if (postsAL.get(j).getId().equals(post[0])) {
                                 postsAL.get(j).setLikeCount(Integer.parseInt(post[1]));
-                                Log.d("SOCKET:","Update like count.");
+                                adapterPost.notifyItemChanged(j);
+                                Log.d("SOCKET:","Update like count for post index: " + j + " to: " + post[1]);
                             }
                         }
                     }
@@ -134,7 +134,7 @@ public class HomePage extends AppCompatActivity implements HomePageView{
 
                 @Override
                 public void onOpen(ServerHandshake handshake) {
-                    String str = "r";
+                    String str = "r ";
                     Log.d("OPEN", "run() returned: " + "is connecting");
                     //once opened, THEN get posts here...
                     //this should be "r 1,2,3,4," where the numbers are a list of post ids that are on the home page
@@ -142,7 +142,7 @@ public class HomePage extends AppCompatActivity implements HomePageView{
                         try {
                             JSONObject obj = (JSONObject)array.get(i);
                             String id = obj.getString("id");
-                            str += " " + id + ",";
+                            str += id + ",";
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -174,6 +174,14 @@ public class HomePage extends AppCompatActivity implements HomePageView{
             e.printStackTrace();
         }
         //cc.send("+ 1");
+
+//        PostsAdapter adapterPost = new PostsAdapter(this, postsAL);
+        adapterPost.setWebsocket(cc);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+        setContentView(R.layout.activity_homepage);
+        postsRV = findViewById(R.id.post_recycler_view);
+        postsRV.setLayoutManager(linearLayoutManager);
+        postsRV.setAdapter(adapterPost);
 
         // Icon buttons
         ImageButton home_button = (ImageButton) findViewById(R.id.btn_home);

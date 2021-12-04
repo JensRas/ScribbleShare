@@ -5,25 +5,12 @@
       <map>
         <entry key="../../../../../../../layout/custom_preview.xml" value="0.21354166666666666" />
         <entry key="../../../../../layout/custom_preview.xml" value="0.29375" />
-        <entry key="..\:/1_sg_2/Frontend/app/src/main/res/drawable/ic_launcher_background.xml" value="0.5729166666666666" />
-        <entry key="..\:/1_sg_2/Frontend/app/src/main/res/drawable/logo_background.xml" value="0.5729166666666666" />
-        <entry key="..\:/1_sg_2/Frontend/app/src/main/res/layout/activity_create_account.xml" value="0.5567708333333333" />
+        <entry key="../../../../layout/custom_preview.xml" value="0.1671875" />
         <entry key="..\:/1_sg_2/Frontend/app/src/main/res/layout/activity_drawing.xml" value="0.27077001013171226" />
-        <entry key="..\:/1_sg_2/Frontend/app/src/main/res/layout/activity_followed_user.xml" value="0.5567708333333333" />
         <entry key="..\:/1_sg_2/Frontend/app/src/main/res/layout/activity_home.xml" value="0.27077001013171226" />
-        <entry key="..\:/1_sg_2/Frontend/app/src/main/res/layout/activity_homepage.xml" value="0.5567708333333333" />
         <entry key="..\:/1_sg_2/Frontend/app/src/main/res/layout/activity_main.xml" value="0.5567708333333333" />
-        <entry key="..\:/1_sg_2/Frontend/app/src/main/res/layout/activity_mod_dashboard.xml" value="0.5567708333333333" />
-        <entry key="..\:/1_sg_2/Frontend/app/src/main/res/layout/activity_mod_profile.xml" value="0.5567708333333333" />
-        <entry key="..\:/1_sg_2/Frontend/app/src/main/res/layout/activity_not_followed_user.xml" value="0.5567708333333333" />
-        <entry key="..\:/1_sg_2/Frontend/app/src/main/res/layout/activity_profile.xml" value="0.5" />
         <entry key="..\:/1_sg_2/Frontend/app/src/main/res/layout/activity_sign_in.xml" value="0.5567708333333333" />
-        <entry key="..\:/1_sg_2/Frontend/app/src/main/res/layout/activity_splashscreen.xml" value="0.5567708333333333" />
         <entry key="..\:/1_sg_2/Frontend/app/src/main/res/layout/activity_test_homescreen.xml" value="0.5567708333333333" />
-        <entry key="..\:/1_sg_2/Frontend/app/src/main/res/mipmap-anydpi-v26/ic_app_icon.xml" value="0.5729166666666666" />
-        <entry key="..\:/1_sg_2/Frontend/app/src/main/res/mipmap-anydpi-v26/ic_app_icon_round.xml" value="0.5729166666666666" />
-        <entry key="..\:/1_sg_2/Frontend/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.5729166666666666" />
-        <entry key="..\:/1_sg_2/Frontend/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.5729166666666666" />
         <entry key="..\:/Jens Docs/CS309/1_sg_2/Frontend/app/src/main/res/layout/activity_activity.xml" value="0.36666666666666664" />
         <entry key="..\:/Jens Docs/CS309/1_sg_2/Frontend/app/src/main/res/layout/activity_create_account.xml" value="0.20520833333333333" />
         <entry key="..\:/Jens Docs/CS309/1_sg_2/Frontend/app/src/main/res/layout/activity_home.xml" value="0.36666666666666664" />
@@ -39,9 +26,8 @@
         <entry key="..\:/Users/Corbin/1_sg_2/Frontend/app/src/main/res/layout/activity_drawing.xml" value="0.3020833333333333" />
         <entry key="..\:/Users/Corbin/1_sg_2/Frontend/app/src/main/res/layout/activity_home.xml" value="0.1810197086546701" />
         <entry key="..\:/Users/Corbin/1_sg_2/Frontend/app/src/main/res/layout/activity_post.xml" value="0.33" />
-        <entry key="..\:/Users/Corbin/1_sg_2/Frontend/app/src/main/res/layout/activity_search.xml" value="0.1764828738512949" />
+        <entry key="..\:/Users/Corbin/1_sg_2/Frontend/app/src/main/res/layout/activity_search.xml" value="0.22" />
         <entry key="..\:/Users/Corbin/1_sg_2/Frontend/app/src/main/res/layout/comment_fragment.xml" value="0.5" />
-        <entry key="..\:/Users/Corbin/1_sg_2/Frontend/app/src/main/res/layout/fragment_frame.xml" value="0.1123931623931624" />
         <entry key="..\:/Users/Corbin/1_sg_2/Frontend/app/src/main/res/layout/frame_fragment.xml" value="0.5" />
         <entry key="..\:/Users/Corbin/1_sg_2/Frontend/app/src/main/res/layout/frame_single_fragment.xml" value="0.21842105263157896" />
         <entry key="..\:/Users/Corbin/1_sg_2/Frontend/app/src/main/res/layout/frames_fragment.xml" value="0.22" />
@@ -57,17 +43,21 @@
         <entry key="..\:/Users/jcr01/Documents/Docs/CS309/1_sg_2/Frontend/app/src/main/res/layout/fragment_frame.xml" value="0.20260416666666667" />
         <entry key="..\:/Users/jcr01/Documents/Docs/CS309/1_sg_2/Frontend/app/src/main/res/layout/fragment_homepage_post.xml" value="0.20260416666666667" />
         <entry key="app/src/main/res/drawable/create_new.xml" value="0.21458333333333332" />
-        <entry key="app/src/main/res/drawable/round_corner_outline.xml" value="0.2833333333333333" />
+        <entry key="app/src/main/res/layout/activity_activity.xml" value="0.12435897435897436" />
         <entry key="app/src/main/res/layout/activity_create_account.xml" value="0.335" />
-        <entry key="app/src/main/res/layout/activity_drawing.xml" value="0.2033898305084746" />
-        <entry key="app/src/main/res/layout/activity_followed_user.xml" value="0.335" />
+        <entry key="app/src/main/res/layout/activity_drawing.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_home.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/activity_homepage.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.335" />
-        <entry key="app/src/main/res/layout/activity_not_followed_user.xml" value="0.335" />
-        <entry key="app/src/main/res/layout/activity_post.xml" value="0.375" />
+        <entry key="app/src/main/res/layout/activity_post.xml" value="0.2222222222222222" />
         <entry key="app/src/main/res/layout/activity_profile.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_sign_in.xml" value="0.335" />
         <entry key="app/src/main/res/layout/activity_test_homescreen.xml" value="0.375" />
+        <entry key="app/src/main/res/layout/button_new_frame.xml" value="0.18" />
+        <entry key="app/src/main/res/layout/dialog_gif.xml" value="0.1047008547008547" />
+        <entry key="app/src/main/res/layout/fragment_comment.xml" value="0.15625" />
+        <entry key="app/src/main/res/layout/fragment_frame.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/fragment_homepage_post.xml" value="0.1" />
         <entry key="app/src/main/res/layout/frame_single_fragment.xml" value="0.335" />
         <entry key="app/src/main/res/layout/homepage_post_fragment.xml" value="0.375" />
         <entry key="app/src/main/res/layout/post_individual.xml" value="0.375" />

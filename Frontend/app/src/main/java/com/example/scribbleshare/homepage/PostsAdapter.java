@@ -35,9 +35,12 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.Holder>{
      * @param context Current context
      * @param postModels List of post models for the homepage
      */
-    public PostsAdapter(Context context, List<PostModel> postModels, WebSocketClient websocket) {
+    public PostsAdapter(Context context, List<PostModel> postModels) {
         this.context = context;
         this.postModels = postModels;
+    }
+
+    public void setWebsocket(WebSocketClient websocket){
         this.websocket = websocket;
     }
 
