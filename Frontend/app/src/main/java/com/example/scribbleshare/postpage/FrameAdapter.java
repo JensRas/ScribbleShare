@@ -2,6 +2,7 @@ package com.example.scribbleshare.postpage;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,31 +38,57 @@ public class FrameAdapter extends RecyclerView.Adapter<FrameAdapter.Holder> {
     @NonNull
     @Override
     public Holder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.fragment_frame, parent, false);
-        return new FrameAdapter.Holder(view);
+        View itemView;
+
+        if(viewType == R.layout.fragment_frame){
+            itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.fragment_frame, parent, false);
+        } else {
+            itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.button_new_frame, parent, false);
+        }
+
+        return new FrameAdapter.Holder(itemView);
+
+        //original code
+//        View view = LayoutInflater.from(context).inflate(R.layout.fragment_frame, parent, false);
+//        return new FrameAdapter.Holder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull Holder holder, int position) {
-        int frameId = frameModels.get(position).getFrameId();
+        if(position == frameModels.size()) {
+            holder.createFrameButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Log.d("button", "BUTTON CLICK");
+                }
+            });
+        } else {
+            int frameId = frameModels.get(position).getFrameId();
 
-        holder.frameNumber.setText("Frame: " + (position + 1));
+            holder.frameNumber.setText("Frame: " + (position + 1));
 
-        CommentAdapter commentAdapter = new CommentAdapter(context, frameModels.get(position).getComments());
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false);
-        holder.commentRV.setLayoutManager(linearLayoutManager);
-        holder.commentRV.setAdapter(commentAdapter);
+            CommentAdapter commentAdapter = new CommentAdapter(context, frameModels.get(position).getComments());
+            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false);
+            holder.commentRV.setLayoutManager(linearLayoutManager);
+            holder.commentRV.setAdapter(commentAdapter);
 
-        //TODO add listener for clickable stuff here
-        holder.createCommentButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(context, DrawingPage.class);
-                intent.putExtra("drawContext", "newComment");
-                intent.putExtra("frameId", frameId);
-                context.startActivity(intent);
-            }
-        });
+            //TODO add listener for clickable stuff here
+            holder.createCommentButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(context, DrawingPage.class);
+                    intent.putExtra("drawContext", "newComment");
+                    intent.putExtra("frameId", frameId);
+                    context.startActivity(intent);
+                }
+            });
+        }
+
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        return (position == frameModels.size()) ? R.id.new_frame_button : R.layout.fragment_frame;
     }
 
     /**
@@ -78,7 +105,7 @@ public class FrameAdapter extends RecyclerView.Adapter<FrameAdapter.Holder> {
      */
     class Holder extends RecyclerView.ViewHolder {
         TextView frameNumber;
-        Button createCommentButton;
+        Button createCommentButton, createFrameButton;
         RecyclerView commentRV;
 
         /**
@@ -90,6 +117,7 @@ public class FrameAdapter extends RecyclerView.Adapter<FrameAdapter.Holder> {
             frameNumber = itemView.findViewById(R.id.frame_number);
             createCommentButton = itemView.findViewById(R.id.add_comment);
             commentRV = itemView.findViewById(R.id.comment_recycler_view);
+            createFrameButton = itemView.findViewById(R.id.add_frame_button);
         }
     }
 }
