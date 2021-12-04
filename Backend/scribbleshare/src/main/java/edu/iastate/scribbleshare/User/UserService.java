@@ -23,7 +23,7 @@ public class UserService {
 	}
 
 	public void addUser(String username, String password){
-		controller.addNewUser(username, password);
+		controller.addNewUser(null, username, password);
 	}
 	
 }

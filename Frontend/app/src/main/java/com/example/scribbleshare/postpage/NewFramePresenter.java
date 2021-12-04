@@ -44,7 +44,6 @@ public class NewFramePresenter implements IVolleyListener<JSONObject> {
      */
     @Override
     public void onSuccess(JSONObject jsonObject) {
-        Log.d("debug", "new frame presenter success!");
         view.refreshFrames();
     }
 

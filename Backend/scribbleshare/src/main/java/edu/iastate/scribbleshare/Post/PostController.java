@@ -7,15 +7,26 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.yaml.snakeyaml.comments.CommentLine;
+
+import antlr.CommonAST;
+
 import org.springframework.http.HttpHeaders;
 import org.springframework.core.io.Resource;
 
+import javax.imageio.ImageIO;
+import javax.imageio.stream.FileImageOutputStream;
+import javax.imageio.stream.ImageOutputStream;
+import java.awt.image.BufferedImage;
+import java.io.File;
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
@@ -26,11 +37,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import edu.iastate.scribbleshare.ScribbleshareApplication;
+import edu.iastate.scribbleshare.Comment.Comment;
 import edu.iastate.scribbleshare.Comment.CommentRepository;
 import edu.iastate.scribbleshare.Frame.Frame;
 import edu.iastate.scribbleshare.Frame.FrameRepository;
 import edu.iastate.scribbleshare.User.User;
 import edu.iastate.scribbleshare.User.UserRepository;
+import edu.iastate.scribbleshare.helpers.GifSequenceWriter;
 import edu.iastate.scribbleshare.helpers.Status;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -96,7 +109,8 @@ public class PostController {
         //create post and set path location
         Post post = new Post(user);
         postRepository.save(post); //must be saved to set the id properly
-        fullPath += "post_" + post.getID() + "_" + imageFile.getOriginalFilename();
+        long unixTime = System.currentTimeMillis() / 1000L;
+        fullPath += "post_" + post.getID() + "_" + unixTime + imageFile.getOriginalFilename();
         post.setPath(fullPath);
 
         //write file to disk
@@ -224,6 +238,77 @@ public class PostController {
         return r;
     }
 
+    @GetMapping(path="/post/{id}/gif")
+    public ResponseEntity<Resource> getPostGif(HttpServletResponse response, @PathVariable int id) throws IOException{
+        Optional<Post> optionalPost = postRepository.findById(id);
+        if(!optionalPost.isPresent()){
+            Status.formResponse(response, HttpStatus.NOT_FOUND, "post id: " + id + " not found!");
+            return null;
+        }
+        Post post = optionalPost.get();
+
+        //fill gifComments with a list of Comments whos images should be inserted into the gif
+        ArrayList<Comment> gifComments = new ArrayList<>();
+        for(Frame frame : post.getFrames()){
+            List<Comment> comments = frame.getComments();
+            if(comments.size() < 1) {continue;}
+            Comment highestComment = comments.get(0);
+            for(int i = 1; i < comments.size(); i++){
+                if(comments.get(i).getLikeCount() > highestComment.getLikeCount()){
+                    highestComment = comments.get(i);
+                }
+            }
+            gifComments.add(highestComment);
+        }
+
+        if(gifComments.size() > 0){
+            String firstImagePath = post.getPath();
+            logger.info("firstImagePath: " + firstImagePath);
+            String gifPath = firstImagePath.replace(".png", ".gif");
+            BufferedImage first = ImageIO.read(new File(firstImagePath));
+            ImageOutputStream output = new FileImageOutputStream(new File(gifPath));
+            
+            GifSequenceWriter writer = new GifSequenceWriter(output, first.getType(), 250, true);
+            writer.writeToSequence(first);
+            
+            for(Comment comment : gifComments){
+                BufferedImage next = ImageIO.read(new File(comment.getPath()));
+                writer.writeToSequence(next);
+            }
+
+            writer.close();
+            output.close();
+
+            String[] splitPath = gifPath.split("/");
+            String fileName = splitPath[splitPath.length - 1];
+
+            File file = new File(gifPath);
+
+            HttpHeaders header = new HttpHeaders();
+            header.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename="+fileName);
+            header.add("Cache-Control", "no-cache, no-store, must-revalidate");
+            header.add("Pragma", "no-cache");
+            header.add("Expires", "0");
+
+            Path path = Paths.get(file.getAbsolutePath());
+            ByteArrayResource data = new ByteArrayResource(Files.readAllBytes(path));
+
+            //TODO delete the gif file now?
+            long fileLength = file.length();
+            file.delete();
+            
+            return ResponseEntity.ok()
+                    .headers(header)
+                    .contentLength(fileLength)
+                    .contentType(MediaType.parseMediaType("application/octet-stream"))
+                    .body(data);
+
+        }else{
+            //TODO better handle when there are no comments?
+            return null;
+        }
+    }
+        
     @PostMapping(path="/post/like")
     public Post likePost(HttpServletResponse response, @RequestParam int post_id, @RequestParam String username){
         Optional<Post> optionalPost = postRepository.findById(post_id);

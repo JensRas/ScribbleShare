@@ -41,7 +41,7 @@ public class Post {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int ID;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name="user_username")
     @ApiModelProperty(value = "User who made the post", required=true, example = "User")
     private User user;
@@ -83,6 +83,7 @@ public class Post {
      * @return the index of the last frame a post has
      */
     public int getLastFrameIndex(){
+        int removeme = 1;
         int r = -1;
         for(Frame f : frames){
             int index = f.getFrameIndex();

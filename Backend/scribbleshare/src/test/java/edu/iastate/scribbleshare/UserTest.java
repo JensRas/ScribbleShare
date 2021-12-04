@@ -59,7 +59,7 @@ public class UserTest {
 	
 		userService.addUser("username", "password");
 
-		verify(controller, times(1)).addNewUser("username", "password");
+		verify(controller, times(1)).addNewUser(null, "username", "password");
 	}
 
 	@Test
