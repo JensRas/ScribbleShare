@@ -17,12 +17,14 @@
 
         <TextView
             android:id="@+id/frame_number"
-            android:layout_width="150dp"
+            android:layout_width="wrap_content"
             android:layout_height="30dp"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
             android:text="Frame #"
             android:textAlignment="center"
+            android:fontFamily="@font/poppins"
+            android:textColor="@color/white"
             android:textSize="20sp" />
 
 
@@ -30,10 +32,12 @@
             android:id="@+id/add_comment"
             android:layout_width="40dp"
             android:layout_height="30dp"
+            app:icon="@drawable/ic_baseline_add_24"
+            android:paddingLeft="10dp"
+            app:iconSize="20dp"
             android:layout_alignParentTop="true"
             android:layout_toRightOf="@+id/frame_number"
-            android:text="+"
-            android:textSize="8sp" />
+            android:layout_marginLeft="10dp"/>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/comment_recycler_view"

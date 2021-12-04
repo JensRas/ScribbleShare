@@ -47,8 +47,6 @@ public class SignInPresenter implements IVolleyListener<JSONObject> {
      */
     @Override
     public void onSuccess(JSONObject response) {
-        Log.e("test", "response: " + response);
-        Log.d("signInSuccess", "Sign in successful");
         User user = new User();
         try {
             user.setUsername((String)response.get("username"));

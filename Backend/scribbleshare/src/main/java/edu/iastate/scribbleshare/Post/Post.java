@@ -83,6 +83,7 @@ public class Post {
      * @return the index of the last frame a post has
      */
     public int getLastFrameIndex(){
+        int removeme = 1;
         int r = -1;
         for(Frame f : frames){
             int index = f.getFrameIndex();

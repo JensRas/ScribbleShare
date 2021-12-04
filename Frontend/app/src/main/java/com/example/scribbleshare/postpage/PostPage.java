@@ -84,7 +84,6 @@ public class PostPage extends AppCompatActivity implements PostView{
         gif_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.d("debug", "clicked!");
                 showDialog();
             }
         });
@@ -108,14 +107,14 @@ public class PostPage extends AppCompatActivity implements PostView{
 //        });
 
 
-        Button add_comment_button = (Button) findViewById(R.id.add_comment);
-        add_comment_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // Increment comment count
-
-            }
-        });
+//        Button add_comment_button = (Button) findViewById(R.id.add_comment);
+//        add_comment_button.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                // Increment comment count
+//
+//            }
+//        });
 
         // Icon buttons
         ImageButton home_button = (ImageButton) findViewById(R.id.btn_home);
@@ -163,7 +162,6 @@ public class PostPage extends AppCompatActivity implements PostView{
 
     @Override
     public void setFrames(JSONArray array) {
-        Log.d("debug", "set frames in PostPage called");
         framesAL = new ArrayList<>();
 
         //iterate over the array and populate framesAL with new posts
@@ -189,14 +187,12 @@ public class PostPage extends AppCompatActivity implements PostView{
                 e.printStackTrace();
             }
         }
-        Log.d("debug", "setting new frame adapter");
         FrameAdapter frameAdapter = new FrameAdapter(this, framesAL);
         framesRV.setAdapter(frameAdapter);
     }
 
     @Override
     public void refreshFrames() {
-        Log.d("debug", "refreshFrames() called");
         getFramesPresenter.getFrames(postId);
     }
 

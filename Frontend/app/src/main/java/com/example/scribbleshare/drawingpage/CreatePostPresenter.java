@@ -45,7 +45,6 @@ public class CreatePostPresenter implements IVolleyListener<JSONObject> {
      */
     @Override
     public void onSuccess(JSONObject o) {
-        Log.d("ree", "Upload multipart file success! Created new post");
         view.onCreatePostSuccess(o);
         view.switchView(HomePage.class);
         view.makeToast("Post made / saved!");

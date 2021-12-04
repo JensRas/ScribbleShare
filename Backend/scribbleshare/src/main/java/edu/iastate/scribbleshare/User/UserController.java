@@ -162,7 +162,7 @@ public class UserController {
 
       ArrayList<User> r = new ArrayList<>();
       for(User user: userRepository.findAll()){
-        if(user.getUsername().contains(search)){
+        if(user.getUsername().toLowerCase().contains(search.toLowerCase())){
           r.add(user);
         }
       }
