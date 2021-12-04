@@ -17,6 +17,7 @@ import com.bumptech.glide.signature.ObjectKey;
 import com.example.scribbleshare.R;
 import com.example.scribbleshare.network.EndpointCaller;
 import com.example.scribbleshare.postpage.PostPage;
+import com.example.scribbleshare.profilepage.OtherProfilePage;
 
 import java.util.List;
 
@@ -66,6 +67,15 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.Holder>{
                 //TODO when the image is clicked
                 Intent intent = new Intent(context, PostPage.class);
                 intent.putExtra("postId", postId);
+                context.startActivity(intent);
+            }
+        });
+
+        holder.profileName.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(context, OtherProfilePage.class);
+                intent.putExtra("username", profileName);
                 context.startActivity(intent);
             }
         });
