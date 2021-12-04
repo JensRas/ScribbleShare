@@ -31,4 +31,8 @@ public interface PostRepository extends CrudRepository<Post, Integer>{
     @Query(value = "SELECT count(*) FROM liked_posts lp where lp.post_id=:post_id", nativeQuery = true)
     public int getPostLikeCount(@Param("post_id") int post_id);
 
+    @Query(value = "SELECT count(*) FROM liked_posts lp where lp.post_id=:post_id AND lp.username=:username", nativeQuery = true)
+    public int getPostLikedByUser(@Param("post_id") int post_id, @Param("username") String username);
+
+
 }

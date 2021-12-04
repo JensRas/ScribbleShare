@@ -373,4 +373,26 @@ public class PostController {
 
     }
 
+    @GetMapping(path="/post/{post_id}/likedBy/{username}")
+    public String getIfPostLikedByUser(HttpServletResponse response, @PathVariable int post_id, @PathVariable String username){
+        Optional<Post> optionalPost = postRepository.findById(post_id);
+        Optional<User> optionalUser = userRepository.findById(username);
+
+        if(!optionalPost.isPresent()){
+            Status.formResponse(response, HttpStatus.NOT_FOUND, "Post with id: " + post_id + " not found!");
+            return null;
+        }
+
+        if(!optionalUser.isPresent()){
+            Status.formResponse(response, HttpStatus.NOT_FOUND, "User with username: " + username + " not found!");
+            return null;
+        }
+
+        Post post = optionalPost.get();
+        User user = optionalUser.get();
+        // {postId: 5, isLiked: true}
+        boolean isLiked = postRepository.getPostLikedByUser(post.getID(), user.getUsername()) > 0;
+        return "{postId:" + post.getID() + ", isLiked: " + isLiked + "}";
+    }
+
 }

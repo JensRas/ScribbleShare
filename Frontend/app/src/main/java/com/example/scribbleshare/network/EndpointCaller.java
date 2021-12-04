@@ -133,6 +133,11 @@ public class EndpointCaller<T> {
         sendJsonArrayRequest(url);
     }
 
+    public void createPostIsLikedRequest(String username, String postId){
+        String url = baseURL + "/post/" + postId + "/likedBy/" + username;
+        sendJsonObjectRequest(url, Request.Method.GET);
+    }
+
     /**
      * Send a request where the response is a string
      * @param url full endpoint url

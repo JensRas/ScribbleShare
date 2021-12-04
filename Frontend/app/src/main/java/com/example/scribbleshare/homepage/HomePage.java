@@ -43,6 +43,10 @@ public class HomePage extends AppCompatActivity implements HomePageView{
     private ArrayList<PostModel> postsAL;
 
     private GetPostsPresenter postsPresenter;
+    private GetPostIsLikedPresenter postIsLikedPresenter;
+
+    PostsAdapter PA;
+
 
     private WebSocketClient cc;
 
@@ -52,6 +56,7 @@ public class HomePage extends AppCompatActivity implements HomePageView{
         postsPresenter = new GetPostsPresenter(this, getApplicationContext());
         String username = MySingleton.getInstance(this).getApplicationUser().getUsername();
         postsPresenter.populateHomeScreenPosts(username); //when the request is done it calls "setHomePagePosts below
+        postIsLikedPresenter = new GetPostIsLikedPresenter(this, getApplicationContext());
     }
 
     /**
@@ -73,7 +78,7 @@ public class HomePage extends AppCompatActivity implements HomePageView{
                 String profileName = ((JSONObject)obj.get("user")).getString("username");
                 int likeCount = obj.getInt("likeCount");
                 int commentCount = obj.getInt("commentCount");
-                PostModel m = new PostModel(id, profileName, likeCount, commentCount);
+                PostModel m = new PostModel(id, profileName, likeCount, commentCount, false); //TODO update isLiked
                 postsAL.add(m);
                 //postsAL.get(i).setLikeCount(12);
             } catch (JSONException e) {
@@ -81,19 +86,9 @@ public class HomePage extends AppCompatActivity implements HomePageView{
             }
         }
 
-//        PostsAdapter adapterPost = new PostsAdapter(this, postsAL, cc);
-//        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
-//        setContentView(R.layout.activity_homepage);
-//        postsRV = findViewById(R.id.post_recycler_view);
-//        postsRV.setLayoutManager(linearLayoutManager);
-//        postsRV.setAdapter(adapterPost);
-
-        // START WEBSOCKET FOR LIKES
-        Draft[] drafts = {new Draft_6455()};
-
-        // CONNECTIONS
-        String s = EndpointCaller.baseURL.replace("http", "ws") + "/live/like/" + username;
-//        String s = "ws://localhost:8080/live/like/" + username;
+        for(PostModel m : postsAL){
+            postIsLikedPresenter.setIsPostLiked(username, m.getId());
+        }
 
         //SENDING WEB SOCKET MESSAGES TO THE SERVER
         //the web socket is configured to send 3 different kinds of messages, r, +, or -
@@ -114,6 +109,8 @@ public class HomePage extends AppCompatActivity implements HomePageView{
         //this means post 3 needs to be updated to have a like count of 12
 
         //if there is ever a like count of -1, it means that the requested post couldn't be found on the server
+        Draft[] drafts = {new Draft_6455()};
+        String s = EndpointCaller.baseURL.replace("http", "ws") + "/live/like/" + username;
         PostsAdapter adapterPost = new PostsAdapter(this, postsAL);
         try {
             Log.d("Socket:", "Trying socket with url: " + s);
@@ -138,7 +135,7 @@ public class HomePage extends AppCompatActivity implements HomePageView{
                                     }
                                 });
 
-                                Log.d("SOCKET:","Update like count for post index: " + j + " to: " + post[1]);
+//                                Log.d("SOCKET:","Update like count for post index: " + j + " to: " + post[1]);
                             }
                         }
                     }
@@ -185,10 +182,9 @@ public class HomePage extends AppCompatActivity implements HomePageView{
             Log.e("SOCKET", "connect blocking interrupted");
             e.printStackTrace();
         }
-        //cc.send("+ 1");
 
-//        PostsAdapter adapterPost = new PostsAdapter(this, postsAL);
         adapterPost.setWebsocket(cc);
+        PA = adapterPost; //TODO maybe clean this notation up?
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         setContentView(R.layout.activity_homepage);
         postsRV = findViewById(R.id.post_recycler_view);
@@ -266,5 +262,30 @@ public class HomePage extends AppCompatActivity implements HomePageView{
         int duration = Toast.LENGTH_SHORT;
         Toast toast = Toast.makeText(context, message, duration);
         toast.show();
+    }
+
+    @Override
+    public void setHomePageIsLiked(JSONObject object) {
+        try {
+            String postId = object.getString("postId");
+            boolean isLiked = object.getBoolean("isLiked");
+            for(int i = 0; i < postsAL.size(); i++){
+                PostModel model = postsAL.get(i);
+                if(model.getId().equals(postId)){
+                    model.setIsLiked(isLiked);
+                    int finalI = i;
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            model.setIsLiked(isLiked);
+                            PA.notifyItemChanged(finalI);
+                        }
+                    });
+                }
+            }
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 }
