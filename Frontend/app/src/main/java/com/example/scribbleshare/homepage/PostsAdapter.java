@@ -18,6 +18,8 @@ import com.example.scribbleshare.R;
 import com.example.scribbleshare.network.EndpointCaller;
 import com.example.scribbleshare.postpage.PostPage;
 
+import org.java_websocket.client.WebSocketClient;
+
 import java.util.List;
 
 /**
@@ -26,15 +28,17 @@ import java.util.List;
 public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.Holder>{
     List<PostModel> postModels;
     Context context;
+    WebSocketClient websocket
 
     /**
      * Constructor to initialize post models for the homepage
      * @param context Current context
      * @param postModels List of post models for the homepage
      */
-    public PostsAdapter(Context context, List<PostModel> postModels) {
+    public PostsAdapter(Context context, List<PostModel> postModels, WebSocketClient websocket) {
         this.context = context;
         this.postModels = postModels;
+        this.websocket = websocket;
     }
 
     @NonNull
@@ -74,6 +78,7 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.Holder>{
             @Override
             public void onClick(View view) {
                 //TODO when like button clicked
+                //websocket.send();
             }
         });
 

@@ -50,16 +50,38 @@ public class HomePage extends AppCompatActivity implements HomePageView{
         postsPresenter = new GetPostsPresenter(this, getApplicationContext());
         String username = MySingleton.getInstance(this).getApplicationUser().getUsername();
         postsPresenter.populateHomeScreenPosts(username); //when the request is done it calls "setHomePagePosts below
+    }
 
+    /**
+     * This method sets the posts for the scrollable homepage
+     * @param array Array of posts data
+     */
+    @Override
+    public void setHomePagePosts(JSONArray array) {
+        String username = MySingleton.getInstance(this).getApplicationUser().getUsername();
+        Log.e("setHomePagePosts", "calling method");
+        postsAL = new ArrayList<>();
+
+        //iterate over the array and populate postsAL with new posts
+        for(int i = 0; i < array.length(); i++){
+            try {
+                JSONObject obj = (JSONObject)array.get(i);
+                String id = obj.getString("id");
+                String profileName = ((JSONObject)obj.get("user")).getString("username");
+                int likeCount = obj.getInt("likeCount");
+                int commentCount = obj.getInt("commentCount");
+                PostModel m = new PostModel(id, profileName, likeCount, commentCount);
+                postsAL.add(m);
+                //postsAL.get(i).setLikeCount(12);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+
+        // START WEBSOCKET FOR LIKES
         Draft[] drafts = {new Draft_6455()};
-        // Example
-        /**
-         * If running this on an android device, make sure it is on the same network as your
-         * computer, and change the ip address to that of your computer.
-         * If running on the emulator, you can use localhost.
-         * String w = "ws://10.26.13.93:8080/websocket/"+e1.getText().toString();
-         */
-        // TODO Fix this connection
+
+        // CONNECTIONS
         String s = EndpointCaller.baseURL.replace("http", "ws") + "/live/like/" + username;
 //        String s = "ws://localhost:8080/live/like/" + username;
 
@@ -87,17 +109,35 @@ public class HomePage extends AppCompatActivity implements HomePageView{
             cc = new WebSocketClient(new URI(s),(Draft) drafts[0]) {
                 @Override
                 public void onMessage(String message) {
-                    //
                     Log.d("SOCKET", "socket message returned: " + message);
                     //loop through the returned list, example: 2:423,3:49 means that post 2 and 3 should be updated to have like counts 423 and 49
+                    String [] list = message.split(",");
+                    for (int i = 0; i < list.length; i++) {
+                        String[] post = list[i].split(":");
+                        for (int j = 0; j < postsAL.size(); j++) {
+                            if (postsAL.get(j).getId().equals(post[0])) {
+                                postsAL.get(j).setLikeCount(Integer.parseInt(post[1]));
+                            }
+                        }
+                    }
                 }
 
                 @Override
                 public void onOpen(ServerHandshake handshake) {
+                    String str = "r";
                     Log.d("OPEN", "run() returned: " + "is connecting");
                     //once opened, THEN get posts here...
                     //this should be "r 1,2,3,4," where the numbers are a list of post ids that are on the home page
-                    cc.send("r 1,");
+                    for(int i = 0; i < array.length(); i++){
+                        try {
+                            JSONObject obj = (JSONObject)array.get(i);
+                            String id = obj.getString("id");
+                            str += " " + id + ",";
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    cc.send(str);
                 }
 
                 @Override
@@ -123,34 +163,9 @@ public class HomePage extends AppCompatActivity implements HomePageView{
             Log.e("SOCKET", "connect blocking interrupted");
             e.printStackTrace();
         }
-        cc.send("+ 1");
-    }
+        //cc.send("+ 1");
 
-    /**
-     * This method sets the posts for the scrollable homepage
-     * @param array Array of posts data
-     */
-    @Override
-    public void setHomePagePosts(JSONArray array) {
-        Log.e("setHomePagePosts", "calling method");
-        postsAL = new ArrayList<>();
-
-        //iterate over the array and populate postsAL with new posts
-        for(int i = 0; i < array.length(); i++){
-            try {
-                JSONObject obj = (JSONObject)array.get(i);
-                String id = obj.getString("id");
-                String profileName = ((JSONObject)obj.get("user")).getString("username");
-                int likeCount = obj.getInt("likeCount");
-                int commentCount = obj.getInt("commentCount");
-                PostModel m = new PostModel(id, profileName, likeCount, commentCount);
-                postsAL.add(m);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }
-
-        PostsAdapter adapterPost = new PostsAdapter(this, postsAL);
+        PostsAdapter adapterPost = new PostsAdapter(this, postsAL, cc);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
 
         setContentView(R.layout.activity_homepage);
@@ -169,6 +184,7 @@ public class HomePage extends AppCompatActivity implements HomePageView{
         });
 
         ImageButton search_button = (ImageButton) findViewById(R.id.btn_search);
+        //search_button.setImageResource(android.R.drawable.ic_baseline_favorite_24);
         search_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
