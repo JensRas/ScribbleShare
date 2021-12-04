@@ -82,8 +82,7 @@ public class SearchPage extends AppCompatActivity implements SearchPageView {
         home_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //already on home page
-//                startActivity(new Intent(view.getContext(), HomePage.class));
+                startActivity(new Intent(view.getContext(), HomePage.class));
             }
         });
 
@@ -96,15 +95,15 @@ public class SearchPage extends AppCompatActivity implements SearchPageView {
                 startActivity(intent);
             }
         });
-        /*
-        ImageButton likes_button = (ImageButton) findViewById(R.id.btn_likes);
+
+        ImageButton likes_button = (ImageButton) findViewById(R.id.btn_activity);
         likes_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(view.getContext(), HomePage.class));
+                startActivity(new Intent(view.getContext(), ActivityPage.class));
             }
         });
-        */
+
         ImageButton profile_button = (ImageButton) findViewById(R.id.btn_profile);
         profile_button.setOnClickListener(new View.OnClickListener() {
             @Override
