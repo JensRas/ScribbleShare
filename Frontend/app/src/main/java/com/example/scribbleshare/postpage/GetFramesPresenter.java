@@ -16,6 +16,7 @@ public class GetFramesPresenter implements IVolleyListener<JSONArray> {
     private EndpointCaller<JSONArray> model;
     private PostView view;
     private Context context;
+    boolean shouldScrollToBottom;
 
     /**
      * Constructor to initialize necessary information for requests for the frames of a post
@@ -32,9 +33,11 @@ public class GetFramesPresenter implements IVolleyListener<JSONArray> {
      * This method returns the frames of the given post
      * @param postId Id of post
      */
-    public void getFrames(String postId){
+    public void getFrames(String postId, boolean shouldScrollToBottom){
+        this.shouldScrollToBottom = shouldScrollToBottom;
         model.getPostFrames(postId);
     }
+
 
     /**
      * This method handles the successful endpoint request
@@ -42,7 +45,7 @@ public class GetFramesPresenter implements IVolleyListener<JSONArray> {
      */
     @Override
     public void onSuccess(JSONArray jsonArray) {
-        view.setFrames(jsonArray);
+        view.setFrames(jsonArray, shouldScrollToBottom);
     }
 
     /**
@@ -51,6 +54,6 @@ public class GetFramesPresenter implements IVolleyListener<JSONArray> {
     @Override
     public void onError(VolleyError e) {
         //TODO handle error
-        Log.e("debug", "get frame presenter ERROR! " + e.getMessage());
+        Log.e("ERROR", "get frame presenter ERROR! " + e.getMessage());
     }
 }

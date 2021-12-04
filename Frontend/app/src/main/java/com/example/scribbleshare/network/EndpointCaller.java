@@ -122,6 +122,7 @@ public class EndpointCaller<T> {
      * @param index Index of the new frame for the post (for concurrency)
      */
     public void createFrameRequest(String username, String postId, int index){
+        //TODO change postId to be an int...
         String url = baseURL + "/frames?username=" + username + "&postId=" + postId + "&index=" + index;
 //        Log.d("debug", "creating new frame request with url: " + url);
         sendJsonObjectRequest(url, Request.Method.POST);
