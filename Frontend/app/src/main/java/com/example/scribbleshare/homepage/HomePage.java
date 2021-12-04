@@ -66,7 +66,6 @@ public class HomePage extends AppCompatActivity implements HomePageView{
     @Override
     public void setHomePagePosts(JSONArray array) {
         String username = MySingleton.getInstance(this).getApplicationUser().getUsername();
-        Log.e("setHomePagePosts", "calling method");
         postsAL = new ArrayList<>();
 
         Context c = this;
@@ -134,8 +133,6 @@ public class HomePage extends AppCompatActivity implements HomePageView{
                                         adapterPost.notifyItemChanged(finalJ);
                                     }
                                 });
-
-//                                Log.d("SOCKET:","Update like count for post index: " + j + " to: " + post[1]);
                             }
                         }
                     }
@@ -144,7 +141,7 @@ public class HomePage extends AppCompatActivity implements HomePageView{
                 @Override
                 public void onOpen(ServerHandshake handshake) {
                     String str = "r ";
-                    Log.d("OPEN", "run() returned: " + "is connecting");
+                    Log.d("SOCKET", "run() returned: " + "is connecting");
                     //once opened, THEN get posts here...
                     //this should be "r 1,2,3,4," where the numbers are a list of post ids that are on the home page
                     for(int i = 0; i < array.length(); i++){
@@ -161,7 +158,7 @@ public class HomePage extends AppCompatActivity implements HomePageView{
 
                 @Override
                 public void onClose(int code, String reason, boolean remote) {
-                    Log.d("CLOSE", "onClose() returned: " + reason);
+                    Log.d("SOCKET", "onClose() returned: " + reason);
                 }
 
                 @Override

@@ -27,7 +27,6 @@ public class GetPostIsLikedPresenter implements IVolleyListener<JSONObject> {
 
     @Override
     public void onSuccess(JSONObject jsonObject) {
-        Log.d("SUCCESS", "REEEEEEE Got object: " + jsonObject);
         view.setHomePageIsLiked(jsonObject);
     }
 

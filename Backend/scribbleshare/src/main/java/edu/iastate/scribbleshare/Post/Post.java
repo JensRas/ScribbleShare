@@ -17,14 +17,11 @@ import javax.persistence.ManyToOne;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.annotation.Transient;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import edu.iastate.scribbleshare.ScribbleshareApplication;
-import edu.iastate.scribbleshare.SpringConfiguration;
 import edu.iastate.scribbleshare.Frame.Frame;
 import edu.iastate.scribbleshare.User.User;
 import io.swagger.annotations.ApiModelProperty;
