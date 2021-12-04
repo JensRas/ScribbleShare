@@ -13,7 +13,9 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.scribbleshare.MySingleton;
 import com.example.scribbleshare.R;
+import com.example.scribbleshare.User;
 import com.example.scribbleshare.drawingpage.DrawingPage;
 
 import java.util.List;
@@ -24,6 +26,8 @@ import java.util.List;
 public class FrameAdapter extends RecyclerView.Adapter<FrameAdapter.Holder> {
     List<FrameModel> frameModels;
     Context context;
+    View view;
+    NewFramePresenter newFramePresenter;
 
     /**
      * Constructor to initialize necessary information for a frame
@@ -60,6 +64,9 @@ public class FrameAdapter extends RecyclerView.Adapter<FrameAdapter.Holder> {
                 @Override
                 public void onClick(View view) {
                     Log.d("button", "BUTTON CLICK");
+                    User localUser = MySingleton.getInstance(context).getApplicationUser();
+
+//                    newFramePresenter.createNewFrame(localUser.getUsername(), postId, framesAL.size());
                 }
             });
         } else {
@@ -97,7 +104,7 @@ public class FrameAdapter extends RecyclerView.Adapter<FrameAdapter.Holder> {
      */
     @Override
     public int getItemCount() {
-        return frameModels.size();
+        return frameModels.size() + 1; // + 1 because of the extra button added to the end
     }
 
     /**

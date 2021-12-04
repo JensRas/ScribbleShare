@@ -93,15 +93,6 @@
                 app:srcCompat="@drawable/ic_outline_comment_24"
                 />
 
-            <ImageButton
-                android:id="@+id/post_share_button"
-                android:layout_width="26dp"
-                android:layout_height="26dp"
-                android:layout_marginLeft="5dp"
-                android:background="@null"
-                app:srcCompat="@drawable/ic_outline_share_24"
-                />
-
         </LinearLayout>
 
     </LinearLayout>

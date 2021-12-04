@@ -196,6 +196,10 @@ public class PostPage extends AppCompatActivity implements PostView{
         getFramesPresenter.getFrames(postId);
     }
 
+    public void test() {
+
+    }
+
     private void showDialog() {
         // custom dialog
         dialog = new Dialog(this);
