@@ -86,6 +86,8 @@ public class FrameAdapter extends RecyclerView.Adapter<FrameAdapter.Holder> {
                 public void onClick(View view) {
                     Intent intent = new Intent(context, DrawingPage.class);
                     intent.putExtra("drawContext", "newComment");
+                    Log.d("debug", "switching to Drawing page and setting postId: " + postId);
+                    intent.putExtra("postId", postId);
                     intent.putExtra("frameId", frameId);
                     context.startActivity(intent);
                 }

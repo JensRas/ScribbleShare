@@ -55,7 +55,7 @@ public class SignInPresenter implements IVolleyListener<JSONObject> {
             user.setMuted((boolean)response.get("isMuted"));
             user.setBanned((boolean)response.get("isBanned"));
         } catch (JSONException e) {
-            //TODO handle bad parse?
+            Log.e("Error", "error parsing sign in User object. Error was: ");
             e.printStackTrace();
         }
         MySingleton.getInstance(context).setApplicationUser(user);

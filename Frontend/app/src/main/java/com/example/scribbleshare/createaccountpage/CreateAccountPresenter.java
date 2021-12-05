@@ -1,6 +1,7 @@
 package com.example.scribbleshare.createaccountpage;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.android.volley.VolleyError;
 import com.example.scribbleshare.MySingleton;
@@ -55,7 +56,7 @@ public class CreateAccountPresenter implements IVolleyListener<JSONObject> {
             user.setMuted((boolean)response.get("isMuted"));
             user.setBanned((boolean)response.get("isBanned"));
         } catch (JSONException e) {
-            //TODO handle bad parse?
+            Log.e("Error", "Error parsing the User object returned when creating an account");
             e.printStackTrace();
         }
         MySingleton.getInstance(context).setApplicationUser(user);
@@ -69,7 +70,7 @@ public class CreateAccountPresenter implements IVolleyListener<JSONObject> {
      */
     @Override
     public void onError(VolleyError error){
-        view.makeToast("USERNAME ERROR TODO");
+        view.makeToast("Error creating account. Please try again!");
     }
 
 }

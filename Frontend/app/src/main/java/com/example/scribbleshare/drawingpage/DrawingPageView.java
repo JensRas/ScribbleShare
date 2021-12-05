@@ -19,11 +19,6 @@ public interface DrawingPageView {
     public void onCreateCommentSuccess(JSONObject o);
 
     /**
-     * TODO implement
-     */
-    public void onCreatePostSuccess(JSONObject o);
-
-    /**
      * Creates a toast with an inputted message
      * @param message Toast message to be shown
      */

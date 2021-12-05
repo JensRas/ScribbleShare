@@ -45,7 +45,6 @@ public class CreatePostPresenter implements IVolleyListener<JSONObject> {
      */
     @Override
     public void onSuccess(JSONObject o) {
-        view.onCreatePostSuccess(o);
         view.switchView(HomePage.class);
         view.makeToast("Post made");
     }

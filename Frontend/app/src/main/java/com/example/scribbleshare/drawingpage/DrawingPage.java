@@ -79,14 +79,30 @@ public class DrawingPage extends AppCompatActivity implements DrawingPageView {
         stroke = (ImageButton) findViewById(R.id.btn_stroke);
         ImageButton back_button = (ImageButton) findViewById(R.id.back_button_draw);
 
-        // creating a OnClickListener for each button,
-        // to perform certain actions
-
+        //set onclick listeners
+        String finalDrawContext = drawContext;
+        Context context = this;
         back_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 //TODO change this based on drawContext
                 startActivity(new Intent(view.getContext(), HomePage.class));
+                switch(finalDrawContext){
+                    case "newPost":
+                        startActivity(new Intent(view.getContext(), HomePage.class));
+                        break;
+                    case "newComment":
+                        int frameId = bundle.getInt("frameId");
+                        if(frameId == 0){
+                            Log.e("scribbleshare", "no frameId was passed into the bundle when switching to the drawing page!");
+                            return;
+                        }
+                        Intent intent = new Intent(context, PostPage.class);
+                        intent.putExtra("postId", bundle.getInt("postId") + "");
+                        Log.d("Debug", "switching to the post page with postId: " + bundle.getInt("postId"));
+                        context.startActivity(intent);
+                        break;
+                }
             }
         });
 
@@ -102,7 +118,6 @@ public class DrawingPage extends AppCompatActivity implements DrawingPageView {
         // the save button will save the current
         // canvas which is actually a bitmap
         // in form of PNG, in the storage
-        String finalDrawContext = drawContext;
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -232,7 +247,6 @@ public class DrawingPage extends AppCompatActivity implements DrawingPageView {
 
     @Override
     public void onCreateCommentSuccess(JSONObject o) {
-        Log.i("info", "onCreatecommentSuccess: " + o.toString());
         Intent intent = new Intent(this, PostPage.class);
         try {
             intent.putExtra("postId", o.getString("id"));
@@ -243,13 +257,6 @@ public class DrawingPage extends AppCompatActivity implements DrawingPageView {
         }
         startActivity(intent);
     }
-
-
-    @Override
-    public void onCreatePostSuccess(JSONObject o) {
-        //TODO
-    }
-
 
     @Override
     public void makeToast(String message) {
