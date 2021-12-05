@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.scribbleshare.MySingleton;
 import com.example.scribbleshare.R;
 import com.example.scribbleshare.SplashScreen;
+import com.example.scribbleshare.User;
 import com.example.scribbleshare.activitypage.ActivityPage;
 import com.example.scribbleshare.drawingpage.DrawingPage;
 import com.example.scribbleshare.network.EndpointCaller;
@@ -65,7 +66,8 @@ public class HomePage extends AppCompatActivity implements HomePageView{
      */
     @Override
     public void setHomePagePosts(JSONArray array) {
-        String username = MySingleton.getInstance(this).getApplicationUser().getUsername();
+        User user = MySingleton.getInstance(this).getApplicationUser();
+        String username = user.getUsername();
         postsAL = new ArrayList<>();
 
         Context c = this;

@@ -17,6 +17,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.scribbleshare.MySingleton;
 import com.example.scribbleshare.R;
+import com.example.scribbleshare.User;
 import com.example.scribbleshare.homepage.HomePage;
 import com.example.scribbleshare.postpage.PostPage;
 import com.google.android.material.slider.RangeSlider;
@@ -59,6 +60,7 @@ public class DrawingPage extends AppCompatActivity implements DrawingPageView {
         Bundle bundle = getIntent().getExtras();
         if(bundle == null){
             Log.e("ERROR", "Please set a bundle when switching to the drawing page so it knows the context");
+            return;
         }else{
             drawContext = bundle.getString("drawContext");
         }
@@ -99,6 +101,11 @@ public class DrawingPage extends AppCompatActivity implements DrawingPageView {
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                User user = MySingleton.getInstance(view.getContext()).getApplicationUser();
+                if(user.isBanned()){
+                    makeToast("You are banned from drawing");
+                    return;
+                }
                 if(!(paint.paths.size() == 0)){ //don't save unless something is drawn
                     // getting the bitmap from DrawView class
                     Bitmap bitmap = paint.save();
@@ -108,7 +115,11 @@ public class DrawingPage extends AppCompatActivity implements DrawingPageView {
                             createPostPresenter.createPost(username, bitmap);
                             break;
                         case "newComment":
-                            int frameId = bundle.getInt("frameId"); //TODO add error handling if this doesn't exist?
+                            int frameId = bundle.getInt("frameId");
+                            if(frameId == 0){
+                                Log.e("scribbleshare", "no frameId was passed into the bundle when switching to the drawing page!");
+                                return;
+                            }
                             createCommentPresenter.createComment(username, frameId, bitmap);
                             break;
                     }
@@ -166,10 +177,6 @@ public class DrawingPage extends AppCompatActivity implements DrawingPageView {
                     rangeSlider.setVisibility(View.GONE);
                 else
                     rangeSlider.setVisibility(View.VISIBLE);
-
-//                //for testing something else
-//                Log.d("debug", "clicked stroke button");
-//                presenter.getPost("18");
             }
         });
 
