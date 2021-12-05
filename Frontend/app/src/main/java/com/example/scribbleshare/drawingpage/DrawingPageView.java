@@ -7,12 +7,6 @@ import org.json.JSONObject;
  */
 public interface DrawingPageView {
     /**
-     * Sets bitmap for drawing
-     * @param data bitmap data from the drawing
-     */
-    public void setDrawingImage(byte[] data);
-
-    /**
      * Creates comment if successful
      * @param o returned post-JSON
      */

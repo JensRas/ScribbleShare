@@ -1,6 +1,7 @@
 package com.example.scribbleshare.homepage;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.android.volley.VolleyError;
 import com.example.scribbleshare.network.EndpointCaller;
@@ -50,6 +51,7 @@ public class GetPostsPresenter implements IVolleyListener<JSONArray> {
      */
     @Override
     public void onError(VolleyError e) {
-        //TODO
+        Log.e("Error", "Error getting posts. Printing stacktrace: ");
+        e.printStackTrace();
     }
 }

@@ -52,12 +52,9 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.Holder> {
         holder.username.setText(username);
         holder.followerCount.setText(followerCount + "");
 
-        //TODO set holder.thing.setOnClickListeners here
-        //TODO maybe just set the whole view as an on click instead?
         holder.username.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //TODO when a username is clicked on, go to the profile page
                 Intent intent = new Intent(context, OtherProfilePage.class);
                 intent.putExtra("username", username);
                 context.startActivity(intent);

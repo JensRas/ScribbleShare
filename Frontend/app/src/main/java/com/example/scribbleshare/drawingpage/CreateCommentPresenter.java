@@ -2,6 +2,7 @@ package com.example.scribbleshare.drawingpage;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.util.Log;
 
 import com.android.volley.VolleyError;
 import com.example.scribbleshare.network.EndpointCaller;
@@ -47,11 +48,9 @@ public class CreateCommentPresenter implements IVolleyListener<JSONObject> {
         view.onCreateCommentSuccess(o);
     }
 
-    /**
-     * TODO implement
-     */
     @Override
     public void onError(VolleyError e) {
-        //TODO handle error
+        Log.e("Error", "Error creating comment. Printing stacktrace: ");
+        e.printStackTrace();
     }
 }

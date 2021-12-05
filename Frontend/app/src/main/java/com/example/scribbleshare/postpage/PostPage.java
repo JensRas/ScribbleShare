@@ -43,12 +43,10 @@ import java.util.logging.Logger;
 public class PostPage extends AppCompatActivity implements PostView{
     private GetFramesPresenter getFramesPresenter;
     private NewFramePresenter newFramePresenter;
-    private CommentPresenter commentPresenter;
 
     private RecyclerView framesRV;
     private ArrayList<FrameModel> framesAL;
 
-    //TODO make postId not a string?
     private int postId;
     private User localUser;
 
@@ -67,11 +65,9 @@ public class PostPage extends AppCompatActivity implements PostView{
             this.postId = bundle.getInt("postId");
             getFramesPresenter.getFrames(postId, false);
         } else {
-            //TODO show an error?
-            Log.e("ERROR", "Bundle EMPTY when starting post page");
+            Log.e("ERROR", "Bundle EMPTY when starting post page. The app can't proceed unless this is changed!");
             return;
         }
-        commentPresenter = new CommentPresenter();
         framesAL = new ArrayList<>(); //create an empty array list on page load for graceful empty list initially
 
         FrameAdapter frameAdapter = new FrameAdapter(this, framesAL, newFramePresenter, postId);

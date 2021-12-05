@@ -234,16 +234,6 @@ public class DrawingPage extends AppCompatActivity implements DrawingPageView {
         });
     }
 
-
-    @Override
-    public void setDrawingImage(byte[] data) {
-        BitmapFactory.Options options = new BitmapFactory.Options();
-        options.inMutable = true;
-        Bitmap bitmap = BitmapFactory.decodeByteArray(data , 0, data.length, options);
-        paint.setmBitmap(bitmap);
-    }
-
-
     @Override
     public void onCreateCommentSuccess(JSONObject jsonObject) {
         Intent intent = new Intent(this, PostPage.class);
