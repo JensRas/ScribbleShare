@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.scribbleshare.MySingleton;
 import com.example.scribbleshare.R;
+<<<<<<< HEAD
 import com.example.scribbleshare.homepage.PostModel;
 import com.example.scribbleshare.homepage.PostsAdapter;
 
@@ -23,6 +24,9 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+=======
+import com.example.scribbleshare.SplashScreen;
+>>>>>>> 8de0872e0df68277845fd7ec6b7b2bd2e5b568aa
 import com.example.scribbleshare.activitypage.ActivityPage;
 import com.example.scribbleshare.drawingpage.DrawingPage;
 import com.example.scribbleshare.homepage.HomePage;
@@ -97,6 +101,14 @@ public class ProfilePage extends AppCompatActivity implements ProfilePageView {
             public void onClick(View view) {
                 // Already on profile page
                 //startActivity(new Intent(view.getContext(), ProfilePage.class));
+            }
+        });
+
+        ImageButton logout_button = (ImageButton) findViewById(R.id.logout_button);
+        logout_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(view.getContext(), SplashScreen.class));
             }
         });
 

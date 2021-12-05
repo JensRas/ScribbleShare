@@ -99,17 +99,19 @@ public class DrawingPage extends AppCompatActivity implements DrawingPageView {
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // getting the bitmap from DrawView class
-                Bitmap bitmap = paint.save();
-                String username = MySingleton.getInstance(view.getContext()).getApplicationUser().getUsername();
-                switch(finalDrawContext){
-                    case "newPost":
-                        createPostPresenter.createPost(username, bitmap);
-                        break;
-                    case "newComment":
-                        int frameId = bundle.getInt("frameId"); //TODO add error handling if this doesn't exist?
-                        createCommentPresenter.createComment(username, frameId, bitmap);
-                        break;
+                if(!(paint.paths.size() == 0)){ //don't save unless something is drawn
+                    // getting the bitmap from DrawView class
+                    Bitmap bitmap = paint.save();
+                    String username = MySingleton.getInstance(view.getContext()).getApplicationUser().getUsername();
+                    switch(finalDrawContext){
+                        case "newPost":
+                            createPostPresenter.createPost(username, bitmap);
+                            break;
+                        case "newComment":
+                            int frameId = bundle.getInt("frameId"); //TODO add error handling if this doesn't exist?
+                            createCommentPresenter.createComment(username, frameId, bitmap);
+                            break;
+                    }
                 }
             }
         });

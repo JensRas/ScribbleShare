@@ -8,6 +8,7 @@ public class PostModel {
     String profileName;
     int likeCount;
     int commentCount;
+    boolean isLiked;
 
     /**
      * Default constructor
@@ -21,11 +22,12 @@ public class PostModel {
      * @param likeCount Like count for the post
      * @param commentCount Comment count for the post
      */
-    public PostModel(String id, String profileName, int likeCount, int commentCount){
+    public PostModel(String id, String profileName, int likeCount, int commentCount, boolean isLiked){
         this.id = id;
         this.profileName = profileName;
         this.likeCount = likeCount;
         this.commentCount = commentCount;
+        this.isLiked = isLiked;
     }
 
     /**
@@ -90,6 +92,14 @@ public class PostModel {
      */
     public void setCommentCount(int commentCount){
         this.commentCount = commentCount;
+    }
+
+    public boolean getIsLiked(){
+        return isLiked;
+    }
+
+    public void setIsLiked(boolean isLiked){
+        this.isLiked = isLiked;
     }
 
 }

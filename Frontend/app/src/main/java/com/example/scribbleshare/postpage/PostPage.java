@@ -48,6 +48,7 @@ public class PostPage extends AppCompatActivity implements PostView{
     private RecyclerView framesRV;
     private ArrayList<FrameModel> framesAL;
 
+    //TODO make postId not a string?
     private String postId;
     private User localUser;
 
@@ -64,15 +65,16 @@ public class PostPage extends AppCompatActivity implements PostView{
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
             this.postId = bundle.getString("postId");
-            getFramesPresenter.getFrames(postId);
+            getFramesPresenter.getFrames(postId, false);
         } else {
             //TODO show an error?
             Log.e("ERROR", "Bundle EMPTY when starting post page");
+            return;
         }
         commentPresenter = new CommentPresenter();
         framesAL = new ArrayList<>(); //create an empty array list on page load for graceful empty list initially
 
-        FrameAdapter frameAdapter = new FrameAdapter(this, framesAL);
+        FrameAdapter frameAdapter = new FrameAdapter(this, framesAL, newFramePresenter, Integer.parseInt(postId));
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         setContentView(R.layout.activity_post);
         framesRV = findViewById(R.id.frame_recycler_view);
@@ -85,14 +87,6 @@ public class PostPage extends AppCompatActivity implements PostView{
             @Override
             public void onClick(View view) {
                 showDialog();
-            }
-        });
-
-        Button new_frame_button = (Button) findViewById(R.id.new_frame_button);
-        new_frame_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                newFramePresenter.createNewFrame(localUser.getUsername(), postId, framesAL.size());
             }
         });
 
@@ -161,14 +155,14 @@ public class PostPage extends AppCompatActivity implements PostView{
     }
 
     @Override
-    public void setFrames(JSONArray array) {
+    public void setFrames(JSONArray array, boolean scrollToBottom) {
         framesAL = new ArrayList<>();
 
         //iterate over the array and populate framesAL with new posts
         for(int i = 0; i < array.length(); i++){
             try {
                 JSONObject obj = (JSONObject)array.get(i);
-                int id = obj.getInt("id");
+                int frameId = obj.getInt("id");
                 JSONArray comments = obj.getJSONArray("comments");
 
                 //get comment data inside of frame
@@ -181,19 +175,27 @@ public class PostPage extends AppCompatActivity implements PostView{
                     commentModels.add(new CommentModel(commentId, commentProfileName, likeCount));
                 }
 
-                FrameModel m = new FrameModel(id, commentModels);
+                FrameModel m = new FrameModel(frameId, commentModels);
                 framesAL.add(m);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
         }
-        FrameAdapter frameAdapter = new FrameAdapter(this, framesAL);
+        FrameAdapter frameAdapter = new FrameAdapter(this, framesAL, newFramePresenter, Integer.parseInt(postId));
         framesRV.setAdapter(frameAdapter);
+        if(scrollToBottom){
+            scrollViewToBottom();
+        }
     }
 
     @Override
-    public void refreshFrames() {
-        getFramesPresenter.getFrames(postId);
+    public void refreshFrames(boolean shouldScrollToBottom) {
+        getFramesPresenter.getFrames(postId, shouldScrollToBottom);
+    }
+
+    @Override
+    public void scrollViewToBottom() {
+        framesRV.scrollToPosition(framesAL.size());
     }
 
     private void showDialog() {

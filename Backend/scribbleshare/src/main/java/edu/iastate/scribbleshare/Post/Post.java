@@ -17,6 +17,7 @@ import javax.persistence.ManyToOne;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -32,6 +33,7 @@ import javax.persistence.OneToMany;
  * This image is used as the starter for a set of frames, which a Post also stores as a list (one to many relationship)
  * Posts also must store the user who created the post, the date it was posted, the like count, the comment count, and have a unique generated ID.   
  */
+@Transactional
 @Entity
 public class Post {
         
@@ -63,7 +65,7 @@ public class Post {
     @ApiModelProperty(value = "Frames that belong to the post", required=true, example = "")
     private List<Frame> frames;
 
-    @ManyToMany(mappedBy="liked_posts")
+    @ManyToMany(mappedBy="liked_posts", cascade = CascadeType.ALL)
 	@JsonIgnore
 	private Set<User> liked_users = new HashSet<User>();
 
