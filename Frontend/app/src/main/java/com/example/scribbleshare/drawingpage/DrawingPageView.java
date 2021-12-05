@@ -34,4 +34,5 @@ public interface DrawingPageView {
      * @param c class of new view
      */
     void switchView(Class c);
+
 }

@@ -54,7 +54,6 @@ public class SignInPresenter implements IVolleyListener<JSONObject> {
 //            user.setPermissionLevel((String)response.get("permissionLevel")); //TODO uncomment once implemented
             user.setMuted((boolean)response.get("isMuted"));
             user.setBanned((boolean)response.get("isBanned"));
-            user.setBanned(true); //TODO remove
         } catch (JSONException e) {
             //TODO handle bad parse?
             e.printStackTrace();

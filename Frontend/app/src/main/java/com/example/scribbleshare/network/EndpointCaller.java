@@ -144,6 +144,11 @@ public class EndpointCaller<T> {
         sendJsonObjectRequest(url, Request.Method.GET);
     }
 
+    public void getUserRequest(String username) {
+        String url = baseURL + "/users/" + username;
+        sendJsonObjectRequest(url, Request.Method.GET);
+    }
+
     /**
      * Send a request where the response is a string
      * @param url full endpoint url

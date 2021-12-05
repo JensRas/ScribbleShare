@@ -52,11 +52,11 @@ public class UserController {
     @ApiOperation(value = "Get user by username", response = User.class, tags= "Users")
     @GetMapping(path="/users/{username}")
     public @ResponseBody User getUserByUsername(@PathVariable String username){
-      Optional<User> user = userRepository.findById(username);
-      if(!user.isPresent()){
+      Optional<User> optionalUser = userRepository.findById(username);
+      if(!optionalUser.isPresent()){
         throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Username doesn't exist");
       }
-      return user.get();
+      return optionalUser.get();
     }
 
     @GetMapping(path="/getNumFollowers/{username}")
@@ -168,5 +168,31 @@ public class UserController {
       }
 
       return r;
+    }
+
+    @PostMapping(path="/users/ban/{username}")
+    public User banUser(HttpServletResponse response, @PathVariable String username){
+      Optional<User> userOptional = userRepository.findById(username);
+      if(!userOptional.isPresent()){
+        Status.formResponse(response, HttpStatus.NOT_FOUND, username + " doesn't exist");
+        return null;
+      }
+      User user = userOptional.get();
+      user.setIsBanned(true);
+      userRepository.save(user);
+      return user;
+    }
+
+    @PostMapping(path="/users/unban/{username}")
+    public User unbanUser(HttpServletResponse response, @PathVariable String username){
+      Optional<User> userOptional = userRepository.findById(username);
+      if(!userOptional.isPresent()){
+        Status.formResponse(response, HttpStatus.NOT_FOUND, username + " doesn't exist");
+        return null;
+      }
+      User user = userOptional.get();
+      user.setIsBanned(false);
+      userRepository.save(user);
+      return user;
     }
 }

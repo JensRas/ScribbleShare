@@ -45,6 +45,7 @@ public class DrawingPage extends AppCompatActivity implements DrawingPageView {
 
     private CreatePostPresenter createPostPresenter;
     private CreateCommentPresenter createCommentPresenter;
+    private GetUserPresenter getUserPresenter;
 
 
     @Override
@@ -54,6 +55,10 @@ public class DrawingPage extends AppCompatActivity implements DrawingPageView {
 
         createPostPresenter = new CreatePostPresenter(this, getApplicationContext());
         createCommentPresenter = new CreateCommentPresenter(this, getApplicationContext());
+
+        //update the user object stored in the singleton with their user stored on the server
+        getUserPresenter = new GetUserPresenter(this, getApplicationContext());
+        getUserPresenter.updateUserInSingleton(MySingleton.getInstance(this).getApplicationUser().getUsername());
 
         String drawContext = "";
 
@@ -102,6 +107,7 @@ public class DrawingPage extends AppCompatActivity implements DrawingPageView {
             @Override
             public void onClick(View view) {
                 User user = MySingleton.getInstance(view.getContext()).getApplicationUser();
+                getUserPresenter.updateUserInSingleton(user.getUsername());
                 if(user.isBanned()){
                     makeToast("You are banned from drawing");
                     return;
@@ -109,7 +115,7 @@ public class DrawingPage extends AppCompatActivity implements DrawingPageView {
                 if(!(paint.paths.size() == 0)){ //don't save unless something is drawn
                     // getting the bitmap from DrawView class
                     Bitmap bitmap = paint.save();
-                    String username = MySingleton.getInstance(view.getContext()).getApplicationUser().getUsername();
+                    String username = user.getUsername();
                     switch(finalDrawContext){
                         case "newPost":
                             createPostPresenter.createPost(username, bitmap);
@@ -258,4 +264,5 @@ public class DrawingPage extends AppCompatActivity implements DrawingPageView {
     public void switchView(Class c) {
         startActivity(new Intent(this, c));
     }
+
 }
