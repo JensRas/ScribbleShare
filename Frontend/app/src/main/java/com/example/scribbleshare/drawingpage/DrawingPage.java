@@ -85,7 +85,6 @@ public class DrawingPage extends AppCompatActivity implements DrawingPageView {
         back_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //TODO change this based on drawContext
                 startActivity(new Intent(view.getContext(), HomePage.class));
                 switch(finalDrawContext){
                     case "newPost":

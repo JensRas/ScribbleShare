@@ -54,12 +54,8 @@ public class NewFramePresenter implements IVolleyListener<JSONObject> {
         view.refreshFrames(shouldScrollToBottom);
     }
 
-    /**
-     * TODO implement
-     */
     @Override
     public void onError(VolleyError e) {
-        //TODO handle error
-        Log.e("debug", "new frame presenter ERROR! " + e.getMessage());
+        Log.e("Error", "new frame presenter ERROR! " + e.getMessage());
     }
 }

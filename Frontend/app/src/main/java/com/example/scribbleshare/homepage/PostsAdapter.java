@@ -74,11 +74,9 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.Holder>{
             holder.likeButton.setImageResource(R.drawable.ic_baseline_favorite_border_24);
         }
 
-        //TODO set holder.thing.setOnClickListeners here
         holder.scribble.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //TODO when the image is clicked
                 Intent intent = new Intent(context, PostPage.class);
                 intent.putExtra("postId", postId);
                 context.startActivity(intent);
@@ -112,7 +110,9 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.Holder>{
         holder.commentButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //TODO when comment button is clicked (open the post)
+                Intent intent = new Intent(context, PostPage.class);
+                intent.putExtra("postId", postId);
+                context.startActivity(intent);
             }
         });
     }
