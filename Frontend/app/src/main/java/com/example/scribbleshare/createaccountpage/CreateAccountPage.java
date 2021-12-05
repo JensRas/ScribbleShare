@@ -61,7 +61,7 @@ public class CreateAccountPage extends AppCompatActivity implements CreateAccoun
         sign_in_text.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                MySingleton.getInstance(c).setApplicationUser(new User("GUEST", null, true, false));
+                MySingleton.getInstance(c).setApplicationUser(new User("GUEST", null, true, false, 0));
                 Log.d("GUEST:", "Guest login");
                 makeToast("Logging in as a Guest");
                 startActivity(new Intent(view.getContext(), HomePage.class));

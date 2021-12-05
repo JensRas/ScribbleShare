@@ -14,7 +14,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.scribbleshare.MySingleton;
 import com.example.scribbleshare.R;
-<<<<<<< HEAD
 import com.example.scribbleshare.homepage.PostModel;
 import com.example.scribbleshare.homepage.PostsAdapter;
 
@@ -23,10 +22,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-
-=======
 import com.example.scribbleshare.SplashScreen;
->>>>>>> 8de0872e0df68277845fd7ec6b7b2bd2e5b568aa
 import com.example.scribbleshare.activitypage.ActivityPage;
 import com.example.scribbleshare.drawingpage.DrawingPage;
 import com.example.scribbleshare.homepage.HomePage;
@@ -126,7 +122,7 @@ public class ProfilePage extends AppCompatActivity implements ProfilePageView {
                 String profileName = ((JSONObject)obj.get("user")).getString("username");
                 int likeCount = obj.getInt("likeCount");
                 int commentCount = obj.getInt("commentCount");
-                PostModel m = new PostModel(id, profileName, likeCount, commentCount);
+                PostModel m = new PostModel(id, profileName, likeCount, commentCount, false); //TODO change this is liked possibly?
                 postsAL.add(m);
             } catch (JSONException e) {
                 e.printStackTrace();
