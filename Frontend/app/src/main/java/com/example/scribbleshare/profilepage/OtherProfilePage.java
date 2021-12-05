@@ -117,7 +117,7 @@ public class OtherProfilePage extends AppCompatActivity implements ProfilePageVi
         for(int i = 0; i < array.length(); i++){
             try{
                 JSONObject obj = (JSONObject)array.get(i);
-                String id = obj.getString("id");
+                int id = obj.getInt("id");
                 String profileName = ((JSONObject)obj.get("user")).getString("username");
                 int likeCount = obj.getInt("likeCount");
                 int commentCount = obj.getInt("commentCount");

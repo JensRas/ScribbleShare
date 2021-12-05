@@ -48,7 +48,7 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.Holder>{
     @Override
     public void onBindViewHolder(@NonNull Holder holder, int position) {
        String profileName = postModels.get(position).getProfileName();
-       String postId = postModels.get(position).getId();
+       int postId = postModels.get(position).getId();
        int likeCount = postModels.get(position).getLikeCount();
        int commentCount = postModels.get(position).getCommentCount();
 

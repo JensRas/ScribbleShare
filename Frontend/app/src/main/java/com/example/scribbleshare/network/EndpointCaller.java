@@ -102,7 +102,7 @@ public class EndpointCaller<T> {
      * Get the frames of a specified post
      * @param postId the id of the post
      */
-    public void getPostFrames(String postId){
+    public void getPostFrames(int postId){
         String url = baseURL + "/frames/" + postId;
 //        Log.d("debug", "Model calling json array endpoint: " + url);
         sendJsonArrayRequest(url);
@@ -139,7 +139,7 @@ public class EndpointCaller<T> {
         sendJsonArrayRequest(url);
     }
 
-    public void createPostIsLikedRequest(String username, String postId){
+    public void createPostIsLikedRequest(String username, int postId){
         String url = baseURL + "/post/" + postId + "/likedBy/" + username;
         sendJsonObjectRequest(url, Request.Method.GET);
     }

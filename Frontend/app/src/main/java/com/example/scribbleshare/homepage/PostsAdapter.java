@@ -56,7 +56,7 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.Holder>{
     public void onBindViewHolder(@NonNull Holder holder, int position) {
         PostModel model = postModels.get(position);
         String profileName = model.getProfileName();
-        String postId = model.getId();
+        int postId = model.getId();
         int likeCount = model.getLikeCount();
 
         holder.profileName.setText(profileName);

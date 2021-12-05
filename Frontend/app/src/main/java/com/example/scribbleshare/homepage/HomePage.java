@@ -75,7 +75,7 @@ public class HomePage extends AppCompatActivity implements HomePageView{
         for(int i = 0; i < array.length(); i++){
             try {
                 JSONObject obj = (JSONObject)array.get(i);
-                String id = obj.getString("id");
+                int id = obj.getInt("id");
                 String profileName = ((JSONObject)obj.get("user")).getString("username");
                 int likeCount = obj.getInt("likeCount");
                 int commentCount = obj.getInt("commentCount");
@@ -124,7 +124,7 @@ public class HomePage extends AppCompatActivity implements HomePageView{
                     for (int i = 0; i < list.length; i++) {
                         String[] post = list[i].split(":");
                         for (int j = 0; j < postsAL.size(); j++) {
-                            if (postsAL.get(j).getId().equals(post[0])) {
+                            if (postsAL.get(j).getId() == Integer.parseInt(post[0])) {
 
                                 //post must be run on the UI thread to update cleanly
                                 int finalJ = j;
@@ -266,11 +266,11 @@ public class HomePage extends AppCompatActivity implements HomePageView{
     @Override
     public void setHomePageIsLiked(JSONObject object) {
         try {
-            String postId = object.getString("postId");
+            int postId = object.getInt("postId");
             boolean isLiked = object.getBoolean("isLiked");
             for(int i = 0; i < postsAL.size(); i++){
                 PostModel model = postsAL.get(i);
-                if(model.getId().equals(postId)){
+                if(model.getId() == postId){
                     model.setIsLiked(isLiked);
                     int finalI = i;
                     runOnUiThread(new Runnable() {

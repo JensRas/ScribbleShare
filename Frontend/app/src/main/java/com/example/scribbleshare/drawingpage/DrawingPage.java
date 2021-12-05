@@ -97,7 +97,7 @@ public class DrawingPage extends AppCompatActivity implements DrawingPageView {
                             return;
                         }
                         Intent intent = new Intent(context, PostPage.class);
-                        intent.putExtra("postId", bundle.getInt("postId") + "");
+                        intent.putExtra("postId", bundle.getInt("postId"));
                         Log.d("Debug", "switching to the post page with postId: " + bundle.getInt("postId"));
                         context.startActivity(intent);
                         break;
@@ -245,12 +245,12 @@ public class DrawingPage extends AppCompatActivity implements DrawingPageView {
 
 
     @Override
-    public void onCreateCommentSuccess(JSONObject o) {
+    public void onCreateCommentSuccess(JSONObject jsonObject) {
         Intent intent = new Intent(this, PostPage.class);
         try {
-            intent.putExtra("postId", o.getString("id"));
+            intent.putExtra("postId", jsonObject.getInt("id"));
         } catch (JSONException e) {
-            Log.e("ERROR", "Error parsing response: " + o.toString());
+            Log.e("ERROR", "Error parsing response: " + jsonObject.toString());
             e.printStackTrace();
             return;
         }

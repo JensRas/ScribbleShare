@@ -49,7 +49,7 @@ public class PostPage extends AppCompatActivity implements PostView{
     private ArrayList<FrameModel> framesAL;
 
     //TODO make postId not a string?
-    private String postId;
+    private int postId;
     private User localUser;
 
     Dialog dialog;
@@ -64,7 +64,7 @@ public class PostPage extends AppCompatActivity implements PostView{
         newFramePresenter = new NewFramePresenter(this, getApplicationContext());
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
-            this.postId = bundle.getString("postId");
+            this.postId = bundle.getInt("postId");
             getFramesPresenter.getFrames(postId, false);
         } else {
             //TODO show an error?
@@ -74,7 +74,7 @@ public class PostPage extends AppCompatActivity implements PostView{
         commentPresenter = new CommentPresenter();
         framesAL = new ArrayList<>(); //create an empty array list on page load for graceful empty list initially
 
-        FrameAdapter frameAdapter = new FrameAdapter(this, framesAL, newFramePresenter, Integer.parseInt(postId));
+        FrameAdapter frameAdapter = new FrameAdapter(this, framesAL, newFramePresenter, postId);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         setContentView(R.layout.activity_post);
         framesRV = findViewById(R.id.frame_recycler_view);
@@ -181,7 +181,7 @@ public class PostPage extends AppCompatActivity implements PostView{
                 e.printStackTrace();
             }
         }
-        FrameAdapter frameAdapter = new FrameAdapter(this, framesAL, newFramePresenter, Integer.parseInt(postId));
+        FrameAdapter frameAdapter = new FrameAdapter(this, framesAL, newFramePresenter, postId);
         framesRV.setAdapter(frameAdapter);
         if(scrollToBottom){
             scrollViewToBottom();

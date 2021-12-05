@@ -21,7 +21,7 @@ public class GetPostIsLikedPresenter implements IVolleyListener<JSONObject> {
         this.model = new EndpointCaller<>(context, this);
     }
 
-    public void setIsPostLiked(String username, String postId){
+    public void setIsPostLiked(String username, int postId){
         model.createPostIsLikedRequest(username, postId);
     }
 
