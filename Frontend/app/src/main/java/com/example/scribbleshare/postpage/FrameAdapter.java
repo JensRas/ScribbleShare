@@ -52,12 +52,7 @@ public class FrameAdapter extends RecyclerView.Adapter<FrameAdapter.Holder> {
         } else {
             itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.button_new_frame, parent, false);
         }
-
         return new FrameAdapter.Holder(itemView);
-
-        //original code
-//        View view = LayoutInflater.from(context).inflate(R.layout.fragment_frame, parent, false);
-//        return new FrameAdapter.Holder(view);
     }
 
     @Override
@@ -79,6 +74,29 @@ public class FrameAdapter extends RecyclerView.Adapter<FrameAdapter.Holder> {
             LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false);
             holder.commentRV.setLayoutManager(linearLayoutManager);
             holder.commentRV.setAdapter(commentAdapter);
+
+            /*
+            if (frameModels.getIsLiked()) {
+                holder.likeButton.setImageResource(R.drawable.ic_baseline_favorite_24);
+            } else {
+                holder.likeButton.setImageResource(R.drawable.ic_baseline_favorite_border_24);
+            }
+
+            holder.likeButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (frameModels.getIsLiked()) {
+                        holder.likeButton.setImageResource(R.drawable.ic_baseline_favorite_border_24);
+                        model.setIsLiked(false);
+                        websocket.send("- " + postId);
+                    } else {
+                        holder.likeButton.setImageResource(R.drawable.ic_baseline_favorite_24);
+                        model.setIsLiked(true);
+                        websocket.send("+ " + postId);
+                    }
+                }
+            });
+            */
 
             //TODO add listener for clickable stuff here
             holder.createCommentButton.setOnClickListener(new View.OnClickListener() {

@@ -389,7 +389,6 @@ public class PostController {
         postRepository.save(post);
 
         return post;
-
     }
 
     @GetMapping(path="/post/{post_id}/likedBy/{username}")
@@ -413,5 +412,4 @@ public class PostController {
         boolean isLiked = postRepository.getPostLikedByUser(post.getID(), user.getUsername()) > 0;
         return "{postId:" + post.getID() + ", isLiked: " + isLiked + "}";
     }
-
 }
