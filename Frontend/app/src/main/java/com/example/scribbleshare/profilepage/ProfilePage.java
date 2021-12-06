@@ -1,5 +1,8 @@
 package com.example.scribbleshare.profilepage;
 
+import android.content.Context;
+import android.content.DialogInterface;
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -25,10 +28,33 @@ public class ProfilePage extends AppCompatActivity implements ProfilePageView {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
+        Context c = this;
 
         ProfilePagePresenter presenter = new ProfilePagePresenter(this, getApplicationContext());
         String username = MySingleton.getInstance(this).getApplicationUser().getUsername();
         presenter.getFollowers(username); //when the request is done it calls "setHomePagePosts below
+
+        ImageButton logout_button = (ImageButton) findViewById(R.id.logout_button);
+        logout_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AlertDialog.Builder alert = new AlertDialog.Builder(c);
+                alert.setTitle("Do you want to logout?");
+
+                alert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        startActivity(new Intent(view.getContext(), SplashScreen.class));
+                    }
+                });
+
+                alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        // Send back to profile screen?
+                    }
+                });
+                alert.show();
+            }
+        });
 
         // Icon buttons
         ImageButton home_button = (ImageButton) findViewById(R.id.btn_home);
@@ -71,14 +97,6 @@ public class ProfilePage extends AppCompatActivity implements ProfilePageView {
             public void onClick(View view) {
                 // Already on profile page
                 //startActivity(new Intent(view.getContext(), ProfilePage.class));
-            }
-        });
-
-        ImageButton logout_button = (ImageButton) findViewById(R.id.logout_button);
-        logout_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(view.getContext(), SplashScreen.class));
             }
         });
     }
