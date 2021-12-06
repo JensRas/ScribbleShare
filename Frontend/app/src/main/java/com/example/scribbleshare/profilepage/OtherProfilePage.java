@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -22,6 +23,7 @@ import com.example.scribbleshare.MySingleton;
 import com.example.scribbleshare.R;
 import com.example.scribbleshare.activitypage.ActivityPage;
 import com.example.scribbleshare.drawingpage.DrawingPage;
+import com.example.scribbleshare.homepage.GetPostIsLikedPresenter;
 import com.example.scribbleshare.homepage.HomePage;
 import com.example.scribbleshare.network.EndpointCaller;
 import com.example.scribbleshare.postpage.PostPage;
@@ -42,26 +44,29 @@ public class OtherProfilePage extends AppCompatActivity implements ProfilePageVi
 
     private RecyclerView postsRV;
     private ArrayList<PostModel> postsAL;
+    private GetFollowingPresenter getFollowingPresenter;
+    private boolean isUserFollowing;
+    private String username;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_merged_profile_views);
+        getFollowingPresenter = new GetFollowingPresenter(this, getApplicationContext());
         Bundle bundle = getIntent().getExtras();
-
         ProfilePagePresenter presenter = new ProfilePagePresenter(this, getApplicationContext());
 
-        //String username = MySingleton.getInstance(this).getApplicationUser().getUsername();
-        //presenter.getFollowers(username); //when the request is done it calls "setHomePagePosts below
-        //presenter.getUserPosts(username);
-
         TextView profileName = (TextView)findViewById(R.id.profile_profile_name);
-        profileName.setText(bundle.getString("username"));
+        username = bundle.getString("username");
+        profileName.setText(username);//bundle.getString("username"));
 
         TextView postNum = (TextView)findViewById(R.id.post_count);
-        postNum.setText("posts");
 
-        //presenter.getFollowers(username); //when the request is done it calls "setHomePagePosts below
+
+        getFollowingPresenter.setIsFollowing(username, MySingleton.getInstance(this).getApplicationUser().getUsername());
+
+        postNum.setText(isUserFollowing + "");
+
 
         // Icon buttons
         ImageButton home_button = (ImageButton) findViewById(R.id.btn_home);
@@ -79,6 +84,31 @@ public class OtherProfilePage extends AppCompatActivity implements ProfilePageVi
                 startActivity(new Intent(view.getContext(), SearchPage.class));
             }
         });
+
+        Button follow_button = (Button) findViewById(R.id.follow_button);
+        Button following_button = (Button) findViewById(R.id.following_button);
+
+        if(isUserFollowing){
+            following_button.setVisibility(View.VISIBLE);
+            follow_button.setVisibility(View.GONE);
+            following_button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view){
+                    following_button.setVisibility(View.GONE);
+                    follow_button.setVisibility(View.VISIBLE);
+                }
+            });}
+        else{
+            following_button.setVisibility(View.GONE);
+            follow_button.setVisibility(View.VISIBLE);
+            following_button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view){
+                    following_button.setVisibility(View.VISIBLE);
+                    follow_button.setVisibility(View.GONE);
+                }
+            });}
+
 
         ImageButton create_new_button = (ImageButton) findViewById(R.id.btn_create_new);
         create_new_button.setOnClickListener(new View.OnClickListener() {
@@ -137,6 +167,14 @@ public class OtherProfilePage extends AppCompatActivity implements ProfilePageVi
         postsRV.setAdapter(profileAdapter);
     }
 
+    public void setUserFollowing(JSONObject object){
+       try {
+            isUserFollowing = object.getBoolean("following");
+        }
+        catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
 
 
 

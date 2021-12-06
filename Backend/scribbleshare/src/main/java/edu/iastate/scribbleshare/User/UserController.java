@@ -114,6 +114,20 @@ public class UserController {
       Status.formResponse(response, HttpStatus.CREATED, follower.getUsername() + " sucessfully followed " + following.getUsername());
     }
 
+    @GetMapping(path = "isFollowing/{followerUsername}/{followingUsername}")
+    public String isFollowing(HttpServletResponse response, @PathVariable String followerUsername, @PathVariable String followingUsername){
+      Optional<User> followerOptional = userRepository.findById(followerUsername);
+      Optional<User> followingOptional = userRepository.findById(followingUsername);
+      
+      User follower = followerOptional.get();
+      User following = followingOptional.get();
+
+      if(follower.getFollowing().contains(following)){
+         return "{following: " + true + "}";
+      }
+      else{return "{following: " + false + "}";}      
+    }
+
     @ApiOperation(value = "Get User Following", response = Set.class, tags= "Users")
     @GetMapping(path="following")
     public @ResponseBody Set<User> getFollowing(HttpServletResponse response, @RequestParam String username){
