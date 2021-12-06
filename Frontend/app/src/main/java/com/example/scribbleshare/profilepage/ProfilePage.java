@@ -138,6 +138,10 @@ public class ProfilePage extends AppCompatActivity implements ProfilePageView {
         postsRV.setAdapter(profileAdapter);
     }
 
+    public void setUserFollowing(JSONObject object){
+
+    }
+
 
 
 
