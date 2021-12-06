@@ -133,13 +133,13 @@ public class PostPage extends AppCompatActivity implements PostView{
             }
         });
 
-//        ImageButton activity_button = (ImageButton) findViewById(R.id.btn_activity);
-//        activity_button.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                startActivity(new Intent(view.getContext(), ActivityPage.class));
-//            }
-//        });
+        ImageButton activity_button = (ImageButton) findViewById(R.id.btn_activity);
+        activity_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(view.getContext(), ActivityPage.class));
+            }
+        });
 
         ImageButton profile_button = (ImageButton) findViewById(R.id.btn_profile);
         profile_button.setOnClickListener(new View.OnClickListener() {
