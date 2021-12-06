@@ -146,6 +146,7 @@ public class LikeSocket {
                 return;
             }
     
+            logger.error("REEEE username: " + username + "post.getID(): " + post.getID());
             postRepository.removeLikedPost(username, post.getID());
             broadcast(body + ":" + postRepository.getPostLikeCount(post.getID()));
         }else{
