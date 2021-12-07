@@ -136,6 +136,10 @@ public class PostController {
     public Iterable<Post> getHomeScreenPosts(HttpServletResponse response, @PathVariable String username){
         Optional<User> optionalUser = userRepository.findById(username);
         if(!optionalUser.isPresent()){Status.formResponse(response, HttpStatus.NOT_FOUND, "Username: " + username + " not found!"); return null;}
+        if(username=="GUEST") {
+            Iterable<Post> posts = postRepository.getHomeScreenPosts(username);
+            return posts;
+        }
         Iterable<Post> posts = postRepository.getHomeScreenPosts(username);
         return posts;
     }
