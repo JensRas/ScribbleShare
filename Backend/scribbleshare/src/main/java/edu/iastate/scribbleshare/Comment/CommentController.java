@@ -208,5 +208,27 @@ public class CommentController {
         return comment;
 
     }
+    
+    @GetMapping(path="/comment/{comment_id}/likedBy/{username}")
+    public String getIfPostLikedByUser(HttpServletResponse response, @PathVariable int comment_id, @PathVariable String username){
+        Optional<Comment> optionalComment = commentRepository.findById(comment_id);
+        Optional<User> optionalUser = userRepository.findById(username);
+
+        if(!optionalComment.isPresent()){
+            Status.formResponse(response, HttpStatus.NOT_FOUND, "Comment with id: " + comment_id + " not found!");
+            return null;
+        }
+
+        if(!optionalUser.isPresent()){
+            Status.formResponse(response, HttpStatus.NOT_FOUND, "User with username: " + username + " not found!");
+            return null;
+        }
+
+        Comment comment = optionalComment.get();
+        User user = optionalUser.get();
+        // {postId: 5, isLiked: true}
+        boolean isLiked = commentRepository.getCommentLikedByUser(comment.getID(), user.getUsername()) > 0;
+        return "{commentId:" + comment.getID() + ", isLiked: " + isLiked + "}";
+    }
 
 }

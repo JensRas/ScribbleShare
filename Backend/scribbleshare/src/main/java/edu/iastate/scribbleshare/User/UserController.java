@@ -194,7 +194,6 @@ public class UserController {
 
     @PostMapping(path="/users/unban/{username}")
     public User unbanUser(HttpServletResponse response, @PathVariable String username){
-      String todo = "DELETEME"; //TODO DELETE
       Optional<User> userOptional = userRepository.findById(username);
       if(!userOptional.isPresent()){
         Status.formResponse(response, HttpStatus.NOT_FOUND, username + " doesn't exist");

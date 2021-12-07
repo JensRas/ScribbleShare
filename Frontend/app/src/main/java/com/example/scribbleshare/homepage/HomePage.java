@@ -224,7 +224,7 @@ public class HomePage extends AppCompatActivity implements HomePageView{
                     return;
                 }
                 Intent intent = new Intent(view.getContext(), DrawingPage.class);
-                intent.putExtra("drawContext", "newPost");
+                intent.putExtra("drawConte    FrameAdapter FA;xt", "newPost");
                 startActivity(intent);
             }
         });

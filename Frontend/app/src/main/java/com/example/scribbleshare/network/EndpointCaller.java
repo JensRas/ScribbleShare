@@ -183,10 +183,21 @@ public class EndpointCaller<T> {
         sendJsonObjectRequest(url, Request.Method.POST);
     }
 
-    public void createCommentIsLikedRequest(String username, String postId){
-        String url = baseURL + "/post/" + postId + "/likedBy/" + username;
+    public void createCommentIsLikedRequest(String username, String commentId){
+        String url = baseURL + "/comment/" + commentId + "/likedBy/" + username;
         sendJsonObjectRequest(url, Request.Method.GET);
     }
+
+    public void createLikeCommentRequest(String username, String commentId){
+        String url = baseURL + "/comment/like?comment_id=" + commentId + "&username=" + username;
+        sendJsonObjectRequest(url, Request.Method.POST);
+    }
+
+    public void createUnlikeCommentRequest(String username, String commentId){
+        String url = baseURL + "/comment/like?comment_id=" + commentId + "&username=" + username;
+        sendJsonObjectRequest(url, Request.Method.DELETE);
+    }
+
 
     /**
      * Send a request where the response is a string

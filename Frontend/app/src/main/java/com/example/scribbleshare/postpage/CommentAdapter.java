@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.signature.ObjectKey;
+import com.example.scribbleshare.MySingleton;
 import com.example.scribbleshare.R;
 import com.example.scribbleshare.network.EndpointCaller;
 
@@ -26,6 +27,8 @@ import java.util.List;
 public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.Holder>{
     List<CommentModel> commentModels;
     Context context;
+    LikeCommentPresenter likeCommentPresenter;
+    UnlikeCommentPresenter unlikeCommentPresenter;
 
     /**
      * Constructor to initialize comment models for the post
@@ -35,6 +38,8 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.Holder>{
     public CommentAdapter(Context context, List<CommentModel> commentModels){
         this.context = context;
         this.commentModels = commentModels;
+        this.likeCommentPresenter = new LikeCommentPresenter(context);
+        this.unlikeCommentPresenter = new UnlikeCommentPresenter(context);
     }
 
     @NonNull
@@ -60,12 +65,17 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.Holder>{
                 .into(holder.commentScribble);
 
         //TODO set onclick listeners for comment stuff here
+        boolean status = commentModels.get(position).getIsLiked();
+        Log.e("DEBUG", "status: " + status);
         if (commentModels.get(holder.getAdapterPosition()).getIsLiked()) {
+            Log.e("DEBUG", "setting red heart");
             holder.likeButton.setImageResource(R.drawable.ic_baseline_favorite_24);
         } else {
+            Log.e("DEBUG", "setting empty heart");
             holder.likeButton.setImageResource(R.drawable.ic_baseline_favorite_border_24);
         }
 
+        String username = MySingleton.getInstance(context).getApplicationUser().getUsername();
         holder.likeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -75,18 +85,20 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.Holder>{
                     holder.likeCount.setText(commentModels.get(holder.getAdapterPosition()).getLikeCount() - 1 + "");
                     commentModels.get(holder.getAdapterPosition()).setLikeCount(commentModels.get(holder.getAdapterPosition()).getLikeCount() - 1);
                     Log.d("liking", "unliked");
-                    //websocket.send("- " + postId);
+                    unlikeCommentPresenter.unlikeComment(username, commentModels.get(holder.getAdapterPosition()).getId() + "");
                 } else {
                     holder.likeButton.setImageResource(R.drawable.ic_baseline_favorite_24);
                     commentModels.get(holder.getAdapterPosition()).setIsLiked(true);
                     holder.likeCount.setText(commentModels.get(holder.getAdapterPosition()).getLikeCount() + 1 + "");
                     commentModels.get(holder.getAdapterPosition()).setLikeCount(commentModels.get(holder.getAdapterPosition()).getLikeCount() + 1);
                     Log.d("liking", "liked");
-                    //websocket.send("+ " + postId);
+                    likeCommentPresenter.likeComment(username, commentModels.get(holder.getAdapterPosition()).getId() + "");
                 }
             }
         });
     }
+
+
 
     /**
      * This method returns the item count of the comment models
