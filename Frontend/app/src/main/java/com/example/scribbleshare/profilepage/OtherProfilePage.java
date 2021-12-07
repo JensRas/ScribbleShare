@@ -1,34 +1,27 @@
 package com.example.scribbleshare.profilepage;
 
-import android.content.Context;
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
+import androidx.core.widget.ImageViewCompat;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.signature.ObjectKey;
 import com.example.scribbleshare.MySingleton;
 import com.example.scribbleshare.R;
 import com.example.scribbleshare.User;
 import com.example.scribbleshare.activitypage.ActivityPage;
 import com.example.scribbleshare.drawingpage.DrawingPage;
-import com.example.scribbleshare.homepage.GetPostIsLikedPresenter;
 import com.example.scribbleshare.homepage.HomePage;
-import com.example.scribbleshare.network.EndpointCaller;
-import com.example.scribbleshare.postpage.PostPage;
 import com.example.scribbleshare.homepage.PostModel;
 import com.example.scribbleshare.searchpage.SearchPage;
 
@@ -37,7 +30,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Handles the RecyclerView for the homepage
@@ -54,8 +46,15 @@ public class OtherProfilePage extends AppCompatActivity implements ProfilePageVi
     private String singletonUsername;
     private BanUserPresenter banUserPresenter;
     private UnbanUserPresenter unbanUserPresenter;
-    private GetUserPresenter getUserPresenter;
+    private GetUserBanStatusPresenter getUserBanStatusPresenter;
     private User user;
+
+    ImageButton ban_hammer;
+
+    int isBannedColor = R.color.white;
+    int isUnBannedColor = R.color.red;
+
+    boolean isBanned = false;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -67,7 +66,9 @@ public class OtherProfilePage extends AppCompatActivity implements ProfilePageVi
         unfollowUserPresenter = new UnfollowUserPresenter(this, getApplicationContext());
         banUserPresenter = new BanUserPresenter(this, getApplicationContext());
         unbanUserPresenter = new UnbanUserPresenter(this, getApplicationContext());
-        getUserPresenter = new GetUserPresenter(this, getApplicationContext());
+        getUserBanStatusPresenter = new GetUserBanStatusPresenter(this, getApplicationContext());
+
+         ban_hammer = (ImageButton) findViewById(R.id.banHammer);
 
         Bundle bundle = getIntent().getExtras();
         ProfilePagePresenter presenter = new ProfilePagePresenter(this, getApplicationContext());
@@ -81,12 +82,17 @@ public class OtherProfilePage extends AppCompatActivity implements ProfilePageVi
 
         getFollowingPresenter.setIsFollowing(singletonUsername, username);
 
-        ImageButton ban_hammer = (ImageButton) findViewById(R.id.banHammer);
+        getUserBanStatusPresenter.getUserBanStatus(username);
+
         if(MySingleton.getInstance(this).getApplicationUser().getPermissionLevel().equals("moderator")){
             ban_hammer.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-
+                    if(isBanned){
+                        unbanUserPresenter.unbanUser(username);
+                    }else{
+                        banUserPresenter.banUser(username);
+                    }
                 }
             });
             ban_hammer.setVisibility(View.VISIBLE);
@@ -170,7 +176,6 @@ public class OtherProfilePage extends AppCompatActivity implements ProfilePageVi
     public void setUserFollowing(JSONObject object){
        try {
            isUserFollowing = object.getBoolean("following");
-           Log.e("debug", isUserFollowing + "");
 
            Button follow_button = (Button) findViewById(R.id.follow_button);
            Button following_button = (Button) findViewById(R.id.following_button);
@@ -207,11 +212,30 @@ public class OtherProfilePage extends AppCompatActivity implements ProfilePageVi
 
     @Override
     public void setUserBanned(JSONObject object) {
-
+        getUserBanStatusPresenter.getUserBanStatus(username);
+        ban_hammer.setColorFilter(ContextCompat.getColor(this, isBannedColor));
     }
 
     @Override
     public void setUserUnbanned(JSONObject object) {
+        getUserBanStatusPresenter.getUserBanStatus(username);
+        ban_hammer.setColorFilter(ContextCompat.getColor(this, isUnBannedColor));
+    }
+
+    @Override
+    public void setUserBannedStatus(JSONObject object) {
+        try {
+            boolean responseIsBanned = object.getBoolean("isBanned");
+            isBanned = responseIsBanned;
+            if(responseIsBanned){
+                ban_hammer.setColorFilter(ContextCompat.getColor(this, isBannedColor));
+            }else{
+                ban_hammer.setColorFilter(ContextCompat.getColor(this, isUnBannedColor));
+            }
+        } catch (JSONException e) {
+            Log.e("ERROR", "error getting is_banned from user json object!");
+            e.printStackTrace();
+        }
 
     }
 }

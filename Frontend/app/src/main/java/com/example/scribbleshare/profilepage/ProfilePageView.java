@@ -8,4 +8,5 @@ public interface ProfilePageView {
     void setUserFollowing(JSONObject object);
     void setUserBanned(JSONObject object);
     void setUserUnbanned(JSONObject object);
+    void setUserBannedStatus(JSONObject object);
 }

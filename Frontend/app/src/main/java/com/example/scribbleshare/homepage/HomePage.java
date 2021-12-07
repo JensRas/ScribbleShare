@@ -291,33 +291,9 @@ public class HomePage extends AppCompatActivity implements HomePageView{
     }
 
     @Override
-    protected void onPause() {
-        Log.e("Debug", "REEEEE onPause called");
-        super.onPause();
-    }
-
-    @Override
     protected void onStop() {
-        Log.e("Debug", "REEEEE onStop called");
         ws.close();
         super.onStop();
     }
 
-    @Override
-    protected void onDestroy() {
-        Log.e("Debug", "REEEEE onDestroy called");
-        super.onDestroy();
-    }
-
-    @Override
-    protected void onStart() {
-        Log.e("Debug", "REEEEE onStart called");
-        super.onStart();
-    }
-
-    @Override
-    protected void onResume() {
-        Log.e("Debug", "REEEEE onResume called");
-        super.onResume();
-    }
 }
