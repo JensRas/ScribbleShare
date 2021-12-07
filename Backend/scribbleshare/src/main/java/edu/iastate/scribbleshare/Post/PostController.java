@@ -135,6 +135,9 @@ public class PostController {
     @ApiOperation(value = "Get Posts For Homescreen", response = Iterable.class, tags= "Post")
     @GetMapping(path="/post/getHomeScreenPosts/{username}")
     public Iterable<Post> getHomeScreenPosts(HttpServletResponse response, @PathVariable String username){
+        if(username.equals("GUEST")){
+            return postRepository.findAll();
+        }
         Optional<User> optionalUser = userRepository.findById(username);
         if(!optionalUser.isPresent()){Status.formResponse(response, HttpStatus.NOT_FOUND, "Username: " + username + " not found!"); return null;}
         Iterable<Post> posts = postRepository.getHomeScreenPosts(username);
