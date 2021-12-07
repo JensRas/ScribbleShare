@@ -43,4 +43,10 @@
             android:textColor="@color/white"
             android:textSize="20sp" />
     </RelativeLayout>
+    <View
+        android:id="@+id/top_bar_line"
+        android:layout_width="match_parent"
+        android:layout_height="1.5dp"
+        android:layout_alignParentBottom="true"
+        android:background="@color/red_orange"/>
 </RelativeLayout>
