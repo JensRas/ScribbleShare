@@ -1,6 +1,7 @@
 package com.example.scribbleshare.postpage;
 
 import org.json.JSONArray;
+import org.json.JSONObject;
 
 /**
  * View for the post page
@@ -18,4 +19,6 @@ public interface PostView {
     void refreshFrames(boolean shouldScrollToBottom);
 
     void scrollViewToBottom();
+
+    void setCommentIsLiked(JSONObject o);
 }

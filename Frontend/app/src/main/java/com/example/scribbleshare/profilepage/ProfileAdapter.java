@@ -50,7 +50,6 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.Holder>{
        String profileName = postModels.get(position).getProfileName();
        int postId = postModels.get(position).getId();
        int likeCount = postModels.get(position).getLikeCount();
-       int commentCount = postModels.get(position).getCommentCount();
 
         holder.profileName.setText(profileName);
         holder.likeCount.setText(likeCount + "");

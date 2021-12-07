@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -75,29 +76,6 @@ public class FrameAdapter extends RecyclerView.Adapter<FrameAdapter.Holder> {
             holder.commentRV.setLayoutManager(linearLayoutManager);
             holder.commentRV.setAdapter(commentAdapter);
 
-            /*
-            if (frameModels.getIsLiked()) {
-                holder.likeButton.setImageResource(R.drawable.ic_baseline_favorite_24);
-            } else {
-                holder.likeButton.setImageResource(R.drawable.ic_baseline_favorite_border_24);
-            }
-
-            holder.likeButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if (frameModels.getIsLiked()) {
-                        holder.likeButton.setImageResource(R.drawable.ic_baseline_favorite_border_24);
-                        model.setIsLiked(false);
-                        websocket.send("- " + postId);
-                    } else {
-                        holder.likeButton.setImageResource(R.drawable.ic_baseline_favorite_24);
-                        model.setIsLiked(true);
-                        websocket.send("+ " + postId);
-                    }
-                }
-            });
-            */
-
             //TODO add listener for clickable stuff here
             holder.createCommentButton.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -111,7 +89,6 @@ public class FrameAdapter extends RecyclerView.Adapter<FrameAdapter.Holder> {
                 }
             });
         }
-
     }
 
     @Override
