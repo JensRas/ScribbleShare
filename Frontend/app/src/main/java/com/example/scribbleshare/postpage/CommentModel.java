@@ -3,7 +3,7 @@ package com.example.scribbleshare.postpage;
 /**
  * Holds data for a comment on a frame
  */
-public class CommentModel {
+public class CommentModel implements Comparable<CommentModel>{
     int id;
     String profileName;
     int likeCount;
@@ -76,5 +76,11 @@ public class CommentModel {
 
     public void setIsLiked(boolean isLiked){
         this.isLiked = isLiked;
+    }
+
+    @Override
+    public int compareTo(CommentModel compareCommentModel) {
+        int compareLikeCount = compareCommentModel.getLikeCount();
+        return compareLikeCount - this.likeCount;
     }
 }

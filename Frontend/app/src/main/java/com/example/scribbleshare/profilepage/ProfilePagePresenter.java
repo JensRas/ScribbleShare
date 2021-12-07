@@ -10,51 +10,28 @@ import com.example.scribbleshare.network.IVolleyListener;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-/**
- * TODO implement
- */
 public class ProfilePagePresenter implements IVolleyListener<JSONArray> {
     private EndpointCaller<JSONArray> model;
     private ProfilePageView view;
     private Context context;
 
-    /**
-     * TODO implement
-     * @param view
-     * @param c
-     */
     public ProfilePagePresenter(ProfilePageView view, Context c){
         this.view = view;
         this.context = c;
         this.model = new EndpointCaller<JSONArray>(c, this);
     }
 
-    /**
-     * TODO implement
-     * @param username
-     */
-//    public void getFollowers(String username){
-//       model.getFollowersRequest(username);
-//    }
-
     public void getUserPosts(String username){
         model.getUserPostRequest(username);
     }
-
-
-
 
     @Override
     public void onSuccess(JSONArray array) {
         view.setUserPosts(array);
     }
 
-    /**
-     * TODO implement
-     * @param error
-     */
     @Override
     public void onError(VolleyError error) {
-        Log.e("fail", "get followers FAILED. Response: " + error);
+        Log.e("ERROR", "get followers FAILED. Response: " + error);
     }
 }

@@ -38,7 +38,7 @@ public class GetUserPresenter implements IVolleyListener<JSONObject> {
             user.setMuted((boolean)response.get("isMuted"));
             user.setBanned((boolean)response.get("isBanned"));
         } catch (JSONException e) {
-            //TODO handle bad parse?
+            Log.e("ERROR", "Error parsing user object. Object was: " + response);
             e.printStackTrace();
         }
         MySingleton.getInstance(context).setApplicationUser(user);

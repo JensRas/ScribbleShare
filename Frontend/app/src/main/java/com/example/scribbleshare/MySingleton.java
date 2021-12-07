@@ -2,6 +2,7 @@ package com.example.scribbleshare;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.util.Log;
 import android.util.LruCache;
 
 import com.android.volley.Request;
@@ -35,6 +36,7 @@ public class MySingleton {
     private User user;
 
     public void setApplicationUser(User user){
+        Log.e("DEBUG", "setting appliction user: " + user);
         this.user = user;
     }
 

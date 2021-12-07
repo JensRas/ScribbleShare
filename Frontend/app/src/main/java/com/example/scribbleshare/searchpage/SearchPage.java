@@ -121,7 +121,7 @@ public class SearchPage extends AppCompatActivity implements SearchPageView {
             try {
                 JSONObject obj = (JSONObject)array.get(i);
                 String username = obj.getString("username");
-                int followerCount = 0; //TODO add once implemented in backend
+                int followerCount = 0;
                 SearchModel s = new SearchModel(username, followerCount);
                 searchAL.add(s);
             } catch (JSONException e) {

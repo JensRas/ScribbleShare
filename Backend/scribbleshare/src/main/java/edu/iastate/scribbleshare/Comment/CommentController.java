@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
@@ -20,6 +21,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
+
+import antlr.collections.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -142,6 +145,7 @@ public class CommentController {
             Status.formResponse(response, HttpStatus.BAD_REQUEST, "frameId: " + frameId + " not found!");
             return null;
         }
+
         return optionalFrame.get().getComments();
     }
 

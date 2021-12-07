@@ -86,7 +86,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.Holder> {
         public Holder(@NonNull View itemView) {
             super(itemView);
             username = itemView.findViewById(R.id.search_profile_name);
-            followerCount = itemView.findViewById(R.id.follower_count);
+//            followerCount = itemView.findViewById(R.id.follower_count);
         }
     }
 }

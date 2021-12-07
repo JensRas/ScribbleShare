@@ -130,6 +130,7 @@ public class DrawingPage extends AppCompatActivity implements DrawingPageView {
                     // getting the bitmap from DrawView class
                     Bitmap bitmap = paint.save();
                     String username = user.getUsername();
+                    Log.e("DEBUG", "finalDrawContext: " + finalDrawContext);
                     switch(finalDrawContext){
                         case "newPost":
                             createPostPresenter.createPost(username, bitmap);

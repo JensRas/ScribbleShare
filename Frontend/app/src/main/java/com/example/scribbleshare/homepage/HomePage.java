@@ -71,6 +71,7 @@ public class HomePage extends AppCompatActivity implements HomePageView{
         String username = user.getUsername();
         postsAL = new ArrayList<>();
 
+
         Context c = this;
         //iterate over the array and populate postsAL with new posts
         for(int i = 0; i < array.length(); i++){
@@ -78,12 +79,12 @@ public class HomePage extends AppCompatActivity implements HomePageView{
                 JSONObject obj = (JSONObject)array.get(i);
                 int id = obj.getInt("id");
                 String profileName = ((JSONObject)obj.get("user")).getString("username");
-                int likeCount = obj.getInt("likeCount");
-                int commentCount = obj.getInt("commentCount");
-                PostModel m = new PostModel(id, profileName, likeCount, commentCount, false); //TODO update isLiked
+//                int likeCount = obj.getInt("likeCount");
+//                int commentCount = obj.getInt("commentCount");
+                PostModel m = new PostModel(id, profileName, 0, 0, false);
                 postsAL.add(m);
-                //postsAL.get(i).setLikeCount(12);
             } catch (JSONException e) {
+                Log.e("ERROR", "Error setting home screen posts. Object was: " + array);
                 e.printStackTrace();
             }
         }
@@ -224,7 +225,7 @@ public class HomePage extends AppCompatActivity implements HomePageView{
                     return;
                 }
                 Intent intent = new Intent(view.getContext(), DrawingPage.class);
-                intent.putExtra("drawConte    FrameAdapter FA;xt", "newPost");
+                intent.putExtra("drawContext", "newPost");
                 startActivity(intent);
             }
         });

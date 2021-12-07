@@ -30,9 +30,9 @@ public class EndpointCaller<T> {
      * The URL of the endpoint. (The local one is also present below for easier testing
      */
 
-    public static final String baseURL = "http://coms-309-010.cs.iastate.edu:8080";
+//    public static final String baseURL = "http://coms-309-010.cs.iastate.edu:8080";
 //    public static final String baseURL = "http://10.0.2.2:8080"; //for debugging with emulated phone
-//    public static final String baseURL = "http://localhost:8080"; //for debugging with tethered phone (must use chrome reverse port forwarding)
+    public static final String baseURL = "http://localhost:8080"; //for debugging with tethered phone (must use chrome reverse port forwarding)
 
     /**
      * The context of the request when instantiated
@@ -289,9 +289,8 @@ public class EndpointCaller<T> {
                     @Override
                     public void onResponse(NetworkResponse response) {
                         try {
-                            //TODO change this to reflect the acutal endpoints response structure
                             JSONObject obj = new JSONObject(new String(response.data));
-                            listener.onSuccess((T)obj); //TODO check cast?
+                            listener.onSuccess((T)obj);
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }

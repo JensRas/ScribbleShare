@@ -76,7 +76,6 @@ public class FrameAdapter extends RecyclerView.Adapter<FrameAdapter.Holder> {
             holder.commentRV.setLayoutManager(linearLayoutManager);
             holder.commentRV.setAdapter(commentAdapter);
 
-            //TODO add listener for clickable stuff here
             holder.createCommentButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

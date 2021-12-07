@@ -32,10 +32,6 @@ import com.example.scribbleshare.drawingpage.DrawingPage;
 import com.example.scribbleshare.homepage.HomePage;
 import com.example.scribbleshare.searchpage.SearchPage;
 
-
-/**
- * TODO implement
- */
 public class ProfilePage extends AppCompatActivity implements ProfilePageView {
 
     private RecyclerView postsRV;
@@ -142,7 +138,7 @@ public class ProfilePage extends AppCompatActivity implements ProfilePageView {
                 String profileName = ((JSONObject)obj.get("user")).getString("username");
                 int likeCount = obj.getInt("likeCount");
                 int commentCount = obj.getInt("commentCount");
-                PostModel m = new PostModel(id, profileName, likeCount, commentCount, false); //TODO change this is liked possibly?
+                PostModel m = new PostModel(id, profileName, likeCount, commentCount, false);
                 postsAL.add(m);
             } catch (JSONException e) {
                 e.printStackTrace();

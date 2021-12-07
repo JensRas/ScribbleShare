@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -37,6 +38,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.logging.Logger;
 
 /**
@@ -141,7 +144,6 @@ public class PostPage extends AppCompatActivity implements PostView{
     @Override
     public void setFrames(JSONArray array, boolean scrollToBottom) {
         framesAL = new ArrayList<>();
-
         //iterate over the array and populate framesAL with new posts
         for(int i = 0; i < array.length(); i++){
             try {
@@ -160,6 +162,9 @@ public class PostPage extends AppCompatActivity implements PostView{
 
                     getCommentIsLikedPresenter.setIsCommentLiked(localUser.getUsername(), commentId + "");
                 }
+                //sort commentModels on the like count
+                Collections.sort(commentModels);
+
 
                 FrameModel m = new FrameModel(frameId, commentModels);
                 framesAL.add(m);
@@ -215,26 +220,21 @@ public class PostPage extends AppCompatActivity implements PostView{
 
     @Override
     public void setCommentIsLiked(JSONObject object) {
-        Log.e("DEBUG", object + "");
         try {
             framesRV.getAdapter().notifyDataSetChanged();
             int commentId = object.getInt("commentId");
             boolean isLiked = object.getBoolean("isLiked");
             for(int i = 0; i < framesAL.size(); i++){
                 for (int j = 0; j < framesAL.get(i).getComments().size(); j++) {
-//                    CA = new CommentAdapter(c, framesAL.get(i).getComments());
                     CommentModel model = framesAL.get(i).getComments().get(j);
                     if(model.getId() == commentId){
                         Log.e("DEBUG", "setting isLiked: " + isLiked);
                         model.setIsLiked(isLiked);
-                        int finalJ = j;
+                        //TODO remove?
                         if(i == framesAL.size() - 1 && j == framesAL.get(i).getComments().size() - 1){
                             runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
-//                                    framesRV.getAdapter().notifyDataSetChanged();
-//                                CA.notifyItemChanged(finalJ);
-//                                CA.notifyDataSetChanged();
 
                                 }
                             });

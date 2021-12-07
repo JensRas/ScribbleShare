@@ -32,6 +32,7 @@ public class GetPostIsLikedPresenter implements IVolleyListener<JSONObject> {
 
     @Override
     public void onError(VolleyError e) {
-        //TODO
+        Log.e("ERROR", "Error getting post is liked. Printing stack trace:");
+        e.printStackTrace();
     }
 }
