@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -101,14 +102,18 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.Holder>{
         holder.likeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (model.getIsLiked()) {
-                    holder.likeButton.setImageResource(R.drawable.ic_baseline_favorite_border_24);
-                    model.setIsLiked(false);
-                    websocket.send("- " + postId);
+                if (MySingleton.getInstance(context).getApplicationUser().getUsername() != "GUEST") {
+                    if (model.getIsLiked()) {
+                        holder.likeButton.setImageResource(R.drawable.ic_baseline_favorite_border_24);
+                        model.setIsLiked(false);
+                        websocket.send("- " + postId);
+                    } else {
+                        holder.likeButton.setImageResource(R.drawable.ic_baseline_favorite_24);
+                        model.setIsLiked(true);
+                        websocket.send("+ " + postId);
+                    }
                 } else {
-                    holder.likeButton.setImageResource(R.drawable.ic_baseline_favorite_24);
-                    model.setIsLiked(true);
-                    websocket.send("+ " + postId);
+                    makeToast("Create an account for this feature");
                 }
             }
         });
@@ -121,6 +126,12 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.Holder>{
                 context.startActivity(intent);
             }
         });
+    }
+
+    public void makeToast(String message) {
+        int duration = Toast.LENGTH_SHORT;
+        Toast toast = Toast.makeText(context, message, duration);
+        toast.show();
     }
 
     /**
