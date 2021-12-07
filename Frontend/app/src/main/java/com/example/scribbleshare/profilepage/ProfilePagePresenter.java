@@ -7,13 +7,14 @@ import com.android.volley.VolleyError;
 import com.example.scribbleshare.network.EndpointCaller;
 import com.example.scribbleshare.network.IVolleyListener;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 /**
  * TODO implement
  */
-public class ProfilePagePresenter implements IVolleyListener<JSONObject> {
-    private EndpointCaller<JSONObject> model;
+public class ProfilePagePresenter implements IVolleyListener<JSONArray> {
+    private EndpointCaller<JSONArray> model;
     private ProfilePageView view;
     private Context context;
 
@@ -25,24 +26,27 @@ public class ProfilePagePresenter implements IVolleyListener<JSONObject> {
     public ProfilePagePresenter(ProfilePageView view, Context c){
         this.view = view;
         this.context = c;
-        this.model = new EndpointCaller<JSONObject>(c, this);
+        this.model = new EndpointCaller<JSONArray>(c, this);
     }
 
     /**
      * TODO implement
      * @param username
      */
-    public void getFollowers(String username){
-        // model.getFollowersRequest(username);
+//    public void getFollowers(String username){
+//       model.getFollowersRequest(username);
+//    }
+
+    public void getUserPosts(String username){
+        model.getUserPostRequest(username);
     }
 
-    /**
-     * TODO implement
-     * @param data
-     */
+
+
+
     @Override
-    public void onSuccess(JSONObject data) {
-        Log.d("success", "get followers success!");
+    public void onSuccess(JSONArray array) {
+        view.setUserPosts(array);
     }
 
     /**

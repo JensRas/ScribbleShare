@@ -1,4 +1,4 @@
-package com.example.scribbleshare.homepage;
+package com.example.scribbleshare.profilepage;
 
 import android.content.Context;
 import android.content.Intent;
@@ -17,47 +17,40 @@ import com.bumptech.glide.signature.ObjectKey;
 import com.example.scribbleshare.R;
 import com.example.scribbleshare.network.EndpointCaller;
 import com.example.scribbleshare.postpage.PostPage;
-import com.example.scribbleshare.profilepage.OtherProfilePage;
-
-import org.java_websocket.client.WebSocketClient;
+import com.example.scribbleshare.homepage.PostModel;
 
 import java.util.List;
 
 /**
  * Handles the RecyclerView for the homepage
  */
-public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.Holder>{
+public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.Holder>{
     List<PostModel> postModels;
     Context context;
-    WebSocketClient websocket;
 
     /**
      * Constructor to initialize post models for the homepage
      * @param context Current context
      * @param postModels List of post models for the homepage
      */
-    public PostsAdapter(Context context, List<PostModel> postModels) {
+    public ProfileAdapter(Context context, List<PostModel> postModels) {
         this.context = context;
         this.postModels = postModels;
-    }
-
-    public void setWebsocket(WebSocketClient websocket){
-        this.websocket = websocket;
     }
 
     @NonNull
     @Override
     public Holder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.fragment_homepage_post, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.profile_post_fragment, parent, false);
         return new Holder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull Holder holder, int position) {
-        PostModel model = postModels.get(position);
-        String profileName = model.getProfileName();
-        int postId = model.getId();
-        int likeCount = model.getLikeCount();
+       String profileName = postModels.get(position).getProfileName();
+       int postId = postModels.get(position).getId();
+       int likeCount = postModels.get(position).getLikeCount();
+       int commentCount = postModels.get(position).getCommentCount();
 
         holder.profileName.setText(profileName);
         holder.likeCount.setText(likeCount + "");
@@ -68,26 +61,13 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.Holder>{
                 .signature(new ObjectKey(System.currentTimeMillis()))
                 .into(holder.scribble);
 
-        if (model.getIsLiked()) {
-            holder.likeButton.setImageResource(R.drawable.ic_baseline_favorite_24);
-        } else {
-            holder.likeButton.setImageResource(R.drawable.ic_baseline_favorite_border_24);
-        }
-
+        //TODO set holder.thing.setOnClickListeners here
         holder.scribble.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //TODO when the image is clicked
                 Intent intent = new Intent(context, PostPage.class);
                 intent.putExtra("postId", postId);
-                context.startActivity(intent);
-            }
-        });
-
-        holder.profileName.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(context, OtherProfilePage.class);
-                intent.putExtra("username", profileName);
                 context.startActivity(intent);
             }
         });
@@ -95,24 +75,14 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.Holder>{
         holder.likeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (model.getIsLiked()) {
-                    holder.likeButton.setImageResource(R.drawable.ic_baseline_favorite_border_24);
-                    model.setIsLiked(false);
-                    websocket.send("- " + postId);
-                } else {
-                    holder.likeButton.setImageResource(R.drawable.ic_baseline_favorite_24);
-                    model.setIsLiked(true);
-                    websocket.send("+ " + postId);
-                }
+                //TODO when like button clicked
             }
         });
 
         holder.commentButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(context, PostPage.class);
-                intent.putExtra("postId", postId);
-                context.startActivity(intent);
+                //TODO when comment button is clicked
             }
         });
     }
@@ -131,8 +101,8 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.Holder>{
      */
     class Holder extends RecyclerView.ViewHolder {
         ImageView scribble;
-        TextView profileName, likeCount;
-        ImageButton likeButton, commentButton;
+        TextView profileName, likeCount, commentCount;
+        ImageButton likeButton, commentButton, shareButton;
 
         /**
          * Constructor to initialize necessary information for a homepage post
@@ -140,11 +110,12 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.Holder>{
          */
         public Holder(@NonNull View itemView) {
             super(itemView);
-            scribble = itemView.findViewById(R.id.post);
+            scribble = itemView.findViewById(R.id.test_image);
             profileName = itemView.findViewById(R.id.profile_name);
             likeCount = itemView.findViewById(R.id.post_like_count);
             likeButton = itemView.findViewById(R.id.post_like_button);
             commentButton = itemView.findViewById(R.id.post_comment_button);
+            shareButton = itemView.findViewById(R.id.post_share_button);
         }
     }
 }

@@ -83,6 +83,11 @@ public class EndpointCaller<T> {
         sendMultipartFileUpload(scribble, url, Request.Method.PUT);
     }
 
+    public void getUserPostRequest(String username) {
+        String url = baseURL + "/post/getUserPost/" + username;
+        sendJsonArrayRequest(url);
+    }
+
     /**
      * Get the home screen posts for a specified user
      * @param username The username of the user to get the recommended home screen posts
@@ -97,7 +102,7 @@ public class EndpointCaller<T> {
      * Get the frames of a specified post
      * @param postId the id of the post
      */
-    public void getPostFrames(String postId){
+    public void getPostFrames(int postId){
         String url = baseURL + "/frames/" + postId;
 //        Log.d("debug", "Model calling json array endpoint: " + url);
         sendJsonArrayRequest(url);
@@ -134,8 +139,31 @@ public class EndpointCaller<T> {
         sendJsonArrayRequest(url);
     }
 
-    public void createPostIsLikedRequest(String username, String postId){
+    public void createPostIsLikedRequest(String username, int postId){
         String url = baseURL + "/post/" + postId + "/likedBy/" + username;
+        sendJsonObjectRequest(url, Request.Method.GET);
+    }
+
+    //username is app user
+    public void createIsUserFollowing(String username, String secondUsername){
+        String url = baseURL + "/isFollowing/" + username + "/" + secondUsername;
+        sendJsonObjectRequest(url, Request.Method.GET);
+    }
+
+    //username is app user, second is who they are following
+    public void addFollowerRequest(String username, String secondUsername){
+        String url = baseURL + "/following?followerUsername=" + username + "&followingUsername=" + secondUsername;
+        sendJsonObjectRequest(url, Request.Method.PUT);
+        Log.e("debug", "endpoints");
+    }
+
+    public void unfollowUser(String username, String secondUsername){
+        String url = baseURL + "/unfollow?followerUsername=" + username + "&followingUsername=" + secondUsername;
+        sendJsonObjectRequest(url, Request.Method.DELETE);
+    }
+
+    public void getUserRequest(String username) {
+        String url = baseURL + "/users/" + username;
         sendJsonObjectRequest(url, Request.Method.GET);
     }
 
@@ -268,5 +296,4 @@ public class EndpointCaller<T> {
         bitmap.compress(Bitmap.CompressFormat.PNG, 80, byteArrayOutputStream);
         return byteArrayOutputStream.toByteArray();
     }
-
 }

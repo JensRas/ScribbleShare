@@ -1,9 +1,10 @@
 package com.example.scribbleshare.profilepage;
 
-/**
- * TODO implement
- */
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 public interface ProfilePageView {
-    //add methods here that the profile page view needs to update things in the UI
-    //then override them in the ProfilePage class and actually implement them
+    void setUserPosts(JSONArray array);
+
+    void setUserFollowing(JSONObject object);
 }

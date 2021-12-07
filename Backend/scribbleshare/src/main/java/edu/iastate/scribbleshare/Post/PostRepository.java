@@ -18,6 +18,9 @@ public interface PostRepository extends CrudRepository<Post, Integer>{
     @Query(value="select * from post order by id desc", nativeQuery = true)
     public Iterable<Post> getHomeScreenPosts(@Param("username") String userName);
 
+    @Query(value="select * from post p where p.user_username=:user_username", nativeQuery = true)
+    public Iterable<Post> getUserPosts(@Param("user_username")String username);
+
     @Modifying
     @Transactional
     @Query(value = "INSERT INTO liked_posts (username, post_id) VALUES (:username, :post_id)", nativeQuery = true)
@@ -33,6 +36,5 @@ public interface PostRepository extends CrudRepository<Post, Integer>{
 
     @Query(value = "SELECT count(*) FROM liked_posts lp where lp.post_id=:post_id AND lp.username=:username", nativeQuery = true)
     public int getPostLikedByUser(@Param("post_id") int post_id, @Param("username") String username);
-
 
 }

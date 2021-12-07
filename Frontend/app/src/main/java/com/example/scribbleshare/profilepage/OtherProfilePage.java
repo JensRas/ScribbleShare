@@ -1,86 +1,81 @@
 package com.example.scribbleshare.profilepage;
 
 import android.content.Context;
-import android.content.DialogInterface;
-import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageButton;
-
-import android.os.Bundle;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.signature.ObjectKey;
 import com.example.scribbleshare.MySingleton;
 import com.example.scribbleshare.R;
+import com.example.scribbleshare.activitypage.ActivityPage;
+import com.example.scribbleshare.drawingpage.DrawingPage;
+import com.example.scribbleshare.homepage.GetPostIsLikedPresenter;
+import com.example.scribbleshare.homepage.HomePage;
+import com.example.scribbleshare.network.EndpointCaller;
+import com.example.scribbleshare.postpage.PostPage;
 import com.example.scribbleshare.homepage.PostModel;
-import com.example.scribbleshare.homepage.PostsAdapter;
+import com.example.scribbleshare.searchpage.SearchPage;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import com.example.scribbleshare.SplashScreen;
-import com.example.scribbleshare.activitypage.ActivityPage;
-import com.example.scribbleshare.drawingpage.DrawingPage;
-import com.example.scribbleshare.homepage.HomePage;
-import com.example.scribbleshare.searchpage.SearchPage;
-
+import java.util.List;
 
 /**
- * TODO implement
+ * Handles the RecyclerView for the homepage
  */
-public class ProfilePage extends AppCompatActivity implements ProfilePageView {
+public class OtherProfilePage extends AppCompatActivity implements ProfilePageView {
 
     private RecyclerView postsRV;
     private ArrayList<PostModel> postsAL;
+    private GetFollowingPresenter getFollowingPresenter;
+    private AddFollowerPresenter addFollowerPresenter;
+    private UnfollowUserPresenter unfollowUserPresenter;
+    private boolean isUserFollowing;
+    private String username;
+    private String singletonUsername;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_profile);
-        Context c = this;
+        setContentView(R.layout.activity_merged_profile_views);
 
+        getFollowingPresenter = new GetFollowingPresenter(this, getApplicationContext());
+        addFollowerPresenter = new AddFollowerPresenter(this, getApplicationContext());
+        unfollowUserPresenter = new UnfollowUserPresenter(this, getApplicationContext());
+
+        Bundle bundle = getIntent().getExtras();
         ProfilePagePresenter presenter = new ProfilePagePresenter(this, getApplicationContext());
-        String username = MySingleton.getInstance(this).getApplicationUser().getUsername();
-
-        //presenter.getFollowers(username); //when the request is done it calls "setHomePagePosts below
-        //presenter.getUserPosts(username);
 
         TextView profileName = (TextView)findViewById(R.id.profile_profile_name);
-        profileName.setText(username);
+        username = bundle.getString("username");
+        singletonUsername = MySingleton.getInstance(this).getApplicationUser().getUsername();
+        profileName.setText(username);//bundle.getString("username"));
 
         TextView postNum = (TextView)findViewById(R.id.post_count);
-        postNum.setText("posts");
 
-        //presenter.getFollowers(username); //when the request is done it calls "setHomePagePosts below
 
-        ImageButton logout_button = (ImageButton) findViewById(R.id.logout_button);
-        logout_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                AlertDialog.Builder alert = new AlertDialog.Builder(c);
-                alert.setTitle("Do you want to logout?");
+        getFollowingPresenter.setIsFollowing(singletonUsername, username);
 
-                alert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int whichButton) {
-                        startActivity(new Intent(view.getContext(), SplashScreen.class));
-                    }
-                });
-
-                alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int whichButton) {
-                        // Send back to profile screen?
-                    }
-                });
-                alert.show();
-            }
-        });
+        ImageButton ban_hammer = (ImageButton) findViewById(R.id.banHammer);
+        //if(MySingleton.getInstance(this).getApplicationUser().)
 
         // Icon buttons
         ImageButton home_button = (ImageButton) findViewById(R.id.btn_home);
@@ -121,10 +116,11 @@ public class ProfilePage extends AppCompatActivity implements ProfilePageView {
         profile_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // Already on profile page
-                //startActivity(new Intent(view.getContext(), ProfilePage.class));
+                startActivity(new Intent(view.getContext(), ProfilePage.class));
             }
         });
+
+        presenter.getUserPosts(bundle.getString("username"));
     }
 
     public void setUserPosts(JSONArray array){
@@ -138,7 +134,7 @@ public class ProfilePage extends AppCompatActivity implements ProfilePageView {
                 String profileName = ((JSONObject)obj.get("user")).getString("username");
                 int likeCount = obj.getInt("likeCount");
                 int commentCount = obj.getInt("commentCount");
-                PostModel m = new PostModel(id, profileName, likeCount, commentCount, false); //TODO change this is liked possibly?
+                PostModel m = new PostModel(id, profileName, likeCount, commentCount, false); //TODO change default isLiked?
                 postsAL.add(m);
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -155,10 +151,40 @@ public class ProfilePage extends AppCompatActivity implements ProfilePageView {
     }
 
     public void setUserFollowing(JSONObject object){
+       try {
+           isUserFollowing = object.getBoolean("following");
+           Log.e("debug", isUserFollowing + "");
 
+           Button follow_button = (Button) findViewById(R.id.follow_button);
+           Button following_button = (Button) findViewById(R.id.following_button);
+
+           if (isUserFollowing) {
+               following_button.setVisibility(View.VISIBLE);
+               follow_button.setVisibility(View.GONE);
+           } else {
+               following_button.setVisibility(View.GONE);
+               follow_button.setVisibility(View.VISIBLE);
+           }
+           follow_button.setOnClickListener(new View.OnClickListener() {
+               @Override
+               public void onClick(View view) {
+                   addFollowerPresenter.addFollower(singletonUsername, username);
+                   following_button.setVisibility(View.VISIBLE);
+                   follow_button.setVisibility(View.GONE);
+               }
+           });
+
+           following_button.setOnClickListener(new View.OnClickListener() {
+               @Override
+               public void onClick(View view) {
+                   unfollowUserPresenter.unfollowUser(singletonUsername, username);
+                   following_button.setVisibility(View.GONE);
+                   follow_button.setVisibility(View.VISIBLE);
+               }
+           });
+       }
+        catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
-
-
-
-
 }

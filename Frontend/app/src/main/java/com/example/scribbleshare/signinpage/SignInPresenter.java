@@ -47,6 +47,7 @@ public class SignInPresenter implements IVolleyListener<JSONObject> {
      */
     @Override
     public void onSuccess(JSONObject response) {
+        Log.d("SignInPresenter", "response: " + response);
         User user = new User();
         try {
             user.setUsername((String)response.get("username"));
@@ -54,7 +55,7 @@ public class SignInPresenter implements IVolleyListener<JSONObject> {
             user.setMuted((boolean)response.get("isMuted"));
             user.setBanned((boolean)response.get("isBanned"));
         } catch (JSONException e) {
-            //TODO handle bad parse?
+            Log.e("Error", "error parsing sign in User object. Error was: ");
             e.printStackTrace();
         }
         MySingleton.getInstance(context).setApplicationUser(user);
@@ -67,9 +68,11 @@ public class SignInPresenter implements IVolleyListener<JSONObject> {
      */
     @Override
     public void onError(VolleyError error) {
-        //login invalid
-        Log.e("login invalid", "invalid login: " + error.getMessage());
-        view.makeToast("Username/Password Invalid");
+        if(error.getMessage() == null){
+            view.makeToast("Unable to connect");
+        }else{
+            view.makeToast("Username/Password Invalid");
+        }
     }
 
 }

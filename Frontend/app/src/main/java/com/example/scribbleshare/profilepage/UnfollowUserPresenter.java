@@ -1,4 +1,4 @@
-package com.example.scribbleshare.homepage;
+package com.example.scribbleshare.profilepage;
 
 import android.content.Context;
 import android.util.Log;
@@ -9,29 +9,30 @@ import com.example.scribbleshare.network.IVolleyListener;
 
 import org.json.JSONObject;
 
-public class GetPostIsLikedPresenter implements IVolleyListener<JSONObject> {
+public class UnfollowUserPresenter implements IVolleyListener<JSONObject> {
 
     private EndpointCaller<JSONObject> model;
-    private HomePageView view;
+    private ProfilePageView view;
     private Context context;
 
-    public GetPostIsLikedPresenter(HomePageView view, Context c){
+    public UnfollowUserPresenter(ProfilePageView view, Context c){
         this.view = view;
         this.context = c;
         this.model = new EndpointCaller<>(context, this);
     }
 
-    public void setIsPostLiked(String username, int postId){
-        model.createPostIsLikedRequest(username, postId);
+    public void unfollowUser(String username, String secondUsername){
+        Log.e("debug", "unfollow in presenter");
+        model.unfollowUser(username, secondUsername);
     }
 
     @Override
     public void onSuccess(JSONObject jsonObject) {
-        view.setHomePageIsLiked(jsonObject);
+
     }
 
     @Override
     public void onError(VolleyError e) {
-        //TODO
+
     }
 }

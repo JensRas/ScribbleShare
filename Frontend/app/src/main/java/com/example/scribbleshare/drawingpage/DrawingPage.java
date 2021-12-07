@@ -17,6 +17,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.scribbleshare.MySingleton;
 import com.example.scribbleshare.R;
+import com.example.scribbleshare.User;
 import com.example.scribbleshare.homepage.HomePage;
 import com.example.scribbleshare.postpage.PostPage;
 import com.google.android.material.slider.RangeSlider;
@@ -44,6 +45,7 @@ public class DrawingPage extends AppCompatActivity implements DrawingPageView {
 
     private CreatePostPresenter createPostPresenter;
     private CreateCommentPresenter createCommentPresenter;
+    private GetUserPresenter getUserPresenter;
 
 
     @Override
@@ -54,11 +56,16 @@ public class DrawingPage extends AppCompatActivity implements DrawingPageView {
         createPostPresenter = new CreatePostPresenter(this, getApplicationContext());
         createCommentPresenter = new CreateCommentPresenter(this, getApplicationContext());
 
+        //update the user object stored in the singleton with their user stored on the server
+        getUserPresenter = new GetUserPresenter(this, getApplicationContext());
+        getUserPresenter.updateUserInSingleton(MySingleton.getInstance(this).getApplicationUser().getUsername());
+
         String drawContext = "";
 
         Bundle bundle = getIntent().getExtras();
         if(bundle == null){
             Log.e("ERROR", "Please set a bundle when switching to the drawing page so it knows the context");
+            return;
         }else{
             drawContext = bundle.getString("drawContext");
         }
@@ -72,14 +79,29 @@ public class DrawingPage extends AppCompatActivity implements DrawingPageView {
         stroke = (ImageButton) findViewById(R.id.btn_stroke);
         ImageButton back_button = (ImageButton) findViewById(R.id.back_button_draw);
 
-        // creating a OnClickListener for each button,
-        // to perform certain actions
-
+        //set onclick listeners
+        String finalDrawContext = drawContext;
+        Context context = this;
         back_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //TODO change this based on drawContext
-                startActivity(new Intent(view.getContext(), HomePage.class));
+                //startActivity(new Intent(view.getContext(), HomePage.class));
+                switch(finalDrawContext){
+                    case "newPost":
+                        startActivity(new Intent(view.getContext(), HomePage.class));
+                        break;
+                    case "newComment":
+                        int frameId = bundle.getInt("frameId");
+                        if(frameId == 0){
+                            Log.e("scribbleshare", "no frameId was passed into the bundle when switching to the drawing page!");
+                            return;
+                        }
+                        Intent intent = new Intent(context, PostPage.class);
+                        intent.putExtra("postId", bundle.getInt("postId"));
+                        Log.d("Debug", "switching to the post page with postId: " + bundle.getInt("postId"));
+                        context.startActivity(intent);
+                        break;
+                }
             }
         });
 
@@ -95,20 +117,29 @@ public class DrawingPage extends AppCompatActivity implements DrawingPageView {
         // the save button will save the current
         // canvas which is actually a bitmap
         // in form of PNG, in the storage
-        String finalDrawContext = drawContext;
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                User user = MySingleton.getInstance(view.getContext()).getApplicationUser();
+                getUserPresenter.updateUserInSingleton(user.getUsername());
+                if(user.isBanned()){
+                    makeToast("You are banned from drawing");
+                    return;
+                }
                 if(!(paint.paths.size() == 0)){ //don't save unless something is drawn
                     // getting the bitmap from DrawView class
                     Bitmap bitmap = paint.save();
-                    String username = MySingleton.getInstance(view.getContext()).getApplicationUser().getUsername();
+                    String username = user.getUsername();
                     switch(finalDrawContext){
                         case "newPost":
                             createPostPresenter.createPost(username, bitmap);
                             break;
                         case "newComment":
-                            int frameId = bundle.getInt("frameId"); //TODO add error handling if this doesn't exist?
+                            int frameId = bundle.getInt("frameId");
+                            if(frameId == 0){
+                                Log.e("scribbleshare", "no frameId was passed into the bundle when switching to the drawing page!");
+                                return;
+                            }
                             createCommentPresenter.createComment(username, frameId, bitmap);
                             break;
                     }
@@ -166,10 +197,6 @@ public class DrawingPage extends AppCompatActivity implements DrawingPageView {
                     rangeSlider.setVisibility(View.GONE);
                 else
                     rangeSlider.setVisibility(View.VISIBLE);
-
-//                //for testing something else
-//                Log.d("debug", "clicked stroke button");
-//                presenter.getPost("18");
             }
         });
 
@@ -207,36 +234,18 @@ public class DrawingPage extends AppCompatActivity implements DrawingPageView {
         });
     }
 
-
     @Override
-    public void setDrawingImage(byte[] data) {
-        BitmapFactory.Options options = new BitmapFactory.Options();
-        options.inMutable = true;
-        Bitmap bitmap = BitmapFactory.decodeByteArray(data , 0, data.length, options);
-        paint.setmBitmap(bitmap);
-    }
-
-
-    @Override
-    public void onCreateCommentSuccess(JSONObject o) {
-        Log.i("info", "onCreatecommentSuccess: " + o.toString());
+    public void onCreateCommentSuccess(JSONObject jsonObject) {
         Intent intent = new Intent(this, PostPage.class);
         try {
-            intent.putExtra("postId", o.getString("id"));
+            intent.putExtra("postId", jsonObject.getInt("id"));
         } catch (JSONException e) {
-            Log.e("ERROR", "Error parsing response: " + o.toString());
+            Log.e("ERROR", "Error parsing response: " + jsonObject.toString());
             e.printStackTrace();
             return;
         }
         startActivity(intent);
     }
-
-
-    @Override
-    public void onCreatePostSuccess(JSONObject o) {
-        //TODO
-    }
-
 
     @Override
     public void makeToast(String message) {
@@ -251,4 +260,5 @@ public class DrawingPage extends AppCompatActivity implements DrawingPageView {
     public void switchView(Class c) {
         startActivity(new Intent(this, c));
     }
+
 }

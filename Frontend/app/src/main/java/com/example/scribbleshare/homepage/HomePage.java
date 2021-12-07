@@ -16,12 +16,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.scribbleshare.MySingleton;
 import com.example.scribbleshare.R;
 import com.example.scribbleshare.SplashScreen;
+import com.example.scribbleshare.User;
 import com.example.scribbleshare.activitypage.ActivityPage;
 import com.example.scribbleshare.drawingpage.DrawingPage;
 import com.example.scribbleshare.network.EndpointCaller;
 import com.example.scribbleshare.profilepage.ProfilePage;
 import com.example.scribbleshare.searchpage.SearchPage;
 
+import org.java_websocket.WebSocket;
 import org.java_websocket.client.WebSocketClient;
 import org.java_websocket.drafts.Draft;
 import org.java_websocket.drafts.Draft_6455;
@@ -48,10 +50,11 @@ public class HomePage extends AppCompatActivity implements HomePageView{
     PostsAdapter PA;
 
 
-    private WebSocketClient cc;
+    private WebSocketClient ws;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+        Log.e("DEBUG", "REEEE onCreate called");
         super.onCreate(savedInstanceState);
         postsPresenter = new GetPostsPresenter(this, getApplicationContext());
         String username = MySingleton.getInstance(this).getApplicationUser().getUsername();
@@ -65,7 +68,8 @@ public class HomePage extends AppCompatActivity implements HomePageView{
      */
     @Override
     public void setHomePagePosts(JSONArray array) {
-        String username = MySingleton.getInstance(this).getApplicationUser().getUsername();
+        User user = MySingleton.getInstance(this).getApplicationUser();
+        String username = user.getUsername();
         postsAL = new ArrayList<>();
 
         Context c = this;
@@ -73,7 +77,7 @@ public class HomePage extends AppCompatActivity implements HomePageView{
         for(int i = 0; i < array.length(); i++){
             try {
                 JSONObject obj = (JSONObject)array.get(i);
-                String id = obj.getString("id");
+                int id = obj.getInt("id");
                 String profileName = ((JSONObject)obj.get("user")).getString("username");
                 int likeCount = obj.getInt("likeCount");
                 int commentCount = obj.getInt("commentCount");
@@ -113,7 +117,7 @@ public class HomePage extends AppCompatActivity implements HomePageView{
         PostsAdapter adapterPost = new PostsAdapter(this, postsAL);
         try {
             Log.d("Socket:", "Trying socket with url: " + s);
-            cc = new WebSocketClient(new URI(s),(Draft) drafts[0]) {
+            ws = new WebSocketClient(new URI(s),(Draft) drafts[0]) {
                 @Override
                 public void onMessage(String message) {
                     Log.d("SOCKET", "socket message returned: " + message);
@@ -122,7 +126,7 @@ public class HomePage extends AppCompatActivity implements HomePageView{
                     for (int i = 0; i < list.length; i++) {
                         String[] post = list[i].split(":");
                         for (int j = 0; j < postsAL.size(); j++) {
-                            if (postsAL.get(j).getId().equals(post[0])) {
+                            if (postsAL.get(j).getId() == Integer.parseInt(post[0])) {
 
                                 //post must be run on the UI thread to update cleanly
                                 int finalJ = j;
@@ -153,7 +157,7 @@ public class HomePage extends AppCompatActivity implements HomePageView{
                             e.printStackTrace();
                         }
                     }
-                    cc.send(str);
+                    ws.send(str);
                 }
 
                 @Override
@@ -174,13 +178,13 @@ public class HomePage extends AppCompatActivity implements HomePageView{
         }
 
         try {
-            cc.connectBlocking();
+            ws.connectBlocking();
         } catch (InterruptedException e) {
             Log.e("SOCKET", "connect blocking interrupted");
             e.printStackTrace();
         }
 
-        adapterPost.setWebsocket(cc);
+        adapterPost.setWebsocket(ws);
         PA = adapterPost; //TODO maybe clean this notation up?
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         setContentView(R.layout.activity_homepage);
@@ -264,11 +268,11 @@ public class HomePage extends AppCompatActivity implements HomePageView{
     @Override
     public void setHomePageIsLiked(JSONObject object) {
         try {
-            String postId = object.getString("postId");
+            int postId = object.getInt("postId");
             boolean isLiked = object.getBoolean("isLiked");
             for(int i = 0; i < postsAL.size(); i++){
                 PostModel model = postsAL.get(i);
-                if(model.getId().equals(postId)){
+                if(model.getId() == postId){
                     model.setIsLiked(isLiked);
                     int finalI = i;
                     runOnUiThread(new Runnable() {
@@ -284,5 +288,36 @@ public class HomePage extends AppCompatActivity implements HomePageView{
         } catch (JSONException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    protected void onPause() {
+        Log.e("Debug", "REEEEE onPause called");
+        super.onPause();
+    }
+
+    @Override
+    protected void onStop() {
+        Log.e("Debug", "REEEEE onStop called");
+        ws.close();
+        super.onStop();
+    }
+
+    @Override
+    protected void onDestroy() {
+        Log.e("Debug", "REEEEE onDestroy called");
+        super.onDestroy();
+    }
+
+    @Override
+    protected void onStart() {
+        Log.e("Debug", "REEEEE onStart called");
+        super.onStart();
+    }
+
+    @Override
+    protected void onResume() {
+        Log.e("Debug", "REEEEE onResume called");
+        super.onResume();
     }
 }

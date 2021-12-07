@@ -63,6 +63,8 @@ public class User {
     @ApiModelProperty(value = "If user is banned, they wont be able to log in to their account", required=true, example = "False")
     private boolean isBanned;
 
+    private int followerCount = 1;
+
     @ManyToMany(cascade = CascadeType.ALL)
     @JsonIgnore
     @JoinTable(name = "following",

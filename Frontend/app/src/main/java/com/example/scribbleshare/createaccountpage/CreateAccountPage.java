@@ -49,11 +49,9 @@ public class CreateAccountPage extends AppCompatActivity implements CreateAccoun
                 String usernameText = ((EditText) findViewById(R.id.ca_username)).getText().toString();
                 String passwordText = ((EditText)findViewById(R.id.ca_password_text)).getText().toString();
                 if(usernameText.equals("") || passwordText.equals("")){
-                    //TODO add better login checking and error messages to the user (eg. "this username already exists")
                     return;
                 }
                 presenter.createAccountRequest(usernameText, passwordText);
-//                Log.d("userCreated", "Attempting to create user with: "+ usernameText  + " and password: " + passwordText);
             }
         });
         Context c = this;
@@ -61,7 +59,7 @@ public class CreateAccountPage extends AppCompatActivity implements CreateAccoun
         sign_in_text.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                MySingleton.getInstance(c).setApplicationUser(new User("GUEST", null, true, false));
+                MySingleton.getInstance(c).setApplicationUser(new User("GUEST", null, true, false, 0));
                 Log.d("GUEST:", "Guest login");
                 makeToast("Logging in as a Guest");
                 startActivity(new Intent(view.getContext(), HomePage.class));

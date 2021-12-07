@@ -33,7 +33,7 @@ public class GetFramesPresenter implements IVolleyListener<JSONArray> {
      * This method returns the frames of the given post
      * @param postId Id of post
      */
-    public void getFrames(String postId, boolean shouldScrollToBottom){
+    public void getFrames(int postId, boolean shouldScrollToBottom){
         this.shouldScrollToBottom = shouldScrollToBottom;
         model.getPostFrames(postId);
     }

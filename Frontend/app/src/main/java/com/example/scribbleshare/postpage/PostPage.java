@@ -43,13 +43,11 @@ import java.util.logging.Logger;
 public class PostPage extends AppCompatActivity implements PostView{
     private GetFramesPresenter getFramesPresenter;
     private NewFramePresenter newFramePresenter;
-    private CommentPresenter commentPresenter;
 
     private RecyclerView framesRV;
     private ArrayList<FrameModel> framesAL;
 
-    //TODO make postId not a string?
-    private String postId;
+    private int postId;
     private User localUser;
 
     Dialog dialog;
@@ -64,17 +62,15 @@ public class PostPage extends AppCompatActivity implements PostView{
         newFramePresenter = new NewFramePresenter(this, getApplicationContext());
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
-            this.postId = bundle.getString("postId");
+            this.postId = bundle.getInt("postId");
             getFramesPresenter.getFrames(postId, false);
         } else {
-            //TODO show an error?
-            Log.e("ERROR", "Bundle EMPTY when starting post page");
+            Log.e("ERROR", "Bundle EMPTY when starting post page. The app can't proceed unless this is changed!");
             return;
         }
-        commentPresenter = new CommentPresenter();
         framesAL = new ArrayList<>(); //create an empty array list on page load for graceful empty list initially
 
-        FrameAdapter frameAdapter = new FrameAdapter(this, framesAL, newFramePresenter, Integer.parseInt(postId));
+        FrameAdapter frameAdapter = new FrameAdapter(this, framesAL, newFramePresenter, postId);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         setContentView(R.layout.activity_post);
         framesRV = findViewById(R.id.frame_recycler_view);
@@ -89,26 +85,6 @@ public class PostPage extends AppCompatActivity implements PostView{
                 showDialog();
             }
         });
-
-//        ImageButton like_button = (ImageButton) findViewById(R.id.post_like_button);
-//        like_button.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                // Needs to be exact post > frame > comment
-//                // Increment like count
-//                TextView like_count = (TextView) findViewById(R.id.like_count);
-//            }
-//        });
-
-
-//        Button add_comment_button = (Button) findViewById(R.id.add_comment);
-//        add_comment_button.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                // Increment comment count
-//
-//            }
-//        });
 
         // Icon buttons
         ImageButton home_button = (ImageButton) findViewById(R.id.btn_home);
@@ -137,13 +113,13 @@ public class PostPage extends AppCompatActivity implements PostView{
             }
         });
 
-//        ImageButton activity_button = (ImageButton) findViewById(R.id.btn_activity);
-//        activity_button.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                startActivity(new Intent(view.getContext(), ActivityPage.class));
-//            }
-//        });
+        ImageButton activity_button = (ImageButton) findViewById(R.id.btn_activity);
+        activity_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(view.getContext(), ActivityPage.class));
+            }
+        });
 
         ImageButton profile_button = (ImageButton) findViewById(R.id.btn_profile);
         profile_button.setOnClickListener(new View.OnClickListener() {
@@ -181,7 +157,7 @@ public class PostPage extends AppCompatActivity implements PostView{
                 e.printStackTrace();
             }
         }
-        FrameAdapter frameAdapter = new FrameAdapter(this, framesAL, newFramePresenter, Integer.parseInt(postId));
+        FrameAdapter frameAdapter = new FrameAdapter(this, framesAL, newFramePresenter, postId);
         framesRV.setAdapter(frameAdapter);
         if(scrollToBottom){
             scrollViewToBottom();

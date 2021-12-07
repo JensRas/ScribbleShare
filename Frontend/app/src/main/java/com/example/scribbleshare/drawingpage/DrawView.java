@@ -82,18 +82,6 @@ public class DrawView extends View {
     }
 
     /**
-     * Sets the bitmap and saves it
-     * @param bitmap bitmap for drawing
-     */
-    public void setmBitmap(Bitmap bitmap){
-        //TODO this currently doesn't work very well. Cant figure out how to get it to properly get the new image
-        mCanvas.save();
-        this.mBitmap = bitmap;
-        mCanvas.drawBitmap(mBitmap, 0, 0, mBitmapPaint);
-        mCanvas.restore();
-    }
-
-    /**
      * Sets the current color of stroke
      * @param color color for drawing
      */

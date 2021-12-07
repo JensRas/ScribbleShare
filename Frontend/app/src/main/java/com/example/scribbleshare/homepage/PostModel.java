@@ -4,7 +4,7 @@ package com.example.scribbleshare.homepage;
  * Holds data for a post
  */
 public class PostModel {
-    String id;
+    int id;
     String profileName;
     int likeCount;
     int commentCount;
@@ -22,7 +22,7 @@ public class PostModel {
      * @param likeCount Like count for the post
      * @param commentCount Comment count for the post
      */
-    public PostModel(String id, String profileName, int likeCount, int commentCount, boolean isLiked){
+    public PostModel(int id, String profileName, int likeCount, int commentCount, boolean isLiked){
         this.id = id;
         this.profileName = profileName;
         this.likeCount = likeCount;
@@ -34,7 +34,7 @@ public class PostModel {
      * This method returns the id of the post
      * @return Id of the post
      */
-    public String getId() {
+    public int getId() {
         return id;
     }
 
@@ -42,7 +42,7 @@ public class PostModel {
      * This method sets the id of the post
      * @param id Id of the post
      */
-    public void setId(String id){
+    public void setId(int id){
         this.id = id;
     }
 

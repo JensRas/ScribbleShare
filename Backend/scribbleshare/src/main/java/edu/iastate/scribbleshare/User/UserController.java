@@ -2,9 +2,12 @@ package edu.iastate.scribbleshare.User;
 
 import java.util.Optional;
 import java.util.Set;
+import java.lang.StackWalker.Option;
 import java.util.ArrayList;
 
+import javax.net.ssl.HttpsURLConnection;
 import javax.servlet.http.HttpServletResponse;
+import javax.websocket.server.PathParam;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -49,11 +52,23 @@ public class UserController {
     @ApiOperation(value = "Get user by username", response = User.class, tags= "Users")
     @GetMapping(path="/users/{username}")
     public @ResponseBody User getUserByUsername(@PathVariable String username){
-      Optional<User> user = userRepository.findById(username);
-      if(!user.isPresent()){
+      Optional<User> optionalUser = userRepository.findById(username);
+      if(!optionalUser.isPresent()){
         throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Username doesn't exist");
       }
-      return user.get();
+      return optionalUser.get();
+    }
+
+    @GetMapping(path="/getNumFollowers/{username}")
+    public @ResponseBody int getNumFollowers(HttpServletResponse response, @PathVariable String username){
+      Set<User> user = getFollowers(response, username);
+      return user.size();
+    }
+
+    @GetMapping(path="/getNumFollowing/{username}")
+    public @ResponseBody int getNumFollowing(HttpServletResponse response, @PathVariable String username){
+      Set<User> user = getFollowing(response, username);
+      return user.size();
     }
 
     @ApiOperation(value = "Log in User", response = User.class, tags= "Users")
@@ -88,15 +103,29 @@ public class UserController {
     public @ResponseBody void addFollower(HttpServletResponse response, @RequestParam String followerUsername, @RequestParam String followingUsername){
       Optional<User> followerOptional = userRepository.findById(followerUsername);
       Optional<User> followingOptional = userRepository.findById(followingUsername);
-      if(!followerOptional.isPresent()){Status.formResponse(response, HttpStatus.NOT_FOUND, followerUsername + " doesn't exist"); return;}
-      if(!followingOptional.isPresent()){Status.formResponse(response, HttpStatus.NOT_FOUND, followingUsername + " doesn't exist"); return;}
-      if(followerUsername.equals(followingUsername)){Status.formResponse(response, HttpStatus.BAD_REQUEST, "you can't follow yourself lol"); return;}
+      if(!followerOptional.isPresent()){Status.formResponse(response, HttpStatus.NOT_FOUND, followerUsername + " doesn't exist"); return ;}
+      if(!followingOptional.isPresent()){Status.formResponse(response, HttpStatus.NOT_FOUND, followingUsername + " doesn't exist"); return ;}
+      if(followerUsername.equals(followingUsername)){Status.formResponse(response, HttpStatus.BAD_REQUEST, "you can't follow yourself lol"); return ;}
 
       User follower = followerOptional.get();
       User following = followingOptional.get();
       follower.getFollowing().add(following);
       userRepository.save(follower);
       Status.formResponse(response, HttpStatus.CREATED, follower.getUsername() + " sucessfully followed " + following.getUsername());
+    }
+
+    @GetMapping(path = "/isFollowing/{followerUsername}/{followingUsername}")
+    public String isFollowing(HttpServletResponse response, @PathVariable String followerUsername, @PathVariable String followingUsername){
+      Optional<User> followerOptional = userRepository.findById(followerUsername);
+      Optional<User> followingOptional = userRepository.findById(followingUsername);
+      
+      User follower = followerOptional.get();
+      User following = followingOptional.get();
+
+      if(follower.getFollowing().contains(following)){
+         return "{following: " + true + "}";
+      }
+      else{return "{following: " + false + "}";}      
     }
 
     @ApiOperation(value = "Get User Following", response = Set.class, tags= "Users")
@@ -130,7 +159,6 @@ public class UserController {
       User following = followingOptional.get();
       if(!follower.getFollowing().contains(following)){
         Status.formResponse(response, HttpStatus.NOT_FOUND, follower.getUsername() + " isn't following " + following.getUsername());
-        return;
       }
 
       follower.getFollowing().remove(following);
@@ -153,5 +181,31 @@ public class UserController {
       }
 
       return r;
+    }
+
+    @PostMapping(path="/users/ban/{username}")
+    public User banUser(HttpServletResponse response, @PathVariable String username){
+      Optional<User> userOptional = userRepository.findById(username);
+      if(!userOptional.isPresent()){
+        Status.formResponse(response, HttpStatus.NOT_FOUND, username + " doesn't exist");
+        return null;
+      }
+      User user = userOptional.get();
+      user.setIsBanned(true);
+      userRepository.save(user);
+      return user;
+    }
+
+    @PostMapping(path="/users/unban/{username}")
+    public User unbanUser(HttpServletResponse response, @PathVariable String username){
+      Optional<User> userOptional = userRepository.findById(username);
+      if(!userOptional.isPresent()){
+        Status.formResponse(response, HttpStatus.NOT_FOUND, username + " doesn't exist");
+        return null;
+      }
+      User user = userOptional.get();
+      user.setIsBanned(false);
+      userRepository.save(user);
+      return user;
     }
 }
