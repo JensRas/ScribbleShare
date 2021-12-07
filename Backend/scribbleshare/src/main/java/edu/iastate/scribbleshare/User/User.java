@@ -63,8 +63,6 @@ public class User {
     @ApiModelProperty(value = "If user is banned, they wont be able to log in to their account", required=true, example = "False")
     private boolean isBanned;
 
-    private int followerCount = 1;
-
     @ManyToMany(cascade = CascadeType.ALL)
     @JsonIgnore
     @JoinTable(name = "following",
@@ -117,18 +115,18 @@ public class User {
     }
 
     public void setLikedComments(Set<Comment> liked_comments){
-        String todo = "deleteme"; //TODO DELETE THIS
         this.liked_comments = liked_comments;
     }
 
 
-    public User(String username, String password){
+    public User(String username, String password, String permissionLevel){
         this.username = username;
         String hash = Security.generateHash(password);
         if(hash == null){
             throw new BadHashException();
         }
         this.password = hash;
+        this.permissionLevel = permissionLevel;
     }
 
     //default constructor needed for springboot

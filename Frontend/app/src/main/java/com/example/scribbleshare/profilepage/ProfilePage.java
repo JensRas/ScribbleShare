@@ -158,7 +158,15 @@ public class ProfilePage extends AppCompatActivity implements ProfilePageView {
 
     }
 
+    @Override
+    public void setUserBanned(JSONObject object) {
+        //NOT USED IN OWN PROFILE
+    }
 
+    @Override
+    public void setUserUnbanned(JSONObject object) {
+        //NOT USED IN OWN PROFILE
+    }
 
 
 }

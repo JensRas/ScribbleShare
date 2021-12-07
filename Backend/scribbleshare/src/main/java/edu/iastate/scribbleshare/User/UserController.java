@@ -38,7 +38,7 @@ public class UserController {
           Status.formResponse(response, HttpStatus.BAD_REQUEST, username + " already exists"); 
           return null;
         }
-        User user = new User(username, password);
+        User user = new User(username, password, "user");
         userRepository.save(user);
         return user;
     }
@@ -205,6 +205,32 @@ public class UserController {
       }
       User user = userOptional.get();
       user.setIsBanned(false);
+      userRepository.save(user);
+      return user;
+    }
+
+    @PostMapping(path="/users/mod/{username}")
+    public User modUser(HttpServletResponse response, @PathVariable String username){
+      Optional<User> userOptional = userRepository.findById(username);
+      if(!userOptional.isPresent()){
+        Status.formResponse(response, HttpStatus.NOT_FOUND, username + " doesn't exist");
+        return null;
+      }
+      User user = userOptional.get();
+      user.setPermissionLevel("moderator");
+      userRepository.save(user);
+      return user;
+    }
+
+    @PostMapping(path="/users/unmod/{username}")
+    public User unmodUser(HttpServletResponse response, @PathVariable String username){
+      Optional<User> userOptional = userRepository.findById(username);
+      if(!userOptional.isPresent()){
+        Status.formResponse(response, HttpStatus.NOT_FOUND, username + " doesn't exist");
+        return null;
+      }
+      User user = userOptional.get();
+      user.setPermissionLevel("user");
       userRepository.save(user);
       return user;
     }

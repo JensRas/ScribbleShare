@@ -45,7 +45,7 @@ public class UserTest {
 	@Test
 	public void getUserByIdTest() {
 		
-		when(controller.getUserByUsername("test")).thenReturn(new User("user", "password"));
+		when(controller.getUserByUsername("test")).thenReturn(new User("user", "password", "user"));
 
 		User user = userService.getUserByUsername("test");
 
@@ -65,9 +65,9 @@ public class UserTest {
 	@Test
 	public void getAllUsersTest() {
 		Iterable<User> list = new ArrayList<User>();
-		User userOne = new User("UserOne", "UserOnePassword");
-		User userTwo = new User("UserTwo", "UserTwoPassword");
-		User userThree = new User("UserThree", "UserThreePassword");
+		User userOne = new User("UserOne", "UserOnePassword", "user");
+		User userTwo = new User("UserTwo", "UserTwoPassword", "user");
+		User userThree = new User("UserThree", "UserThreePassword", "user");
 
 		((ArrayList<User>) list).add(userOne);
 		((ArrayList<User>) list).add(userTwo);
@@ -83,7 +83,7 @@ public class UserTest {
 	
 	@Test
 	public void getUserDataTest(){
-		when(controller.getUserByUsername("test")).thenReturn(new User("username", "password"));
+		when(controller.getUserByUsername("test")).thenReturn(new User("username", "password", "user"));
 
 		User user = userService.getUserByUsername("test");
 		user.setIsBanned(false);

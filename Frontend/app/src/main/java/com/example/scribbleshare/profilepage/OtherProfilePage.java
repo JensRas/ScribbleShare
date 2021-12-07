@@ -22,6 +22,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.signature.ObjectKey;
 import com.example.scribbleshare.MySingleton;
 import com.example.scribbleshare.R;
+import com.example.scribbleshare.User;
 import com.example.scribbleshare.activitypage.ActivityPage;
 import com.example.scribbleshare.drawingpage.DrawingPage;
 import com.example.scribbleshare.homepage.GetPostIsLikedPresenter;
@@ -51,6 +52,10 @@ public class OtherProfilePage extends AppCompatActivity implements ProfilePageVi
     private boolean isUserFollowing;
     private String username;
     private String singletonUsername;
+    private BanUserPresenter banUserPresenter;
+    private UnbanUserPresenter unbanUserPresenter;
+    private GetUserPresenter getUserPresenter;
+    private User user;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -60,6 +65,9 @@ public class OtherProfilePage extends AppCompatActivity implements ProfilePageVi
         getFollowingPresenter = new GetFollowingPresenter(this, getApplicationContext());
         addFollowerPresenter = new AddFollowerPresenter(this, getApplicationContext());
         unfollowUserPresenter = new UnfollowUserPresenter(this, getApplicationContext());
+        banUserPresenter = new BanUserPresenter(this, getApplicationContext());
+        unbanUserPresenter = new UnbanUserPresenter(this, getApplicationContext());
+        getUserPresenter = new GetUserPresenter(this, getApplicationContext());
 
         Bundle bundle = getIntent().getExtras();
         ProfilePagePresenter presenter = new ProfilePagePresenter(this, getApplicationContext());
@@ -71,11 +79,20 @@ public class OtherProfilePage extends AppCompatActivity implements ProfilePageVi
 
         TextView postNum = (TextView)findViewById(R.id.post_count);
 
-
         getFollowingPresenter.setIsFollowing(singletonUsername, username);
 
         ImageButton ban_hammer = (ImageButton) findViewById(R.id.banHammer);
-        //if(MySingleton.getInstance(this).getApplicationUser().)
+        if(MySingleton.getInstance(this).getApplicationUser().getPermissionLevel().equals("moderator")){
+            ban_hammer.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                }
+            });
+            ban_hammer.setVisibility(View.VISIBLE);
+        }else{
+            ban_hammer.setVisibility(View.GONE);
+        }
 
         // Icon buttons
         ImageButton home_button = (ImageButton) findViewById(R.id.btn_home);
@@ -186,5 +203,15 @@ public class OtherProfilePage extends AppCompatActivity implements ProfilePageVi
         catch (JSONException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public void setUserBanned(JSONObject object) {
+
+    }
+
+    @Override
+    public void setUserUnbanned(JSONObject object) {
+
     }
 }

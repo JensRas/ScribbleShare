@@ -34,7 +34,7 @@ public class GetUserPresenter implements IVolleyListener<JSONObject> {
         User user = new User();
         try {
             user.setUsername((String)response.get("username"));
-//            user.setPermissionLevel((String)response.get("permissionLevel")); //TODO uncomment once implemented
+            user.setPermissionLevel((String)response.get("permissionLevel"));
             user.setMuted((boolean)response.get("isMuted"));
             user.setBanned((boolean)response.get("isBanned"));
         } catch (JSONException e) {
