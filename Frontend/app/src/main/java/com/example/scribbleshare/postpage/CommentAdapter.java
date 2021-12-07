@@ -60,9 +60,13 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.Holder>{
                 .into(holder.commentScribble);
 
         //TODO set onclick listeners for comment stuff here
+        boolean status = commentModels.get(position).getIsLiked();
+        Log.e("DEBUG", "status: " + status);
         if (commentModels.get(holder.getAdapterPosition()).getIsLiked()) {
+            Log.e("DEBUG", "setting red heart");
             holder.likeButton.setImageResource(R.drawable.ic_baseline_favorite_24);
         } else {
+            Log.e("DEBUG", "setting empty heart");
             holder.likeButton.setImageResource(R.drawable.ic_baseline_favorite_border_24);
         }
 
@@ -75,18 +79,20 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.Holder>{
                     holder.likeCount.setText(commentModels.get(holder.getAdapterPosition()).getLikeCount() - 1 + "");
                     commentModels.get(holder.getAdapterPosition()).setLikeCount(commentModels.get(holder.getAdapterPosition()).getLikeCount() - 1);
                     Log.d("liking", "unliked");
-                    //websocket.send("- " + postId);
+                    //TODO send unlike request
                 } else {
                     holder.likeButton.setImageResource(R.drawable.ic_baseline_favorite_24);
                     commentModels.get(holder.getAdapterPosition()).setIsLiked(true);
                     holder.likeCount.setText(commentModels.get(holder.getAdapterPosition()).getLikeCount() + 1 + "");
                     commentModels.get(holder.getAdapterPosition()).setLikeCount(commentModels.get(holder.getAdapterPosition()).getLikeCount() + 1);
                     Log.d("liking", "liked");
-                    //websocket.send("+ " + postId);
+                    //TODO send like request
                 }
             }
         });
     }
+
+
 
     /**
      * This method returns the item count of the comment models

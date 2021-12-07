@@ -53,7 +53,7 @@ public class PostPage extends AppCompatActivity implements PostView{
     private int postId;
     private User localUser;
 
-    CommentAdapter CA;
+//    CommentAdapter CA;
     Context c = this;
 
     Dialog dialog;
@@ -215,23 +215,30 @@ public class PostPage extends AppCompatActivity implements PostView{
 
     @Override
     public void setCommentIsLiked(JSONObject object) {
+        Log.e("DEBUG", object + "");
         try {
+            framesRV.getAdapter().notifyDataSetChanged();
             int commentId = object.getInt("commentId");
             boolean isLiked = object.getBoolean("isLiked");
             for(int i = 0; i < framesAL.size(); i++){
                 for (int j = 0; j < framesAL.get(i).getComments().size(); j++) {
-                    CA = new CommentAdapter(c, framesAL.get(i).getComments());
+//                    CA = new CommentAdapter(c, framesAL.get(i).getComments());
                     CommentModel model = framesAL.get(i).getComments().get(j);
                     if(model.getId() == commentId){
+                        Log.e("DEBUG", "setting isLiked: " + isLiked);
                         model.setIsLiked(isLiked);
-                        int finalI = i;
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                model.setIsLiked(isLiked);
-                                CA.notifyItemChanged(finalI);
-                            }
-                        });
+                        int finalJ = j;
+                        if(i == framesAL.size() - 1 && j == framesAL.get(i).getComments().size() - 1){
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+//                                    framesRV.getAdapter().notifyDataSetChanged();
+//                                CA.notifyItemChanged(finalJ);
+//                                CA.notifyDataSetChanged();
+
+                                }
+                            });
+                        }
                     }
                 }
             }

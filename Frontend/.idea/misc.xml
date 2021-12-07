@@ -59,25 +59,18 @@
         <entry key="..\:/Users/jcr01/Documents/Docs/CS309/1_sg_2/Frontend/app/src/main/res/layout/fragment_frame.xml" value="0.20260416666666667" />
         <entry key="..\:/Users/jcr01/Documents/Docs/CS309/1_sg_2/Frontend/app/src/main/res/layout/fragment_homepage_post.xml" value="0.20260416666666667" />
         <entry key="app/src/main/res/drawable/create_new.xml" value="0.21458333333333332" />
-        <entry key="app/src/main/res/drawable/ic_favorite_border_construction_white_24dp.xml" value="0.2833333333333333" />
+        <entry key="app/src/main/res/drawable/ic_baseline_favorite_24.xml" value="0.1240506329113924" />
         <entry key="app/src/main/res/drawable/round_corner_outline.xml" value="0.2833333333333333" />
-        <entry key="app/src/main/res/layout/activity_activity_fragment.xml" value="0.375" />
         <entry key="app/src/main/res/layout/activity_create_account.xml" value="0.335" />
         <entry key="app/src/main/res/layout/activity_drawing.xml" value="0.2033898305084746" />
         <entry key="app/src/main/res/layout/activity_followed_user.xml" value="0.335" />
         <entry key="app/src/main/res/layout/activity_home.xml" value="0.25" />
-        <entry key="app/src/main/res/layout/activity_homepage.xml" value="0.45" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.335" />
-        <entry key="app/src/main/res/layout/activity_merged_profile_views.xml" value="0.335" />
         <entry key="app/src/main/res/layout/activity_not_followed_user.xml" value="0.335" />
         <entry key="app/src/main/res/layout/activity_post.xml" value="0.375" />
         <entry key="app/src/main/res/layout/activity_profile.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_sign_in.xml" value="0.335" />
         <entry key="app/src/main/res/layout/activity_test_homescreen.xml" value="0.375" />
-        <entry key="app/src/main/res/layout/fragment_comment.xml" value="0.15217391304347827" />
-        <entry key="app/src/main/res/layout/fragment_frame.xml" value="0.15217391304347827" />
-        <entry key="app/src/main/res/layout/fragment_homepage_post.xml" value="0.25" />
-        <entry key="app/src/main/res/layout/fragment_profile_post.xml" value="0.13994565217391305" />
         <entry key="app/src/main/res/layout/frame_single_fragment.xml" value="0.335" />
         <entry key="app/src/main/res/layout/homepage_post_fragment.xml" value="0.375" />
         <entry key="app/src/main/res/layout/post_individual.xml" value="0.375" />
