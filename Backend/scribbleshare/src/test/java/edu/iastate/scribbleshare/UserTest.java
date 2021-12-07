@@ -8,13 +8,17 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+
+import javax.servlet.http.HttpServletResponse;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.mock.web.MockHttpServletResponse;
 
 import edu.iastate.scribbleshare.User.UserRepository;
 import edu.iastate.scribbleshare.User.UserService;
@@ -35,6 +39,8 @@ public class UserTest {
 
 	@Mock
 	User user;
+
+	HttpServletResponse resp = new MockHttpServletResponse();
 
 	
     @BeforeEach
