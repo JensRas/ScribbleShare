@@ -94,9 +94,6 @@ public class UserTest {
 		assertEquals(false, user.getIsBanned());
 		assertEquals(false, user.getIsMuted());
 	}
-
-	
-
 }
 
 

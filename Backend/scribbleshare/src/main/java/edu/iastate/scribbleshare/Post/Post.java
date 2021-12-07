@@ -76,7 +76,6 @@ public class Post {
         this.user = user;
         this.datePosted = new Date();
         this.likeCount = 0;
-        this.commentCount = 0;
         frames = new ArrayList<>();
     }
 
@@ -139,14 +138,6 @@ public class Post {
 
     public void setLikeCount(int likes){
         this.likeCount = likes;
-    }
-
-    public int getCommentCount(){
-        return this.commentCount;
-    }
-
-    public void setCommentCount(int comment){
-        this.commentCount = comment;
     }
 
     public List<Frame> getFrames(){
