@@ -149,7 +149,7 @@ public class PostController {
     }
 
     @GetMapping(path = "/post/getNumberOfPosts/{username}")
-    public @ResponseBody int getNumberOfPosts(HttpServletRequest response, @PathVariable String username){
+    public @ResponseBody int getNumberOfPosts(HttpServletResponse response, @PathVariable String username){
         Iterable<Post> posts = postRepository.getUserPosts(username);
        
         int counter = 0;

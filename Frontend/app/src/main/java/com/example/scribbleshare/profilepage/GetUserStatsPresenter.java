@@ -9,29 +9,29 @@ import com.example.scribbleshare.network.IVolleyListener;
 
 import org.json.JSONObject;
 
-public class UnfollowUserPresenter implements IVolleyListener<JSONObject> {
+public class GetUserStatsPresenter implements IVolleyListener<JSONObject> {
 
     private EndpointCaller<JSONObject> model;
     private ProfilePageView view;
     private Context context;
 
-    public UnfollowUserPresenter(ProfilePageView view, Context c){
+    public GetUserStatsPresenter(ProfilePageView view, Context c){
         this.view = view;
         this.context = c;
         this.model = new EndpointCaller<>(context, this);
     }
 
-    public void unfollowUser(String username, String secondUsername){
-        model.unfollowUser(username, secondUsername);
+    public void getUserStats(String username){
+        model.getUserStats(username);
     }
 
     @Override
     public void onSuccess(JSONObject jsonObject) {
-
+        view.setUserStats(jsonObject);
     }
 
     @Override
     public void onError(VolleyError e) {
-
+        //TODO
     }
 }
