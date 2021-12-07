@@ -228,17 +228,7 @@ public class PostPage extends AppCompatActivity implements PostView{
                 for (int j = 0; j < framesAL.get(i).getComments().size(); j++) {
                     CommentModel model = framesAL.get(i).getComments().get(j);
                     if(model.getId() == commentId){
-                        Log.e("DEBUG", "setting isLiked: " + isLiked);
                         model.setIsLiked(isLiked);
-                        //TODO remove?
-                        if(i == framesAL.size() - 1 && j == framesAL.get(i).getComments().size() - 1){
-                            runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-
-                                }
-                            });
-                        }
                     }
                 }
             }

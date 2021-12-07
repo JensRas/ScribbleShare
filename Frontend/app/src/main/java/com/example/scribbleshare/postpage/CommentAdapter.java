@@ -65,14 +65,9 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.Holder>{
                 .signature(new ObjectKey(System.currentTimeMillis()))
                 .into(holder.commentScribble);
 
-        //TODO set onclick listeners for comment stuff here
-        boolean status = commentModels.get(position).getIsLiked();
-        Log.e("DEBUG", "status: " + status);
         if (commentModels.get(holder.getAdapterPosition()).getIsLiked()) {
-            Log.e("DEBUG", "setting red heart");
             holder.likeButton.setImageResource(R.drawable.ic_baseline_favorite_24);
         } else {
-            Log.e("DEBUG", "setting empty heart");
             holder.likeButton.setImageResource(R.drawable.ic_baseline_favorite_border_24);
         }
 

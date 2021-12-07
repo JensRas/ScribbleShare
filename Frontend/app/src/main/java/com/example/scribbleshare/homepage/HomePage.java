@@ -53,7 +53,6 @@ public class HomePage extends AppCompatActivity implements HomePageView{
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
-        Log.e("DEBUG", "REEEE onCreate called");
         super.onCreate(savedInstanceState);
         postsPresenter = new GetPostsPresenter(this, getApplicationContext());
         String username = MySingleton.getInstance(this).getApplicationUser().getUsername();

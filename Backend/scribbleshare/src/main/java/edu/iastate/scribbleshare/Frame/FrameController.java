@@ -42,7 +42,6 @@ public class FrameController {
     @ApiOperation(value = "Get Frames for a Post by Post Id", response = Iterable.class, tags= "Frames")
     @GetMapping(path="/frames/{postId}")
     public Iterable<Frame> getFramesForPost(HttpServletResponse response, @PathVariable int postId){
-        //TODO error handling
         Post post = postRepository.findById(postId).get();
         return frameRepository.findByPost(post);
     }

@@ -146,10 +146,7 @@ public class PostController {
 
     @GetMapping(path= "/post/getUserPost/{username}")
     public @ResponseBody Iterable<Post> getUserPosts (HttpServletRequest response, @PathVariable String username){
-        //Optional<User> optionalUser = userRepository.findById(username);
-        //if(!optionalUser.isPresent()){Status.formResponse(response, HttpStatus.NOT_FOUND, "Username: " + username + " not found!"); return null;}
         Iterable<Post> posts = postRepository.getUserPosts(username);
-        String deleteme = ""; //TODO deleteme
         return posts;
     }
 
@@ -287,7 +284,6 @@ public class PostController {
 
         if(gifComments.size() > 0){
             String firstImagePath = post.getPath();
-            logger.info("firstImagePath: " + firstImagePath);
             String gifPath = firstImagePath.replace(".png", ".gif");
             BufferedImage first = ImageIO.read(new File(firstImagePath));
             ImageOutputStream output = new FileImageOutputStream(new File(gifPath));
@@ -317,7 +313,6 @@ public class PostController {
             Path path = Paths.get(file.getAbsolutePath());
             ByteArrayResource data = new ByteArrayResource(Files.readAllBytes(path));
 
-            //TODO delete the gif file now?
             long fileLength = file.length();
             file.delete();
             
@@ -328,7 +323,6 @@ public class PostController {
                     .body(data);
 
         }else{
-            //TODO better handle when there are no comments?
             return null;
         }
     }

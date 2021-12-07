@@ -55,26 +55,10 @@ public class LikeSocket {
 
     @OnOpen
     public void onOpen(Session session, @PathParam("username") String username) throws IOException{
-        logger.info("Entered into Open");
-
         // store connecting user information
         sessionUsernameMap.put(session, username);
         usernameSessionMap.put(username, session);
-
-        // Get all post likes and send it to the user
-        // sendMessageToParticularUser(username, getLikeCounts(posts.split(",")));
     }
-
-    // public void test(String body, User user){
-    //     Optional<Post> optionalPost = postRepository.findById(Integer.parseInt(body));
-    //     if(!optionalPost.isPresent()){
-    //         logger.info("Unable to find post: " + body);
-    //     }
-
-    //     Post post = optionalPost.get();
-    //     Set<Post> test = user.getLikedPosts();
-    //     boolean test2 = test.contains(post); //  <--- this line fails
-    // }
 
     @OnMessage
 	public void onMessage(Session session, String message) throws IOException {
@@ -82,11 +66,6 @@ public class LikeSocket {
 		// Handle new messages
 		String username = sessionUsernameMap.get(session);
 		logger.info("Entered into Message: Got Message:" + message + " from username: " + username);
-
-        if(message.equals("test")){
-            logger.info("GOT TEST");
-            return;
-        }
 
         //+ 162  <---- adds a like to post 162
 
@@ -98,7 +77,6 @@ public class LikeSocket {
         String operator = args[0];
         String body = args[1];
 
-        User user = userRepository.findById(username).get();
         if(operator.equals("r")){ //get all posts like counts, body is a comma seperated list of post ids to return
             String[] posts = body.split(",");
             String r = "";
@@ -125,10 +103,8 @@ public class LikeSocket {
 
             Post post = optionalPost.get();
 
-            logger.info("getLikedPosts: " + userRepository.getLikedPosts(username));
             if(userRepository.getLikedPosts(username).contains((Integer)post.getID())){
                 //already liked post, returning 
-                logger.info("already liked post, returning ");
                 return;
             }
 
@@ -146,7 +122,6 @@ public class LikeSocket {
                 return;
             }
     
-            logger.error("REEEE username: " + username + "post.getID(): " + post.getID());
             postRepository.removeLikedPost(username, post.getID());
             broadcast(body + ":" + postRepository.getPostLikeCount(post.getID()));
         }else{
@@ -195,23 +170,6 @@ public class LikeSocket {
                 e.printStackTrace();
             }
 		});
-	}
-	
-
-    // Gets the Chat history from the repository
-	private String getLikeCounts(String[] posts) {
-        StringBuilder sb = new StringBuilder();
-        
-        for(String postId : posts){
-            Optional<Post> optionalPost = postRepository.findById(Integer.parseInt(postId));
-            if(!optionalPost.isPresent()){
-                logger.info("post: " + postId + " not found!");
-                continue;
-            }
-            sb.append(optionalPost.get().getLikeCount() + ",");
-        }
-
-        return sb.toString();
 	}
 
 }

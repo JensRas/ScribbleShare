@@ -36,7 +36,6 @@ public class MySingleton {
     private User user;
 
     public void setApplicationUser(User user){
-        Log.e("DEBUG", "setting appliction user: " + user);
         this.user = user;
     }
 
