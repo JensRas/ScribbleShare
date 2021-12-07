@@ -116,8 +116,7 @@ public class OtherProfilePage extends AppCompatActivity implements ProfilePageVi
         profile_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // Already on profile page
-                //startActivity(new Intent(view.getContext(), ProfilePage.class));
+                startActivity(new Intent(view.getContext(), ProfilePage.class));
             }
         });
 
