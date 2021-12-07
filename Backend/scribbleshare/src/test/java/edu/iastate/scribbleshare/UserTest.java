@@ -6,10 +6,13 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.mock;
+
 
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -100,6 +103,19 @@ public class UserTest {
 		assertEquals(false, user.getIsBanned());
 		assertEquals(false, user.getIsMuted());
 	}
+
+	@Test
+	public void isUserModTest(){
+        User user2 = new User("user2", "password", "user");
+
+		when(controller.modUser(resp, "user1")).thenReturn(new User("user1", "passowrd", "moderator"));
+
+		user2 = controller.modUser(resp, "user1");
+
+		assertEquals("moderator", user2.getPermissionLevel());
+
+	}
+
 }
 
 
