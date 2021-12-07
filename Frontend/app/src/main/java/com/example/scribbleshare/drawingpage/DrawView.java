@@ -55,7 +55,7 @@ public class DrawView extends View {
         // the drawings of the user
         mPaint.setAntiAlias(true);
         mPaint.setDither(true);
-        mPaint.setColor(Color.GREEN);
+        mPaint.setColor(Color.rgb(255,111,65));
         mPaint.setStyle(Paint.Style.STROKE);
         mPaint.setStrokeJoin(Paint.Join.ROUND);
         mPaint.setStrokeCap(Paint.Cap.ROUND);
@@ -75,7 +75,7 @@ public class DrawView extends View {
         mCanvas = new Canvas(mBitmap);
 
         // set an initial color of the brush
-        currentColor = Color.GREEN;
+        currentColor = Color.rgb(255,111,65);
 
         // set an initial brush size
         strokeWidth = 20;

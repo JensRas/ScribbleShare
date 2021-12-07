@@ -46,7 +46,7 @@ public class CreatePostPresenter implements IVolleyListener<JSONObject> {
     @Override
     public void onSuccess(JSONObject o) {
         view.switchView(HomePage.class);
-        view.makeToast("Post made");
+        view.makeToast("Posted Successfully");
     }
 
     /**
@@ -56,6 +56,6 @@ public class CreatePostPresenter implements IVolleyListener<JSONObject> {
     @Override
     public void onError(VolleyError error) {
         Log.e("Error", "Uploaded multipart file FAILED. Response: " + error);
-        view.makeToast("Bad save");
+        view.makeToast("Error in posting");
     }
 }

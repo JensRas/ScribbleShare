@@ -280,7 +280,7 @@
             android:layout_weight="1"
             android:scaleType="fitCenter"
             android:layout_marginTop="3dp"
-            android:src="@drawable/ic_baseline_favorite_border_24"
+            android:src="@drawable/ic_activity_construction_white_24dp"
             android:background="@null"
             android:text="Likes" />
 

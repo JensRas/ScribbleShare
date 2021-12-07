@@ -52,8 +52,8 @@ public class OtherProfilePage extends AppCompatActivity implements ProfilePageVi
 
     ImageButton ban_hammer;
 
-    int isBannedColor = R.color.white;
-    int isUnBannedColor = R.color.red;
+    int isBannedColor = R.color.green;
+    int isUnBannedColor = R.color.red_orange;
 
     boolean isBanned = false;
 
