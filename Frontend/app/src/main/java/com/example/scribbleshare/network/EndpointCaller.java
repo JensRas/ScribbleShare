@@ -144,9 +144,22 @@ public class EndpointCaller<T> {
         sendJsonObjectRequest(url, Request.Method.GET);
     }
 
+    //username is app user
     public void createIsUserFollowing(String username, String secondUsername){
         String url = baseURL + "/isFollowing/" + username + "/" + secondUsername;
         sendJsonObjectRequest(url, Request.Method.GET);
+    }
+
+    //username is app user, second is who they are following
+    public void addFollowerRequest(String username, String secondUsername){
+        String url = baseURL + "/following?followerUsername=" + username + "&followingUsername=" + secondUsername;
+        sendJsonObjectRequest(url, Request.Method.PUT);
+        Log.e("debug", "endpoints");
+    }
+
+    public void unfollowUser(String username, String secondUsername){
+        String url = baseURL + "/unfollow?followerUsername=" + username + "&followingUsername=" + secondUsername;
+        sendJsonObjectRequest(url, Request.Method.DELETE);
     }
 
     public void getUserRequest(String username) {

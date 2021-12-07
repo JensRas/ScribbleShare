@@ -3,6 +3,7 @@ package com.example.scribbleshare.profilepage;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,28 +46,36 @@ public class OtherProfilePage extends AppCompatActivity implements ProfilePageVi
     private RecyclerView postsRV;
     private ArrayList<PostModel> postsAL;
     private GetFollowingPresenter getFollowingPresenter;
+    private AddFollowerPresenter addFollowerPresenter;
+    private UnfollowUserPresenter unfollowUserPresenter;
     private boolean isUserFollowing;
     private String username;
+    private String singletonUsername;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_merged_profile_views);
+
         getFollowingPresenter = new GetFollowingPresenter(this, getApplicationContext());
+        addFollowerPresenter = new AddFollowerPresenter(this, getApplicationContext());
+        unfollowUserPresenter = new UnfollowUserPresenter(this, getApplicationContext());
+
         Bundle bundle = getIntent().getExtras();
         ProfilePagePresenter presenter = new ProfilePagePresenter(this, getApplicationContext());
 
         TextView profileName = (TextView)findViewById(R.id.profile_profile_name);
         username = bundle.getString("username");
+        singletonUsername = MySingleton.getInstance(this).getApplicationUser().getUsername();
         profileName.setText(username);//bundle.getString("username"));
 
         TextView postNum = (TextView)findViewById(R.id.post_count);
 
 
-        getFollowingPresenter.setIsFollowing(username, MySingleton.getInstance(this).getApplicationUser().getUsername());
+        getFollowingPresenter.setIsFollowing(singletonUsername, username);
 
-        postNum.setText(isUserFollowing + "");
-
+        ImageButton ban_hammer = (ImageButton) findViewById(R.id.banHammer);
+        //if(MySingleton.getInstance(this).getApplicationUser().)
 
         // Icon buttons
         ImageButton home_button = (ImageButton) findViewById(R.id.btn_home);
@@ -84,31 +93,6 @@ public class OtherProfilePage extends AppCompatActivity implements ProfilePageVi
                 startActivity(new Intent(view.getContext(), SearchPage.class));
             }
         });
-
-        Button follow_button = (Button) findViewById(R.id.follow_button);
-        Button following_button = (Button) findViewById(R.id.following_button);
-
-        if(isUserFollowing){
-            following_button.setVisibility(View.VISIBLE);
-            follow_button.setVisibility(View.GONE);
-            following_button.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view){
-                    following_button.setVisibility(View.GONE);
-                    follow_button.setVisibility(View.VISIBLE);
-                }
-            });}
-        else{
-            following_button.setVisibility(View.GONE);
-            follow_button.setVisibility(View.VISIBLE);
-            following_button.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view){
-                    following_button.setVisibility(View.VISIBLE);
-                    follow_button.setVisibility(View.GONE);
-                }
-            });}
-
 
         ImageButton create_new_button = (ImageButton) findViewById(R.id.btn_create_new);
         create_new_button.setOnClickListener(new View.OnClickListener() {
@@ -170,12 +154,36 @@ public class OtherProfilePage extends AppCompatActivity implements ProfilePageVi
     public void setUserFollowing(JSONObject object){
        try {
             isUserFollowing = object.getBoolean("following");
+           Log.e("debug", isUserFollowing + "");
+
+           Button follow_button = (Button) findViewById(R.id.follow_button);
+           Button following_button = (Button) findViewById(R.id.following_button);
+
+           if(isUserFollowing){
+               following_button.setVisibility(View.VISIBLE);
+               follow_button.setVisibility(View.GONE);
+               following_button.setOnClickListener(new View.OnClickListener() {
+                   @Override
+                   public void onClick(View view){
+                       unfollowUserPresenter.unfollowUser(singletonUsername, username);
+                       following_button.setVisibility(View.GONE);
+                       follow_button.setVisibility(View.VISIBLE);
+                   }
+               });}
+           else{
+               following_button.setVisibility(View.GONE);
+               follow_button.setVisibility(View.VISIBLE);
+               follow_button.setOnClickListener(new View.OnClickListener() {
+                   @Override
+                   public void onClick(View view){
+                       addFollowerPresenter.addFollower(singletonUsername, username);
+                       following_button.setVisibility(View.VISIBLE);
+                       follow_button.setVisibility(View.GONE);
+                   }
+               });}
         }
         catch (JSONException e) {
             e.printStackTrace();
         }
     }
-
-
-
 }

@@ -103,9 +103,9 @@ public class UserController {
     public @ResponseBody void addFollower(HttpServletResponse response, @RequestParam String followerUsername, @RequestParam String followingUsername){
       Optional<User> followerOptional = userRepository.findById(followerUsername);
       Optional<User> followingOptional = userRepository.findById(followingUsername);
-      if(!followerOptional.isPresent()){Status.formResponse(response, HttpStatus.NOT_FOUND, followerUsername + " doesn't exist"); return;}
-      if(!followingOptional.isPresent()){Status.formResponse(response, HttpStatus.NOT_FOUND, followingUsername + " doesn't exist"); return;}
-      if(followerUsername.equals(followingUsername)){Status.formResponse(response, HttpStatus.BAD_REQUEST, "you can't follow yourself lol"); return;}
+      if(!followerOptional.isPresent()){Status.formResponse(response, HttpStatus.NOT_FOUND, followerUsername + " doesn't exist"); return ;}
+      if(!followingOptional.isPresent()){Status.formResponse(response, HttpStatus.NOT_FOUND, followingUsername + " doesn't exist"); return ;}
+      if(followerUsername.equals(followingUsername)){Status.formResponse(response, HttpStatus.BAD_REQUEST, "you can't follow yourself lol"); return ;}
 
       User follower = followerOptional.get();
       User following = followingOptional.get();
@@ -114,7 +114,7 @@ public class UserController {
       Status.formResponse(response, HttpStatus.CREATED, follower.getUsername() + " sucessfully followed " + following.getUsername());
     }
 
-    @GetMapping(path = "isFollowing/{followerUsername}/{followingUsername}")
+    @GetMapping(path = "/isFollowing/{followerUsername}/{followingUsername}")
     public String isFollowing(HttpServletResponse response, @PathVariable String followerUsername, @PathVariable String followingUsername){
       Optional<User> followerOptional = userRepository.findById(followerUsername);
       Optional<User> followingOptional = userRepository.findById(followingUsername);
@@ -159,7 +159,6 @@ public class UserController {
       User following = followingOptional.get();
       if(!follower.getFollowing().contains(following)){
         Status.formResponse(response, HttpStatus.NOT_FOUND, follower.getUsername() + " isn't following " + following.getUsername());
-        return;
       }
 
       follower.getFollowing().remove(following);

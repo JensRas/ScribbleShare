@@ -1,14 +1,14 @@
-package edu.iastate.scribbleshare.Post;
+// package edu.iastate.scribbleshare.Post;
 
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.web.socket.server.standard.ServerEndpointExporter;
+// import org.springframework.context.annotation.Bean;
+// import org.springframework.context.annotation.Configuration;
+// import org.springframework.web.socket.server.standard.ServerEndpointExporter;
 
-@Configuration
-public class LikeSocketConfig {
-	@Bean
-	public ServerEndpointExporter serverEndpointExporter() {
-		return new ServerEndpointExporter();
-	}
+// @Configuration
+// public class LikeSocketConfig {
+// 	@Bean
+// 	public ServerEndpointExporter serverEndpointExporter() {
+// 		return new ServerEndpointExporter();
+// 	}
 
-}
+// }
