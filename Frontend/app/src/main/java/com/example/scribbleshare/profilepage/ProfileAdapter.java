@@ -114,7 +114,6 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.Holder>{
             scribble = itemView.findViewById(R.id.test_image);
             profileName = itemView.findViewById(R.id.profile_name);
             likeCount = itemView.findViewById(R.id.post_like_count);
-            commentCount = itemView.findViewById(R.id.post_comment_count);
             likeButton = itemView.findViewById(R.id.post_like_button);
             commentButton = itemView.findViewById(R.id.post_comment_button);
             shareButton = itemView.findViewById(R.id.post_share_button);

@@ -93,16 +93,6 @@
                 app:srcCompat="@drawable/ic_outline_comment_24"
                 />
 
-            <TextView
-                android:id="@+id/post_comment_count"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="2dp"
-                android:fontFamily="@font/poppins_light"
-                android:text="450"
-                android:textColor="@color/white"
-                android:textSize="16sp" />
-
             <ImageButton
                 android:id="@+id/post_share_button"
                 android:layout_width="26dp"

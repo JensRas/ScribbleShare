@@ -23,6 +23,7 @@ import com.example.scribbleshare.network.EndpointCaller;
 import com.example.scribbleshare.profilepage.ProfilePage;
 import com.example.scribbleshare.searchpage.SearchPage;
 
+import org.java_websocket.WebSocket;
 import org.java_websocket.client.WebSocketClient;
 import org.java_websocket.drafts.Draft;
 import org.java_websocket.drafts.Draft_6455;
@@ -49,10 +50,11 @@ public class HomePage extends AppCompatActivity implements HomePageView{
     PostsAdapter PA;
 
 
-    private WebSocketClient cc;
+    private WebSocketClient ws;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+        Log.e("DEBUG", "REEEE onCreate called");
         super.onCreate(savedInstanceState);
         postsPresenter = new GetPostsPresenter(this, getApplicationContext());
         String username = MySingleton.getInstance(this).getApplicationUser().getUsername();
@@ -115,7 +117,7 @@ public class HomePage extends AppCompatActivity implements HomePageView{
         PostsAdapter adapterPost = new PostsAdapter(this, postsAL);
         try {
             Log.d("Socket:", "Trying socket with url: " + s);
-            cc = new WebSocketClient(new URI(s),(Draft) drafts[0]) {
+            ws = new WebSocketClient(new URI(s),(Draft) drafts[0]) {
                 @Override
                 public void onMessage(String message) {
                     Log.d("SOCKET", "socket message returned: " + message);
@@ -155,7 +157,7 @@ public class HomePage extends AppCompatActivity implements HomePageView{
                             e.printStackTrace();
                         }
                     }
-                    cc.send(str);
+                    ws.send(str);
                 }
 
                 @Override
@@ -176,13 +178,13 @@ public class HomePage extends AppCompatActivity implements HomePageView{
         }
 
         try {
-            cc.connectBlocking();
+            ws.connectBlocking();
         } catch (InterruptedException e) {
             Log.e("SOCKET", "connect blocking interrupted");
             e.printStackTrace();
         }
 
-        adapterPost.setWebsocket(cc);
+        adapterPost.setWebsocket(ws);
         PA = adapterPost; //TODO maybe clean this notation up?
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         setContentView(R.layout.activity_homepage);
@@ -286,5 +288,36 @@ public class HomePage extends AppCompatActivity implements HomePageView{
         } catch (JSONException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    protected void onPause() {
+        Log.e("Debug", "REEEEE onPause called");
+        super.onPause();
+    }
+
+    @Override
+    protected void onStop() {
+        Log.e("Debug", "REEEEE onStop called");
+        ws.close();
+        super.onStop();
+    }
+
+    @Override
+    protected void onDestroy() {
+        Log.e("Debug", "REEEEE onDestroy called");
+        super.onDestroy();
+    }
+
+    @Override
+    protected void onStart() {
+        Log.e("Debug", "REEEEE onStart called");
+        super.onStart();
+    }
+
+    @Override
+    protected void onResume() {
+        Log.e("Debug", "REEEEE onResume called");
+        super.onResume();
     }
 }
