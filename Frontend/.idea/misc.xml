@@ -83,6 +83,7 @@
         <entry key="app/src/main/res/layout/fragment_frame.xml" value="0.15217391304347827" />
         <entry key="app/src/main/res/layout/fragment_homepage_post.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_profile_post.xml" value="0.13994565217391305" />
+        <entry key="app/src/main/res/layout/fragment_search_result.xml" value="0.13994565217391305" />
         <entry key="app/src/main/res/layout/frame_single_fragment.xml" value="0.335" />
         <entry key="app/src/main/res/layout/homepage_post_fragment.xml" value="0.375" />
         <entry key="app/src/main/res/layout/post_individual.xml" value="0.375" />

@@ -28,7 +28,7 @@
         android:textColor="@color/white"
         android:textSize="20sp" />
 
-    <TextView
+    <!--<TextView
         android:id="@+id/follower_count"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -50,5 +50,5 @@
         android:fontFamily="@font/poppins"
         android:text="followers"
         android:textColor="@color/red_orange"
-        android:textSize="20sp" />
+        android:textSize="20sp" />-->
 </RelativeLayout>
