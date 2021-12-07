@@ -160,7 +160,6 @@ public class EndpointCaller<T> {
     public void addFollowerRequest(String username, String secondUsername){
         String url = baseURL + "/following?followerUsername=" + username + "&followingUsername=" + secondUsername;
         sendJsonObjectRequest(url, Request.Method.PUT);
-        Log.e("debug", "endpoints");
     }
 
     public void unfollowUser(String username, String secondUsername){
