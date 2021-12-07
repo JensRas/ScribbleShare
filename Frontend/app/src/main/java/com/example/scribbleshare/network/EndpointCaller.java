@@ -144,7 +144,6 @@ public class EndpointCaller<T> {
         sendJsonObjectRequest(url, Request.Method.GET);
     }
 
-<<<<<<< refs/remotes/origin/master
     //username is app user
     public void createIsUserFollowing(String username, String secondUsername){
         String url = baseURL + "/isFollowing/" + username + "/" + secondUsername;
@@ -172,14 +171,11 @@ public class EndpointCaller<T> {
         String url = baseURL + "/users/" + username;
         sendJsonObjectRequest(url, Request.Method.GET);
     }
-=======
-    /*
+
     public void createCommentIsLikedRequest(String username, String postId){
         String url = baseURL + "/post/" + postId + "/likedBy/" + username;
         sendJsonObjectRequest(url, Request.Method.GET);
     }
-    */
->>>>>>> Boiler plate
 
     /**
      * Send a request where the response is a string
