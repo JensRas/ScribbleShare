@@ -13,6 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.scribbleshare.MySingleton;
 import com.example.scribbleshare.R;
 import com.example.scribbleshare.homepage.PostModel;
 import com.example.scribbleshare.network.EndpointCaller;
@@ -20,6 +21,7 @@ import com.example.scribbleshare.postpage.PostPage;
 import com.example.scribbleshare.profilepage.OtherProfilePage;
 import com.example.scribbleshare.profilepage.ProfilePage;
 
+import java.net.Inet4Address;
 import java.util.List;
 
 public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.Holder> {
@@ -55,9 +57,14 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.Holder> {
         holder.username.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if(username.equals(MySingleton.getInstance(context).getApplicationUser().getUsername())){
+                    Intent intent = new Intent(context, ProfilePage.class);
+                    context.startActivity(intent);
+
+                }else{
                 Intent intent = new Intent(context, OtherProfilePage.class);
                 intent.putExtra("username", username);
-                context.startActivity(intent);
+                context.startActivity(intent);}
             }
         });
     }

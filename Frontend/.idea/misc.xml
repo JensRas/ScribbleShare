@@ -65,9 +65,10 @@
         <entry key="app/src/main/res/layout/activity_followed_user.xml" value="0.335" />
         <entry key="app/src/main/res/layout/activity_home.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.335" />
+        <entry key="app/src/main/res/layout/activity_merged_profile_views.xml" value="0.6008058964372028" />
         <entry key="app/src/main/res/layout/activity_not_followed_user.xml" value="0.335" />
         <entry key="app/src/main/res/layout/activity_post.xml" value="0.375" />
-        <entry key="app/src/main/res/layout/activity_profile.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/activity_profile.xml" value="0.3252112226841489" />
         <entry key="app/src/main/res/layout/activity_sign_in.xml" value="0.335" />
         <entry key="app/src/main/res/layout/activity_test_homescreen.xml" value="0.375" />
         <entry key="app/src/main/res/layout/frame_single_fragment.xml" value="0.335" />
