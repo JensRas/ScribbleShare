@@ -22,6 +22,7 @@ import java.io.File;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.StackWalker.Option;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -135,10 +136,8 @@ public class PostController {
     @GetMapping(path="/post/getHomeScreenPosts/{username}")
     public Iterable<Post> getHomeScreenPosts(HttpServletResponse response, @PathVariable String username){
         Optional<User> optionalUser = userRepository.findById(username);
-        if (username == "GUEST") {
-            Iterable<Post> posts = postRepository.getHomeScreenPosts(username);
-            return posts;
-        }
+        User guestUser = new User("GUEST", "", null);
+        userRepository.save(guestUser);
         if(!optionalUser.isPresent()){Status.formResponse(response, HttpStatus.NOT_FOUND, "Username: " + username + " not found!"); return null;}
         Iterable<Post> posts = postRepository.getHomeScreenPosts(username);
         return posts;
