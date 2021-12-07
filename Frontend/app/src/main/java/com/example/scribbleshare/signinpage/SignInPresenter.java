@@ -68,11 +68,7 @@ public class SignInPresenter implements IVolleyListener<JSONObject> {
      */
     @Override
     public void onError(VolleyError error) {
-        if(error.getMessage() == null){
-            view.makeToast("Unable to connect");
-        }else{
             view.makeToast("Username/Password Invalid");
-        }
     }
 
 }
