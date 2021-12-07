@@ -45,6 +45,7 @@
         android:layout_marginRight="10dp"
         android:background="@null"
         android:scaleType="fitCenter"
+        app:tint="@color/red"
         app:srcCompat="@drawable/ic_baseline_gavel_24" />
 
     <ImageView
