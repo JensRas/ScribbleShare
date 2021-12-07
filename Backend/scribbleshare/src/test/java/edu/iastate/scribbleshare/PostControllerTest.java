@@ -34,16 +34,34 @@ public class PostControllerTest {
     @Mock
     PostRepository postRepository;
 
+    @Mock
+    Post post;
+
     @InjectMocks
     PostController postController;
     
     HttpServletResponse resp = new MockHttpServletResponse();
 
     @BeforeEach
-	public void init() {
-		MockitoAnnotations.openMocks(this);
-	}
+    public void init() {
+      MockitoAnnotations.openMocks(this);
+    }
 
+    /**
+     * Verify that the post controller gets the correct post when given the post id
+     * Blake
+     */
+    @Test
+    public void verifyPostIdTest(){
+        post = new Post(new User("user1", "pass1", "test"));
+        when(postRepository.findById(eq(1))).thenReturn(Optional.of(post));
+        int getFirstPostID = postController.getPost(resp, 1).getID();
+        assertEquals(getFirstPostID, post.getID());
+        Post post2 = new Post(new User("user2", "pass2", "test2"));
+        when(postRepository.findById(eq(2))).thenReturn(Optional.of(post2));
+        int getSecondPostID = postController.getPost(resp, 2).getID();
+        assertEquals(getSecondPostID, post2.getID());
+    }
     /**
      * Verify that the post controller gets the correct post when given the post id
      */
