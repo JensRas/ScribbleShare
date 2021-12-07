@@ -149,6 +149,7 @@ public class PostController {
         //Optional<User> optionalUser = userRepository.findById(username);
         //if(!optionalUser.isPresent()){Status.formResponse(response, HttpStatus.NOT_FOUND, "Username: " + username + " not found!"); return null;}
         Iterable<Post> posts = postRepository.getUserPosts(username);
+        String deleteme = ""; //TODO deleteme
         return posts;
     }
 
