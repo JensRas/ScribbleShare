@@ -42,10 +42,10 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.Holder> {
     @Override
     public void onBindViewHolder(@NonNull Holder holder, int position) {
         String username = searchModels.get(position).getUsername();
-        int followerCount = searchModels.get(position).getFollowerCount();
+        //int followerCount = searchModels.get(position).getFollowerCount();
 
         holder.username.setText(username);
-        holder.followerCount.setText(followerCount + "");
+        //holder.followerCount.setText(followerCount + "");
 
         holder.username.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -76,7 +76,8 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.Holder> {
      * RecyclerView ViewHolder necessary for a search result
      */
     class Holder extends RecyclerView.ViewHolder {
-        TextView username, followerCount;
+        TextView username;
+//        TextView followerCount;
 
         /**
          * Constructor to initialize necessary information for a search result
