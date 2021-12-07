@@ -7,6 +7,7 @@ public class CommentModel {
     int id;
     String profileName;
     int likeCount;
+    boolean isLiked;
 
     /**
      * Constructor to initialize data for a comment
@@ -14,10 +15,11 @@ public class CommentModel {
      * @param profileName Name of user that is commenting
      * @param likeCount Like count for the comment
      */
-    public CommentModel(int id, String profileName, int likeCount){
+    public CommentModel(int id, String profileName, int likeCount, boolean isLiked){
         this.id = id;
         this.profileName = profileName;
         this.likeCount = likeCount;
+        this.isLiked = isLiked;
     }
 
     /**
@@ -66,5 +68,13 @@ public class CommentModel {
      */
     public void setLikeCount(int likeCount) {
         this.likeCount = likeCount;
+    }
+
+    public boolean getIsLiked(){
+        return isLiked;
+    }
+
+    public void setIsLiked(boolean isLiked){
+        this.isLiked = isLiked;
     }
 }

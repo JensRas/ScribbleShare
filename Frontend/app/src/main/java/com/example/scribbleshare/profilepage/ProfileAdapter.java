@@ -41,19 +41,13 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.Holder>{
     @NonNull
     @Override
     public Holder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.profile_post_fragment, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.fragment_profile_post, parent, false);
         return new Holder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull Holder holder, int position) {
-       String profileName = postModels.get(position).getProfileName();
        int postId = postModels.get(position).getId();
-       int likeCount = postModels.get(position).getLikeCount();
-       int commentCount = postModels.get(position).getCommentCount();
-
-        holder.profileName.setText(profileName);
-        holder.likeCount.setText(likeCount + "");
 
         String imageUrl = EndpointCaller.baseURL + "/post/" + postId + "/image";
         Glide.with(context)
@@ -69,20 +63,6 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.Holder>{
                 Intent intent = new Intent(context, PostPage.class);
                 intent.putExtra("postId", postId);
                 context.startActivity(intent);
-            }
-        });
-
-        holder.likeButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //TODO when like button clicked
-            }
-        });
-
-        holder.commentButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //TODO when comment button is clicked
             }
         });
     }
@@ -101,8 +81,6 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.Holder>{
      */
     class Holder extends RecyclerView.ViewHolder {
         ImageView scribble;
-        TextView profileName, likeCount, commentCount;
-        ImageButton likeButton, commentButton, shareButton;
 
         /**
          * Constructor to initialize necessary information for a homepage post
@@ -111,11 +89,6 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.Holder>{
         public Holder(@NonNull View itemView) {
             super(itemView);
             scribble = itemView.findViewById(R.id.test_image);
-            profileName = itemView.findViewById(R.id.profile_name);
-            likeCount = itemView.findViewById(R.id.post_like_count);
-            likeButton = itemView.findViewById(R.id.post_like_button);
-            commentButton = itemView.findViewById(R.id.post_comment_button);
-            shareButton = itemView.findViewById(R.id.post_share_button);
         }
     }
 }

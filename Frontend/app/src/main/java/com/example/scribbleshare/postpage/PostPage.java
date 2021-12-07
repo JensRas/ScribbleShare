@@ -1,6 +1,7 @@
 package com.example.scribbleshare.postpage;
 
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -25,6 +26,7 @@ import com.example.scribbleshare.User;
 import com.example.scribbleshare.activitypage.ActivityPage;
 import com.example.scribbleshare.drawingpage.DrawingPage;
 import com.example.scribbleshare.homepage.HomePage;
+import com.example.scribbleshare.homepage.PostModel;
 import com.example.scribbleshare.network.EndpointCaller;
 import com.example.scribbleshare.profilepage.ProfilePage;
 import com.example.scribbleshare.searchpage.SearchPage;
@@ -43,12 +45,16 @@ import java.util.logging.Logger;
 public class PostPage extends AppCompatActivity implements PostView{
     private GetFramesPresenter getFramesPresenter;
     private NewFramePresenter newFramePresenter;
+    private GetCommentIsLikedPresenter getCommentIsLikedPresenter;
 
     private RecyclerView framesRV;
     private ArrayList<FrameModel> framesAL;
 
     private int postId;
     private User localUser;
+
+    CommentAdapter CA;
+    Context c = this;
 
     Dialog dialog;
 
@@ -60,6 +66,8 @@ public class PostPage extends AppCompatActivity implements PostView{
 
         getFramesPresenter = new GetFramesPresenter(this, getApplicationContext());
         newFramePresenter = new NewFramePresenter(this, getApplicationContext());
+        getCommentIsLikedPresenter = new GetCommentIsLikedPresenter(this, getApplicationContext());
+
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
             this.postId = bundle.getInt("postId");
@@ -148,7 +156,9 @@ public class PostPage extends AppCompatActivity implements PostView{
                     int commentId = commentObj.getInt("id");
                     String commentProfileName = ((JSONObject)commentObj.get("user")).getString("username");
                     int likeCount = commentObj.getInt("likeCount");
-                    commentModels.add(new CommentModel(commentId, commentProfileName, likeCount));
+                    commentModels.add(new CommentModel(commentId, commentProfileName, likeCount, false));
+
+                    getCommentIsLikedPresenter.setIsCommentLiked(localUser.getUsername(), commentId + "");
                 }
 
                 FrameModel m = new FrameModel(frameId, commentModels);
@@ -201,5 +211,33 @@ public class PostPage extends AppCompatActivity implements PostView{
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
         dialog.show();
+    }
+
+    @Override
+    public void setCommentIsLiked(JSONObject object) {
+        try {
+            int commentId = object.getInt("commentId");
+            boolean isLiked = object.getBoolean("isLiked");
+            for(int i = 0; i < framesAL.size(); i++){
+                for (int j = 0; j < framesAL.get(i).getComments().size(); j++) {
+                    CA = new CommentAdapter(c, framesAL.get(i).getComments());
+                    CommentModel model = framesAL.get(i).getComments().get(j);
+                    if(model.getId() == commentId){
+                        model.setIsLiked(isLiked);
+                        int finalI = i;
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                model.setIsLiked(isLiked);
+                                CA.notifyItemChanged(finalI);
+                            }
+                        });
+                    }
+                }
+            }
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 }

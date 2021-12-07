@@ -1,9 +1,11 @@
 package com.example.scribbleshare.postpage;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -58,6 +60,32 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.Holder>{
                 .into(holder.commentScribble);
 
         //TODO set onclick listeners for comment stuff here
+        if (commentModels.get(holder.getAdapterPosition()).getIsLiked()) {
+            holder.likeButton.setImageResource(R.drawable.ic_baseline_favorite_24);
+        } else {
+            holder.likeButton.setImageResource(R.drawable.ic_baseline_favorite_border_24);
+        }
+
+        holder.likeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (commentModels.get(holder.getAdapterPosition()).getIsLiked()) {
+                    holder.likeButton.setImageResource(R.drawable.ic_baseline_favorite_border_24);
+                    commentModels.get(holder.getAdapterPosition()).setIsLiked(false);
+                    holder.likeCount.setText(commentModels.get(holder.getAdapterPosition()).getLikeCount() - 1 + "");
+                    commentModels.get(holder.getAdapterPosition()).setLikeCount(commentModels.get(holder.getAdapterPosition()).getLikeCount() - 1);
+                    Log.d("liking", "unliked");
+                    //websocket.send("- " + postId);
+                } else {
+                    holder.likeButton.setImageResource(R.drawable.ic_baseline_favorite_24);
+                    commentModels.get(holder.getAdapterPosition()).setIsLiked(true);
+                    holder.likeCount.setText(commentModels.get(holder.getAdapterPosition()).getLikeCount() + 1 + "");
+                    commentModels.get(holder.getAdapterPosition()).setLikeCount(commentModels.get(holder.getAdapterPosition()).getLikeCount() + 1);
+                    Log.d("liking", "liked");
+                    //websocket.send("+ " + postId);
+                }
+            }
+        });
     }
 
     /**
@@ -75,6 +103,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.Holder>{
     class Holder extends RecyclerView.ViewHolder {
         ImageView commentScribble;
         TextView likeCount, profileName;
+        ImageButton likeButton;
         //TODO add other buttons/textviews/etc
 
         /**
@@ -86,6 +115,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.Holder>{
             commentScribble = itemView.findViewById(R.id.frame_image);
             likeCount = itemView.findViewById(R.id.like_count);
             profileName = itemView.findViewById(R.id.profile_name);
+            likeButton = itemView.findViewById(R.id.post_like_button);
         }
     }
 }

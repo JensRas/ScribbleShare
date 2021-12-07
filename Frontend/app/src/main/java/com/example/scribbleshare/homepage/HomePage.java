@@ -49,7 +49,6 @@ public class HomePage extends AppCompatActivity implements HomePageView{
 
     PostsAdapter PA;
 
-
     private WebSocketClient ws;
 
     @Override

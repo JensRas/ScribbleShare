@@ -7,7 +7,6 @@ public class PostModel {
     int id;
     String profileName;
     int likeCount;
-    int commentCount;
     boolean isLiked;
 
     /**
@@ -26,7 +25,6 @@ public class PostModel {
         this.id = id;
         this.profileName = profileName;
         this.likeCount = likeCount;
-        this.commentCount = commentCount;
         this.isLiked = isLiked;
     }
 
@@ -76,22 +74,6 @@ public class PostModel {
      */
     public void setLikeCount(int likeCount){
         this.likeCount = likeCount;
-    }
-
-    /**
-     * This method returns the comment count of the post
-     * @return Comment count of the post
-     */
-    public int getCommentCount(){
-        return commentCount;
-    }
-
-    /**
-     * This method sets the comment count of the post
-     * @param commentCount
-     */
-    public void setCommentCount(int commentCount){
-        this.commentCount = commentCount;
     }
 
     public boolean getIsLiked(){

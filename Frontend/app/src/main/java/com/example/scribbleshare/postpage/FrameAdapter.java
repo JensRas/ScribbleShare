@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -52,12 +53,7 @@ public class FrameAdapter extends RecyclerView.Adapter<FrameAdapter.Holder> {
         } else {
             itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.button_new_frame, parent, false);
         }
-
         return new FrameAdapter.Holder(itemView);
-
-        //original code
-//        View view = LayoutInflater.from(context).inflate(R.layout.fragment_frame, parent, false);
-//        return new FrameAdapter.Holder(view);
     }
 
     @Override
@@ -93,7 +89,6 @@ public class FrameAdapter extends RecyclerView.Adapter<FrameAdapter.Holder> {
                 }
             });
         }
-
     }
 
     @Override

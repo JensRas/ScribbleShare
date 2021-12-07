@@ -41,6 +41,7 @@ public class OtherProfilePage extends AppCompatActivity implements ProfilePageVi
     private GetFollowingPresenter getFollowingPresenter;
     private AddFollowerPresenter addFollowerPresenter;
     private UnfollowUserPresenter unfollowUserPresenter;
+    private GetUserStatsPresenter getUserStatsPresenter;
     private boolean isUserFollowing;
     private String username;
     private String singletonUsername;
@@ -59,7 +60,12 @@ public class OtherProfilePage extends AppCompatActivity implements ProfilePageVi
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Bundle bundle = getIntent().getExtras();
+        username = bundle.getString("username");
+
+
         setContentView(R.layout.activity_merged_profile_views);
+
 
         getFollowingPresenter = new GetFollowingPresenter(this, getApplicationContext());
         addFollowerPresenter = new AddFollowerPresenter(this, getApplicationContext());
@@ -67,20 +73,21 @@ public class OtherProfilePage extends AppCompatActivity implements ProfilePageVi
         banUserPresenter = new BanUserPresenter(this, getApplicationContext());
         unbanUserPresenter = new UnbanUserPresenter(this, getApplicationContext());
         getUserBanStatusPresenter = new GetUserBanStatusPresenter(this, getApplicationContext());
+        getUserStatsPresenter = new GetUserStatsPresenter(this, getApplicationContext());
 
-         ban_hammer = (ImageButton) findViewById(R.id.banHammer);
+        ban_hammer = (ImageButton) findViewById(R.id.banHammer);
 
-        Bundle bundle = getIntent().getExtras();
         ProfilePagePresenter presenter = new ProfilePagePresenter(this, getApplicationContext());
 
         TextView profileName = (TextView)findViewById(R.id.profile_profile_name);
-        username = bundle.getString("username");
+
         singletonUsername = MySingleton.getInstance(this).getApplicationUser().getUsername();
         profileName.setText(username);//bundle.getString("username"));
 
         TextView postNum = (TextView)findViewById(R.id.post_count);
 
         getFollowingPresenter.setIsFollowing(singletonUsername, username);
+        getUserStatsPresenter.getUserStats(username);
 
         getUserBanStatusPresenter.getUserBanStatus(username);
 
@@ -148,6 +155,9 @@ public class OtherProfilePage extends AppCompatActivity implements ProfilePageVi
 
     public void setUserPosts(JSONArray array){
         postsAL = new ArrayList<>();
+
+        TextView postCount = (TextView)findViewById(R.id.post_count);
+        postCount.setText(Integer.toString(array.length()));
 
         //iterate over the array and populate postsAL with user posts
         for(int i = 0; i < array.length(); i++){
@@ -238,4 +248,20 @@ public class OtherProfilePage extends AppCompatActivity implements ProfilePageVi
         }
 
     }
+
+    public void setUserStats(JSONObject object){
+        try {
+            int followers = object.getInt("followers");
+            int following = object.getInt("following");
+
+            TextView numFollowers = (TextView)findViewById(R.id.followers_count);
+            numFollowers.setText(followers + "");
+            TextView numFollowing = (TextView)findViewById(R.id.following_count);
+            numFollowing.setText(following + "");
+
+        }catch(JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
 }

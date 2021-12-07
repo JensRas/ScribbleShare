@@ -29,6 +29,7 @@ public class EndpointCaller<T> {
     /**
      * The URL of the endpoint. (The local one is also present below for easier testing
      */
+
 //    public static final String baseURL = "http://coms-309-010.cs.iastate.edu:8080";
 //    public static final String baseURL = "http://10.0.2.2:8080"; //for debugging with emulated phone
     public static final String baseURL = "http://localhost:8080"; //for debugging with tethered phone (must use chrome reverse port forwarding)
@@ -150,6 +151,11 @@ public class EndpointCaller<T> {
         sendJsonObjectRequest(url, Request.Method.GET);
     }
 
+    public void getUserStats(String username){
+        String url = baseURL + "/userStats/" + username;
+        sendJsonObjectRequest(url, Request.Method.GET);
+    }
+
     //username is app user, second is who they are following
     public void addFollowerRequest(String username, String secondUsername){
         String url = baseURL + "/following?followerUsername=" + username + "&followingUsername=" + secondUsername;
@@ -177,6 +183,11 @@ public class EndpointCaller<T> {
         sendJsonObjectRequest(url, Request.Method.POST);
     }
 
+    public void createCommentIsLikedRequest(String username, String postId){
+        String url = baseURL + "/post/" + postId + "/likedBy/" + username;
+        sendJsonObjectRequest(url, Request.Method.GET);
+    }
+
     /**
      * Send a request where the response is a string
      * @param url full endpoint url
@@ -200,7 +211,6 @@ public class EndpointCaller<T> {
                     }
                 }
         );
-
         MySingleton.getInstance(context).addToRequestQueue(request);
     }
 
@@ -292,7 +302,6 @@ public class EndpointCaller<T> {
                 return params;
             }
         };
-
         MySingleton.getInstance(context).addToRequestQueue(request);
     }
 

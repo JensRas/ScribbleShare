@@ -2,12 +2,9 @@ package edu.iastate.scribbleshare.User;
 
 import java.util.Optional;
 import java.util.Set;
-import java.lang.StackWalker.Option;
 import java.util.ArrayList;
 
-import javax.net.ssl.HttpsURLConnection;
 import javax.servlet.http.HttpServletResponse;
-import javax.websocket.server.PathParam;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -27,7 +24,7 @@ import io.swagger.annotations.ApiOperation;
 public class UserController {
     @Autowired
     private UserRepository userRepository;
-
+    
     private static final Logger logger = LoggerFactory.getLogger(ScribbleshareApplication.class);
 
     @ApiOperation(value = "Add New User", response = String.class, tags= "Users")
@@ -59,16 +56,15 @@ public class UserController {
       return optionalUser.get();
     }
 
-    @GetMapping(path="/getNumFollowers/{username}")
-    public @ResponseBody int getNumFollowers(HttpServletResponse response, @PathVariable String username){
-      Set<User> user = getFollowers(response, username);
-      return user.size();
-    }
+    @GetMapping(path="/userStats/{username}")
+    public @ResponseBody String getUserStats(HttpServletResponse response, @PathVariable String username){
+      Set<User> followingSet = getFollowing(response, username);
+      Set<User> followersSet = getFollowers(response, username);
 
-    @GetMapping(path="/getNumFollowing/{username}")
-    public @ResponseBody int getNumFollowing(HttpServletResponse response, @PathVariable String username){
-      Set<User> user = getFollowing(response, username);
-      return user.size();
+      int followers = followersSet.size();
+      int following = followingSet.size();
+
+      return "{followers: " + followers + ", following: " + following + "}";
     }
 
     @ApiOperation(value = "Log in User", response = User.class, tags= "Users")

@@ -14,10 +14,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.signature.ObjectKey;
+import com.example.scribbleshare.MySingleton;
 import com.example.scribbleshare.R;
 import com.example.scribbleshare.network.EndpointCaller;
 import com.example.scribbleshare.postpage.PostPage;
 import com.example.scribbleshare.profilepage.OtherProfilePage;
+import com.example.scribbleshare.profilepage.ProfilePage;
 
 import org.java_websocket.client.WebSocketClient;
 
@@ -86,9 +88,13 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.Holder>{
         holder.profileName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(context, OtherProfilePage.class);
-                intent.putExtra("username", profileName);
-                context.startActivity(intent);
+                if(profileName.equals(MySingleton.getInstance(context).getApplicationUser().getUsername())){
+                    Intent intent = new Intent(context, ProfilePage.class);
+                    context.startActivity(intent);
+                } else{
+                    Intent intent = new Intent(context, OtherProfilePage.class);
+                    intent.putExtra("username", profileName);
+                    context.startActivity(intent);}
             }
         });
 
