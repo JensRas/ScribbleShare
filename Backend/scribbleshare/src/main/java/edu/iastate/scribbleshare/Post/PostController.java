@@ -135,11 +135,11 @@ public class PostController {
     @GetMapping(path="/post/getHomeScreenPosts/{username}")
     public Iterable<Post> getHomeScreenPosts(HttpServletResponse response, @PathVariable String username){
         Optional<User> optionalUser = userRepository.findById(username);
-        if(!optionalUser.isPresent()){Status.formResponse(response, HttpStatus.NOT_FOUND, "Username: " + username + " not found!"); return null;}
-        if(username=="GUEST") {
+        if (username == "GUEST") {
             Iterable<Post> posts = postRepository.getHomeScreenPosts(username);
             return posts;
         }
+        if(!optionalUser.isPresent()){Status.formResponse(response, HttpStatus.NOT_FOUND, "Username: " + username + " not found!"); return null;}
         Iterable<Post> posts = postRepository.getHomeScreenPosts(username);
         return posts;
     }
