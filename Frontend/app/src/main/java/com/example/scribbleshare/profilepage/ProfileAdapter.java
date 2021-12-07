@@ -54,7 +54,6 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.Holder>{
 
         holder.profileName.setText(profileName);
         holder.likeCount.setText(likeCount + "");
-        holder.commentCount.setText(commentCount + "");
 
         String imageUrl = EndpointCaller.baseURL + "/post/" + postId + "/image";
         Glide.with(context)

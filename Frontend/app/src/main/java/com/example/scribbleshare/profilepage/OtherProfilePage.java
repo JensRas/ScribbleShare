@@ -152,35 +152,37 @@ public class OtherProfilePage extends AppCompatActivity implements ProfilePageVi
 
     public void setUserFollowing(JSONObject object){
        try {
-            isUserFollowing = object.getBoolean("following");
+           isUserFollowing = object.getBoolean("following");
            Log.e("debug", isUserFollowing + "");
 
            Button follow_button = (Button) findViewById(R.id.follow_button);
            Button following_button = (Button) findViewById(R.id.following_button);
 
-           if(isUserFollowing){
+           if (isUserFollowing) {
                following_button.setVisibility(View.VISIBLE);
                follow_button.setVisibility(View.GONE);
-               following_button.setOnClickListener(new View.OnClickListener() {
-                   @Override
-                   public void onClick(View view){
-                       unfollowUserPresenter.unfollowUser(singletonUsername, username);
-                       following_button.setVisibility(View.GONE);
-                       follow_button.setVisibility(View.VISIBLE);
-                   }
-               });}
-           else{
+           } else {
                following_button.setVisibility(View.GONE);
                follow_button.setVisibility(View.VISIBLE);
-               follow_button.setOnClickListener(new View.OnClickListener() {
-                   @Override
-                   public void onClick(View view){
-                       addFollowerPresenter.addFollower(singletonUsername, username);
-                       following_button.setVisibility(View.VISIBLE);
-                       follow_button.setVisibility(View.GONE);
-                   }
-               });}
-        }
+           }
+           follow_button.setOnClickListener(new View.OnClickListener() {
+               @Override
+               public void onClick(View view) {
+                   addFollowerPresenter.addFollower(singletonUsername, username);
+                   following_button.setVisibility(View.VISIBLE);
+                   follow_button.setVisibility(View.GONE);
+               }
+           });
+
+           following_button.setOnClickListener(new View.OnClickListener() {
+               @Override
+               public void onClick(View view) {
+                   unfollowUserPresenter.unfollowUser(singletonUsername, username);
+                   following_button.setVisibility(View.GONE);
+                   follow_button.setVisibility(View.VISIBLE);
+               }
+           });
+       }
         catch (JSONException e) {
             e.printStackTrace();
         }
