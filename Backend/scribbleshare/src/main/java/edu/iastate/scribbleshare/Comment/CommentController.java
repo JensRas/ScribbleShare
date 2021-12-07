@@ -82,7 +82,6 @@ public class CommentController {
         commentRepository.save(comment);
         frame.getComments().add(comment);
         frameRepository.save(frame);
-        logger.info(comment.getFrame().toString());
         fullPath += "comment_" + comment.getID() + "_" + imageFile.getOriginalFilename();
         comment.setPath(fullPath);
 

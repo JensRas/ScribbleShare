@@ -70,7 +70,6 @@ public class UserController {
     @ApiOperation(value = "Log in User", response = User.class, tags= "Users")
     @GetMapping(path="/users/login")
     public @ResponseBody User login(HttpServletResponse response, @RequestParam String username, @RequestParam String password){
-      logger.info("login request");
       Optional<User> optionalUser = userRepository.findById(username);
       if(!optionalUser.isPresent()){
         Status.formResponse(response, HttpStatus.NOT_FOUND, username + " not found"); 
@@ -164,7 +163,6 @@ public class UserController {
 
     @GetMapping(path="/users/search/{search}")
     public @ResponseBody Iterable<User> searchUsers(@PathVariable String search) {
-      logger.info("search: " + search);
       if(search.equals(" ")){
         return userRepository.findAll();
       }

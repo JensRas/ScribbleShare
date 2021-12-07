@@ -14,7 +14,6 @@ public interface PostRepository extends CrudRepository<Post, Integer>{
      * @param userName The username of the user whos home screen is to be populated
      * @return The list of posts to display on the specified user's home screen
      */
-    // @Query(value="select * from post p where p.username!=:username order by id desc", nativeQuery = true) //TODO re-implement this
     @Query(value="select * from post order by id desc", nativeQuery = true)
     public Iterable<Post> getHomeScreenPosts(@Param("username") String userName);
 

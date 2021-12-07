@@ -56,8 +56,6 @@ public class UserTest {
 		User user = userService.getUserByUsername("test");
 
 		assertEquals("user", user.getUsername());
-        //TODO pasaword is hashed
-		//assertEquals("password", user.getPassword());
 	}
 
 	@Test
