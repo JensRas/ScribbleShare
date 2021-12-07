@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 
@@ -39,6 +40,8 @@ public class ProfilePage extends AppCompatActivity implements ProfilePageView {
 
     private RecyclerView postsRV;
     private ArrayList<PostModel> postsAL;
+    private GetUserStatsPresenter getUserStatsPresenter;
+    private ProfilePagePresenter profilePagePresenter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -47,18 +50,16 @@ public class ProfilePage extends AppCompatActivity implements ProfilePageView {
         Context c = this;
 
         ProfilePagePresenter presenter = new ProfilePagePresenter(this, getApplicationContext());
+        getUserStatsPresenter = new GetUserStatsPresenter(this, getApplicationContext());
+        profilePagePresenter = new ProfilePagePresenter(this, getApplicationContext());
+
         String username = MySingleton.getInstance(this).getApplicationUser().getUsername();
 
-        //presenter.getFollowers(username); //when the request is done it calls "setHomePagePosts below
-        //presenter.getUserPosts(username);
+        getUserStatsPresenter.getUserStats(username);
+        profilePagePresenter.getUserPosts(username);
 
         TextView profileName = (TextView)findViewById(R.id.profile_profile_name);
         profileName.setText(username);
-
-        TextView postNum = (TextView)findViewById(R.id.post_count);
-        postNum.setText("posts");
-
-        //presenter.getFollowers(username); //when the request is done it calls "setHomePagePosts below
 
         ImageButton logout_button = (ImageButton) findViewById(R.id.logout_button);
         logout_button.setOnClickListener(new View.OnClickListener() {
@@ -130,6 +131,9 @@ public class ProfilePage extends AppCompatActivity implements ProfilePageView {
     public void setUserPosts(JSONArray array){
         postsAL = new ArrayList<>();
 
+        TextView postCount = (TextView)findViewById(R.id.post_count);
+        postCount.setText(Integer.toString(array.length()));
+
         //iterate over the array and populate postsAL with user posts
         for(int i = 0; i < array.length(); i++){
             try{
@@ -156,6 +160,21 @@ public class ProfilePage extends AppCompatActivity implements ProfilePageView {
 
     public void setUserFollowing(JSONObject object){
 
+    }
+
+    public void setUserStats(JSONObject object){
+        try {
+            int followers = object.getInt("followers");
+            int following = object.getInt("following");
+
+            TextView numFollowers = (TextView)findViewById(R.id.followers_count);
+            numFollowers.setText(Integer.toString(followers));
+            TextView numFollowing = (TextView)findViewById(R.id.following_count);
+            numFollowing.setText(Integer.toString(following));
+
+        }catch(JSONException e) {
+            e.printStackTrace();
+        }
     }
 
 

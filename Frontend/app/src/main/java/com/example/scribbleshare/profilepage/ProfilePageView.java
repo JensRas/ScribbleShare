@@ -7,4 +7,6 @@ public interface ProfilePageView {
     void setUserPosts(JSONArray array);
 
     void setUserFollowing(JSONObject object);
+
+     void setUserStats(JSONObject object);
 }
