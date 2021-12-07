@@ -137,8 +137,8 @@ public class ProfilePage extends AppCompatActivity implements ProfilePageView {
                 int id = obj.getInt("id");
                 String profileName = ((JSONObject)obj.get("user")).getString("username");
                 int likeCount = obj.getInt("likeCount");
-                int commentCount = obj.getInt("commentCount");
-                PostModel m = new PostModel(id, profileName, likeCount, commentCount, false);
+//                int commentCount = obj.getInt("commentCount");
+                PostModel m = new PostModel(id, profileName, likeCount, 0, false);
                 postsAL.add(m);
             } catch (JSONException e) {
                 e.printStackTrace();

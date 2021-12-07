@@ -166,8 +166,8 @@ public class OtherProfilePage extends AppCompatActivity implements ProfilePageVi
                 int id = obj.getInt("id");
                 String profileName = ((JSONObject)obj.get("user")).getString("username");
                 int likeCount = obj.getInt("likeCount");
-                int commentCount = obj.getInt("commentCount");
-                PostModel m = new PostModel(id, profileName, likeCount, commentCount, false); //TODO change default isLiked?
+//                int commentCount = obj.getInt("commentCount");
+                PostModel m = new PostModel(id, profileName, likeCount, 0, false); //TODO change default isLiked?
                 postsAL.add(m);
             } catch (JSONException e) {
                 e.printStackTrace();
