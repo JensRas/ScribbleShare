@@ -117,6 +117,7 @@ public class User {
     }
 
     public void setLikedComments(Set<Comment> liked_comments){
+        String todo = "deleteme"; //TODO DELETE THIS
         this.liked_comments = liked_comments;
     }
 
