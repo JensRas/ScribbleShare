@@ -33,20 +33,17 @@
             android:background="@color/red_orange"/>
     </LinearLayout>
 
-    <FrameLayout
-        android:id="@+id/frame_frame_layout"
-        android:layout_width="match_parent"
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        tools:context=".homepage.HomePage"
-        android:layout_below="@+id/top_bar_layout"
-        android:layout_above="@+id/icon_bar_layout">
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/frame_list_view"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"/>
-    </FrameLayout>
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:fontFamily="@font/poppins"
+        android:textColor="@color/white"
+        android:textAlignment="center"
+        android:textSize="42dp"
+        android:text="Coming Soon" />
 
     <LinearLayout
         android:id="@+id/icon_bar_layout"
