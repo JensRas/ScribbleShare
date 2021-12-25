@@ -14,20 +14,20 @@ COMS 309 - Software Development Practices @ Iowa State University - Semester Pro
   
 ## Setting Up (for local use)
 ### MySQL Workbench
-* Create a database named *myDatabase* (this name can be changed later)
+* Create a database named *myDatabase*
 * Create a user on the database named *springuser* with a password *12345678*
 
 ### Visual Studio Code
-* Open the Backend folder
-* Expand the Spring Boot Dashboard in the Explorer on the left
+* Open the *Backend* folder
+* Expand the *Spring Boot Dashboard* in the *Explorer* on the left
 * Click the Start arrow
 
 ### Android Studio
-* Open to the Frontend folder
-* In app/java/network/EndpointCaller (line 33ish) change baseURL to the proper URL (most likely the 10.0.2.2)
-* In the top right, click Sync Project with Gradle Files
+* Open to the *Frontend* folder
+* In app/java/network/EndpointCaller (line 33ish) change *baseURL* to the proper URL (most likely the 10.0.2.2)
+* In the top right, click *Sync Project with Gradle Files*
 * Create a Pixel 4a API 30 virtual device
-* Click the Run arrow
+* Click the *Run* arrow
 
 ## Authors
 * **Blake Fisher** - *Code Development - Frontend* - [bdfisher](https://github.com/bdfisher)
