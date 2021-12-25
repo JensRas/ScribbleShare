@@ -1,4 +1,4 @@
-# ScribbleShare - CS309
+# ScribbleShare - A Drawing Social Media
 
 * Blake Fisher - NET_ID: bdfisher@iastate.edu
 * Cole Langner - NET_ID: clangner@iastate.edu
