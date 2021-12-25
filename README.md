@@ -7,7 +7,7 @@
 
 # Assignment 
 
-COMS 309 - Software Development Practices @ Iowa State University - Semester-long Project
+COMS 309 - Software Development Practices @ Iowa State University - Semester Project
 
 ## Getting Started
 
