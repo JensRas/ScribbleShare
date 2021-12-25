@@ -21,8 +21,8 @@ COMS 309 - Software Development Practices @ Iowa State University - Semester-lon
 ## Authors
 
 * **Blake Fisher** - *Code development* - [bdfisher](https://github.com/bdfisher) - NET_ID: bdfisher@iastate.edu
-* **Cole Langner** - *Code development* - [clang](https://github.com/clang) - NET_ID: clangner@iastate.edu
-* **Corbin Kems** - *Code development* - [Corbeno](https://github.com/corbeno) - NET_ID: crkems@iastate.edu
+* **Cole Langner** - *Code development* - [clang](https://github.com/colelang) - NET_ID: clangner@iastate.edu
+* **Corbin Kems** - *Code development* - [Corbeno](https://github.com/Corbeno) - NET_ID: crkems@iastate.edu
 * **Jens Rasmussen** - *Code development* - [JensRas](https://github.com/JensRas) - NET_ID: jensr@iastate.edu
 
 ## Acknowledgments
